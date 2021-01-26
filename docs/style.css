@@ -1,0 +1,10 @@
+/*Style Smartphone Layout*/
+
+@media screen and (max-width: 480px) {
+}
+/*Style Desktop Layout*/
+
+@media screen and (min-width: 1025px) {
+}
+@media screen and (max-width: 1024px) and (min-width: 481px) {
+}
