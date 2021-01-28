@@ -1,4 +1,5 @@
 import React from "react"
+import {Formular} from "../Components"
 
 // Home Page
 class Home extends React.Component{
@@ -7,6 +8,8 @@ class Home extends React.Component{
         return(
             <div>
                 Home-Page
+
+                <Formular/>
             </div>
         )
     }

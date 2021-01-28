@@ -9,18 +9,22 @@ export interface BasicInformation {
 export interface Emphasis {
     ids: number[],
     name: string,
-    weight: number
+    weight: number,
+    emphasisid: number
 }
 
 // all the exams the degree has
 export interface Exams{
-    [key: number]: {
-        semester: number,
-        ects: number,
-        weight: number,
-        name: string,
-        packageid: number
-    }
+    [key: number]: Exam
+}
+
+export interface Exam{
+    semester: number,
+    ects: number,
+    weight: number,
+    name: string,
+    packageid: number,
+    emphasisid?: number
 }
 
 // all the packages of exams the exams get turned into
@@ -49,5 +53,5 @@ export interface SingleOption{
 export interface Input{
     examid: number,
     grade: number,
-    estimated: boolean | null
+    estimated?: boolean
 }

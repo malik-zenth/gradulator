@@ -1,4 +1,31 @@
 /*Style Desktop Layout*/
 
 @media screen and (min-width: 1025px) {
+
+    .form-grades{
+        width: 90%;
+    }
+
+    .form-singleGrade{
+        width: 45%;
+        margin-left: 5%;
+        display: inline-flex
+    }
+
+    .form-singleGrade-name{
+        width: 60%;
+    }
+
+    .form-emphasis{
+        display: inline-flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .form-semester-heading{
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+    }
+
 }

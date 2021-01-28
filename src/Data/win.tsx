@@ -6,17 +6,20 @@ const win_basic_data: BasicInformation = {
     emphasis: [{
         ids: [282060, 282061, 282062, 282063],
         name: "Entwicklung webbasierter und mobiler Systeme",
-        weight: 35
+        weight: 35,
+        emphasisid: 1
     },
     {
         ids: [282080, 282081, 282082, 282083],
         name: "IT-Management",
-        weight: 35
+        weight: 35,
+        emphasisid: 2
     },
     {
         ids: [282090, 282091, 282092, 282093],
         name: "Social Media Management",
-        weight: 35
+        weight: 35,
+        emphasisid: 3
     }]
 }
 
@@ -89,63 +92,72 @@ const win_exams: Exams = {
         ects: 5,
         weight: 5,
         name: "Projektstudie Entwicklung von mobilen Unternehmensanwendungen",
-        packageid: 282060
+        packageid: 282060,
+        emphasisid:1
     }, 282161:
     {
         semester: 4,
         ects: 5,
         weight: 5,
         name: "Fallstudie Entwicklungswerkzeuge",
-        packageid: 282061
+        packageid: 282061,
+        emphasisid:1
     }, 282162:
     {
         semester: 4,
         ects: 5,
         weight: 5,
         name: "Seminar Unternehmensanwendungen",
-        packageid: 282061
+        packageid: 282061,
+        emphasisid:1
     }, 282163:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Enterprice Information Systems Architectures",
-        packageid: 282062
+        packageid: 282062,
+        emphasisid:1
     }, 282164:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Project Study Enerprice Information Systems",
-        packageid: 282062
+        packageid: 282062,
+        emphasisid:1
     }, 282166:
     {
         semester: 7,
         ects: 5,
         weight: 5,
         name: "Projektstudie IT-Systeme",
-        packageid: 282063
+        packageid: 282063,
+        emphasisid:1
     }, 282165:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Seminar IT-Systems",
-        packageid: 282063
+        packageid: 282063,
+        emphasisid:1
     }, 282180:
     {
         semester: 4,
         ects: 5,
         weight: 5,
         name: "Projektstudie Informationsmanagement",
-        packageid: 282080
+        packageid: 282080,
+        emphasisid:2
     }, 282181:
     {
         semester: 4,
         ects: 5,
         weight: 5,
         name: "Geschäftsprozessmanagement",
-        packageid: 282081
+        packageid: 282081,
+        emphasisid:2
     }
     , 282182:
     {
@@ -153,91 +165,104 @@ const win_exams: Exams = {
         ects: 5,
         weight: 5,
         name: "Fallstudie IT Strategie und Service Management",
-        packageid: 282081
+        packageid: 282081,
+        emphasisid:2
     }, 282183:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Business Intelligence",
-        packageid: 282082
+        packageid: 282082,
+        emphasisid:2
     }, 282184:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Project Study Analytic Information Systems and Data Science",
-        packageid: 282082
+        packageid: 282082,
+        emphasisid:2
     }, 282185:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Seminar IT Management and Compliance",
-        packageid: 282083
+        packageid: 282083,
+        emphasisid:2
     }, 282186:
     {
         semester: 7,
         ects: 5,
         weight: 5,
         name: "Projektstudie IT Management",
-        packageid: 282083
+        packageid: 282083,
+        emphasisid:2
     }, 282190:
     {
         semester: 4,
         ects: 5,
         weight: 5,
         name: "Projektstudie Social Relationship Management",
-        packageid: 282090
+        packageid: 282090,
+        emphasisid:3
     }, 282191:
     {
         semester: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Social Relationship Management",
-        packageid: 282090
+        packageid: 282090,
+        emphasisid:3
     }, 282193:
     {
         semester: 4,
         ects: 5,
         weight: 5,
         name: "Usability und audiovisuelle Kommunikation",
-        packageid: 282092
+        packageid: 282092,
+        emphasisid:3
     }, 282192:
     {
         semester: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Social Media Intelligence",
-        packageid: 282090
+        packageid: 282090,
+        emphasisid:3
     }, 282194:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Social Media Management",
-        packageid: 282091
+        packageid: 282091,
+        emphasisid:3
     }, 282195:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Seminar Social Media Management and Intelligence",
-        packageid: 282091
+        packageid: 282091,
+        emphasisid:3
     }, 282196:
     {
         semester: 6,
         ects: 5,
         weight: 5,
         name: "Project Study Social Media Management and Audiovisual Communication",
-        packageid: 282092
+        packageid: 282092,
+        emphasisid:3
     }, 282197:
     {
         semester: 7,
         ects: 5,
         weight: 5,
         name: "Projektstudie Social Media im Unternehmenskontext",
-        packageid: 282093
+        packageid: 282093,
+        emphasisid:3
     }
 }
 
