@@ -1,6 +1,6 @@
 import React, { ReactFragment, ReactText } from "react";
 import { BasicInformation, Emphasis, Exam, ExamPackages, Exams, SingleOption } from "../Data/types";
-import { Form, Input, Select, Checkbox } from "antd";
+import { Form, Input, Select, Checkbox, Button } from "antd";
 
 interface IProps {
     options: SingleOption;
@@ -32,7 +32,7 @@ class GradeInput extends React.Component<IProps, IState> {
                 lastSemester = exam[2].semester
                 if(showSemesterHeading){
                     return(
-                        <div>
+                        <div key={keyGenerator()}>
                             <div className="form-semester-heading">{lastSemester}. Semester</div>
                             {this.renderInputField(exam)}
                         </div>
@@ -45,11 +45,18 @@ class GradeInput extends React.Component<IProps, IState> {
 
     renderInputField(exam: [string, number, Exam]) {
         return (
-            <div className="form-singleGrade" >
+            <div key={keyGenerator()} className="form-singleGrade" >
                 <div className="form-singleGrade-name">{exam[2].name}</div>
-                <Form.Item className="form-singleGrade-input" name={exam[0]}>
+                <div className="form-singleGrade-items">
+                <Form.Item rules={[{ required: exam[2].emphasisid ? false: true, message: 'Bitte eine Note eingeben' }]} style={{ marginBottom: 0 }} name={exam[0]}>
                     <Input style={{ width: 200 }} placeholder="Note eingeben" />
                 </Form.Item>
+                <Form.Item className="form-singleGrade-estimated">
+                    <Checkbox>
+                        Geschätze Note
+                    </Checkbox>
+                </Form.Item>
+                </div>
             </div>
         )
     }
@@ -94,18 +101,31 @@ class GradeInput extends React.Component<IProps, IState> {
         return sorted
     }
 
+    handleSubmit(e: any){
+        e.preventDefault();
+        console.log("Props",this.props)
+
+    }
     render() {
         const { options } = this.props;
         const { basics, exams, examPackages } = options;
         const orderdExams = this.settupExamData(exams)
+
         return (
             <div>
-                <Form>
+                <Form id="grade-formular">
                     <div className="form-emphasis">
                         {this.renderEmphasisCheckboxes(basics)}
                     </div>
                     <div className="form-grades">
                         {this.renderInputOptions(orderdExams)}
+                    </div>
+                    <div className="form-submit">
+                    <Form.Item>
+                <Button type="primary" htmlType="submit">
+                    Notenschnitt berechnen
+                </Button>
+            </Form.Item>
                     </div>
                 </Form>
             </div>
