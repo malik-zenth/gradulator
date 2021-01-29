@@ -1,10 +1,20 @@
 import React, { ReactFragment, ReactText, useState } from "react";
 import { BasicInformation, Emphasis, Exam, ExamPackages, Exams, SingleOption } from "../Data/types";
 import { Form, Input, InputNumber, Checkbox, Button } from "antd";
+import { Row, Col, Divider } from 'antd'
 
 interface IProps {
     options: SingleOption;
 }
+
+interface OrderedExams{
+    [Key: number]: SingleExam[]
+ }
+
+ interface SingleExam{
+     examID: string,
+     data: Exam
+ }
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
@@ -13,37 +23,34 @@ const GradeInput = (props: IProps) => {
     const [form] = Form.useForm();
     const [notDisplayedEmphasis, setEmphasis] = useState([]);
 
-    const renderInputOptions = (exams: Array<[string, number, Exam]>): ReactFragment => {
-        var lastSemester: number
-        var showSemesterHeading: boolean
+    const renderInputOptions = (exams: OrderedExams): ReactFragment => {
+
         if (exams == null) {
             return <div></div>;
         } else
-            return exams.map((exam) => {
-                lastSemester != exam[2].semester ? showSemesterHeading = true : showSemesterHeading = false
-                lastSemester = exam[2].semester
-                if (showSemesterHeading) {
-                    return (
-                        <div key={keyGenerator()}>
-                            <div className="form-semester-heading">{lastSemester}. Semester</div>
-                            {renderInputField(exam)}
-                        </div>
-                    )
-                } else {
-                    return renderInputField(exam)
-                }
-            });
+            return Object.keys(exams).map((singleSemester) => {
+                return(
+                    <div key={keyGenerator()}>
+                        <Divider orientation="left">{singleSemester}. Semester</Divider>
+                        <Row className="row">
+                        {Object.keys(exams[singleSemester]).map(singleExam => renderInputField(exams[singleSemester][singleExam]))}
+                        </Row>
+                    </div>
+                )
+            })
+
     }
 
-    const renderInputField = (exam: [string, number, Exam]): ReactFragment => {
+
+    const renderInputField = (exam: SingleExam): ReactFragment => {
         return (
-            <div key={keyGenerator()} className="form-singleGrade" >
-                <div className="form-singleGrade-name">{exam[2].name}</div>
+            <Col span={6} key={keyGenerator()}>
+                <div className="form-singleGrade-name">{exam.data.name}</div>
                 <div className="form-singleGrade-items">
                     <Form.Item
                         rules={[
-                        {required: exam[2].emphasisid ? false : true, message: 'Bitte eine Note eingeben' }]}
-                        name={exam[0]}>
+                        {required: exam.data.emphasisid ? false : true, message: 'Bitte eine Note eingeben' }]}
+                        name={exam.examID}>
                         <InputNumber
                             min={1}
                             max={5}
@@ -53,13 +60,13 @@ const GradeInput = (props: IProps) => {
                             parser={value => value.replace(",",".")}
                             />
                     </Form.Item>
-                    <Form.Item valuePropName="checked" name={exam[0]+"_checkbox"} className="form-singleGrade-estimated">
+                    <Form.Item valuePropName="checked" name={exam.examID+"_checkbox"} className="form-singleGrade-estimated">
                         <Checkbox>
                             Geschätze Note
                     </Checkbox>
                     </Form.Item>
                 </div>
-            </div>
+            </Col>
         )
     }
 
@@ -74,7 +81,7 @@ const GradeInput = (props: IProps) => {
                                 checked={!notDisplayedEmphasis.includes(single.emphasisid)}
                                 name={single.name} >{single.name}</Checkbox>
                         </Form.Item>
-                    </div>
+                        </div>
                 )
             })
         } else {
@@ -91,15 +98,20 @@ const GradeInput = (props: IProps) => {
         }
     }
 
-    const settupExamData = (exams: Exams): Array<[string, number, Exam]> => {
-        var sorted: Array<[string, number, Exam]> = []
+    const settupExamData = (exams: Exams): OrderedExams => {
+        var semesters: number[] = []
+        var sortedBySemester: OrderedExams = []
         for (var single in exams) {
             if (!notDisplayedEmphasis.includes(exams[single].emphasisid)) {
-                sorted.push([single, exams[single].semester, exams[single]])
+                if(!semesters.includes(exams[single].semester)){
+                    semesters.push(exams[single].semester)
+                    sortedBySemester[exams[single].semester] = [{examID: single, data: exams[single]}]
+                }else{
+                    sortedBySemester[exams[single].semester].push({examID: single, data: exams[single]})
+                }
             }
         }
-        sorted.sort((a, b) => (a[1] > b[1]) ? 1 : -1)
-        return sorted
+        return sortedBySemester
     }
 
     const onSubmit = (e: any) => {
