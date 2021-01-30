@@ -5,11 +5,25 @@ import {Formular} from "../Components"
 class Home extends React.Component{
 
     render(){
+
+        const testInput = [{
+            examid: 282130,
+            grade: 1.0,
+            estimated: false
+        },{
+            examid: 282135,
+            grade: 2.0
+        }]
+
+        
         return(
             <div>
                 Home-Page
 
-                <Formular/>
+                <Formular
+                selected={"Wirtschaftsinformatik"}
+                inputGrades={testInput}
+                />
             </div>
         )
     }

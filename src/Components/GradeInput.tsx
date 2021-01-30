@@ -1,10 +1,15 @@
 import React, { ReactFragment, ReactText, useState } from "react";
-import { BasicInformation, Emphasis, Exam, ExamPackages, Exams, SingleOption } from "../Data/types";
-import { Form, Input, InputNumber, Checkbox, Button } from "antd";
+import { Input, BasicInformation, Emphasis, Exam, ExamPackages, Exams, SingleOption } from "../Data/types";
+import { Form, InputNumber, Checkbox, Button } from "antd";
 import { Row, Col, Divider } from 'antd'
+
+interface InitialValues{
+    [key: string]: number
+}
 
 interface IProps {
     options: SingleOption;
+    inputGrades?: Input[]
 }
 
 interface OrderedExams{
@@ -16,15 +21,19 @@ interface OrderedExams{
      data: Exam
  }
 
+
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
+
+// form to input all grades
 const GradeInput = (props: IProps) => {
     const [form] = Form.useForm();
+    // this hook will handle all emphasis points which are not displayed
     const [notDisplayedEmphasis, setEmphasis] = useState([]);
 
+    // render all input fields. Data comes in type orderedExams ordered by semester
     const renderInputOptions = (exams: OrderedExams): ReactFragment => {
-
         if (exams == null) {
             return <div></div>;
         } else
@@ -41,7 +50,7 @@ const GradeInput = (props: IProps) => {
 
     }
 
-
+    // render a single Input Field and its checkbox to set it as an estimated grade
     const renderInputField = (exam: SingleExam): ReactFragment => {
         return (
             <Col span={6} key={keyGenerator()}>
@@ -70,6 +79,7 @@ const GradeInput = (props: IProps) => {
         )
     }
 
+    // render all emphasis checkboxes
     const renderEmphasisCheckboxes = (basics: BasicInformation): ReactFragment => {
         if (basics.emphasis) {
             return basics.emphasis.map(single => {
@@ -89,6 +99,7 @@ const GradeInput = (props: IProps) => {
         }
     }
 
+    // if an emphasis checkbox is changed either add it to state or remove it from it
     const changeCheckboxState = (emphasisId: number) => {
         if (notDisplayedEmphasis.includes(emphasisId)) {
             setEmphasis(notDisplayedEmphasis.filter(x => x !== emphasisId))
@@ -98,6 +109,8 @@ const GradeInput = (props: IProps) => {
         }
     }
 
+    // settup exam data. filter out all exams from emphasis points which are currently not displayed and 
+    // order data by semester so single grade inputs can be displayed in this order
     const settupExamData = (exams: Exams): OrderedExams => {
         var semesters: number[] = []
         var sortedBySemester: OrderedExams = []
@@ -114,6 +127,16 @@ const GradeInput = (props: IProps) => {
         return sortedBySemester
     }
 
+    // settup default Values for the form if given
+    const settupDefaultValues = (defaultValues: Input[]): InitialValues => {
+        const initalValues: InitialValues = {}
+        defaultValues && defaultValues.map(single => {
+            initalValues[single.examid] = single.grade
+        })
+        return initalValues
+    }
+
+    // handle submit of form
     const onSubmit = (e: any) => {
         e.preventDefault();
         form.validateFields()
@@ -124,13 +147,13 @@ const GradeInput = (props: IProps) => {
 
     }
 
-    const { options } = props;
+    const { options, inputGrades } = props;
     const { basics, exams, examPackages } = options;
     const orderdExams = settupExamData(exams)
-
+    const defaultValues = settupDefaultValues(inputGrades)
     return (
         <div>
-            <Form form={form} id="grade-formular">
+            <Form initialValues={defaultValues} form={form} id="grade-formular">
                 <div className="form-emphasis">
                     {renderEmphasisCheckboxes(basics)}
                 </div>
