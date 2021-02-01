@@ -4,6 +4,7 @@ import {Home, NotFound} from "./Pages"
 import "../static/style-mobile.css"
 import "../static/style-desktop.css"
 import "../static/style-tablet.css"
+import 'antd/dist/antd.css'
 
 class App extends React.Component {
 
