@@ -193,8 +193,7 @@ class PdfUpload extends React.Component {
                     </p>
                     <p className="ant-upload-text">Notenspiegel per Klick oder drag & drop einlesen</p>
                     <p className="ant-upload-hint">
-                        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                        band files
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
                     </p>
                 </Dragger>
             </div>
