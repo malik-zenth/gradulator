@@ -1,4 +1,5 @@
 import React from "react"
+import PdfUpload from "../Components/PdfUpload"
 
 // Home Page
 class Home extends React.Component{
@@ -7,6 +8,7 @@ class Home extends React.Component{
         return(
             <div>
                 Home-Page
+                <PdfUpload></PdfUpload>
             </div>
         )
     }
