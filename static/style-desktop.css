@@ -21,4 +21,19 @@
     .row{
         margin-left: 5%;
     }
+
+    .form-selectDegree{
+        display: inline-flex
+    }
+
+    .form-editSelectDegree{
+        font-size: 20px;
+        padding-left: .5em;
+        cursor: pointer;
+        color: #1890ff
+    }
+
+    .modal_link{
+        display: block
+    }
 }

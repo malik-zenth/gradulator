@@ -1,3 +1,5 @@
+import { GradePackageAverage } from "../Components/Calculation/types";
+
 // Basic Information about each degree
 export interface BasicInformation {
     ects: number,
@@ -29,11 +31,13 @@ export interface Exam{
 
 // all the packages of exams the exams get turned into
 export interface ExamPackages{
-    [Key: number]: {
-        name: string,
-        weight: number,
-        required: number[]
-    }
+    [Key: number]: ExamPackage
+}
+
+export interface ExamPackage{
+    name: string,
+    weight: number,
+    required: number[]
 }
 
 // object of all options
@@ -54,4 +58,17 @@ export interface Input{
     examid: number,
     grade: number,
     estimated?: boolean
+}
+
+export interface CalculationResult{
+    grade: number,
+    bestAverage?: number,
+    worstAverage?: number,
+    singleGrades: GradePackageAverage[],
+    requiredECTS: number,
+    achivedECTS: number,
+    requiredEmphasis: number,
+    completedEmphasis: number,
+    removedEmphasis: boolean,
+    removedEmphasisName: string
 }
