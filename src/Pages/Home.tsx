@@ -90,7 +90,7 @@ class Home extends React.Component<IProps, IState>{
 
                 {displayFormular &&
                 <Formular
-                selected={"Wirtschaftsinformatik"}
+                selected={selectedDegree}
                 inputGrades={inputValues}
                 displayAverage={(gradeValues : Input[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
                 />
