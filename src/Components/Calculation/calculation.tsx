@@ -19,15 +19,18 @@ export const calculateData = (inputGrades: Input[], selectedOption: SingleOption
         average = addImcompleteTag(average, incompletePackages)
     }
     // calculate the average for all emphasis (if their are) and remove the single grades from our averages
-    var {average, completedEmphasis, removedEmphasis, removedEmphasisName} = removeEmphasisGrades(average, selectedOption.basics.emphasis, selectedOption.basics.required_emphasis)
+    var {average, completedEmphasis, removedEmphasis, removedEmphasisName} = removeEmphasisGrades(
+        average, selectedOption.basics.emphasis, selectedOption.basics.required_emphasis, selectedOption.examPackages, selectedOption.exams)
     // calculate the average grade
     const grade = calculateGrade(average)
+    // add up all weight points
+    const observedWeight = calculateObservedWeight(average)
     // check if their are any estimated grades
     const estimatedGrades = inputGrades.filter((x: Input) => x.estimated)
     // if so calculate average and grade for them with 1(best case) and 4(worst case)
     if(estimatedGrades.length > 0){
-        const worstCase = calculateCase(gradePackages, selectedOption.examPackages, selectedOption.basics, 4)
-        const bestCase = calculateCase(gradePackages, selectedOption.examPackages, selectedOption.basics, 1)
+        const worstCase = calculateCase(gradePackages, selectedOption.examPackages, selectedOption.basics,selectedOption.exams, 4)
+        const bestCase = calculateCase(gradePackages, selectedOption.examPackages, selectedOption.basics, selectedOption.exams, 1)
         var bestCaseGrade = bestCase.caseGrade
         var worstCaseGrade = worstCase.caseGrade
         addCasesToPackages(average, worstCase.caseAverage, bestCase.caseAverage)
@@ -40,6 +43,8 @@ export const calculateData = (inputGrades: Input[], selectedOption: SingleOption
         singleGrades: average,
         requiredECTS: selectedOption.basics.ects,
         achivedECTS: ects,
+        observedWeight: observedWeight,
+        overallWeight: selectedOption.basics.weight,
         requiredEmphasis: selectedOption.basics.required_emphasis,
         completedEmphasis: completedEmphasis,
         removedEmphasis: removedEmphasis,
@@ -47,7 +52,7 @@ export const calculateData = (inputGrades: Input[], selectedOption: SingleOption
     }
 }
 
-const calculateCase = (inputGrades: GradePackages, exams: ExamPackages, basicData: BasicInformation,grade: number): CaseReturn => {
+const calculateCase = (inputGrades: GradePackages, examPackages: ExamPackages, basicData: BasicInformation,exams: Exams,grade: number): CaseReturn => {
     const caseGradePackages = JSON.parse(JSON.stringify(inputGrades))
     Object.keys(caseGradePackages).forEach(single => {
         for(var index = 0; index < caseGradePackages[single].length; index++){
@@ -56,8 +61,8 @@ const calculateCase = (inputGrades: GradePackages, exams: ExamPackages, basicDat
             }
         }
     })
-    const caseAverage = calculateAverages(caseGradePackages, exams)
-    const {average} = removeEmphasisGrades(caseAverage, basicData.emphasis, basicData.required_emphasis)
+    const caseAverage = calculateAverages(caseGradePackages, examPackages)
+    const {average} = removeEmphasisGrades(caseAverage, basicData.emphasis, basicData.required_emphasis, examPackages, exams)
     const caseGrade = calculateGrade(average)
     return{
         caseGrade,
@@ -113,13 +118,12 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
                 overallWeight += examData[x].weight
             })
             missingGrades.map((x: Exam) => {
-                console.log(x)
                 overallMissing += x.weight
             })
             incompletePackages.push({
                 missing: missingGrades,
                 complete: false,
-                completeness: Math.round((1 - overallMissing / overallWeight) * 100) + "%",
+                completeness: Math.round((1 - overallMissing / overallWeight) * 100),
                 gradePackageID: parseInt(singlePackage)
             })
         }
@@ -133,6 +137,13 @@ const calculateECTS = (inputGrades: Input[], examPackes: Exams, ects: number = 0
         ects += examPackes[inputGrades[index].examid].ects
     }
     return ects
+}
+
+const calculateObservedWeight = (grades: GradePackageAverage[], weight: number = 0): number => {
+    grades.map(single => {
+        weight+=single.weight
+    })
+    return weight
 }
 
 const calculateAverages = (userGrades: GradePackages, gradePackages: ExamPackages): GradePackageAverage[] => {
@@ -169,7 +180,7 @@ const addImcompleteTag = (averages: GradePackageAverage[], incomplete: Incomplet
     return averages
 }
 
-const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: Emphasis[], required: number) => {
+const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: Emphasis[], required: number, examPackages: ExamPackages, exams: Exams) => {
     var idsToRemove : number[] = []
     var completedEmphasis: number = 0
     var removedEmphasis: boolean = false
@@ -178,11 +189,19 @@ const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: 
     for(var index = 0; index < emphasisOptions.length; index++){
         var grade: number = 0
         var weight: number = 0
+        var completedWeight: number = 0
         var complete: boolean = true
         var completlyMissing: string[] = []
         const missing: Exam[] = []
         emphasisOptions[index].ids.map((x: number) => idsToRemove.push(x))
         const examPackagesWithEmphasis: GradePackageAverage[] = averages.filter(x => emphasisOptions[index].ids.includes(x.gradePackageID))
+        examPackagesWithEmphasis.map((x: GradePackageAverage) => {
+            if(x.complete){
+                completedWeight+=x.weight
+            }else{
+                completedWeight+=x.weight*(x.completeness/100)
+            }
+        })
         const emphasisExams: Emphasis = emphasisOptions[index]
         if(emphasisExams.ids.length != examPackagesWithEmphasis.length){
             const ExamPackagesWithEmphasisIds: number[] = examPackagesWithEmphasis.map(x => x.gradePackageID)
@@ -198,18 +217,25 @@ const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: 
         }
         if(complete && completlyMissing.length === 0) completedEmphasis+=1
         if(completlyMissing.length != emphasisExams.ids.length){
+
+            completlyMissing.map((single: string) => {
+                examPackages[single].required.map((examId: string) => {
+                    missing.push(exams[examId])
+                })
+            })
             emphasis.push({
-                name: "Vertiefiung " + emphasisOptions[index].name,
+                name: "Vertiefung " + emphasisOptions[index].name,
                 weight: emphasisOptions[index].weight,
                 grade: cutGrade(grade / weight),
                 complete: complete,
                 missing: missing,
-                completlyMissing: completlyMissing
+                completeness: Math.round((completedWeight / emphasisOptions[index].weight) * 100),
+                incomplete: (missing || completlyMissing) ? true: false,
             })
         }
     }
     if(emphasis.length > required){
-        emphasis.sort((a:GradePackageAverage, b:GradePackageAverage) => (a.completlyMissing.length > b.completlyMissing.length) ? 1 : ((b.completlyMissing.length > a.completlyMissing.length) ? -1 : 0))
+        emphasis.sort((a:GradePackageAverage, b:GradePackageAverage) => (a.missing.length > b.missing.length) ? 1 : ((b.missing.length > a.missing.length) ? -1 : 0))
         removedEmphasisName = emphasis.pop().name
         removedEmphasis = true
     }

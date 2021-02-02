@@ -2,7 +2,9 @@ import { GradePackageAverage } from "../Components/Calculation/types";
 
 // Basic Information about each degree
 export interface BasicInformation {
+    name: string,
     ects: number,
+    weight: number,
     required_emphasis: number,
     emphasis: Emphasis[] | null
 }
@@ -70,5 +72,7 @@ export interface CalculationResult{
     requiredEmphasis: number,
     completedEmphasis: number,
     removedEmphasis: boolean,
-    removedEmphasisName: string
+    removedEmphasisName: string,
+    observedWeight: number,
+    overallWeight: number
 }

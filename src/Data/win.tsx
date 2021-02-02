@@ -1,6 +1,8 @@
 import { BasicInformation, ExamPackages, Exams, SingleOption } from "./types";
 
 const win_basic_data: BasicInformation = {
+    name: "Wirtschaftsinformatik",
+    weight: 120,
     ects: 114.5,
     required_emphasis: 2,
     emphasis: [{
@@ -312,7 +314,7 @@ const win_ExamPackages: ExamPackages = {
         weight: 10,
         required: [282193, 282196]
     },
-    202093: {
+    282093: {
         name: "Projektstudie Social Media",
         weight: 5,
         required: [282197]

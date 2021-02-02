@@ -2,17 +2,14 @@ import React, { ReactFragment, ReactText, useState } from "react";
 import {
   Input,
   BasicInformation,
-  Emphasis,
   Exam,
-  ExamPackages,
   Exams,
   SingleOption,
 } from "../Data/types";
-import { Form, InputNumber, Checkbox, Button, Modal } from "antd";
-import { Row, Col, Divider } from "antd";
+import { Form, InputNumber, Checkbox, Button, Modal, Row, Col, Divider } from "antd";
 
 interface InitialValues {
-  [key: string]: number;
+  [key: string]: any;
 }
 
 interface FormInput {
@@ -43,9 +40,9 @@ const checkboxMark: string = "_checkbox";
 const GradeInput = (props: IProps) => {
   const [form] = Form.useForm();
   // this hook will handle all emphasis points which are not displayed
-  const [notDisplayedEmphasis, setEmphasis] = useState([])
+  const [notDisplayedEmphasis, setEmphasis] = useState([]);
   // if Modal Error Message no Input detected is displayed
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   // render all input fields. Data comes in type orderedExams ordered by semester
   const renderInputOptions = (exams: OrderedExams): ReactFragment => {
@@ -72,9 +69,7 @@ const GradeInput = (props: IProps) => {
       <Col span={6} key={keyGenerator()}>
         <div className="form-singleGrade-name">{exam.data.name}</div>
         <div className="form-singleGrade-items">
-          <Form.Item
-            name={exam.examID}
-          >
+          <Form.Item name={exam.examID} style={{ marginBottom: 0 }}>
             <InputNumber
               min={1}
               max={5}
@@ -160,6 +155,7 @@ const GradeInput = (props: IProps) => {
     defaultValues &&
       defaultValues.map((single) => {
         initalValues[single.examid] = single.grade;
+        if(single.estimated) initalValues[single.examid + checkboxMark] = true;
       });
     return initalValues;
   };
@@ -171,44 +167,50 @@ const GradeInput = (props: IProps) => {
     const usedExamIds: string[] = [];
     // go through all inputValues
     Object.keys(inputValues).map((singleInput) => {
-        // if examId is already inside of grade data go through it and add the estimated tag
-        if (usedExamIds.includes(removeCheckboxTag(singleInput))) {
-          for (var i = 0; i < gradeData.length; i++) {
-            if (gradeData[i].examid === parseFloat(singleInput)) {
-              gradeData[i].estimated = true;
-            }
-          }
-        } else {
-          // if it is not inside of the gradeData add it
-          // we can set estimated to false and in the upper if to true, because the estimated
-          // checkbox will always come in after the grade, because our form is settup that way
-          if (singleInput.indexOf(checkboxMark) === -1) {
-            usedExamIds.push(singleInput);
-            gradeData.push({
-              examid: parseFloat(singleInput),
-              grade: inputValues[singleInput],
-              estimated: false,
-            });
+      // if examId is already inside of grade data go through it and add the estimated tag
+      if (usedExamIds.includes(removeCheckboxTag(singleInput))) {
+        for (var i = 0; i < gradeData.length; i++) {
+          if (gradeData[i].examid === parseFloat(singleInput)) {
+            gradeData[i].estimated = true;
           }
         }
+      } else {
+        // if it is not inside of the gradeData add it
+        // we can set estimated to false and in the upper if to true, because the estimated
+        // checkbox will always come in after the grade, because our form is settup that way
+        if (singleInput.indexOf(checkboxMark) === -1) {
+          usedExamIds.push(singleInput);
+          gradeData.push({
+            examid: parseFloat(singleInput),
+            grade: inputValues[singleInput],
+            estimated: false,
+          });
+        }
+      }
     });
     return gradeData;
   };
 
   // Modal displayed if their is no input
   const renderModal = (): ReactFragment => {
-      return(
-        <Modal title="Keine Notendaten eingegeben" visible={showModal}
+    return (
+      <Modal
+        title="Keine Notendaten eingegeben!"
+        visible={showModal}
         footer={[
-            <Button key="submit" type="primary" onClick={() => setShowModal(false)}>
-              Ok
-            </Button>,
-          ]}>
+          <Button
+            key="submit"
+            type="primary"
+            onClick={() => setShowModal(false)}
+          >
+            Ok
+          </Button>,
+        ]}
+      >
         <p>Bitte geb Notendaten ein, bevor du das Formular abschickst</p>
       </Modal>
-      )
-    }
-
+    );
+  };
 
   // remove the checkbox tag from the value of the input Object
   const removeCheckboxTag = (examID: string): string => {
@@ -222,17 +224,17 @@ const GradeInput = (props: IProps) => {
     form
       .validateFields()
       .then((values) => {
-        Object.keys(values).forEach(key => {
-          if (!values[key]) delete values[key];
+        Object.keys(values).forEach((key) => {
+          if (values[key] == undefined) delete values[key];
         });
-        if(values.length > 0){
-          props.displayAverage(settupGrades(values))
-        }else{
-          setShowModal(true)
+        if (Object.keys(values).length > 0) {
+          props.displayAverage(settupGrades(values));
+        } else {
+          setShowModal(true);
         }
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       });
   };
 
@@ -247,14 +249,14 @@ const GradeInput = (props: IProps) => {
         <div className="form-emphasis">{renderEmphasisCheckboxes(basics)}</div>
         <div className="form-grades">{renderInputOptions(orderdExams)}</div>
         <div className="form-submit">
-          <Form.Item>
-            <Button type="primary" htmlType="submit" onClick={onSubmit}>
-              Notenschnitt berechnen
-            </Button>
+          <Button type="primary" htmlType="submit" onClick={onSubmit}>
+            Notenschnitt berechnen
+          </Button>
+          <div className="form-grades-button-reset">
             <Button htmlType="button" onClick={() => form.resetFields()}>
-                Formular zurücksetzen
+              Formular zurücksetzen
             </Button>
-          </Form.Item>
+          </div>
         </div>
       </Form>
     </div>

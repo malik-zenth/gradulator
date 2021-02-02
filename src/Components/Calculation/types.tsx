@@ -13,7 +13,7 @@ export interface GradePackage{
 
 export interface IncompletePackages{
     missing: Exam[]
-    completeness: string,
+    completeness: number,
     gradePackageID: number,
     complete: boolean
 }
@@ -26,10 +26,9 @@ export interface GradePackageAverage{
     bestPossibleGrade?:number,
     worstPossibleGrade?:number,
     incomplete?:boolean,
-    completeness?:string,
+    completeness?:number,
     complete?:boolean,
-    missing?:Exam[],
-    completlyMissing?:string[]
+    missing?:Exam[]
 }
 
 export interface CaseReturn{
