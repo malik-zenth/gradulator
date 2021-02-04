@@ -82,7 +82,7 @@ class AveragePage extends React.Component<IProps, IState> {
         <div className="result-case-grades">
           <p className="result-case-info">
             <Tooltip title={TooltipEstimatedGrades}>
-              <FontAwesomeIcon icon={faInfoCircle} />
+              <FontAwesomeIcon className="text-icon" icon={faInfoCircle} />
               Note enthält geschätzte Noten
             </Tooltip>
           </p>
@@ -103,7 +103,7 @@ class AveragePage extends React.Component<IProps, IState> {
         <div className="result-incomplete-box">
           <p className="result-incomplete-info">
             <Tooltip title={TooltipNotComplete}>
-              <FontAwesomeIcon icon={faExclamationCircle} />
+              <FontAwesomeIcon className="text-icon" icon={faExclamationCircle} />
               Modul erst zu {single.completeness}% abgeschlossen.
             </Tooltip>
           </p>
@@ -137,19 +137,18 @@ class AveragePage extends React.Component<IProps, IState> {
           <div className="result-average-basic">
             {averageData.requiredEmphasis != 0 && (
               <p>
-
                 {averageData.completedEmphasis} von {averageData.requiredEmphasis} benötigten Schwerpunkten abgeschlossen
               </p>
             )}
             <p>
             <Tooltip title={TooltipWertungspunkte}>
-              <FontAwesomeIcon icon={faInfoCircle} />
+              <FontAwesomeIcon className="text-icon" icon={faInfoCircle} />
               {averageData.observedWeight} von {averageData.overallWeight} Wertungspunkten für den Durchschnitt berücksichtigt
               </Tooltip>
             </p>
             <p>
             <Tooltip title={TooltipECTS}>
-              <FontAwesomeIcon icon={faInfoCircle} />
+              <FontAwesomeIcon className="text-icon" icon={faInfoCircle} />
               {averageData.achivedECTS} von {averageData.requiredECTS} für den Durchschnitt relevanten ECTS erreicht
               </Tooltip>
             </p>
@@ -209,6 +208,11 @@ class AveragePage extends React.Component<IProps, IState> {
     );
     return (
       <div className="result-page">
+          <div className="form-grades-back">
+          <Button htmlType="button" onClick={() => this.props.newCalculation()}>
+            Zurück zur Startseite
+          </Button>
+        </div>
         <h2 className="result-heading">
           Notenschnitt {selectedOption.basics.name}
         </h2>
