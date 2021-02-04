@@ -147,4 +147,19 @@
     .average-page-buttons{
         display: inline-flex
     }
+
+    .single-grade-collabs{
+        width: 20px;
+        font-size: 22px;
+    }
+
+    .single-grade-collabs-icon{
+        cursor: pointer;
+        height: 100%;
+        width: 100%;
+    }
+
+    .selectDegree-contact-link{
+        margin-left: 5px;
+    }
 }

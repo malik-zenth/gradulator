@@ -1,6 +1,6 @@
 import React, { ReactFragment, ReactText, useState } from "react";
 import {
-  Input,
+  UserInput,
   BasicInformation,
   Exam,
   Exams,
@@ -18,8 +18,9 @@ interface FormInput {
 
 interface IProps {
   options: SingleOption;
-  inputGrades?: Input[];
+  inputGrades?: UserInput[];
   displayAverage: Function;
+  resetInputGrades: Function;
 }
 
 interface OrderedExams {
@@ -132,7 +133,8 @@ const GradeInput = (props: IProps) => {
     var semesters: number[] = [];
     var sortedBySemester: OrderedExams = [];
     for (var single in exams) {
-      if (!notDisplayedEmphasis.includes(exams[single].emphasisid)) {
+      // filter out all currently not displayed exams and also those, which are set as ignored (e.g. Praxissemester)
+      if (!notDisplayedEmphasis.includes(exams[single].emphasisid) && !exams[single].ignored) {
         if (!semesters.includes(exams[single].semester)) {
           semesters.push(exams[single].semester);
           sortedBySemester[exams[single].semester] = [
@@ -150,19 +152,19 @@ const GradeInput = (props: IProps) => {
   };
 
   // settup default Values for the form if given
-  const settupDefaultValues = (defaultValues: Input[]): InitialValues => {
+  const settupDefaultValues = (defaultValues: UserInput[],  hardreset: boolean = false): InitialValues => {
     const initalValues: InitialValues = {};
     defaultValues &&
       defaultValues.map((single) => {
-        initalValues[single.examid] = single.grade;
-        if(single.estimated) initalValues[single.examid + checkboxMark] = true;
+        initalValues[single.examid] = hardreset ? undefined : single.grade;
+        if(single.estimated) initalValues[single.examid + checkboxMark] = hardreset ? false : true;
       });
     return initalValues;
   };
 
   // settup grades in a way the calculations can handle it
-  const settupGrades = (inputValues: FormInput): Input[] => {
-    const gradeData: Input[] = [];
+  const settupGrades = (inputValues: FormInput): UserInput[] => {
+    const gradeData: UserInput[] = [];
     // validation array to easiely check if examid is in gradeData
     const usedExamIds: string[] = [];
     // go through all inputValues
@@ -227,7 +229,7 @@ const GradeInput = (props: IProps) => {
         Object.keys(values).forEach((key) => {
           if (values[key] == undefined) delete values[key];
         });
-        if (Object.keys(values).length > 0) {
+        if (Object.keys(values).length > 0 && Object.keys(values).filter(x => !x.includes(checkboxMark)).length > 0) {
           props.displayAverage(settupGrades(values));
         } else {
           setShowModal(true);
@@ -238,14 +240,25 @@ const GradeInput = (props: IProps) => {
       });
   };
 
+
   const { options, inputGrades } = props;
   const { basics, exams } = options;
   const orderdExams = settupExamData(exams);
-  const defaultValues = settupDefaultValues(inputGrades);
+  const initialValues = settupDefaultValues(inputGrades)
+
+  const resetForm = () => {
+    // reset Input Grades on Home.tsx
+    props.resetInputGrades()
+    // setFieldValues to null and undefined
+    // form does also come with form.resetFields() but this does not reset initalValues
+    form.setFieldsValue(settupDefaultValues(inputGrades, true))
+  }
+
+
   return (
     <div>
       {renderModal()}
-      <Form initialValues={defaultValues} form={form} id="grade-formular">
+      <Form initialValues={initialValues} form={form} id="grade-formular">
         <div className="form-emphasis">{renderEmphasisCheckboxes(basics)}</div>
         <div className="form-grades">{renderInputOptions(orderdExams)}</div>
         <div className="form-submit">
@@ -253,7 +266,7 @@ const GradeInput = (props: IProps) => {
             Notenschnitt berechnen
           </Button>
           <div className="form-grades-button-reset">
-            <Button htmlType="button" onClick={() => form.resetFields()}>
+            <Button htmlType="button" onClick={resetForm}>
               Formular zurücksetzen
             </Button>
           </div>

@@ -1,7 +1,7 @@
 import {BasicInformation, ExamPackages, Exams, SingleOption} from "./types"
 
 const mid_basic_data: BasicInformation = {
-    name: "Wirtschaftsinformatik - Informationsmanagement und Data Science",
+    name: "Master Wirtschaftsinformatik",
     weight: 90,
     ects: 90,
     required_emphasis: 0,
@@ -138,7 +138,7 @@ const mid_ExamPackages: ExamPackages = {
         required: [285131,285132]
     },
     285140: {
-        name: "Sklierbares IT-Management und Systemarchitekturen",
+        name: "Skalierbares IT-Management und Systemarchitekturen",
         weight: 10,
         required: [285141,285142]
     },

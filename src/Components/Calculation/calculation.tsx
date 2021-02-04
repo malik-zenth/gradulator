@@ -1,9 +1,8 @@
 // calculate the average for given grades
-import React from "react"
-import { ExamPackages, Exams, Input, SingleOption, ExamPackage, Exam, Emphasis, BasicInformation, CalculationResult} from "../../Data/types";
+import { ExamPackages, Exams, UserInput, SingleOption, ExamPackage, Exam, Emphasis, BasicInformation, CalculationResult} from "../../Data/types";
 import {GradePackage, GradePackages, IncompletePackages, GradePackageAverage, CaseReturn} from "./types"
 
-export const calculateData = (inputGrades: Input[], selectedOption: SingleOption): CalculationResult => {
+export const calculateData = (inputGrades: UserInput[], selectedOption: SingleOption): CalculationResult => {
     var bestCaseGrade: number
     var worstCaseGrade: number
     // settup data in a way that all grades from one package are together
@@ -26,7 +25,7 @@ export const calculateData = (inputGrades: Input[], selectedOption: SingleOption
     // add up all weight points
     const observedWeight = calculateObservedWeight(average)
     // check if their are any estimated grades
-    const estimatedGrades = inputGrades.filter((x: Input) => x.estimated)
+    const estimatedGrades = inputGrades.filter((x: UserInput) => x.estimated)
     // if so calculate average and grade for them with 1(best case) and 4(worst case)
     if(estimatedGrades.length > 0){
         const worstCase = calculateCase(gradePackages, selectedOption.examPackages, selectedOption.basics,selectedOption.exams, 4)
@@ -81,11 +80,13 @@ const addCasesToPackages = (average : GradePackageAverage[], worstCase: GradePac
     }
 }
 
-const settupGradePackages = (inputGrades: Input[], examPackes: Exams): GradePackages => {
+const settupGradePackages = (inputGrades: UserInput[], examPackes: Exams): GradePackages => {
     const gradePackages: GradePackages = {}
     const usedGradePackages: number[] = []
     for(var index = 0; index < inputGrades.length; index++){
         const gradePackageID: number = examPackes[inputGrades[index].examid].packageid
+        // filter out all grades which are ignored
+        if(!examPackes[inputGrades[index].examid].ignored){
         if(usedGradePackages.includes(gradePackageID)){
             gradePackages[gradePackageID].push({
                 grade: inputGrades[index].grade,
@@ -102,6 +103,7 @@ const settupGradePackages = (inputGrades: Input[], examPackes: Exams): GradePack
                 estimated: inputGrades[index].estimated
             }]
         }
+    }
     }
     return gradePackages
 }
@@ -132,9 +134,9 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
     return incompletePackages
 }
 
-const calculateECTS = (inputGrades: Input[], examPackes: Exams, ects: number = 0): number => {
+const calculateECTS = (inputGrades: UserInput[], examPackes: Exams, ects: number = 0): number => {
     for(var index = 0; index < inputGrades.length; index++){
-        ects += examPackes[inputGrades[index].examid].ects
+        if(!examPackes[inputGrades[index].examid].ignored) ects += examPackes[inputGrades[index].examid].ects
     }
     return ects
 }
@@ -230,7 +232,7 @@ const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: 
                 complete: complete,
                 missing: missing,
                 completeness: Math.round((completedWeight / emphasisOptions[index].weight) * 100),
-                incomplete: (missing || completlyMissing) ? true: false,
+                incomplete: (missing.length != 0 || completlyMissing.length != 0) ? true: false,
             })
         }
     }

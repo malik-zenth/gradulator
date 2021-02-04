@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Select, Modal, Button } from "antd";
 import { options } from "../Data";
 import GradeInput from "./GradeInput";
-import { Input } from "../Data/types";
+import { UserInput } from "../Data/types";
 import { MailLink } from "./const";
 
 // form inital values
@@ -17,8 +17,9 @@ interface FormOption {
 
 interface IProps {
   selected?: string;
-  inputGrades?: Input[];
+  inputGrades?: UserInput[];
   displayAverage: Function;
+  resetInputGrades: Function
 }
 
 // selectedOption -> selected Value
@@ -40,7 +41,7 @@ class Formular extends React.Component<IProps, IState> {
     this.state = {
       selectedOption: null,
       formOptions: [],
-      showModal: false,
+      showModal: false
     };
   }
   formRef = React.createRef();
@@ -145,7 +146,7 @@ class Formular extends React.Component<IProps, IState> {
             <Form initialValues={initialValues}>
               <Form.Item name="select">
                 <Select
-                  style={{ width: 200 }}
+                  style={{ width: 300 }}
                   labelInValue
                   placeholder="Studiengang auswählen"
                   options={formOptions}
@@ -171,9 +172,10 @@ class Formular extends React.Component<IProps, IState> {
           <GradeInput
             options={options[selectedOption]}
             inputGrades={this.props.inputGrades}
-            displayAverage={(gradeValues: Input[]) =>
+            displayAverage={(gradeValues: UserInput[]) =>
               this.props.displayAverage(gradeValues, options[selectedOption])
             }
+            resetInputGrades={() => this.props.resetInputGrades()}
           />
         )}
       </div>

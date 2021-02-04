@@ -1,12 +1,8 @@
 import React from "react"
 import {Formular, AveragePage} from "../Components"
-import { Input, SingleOption} from "../Data/types";
+import { UserInput, SingleOption} from "../Data/types";
 
-import { options } from "../Data";
-
-interface IProps{
-
-}
+interface IProps{}
 
 // selectedDegree -> Degree from PDF Reader for GradeInput Formular
 // inputValues -> InputValues from PDF for GradeInput Formular
@@ -15,8 +11,8 @@ interface IProps{
 // selectedOption -> Selected Degree from GradeInput Formular
 interface IState{
     selectedDegree ?: string
-    inputValues ?: Input[],
-    gradeInput ?: Input[],
+    inputValues ?: UserInput[],
+    gradeInput ?: UserInput[],
     selectedOption ?: SingleOption,
     displayFormular: boolean
 }
@@ -30,25 +26,33 @@ class Home extends React.Component<IProps, IState>{
         }
     }
 
-    displayAverage = (gradeInput: Input[], selectedOption: SingleOption): void => {
+    displayAverage = (gradeInput: UserInput[], selectedOption: SingleOption): void => {
         this.setState({
             gradeInput: gradeInput,
             displayFormular: false,
-            selectedOption: selectedOption
+            selectedOption: selectedOption,
+            selectedDegree: selectedOption.basics.name
         })
     }
 
     newCalculation = () => {
         this.setState({
             displayFormular: true,
-            inputValues: []
+            inputValues: [],
+            selectedDegree: null
         })
     }
 
-    editGrades = (gradeInput: Input[]) => {
+    editGrades = (gradeInput: UserInput[]) => {
         this.setState({
             displayFormular: true,
             inputValues: gradeInput
+        })
+    }
+
+    resetInputGrades = () => {
+        this.setState({
+            inputValues: []
         })
     }
 
@@ -56,31 +60,6 @@ class Home extends React.Component<IProps, IState>{
 
     render(){
         const {inputValues, selectedDegree, gradeInput, displayFormular, selectedOption} = this.state
-
-//         const blub = [
-//             {examid: 282011, grade: 1, estimated: false},
-// {examid: 282014, grade: 2, estimated: true},
-// {examid: 282130, grade: 2, estimated: false},
-// {examid: 282133, grade: 3, estimated: true},
-// {examid: 282134, grade: 1, estimated: false},
-// {examid: 282135, grade: 2, estimated: false},
-// {examid: 282136, grade: 3, estimated: false},
-// {examid: 282160, grade: 2, estimated: true},
-// {examid: 282161, grade: 3, estimated: false},
-// {examid: 282162, grade: 4, estimated: false},
-// {examid: 282163, grade: 5, estimated: false},
-// {examid: 282164, grade: 2, estimated: false},
-// {examid: 282165, grade: 1, estimated: false},
-// {examid: 282166, grade: 1, estimated: true},
-// {examid: 282172, grade: 1, estimated: false},
-// {examid: 282180, grade: 4, estimated: false},
-// {examid: 282181, grade: 3, estimated: false},
-// {examid: 282182, grade: 2, estimated: true},
-// {examid: 282183, grade: 2, estimated: true},
-// {examid: 282184, grade: 1, estimated: false},
-// {examid: 282185, grade: 2, estimated: false},
-// {examid: 282186, grade: 2, estimated: false}
-//         ]
 
         return(
             <div>
@@ -92,14 +71,15 @@ class Home extends React.Component<IProps, IState>{
                 <Formular
                 selected={selectedDegree}
                 inputGrades={inputValues}
-                displayAverage={(gradeValues : Input[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
+                displayAverage={(gradeValues : UserInput[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
+                resetInputGrades={() => this.resetInputGrades()}
                 />
                 }
                 {!displayFormular &&
                 <AveragePage
                 inputGrades={gradeInput}
                 selectedOption={selectedOption}
-                editCalculation={(grades: Input[]) => this.editGrades(grades)}
+                editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
                 newCalculation={() => this.newCalculation()}
                 />
                 }

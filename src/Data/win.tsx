@@ -265,6 +265,23 @@ const win_exams: Exams = {
         name: "Projektstudie Social Media im Unternehmenskontext",
         packageid: 282093,
         emphasisid:3
+    },
+    282016:
+    {
+        semester: 5,
+        ects: 30,
+        weight: 0,
+        name: "Praktisches Studiensemester und Praktikantenkolloquium",
+        packageid: 282016,
+        ignored: true
+    },
+    282137: {
+        semester: 3,
+        ects: 2.5,
+        weight: 0,
+        name: "Studium Generale",
+        packageid: 282137,
+        ignored: true
     }
 }
 
@@ -358,6 +375,12 @@ const win_ExamPackages: ExamPackages = {
         name: "Entwicklung und Anwendung von IT-Systemen",
         weight: 10,
         required: [282165, 282166]
+    },
+    282016: {
+        name: "Praktisches Studiensemester und Praktikantenkolloqium",
+        weight: 0,
+        required: [282016],
+        ignored: true
     }
 }
 

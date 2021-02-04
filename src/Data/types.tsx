@@ -28,7 +28,8 @@ export interface Exam{
     weight: number,
     name: string,
     packageid: number,
-    emphasisid?: number
+    emphasisid?: number,
+    ignored?: boolean
 }
 
 // all the packages of exams the exams get turned into
@@ -39,7 +40,8 @@ export interface ExamPackages{
 export interface ExamPackage{
     name: string,
     weight: number,
-    required: number[]
+    required: number[],
+    ignored?: true
 }
 
 // object of all options
@@ -56,7 +58,7 @@ export interface SingleOption{
 }
 
 // imput into calculation
-export interface Input{
+export interface UserInput{
     examid: number,
     grade: number,
     estimated?: boolean
