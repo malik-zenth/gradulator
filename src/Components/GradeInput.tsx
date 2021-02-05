@@ -1,4 +1,4 @@
-import React, { ReactFragment, ReactText, useState } from "react";
+import React, { ReactFragment, ReactText, useEffect, useState } from "react";
 import {
   UserInput,
   BasicInformation,
@@ -44,6 +44,7 @@ const GradeInput = (props: IProps) => {
   const [notDisplayedEmphasis, setEmphasis] = useState([]);
   // if Modal Error Message no Input detected is displayed
   const [showModal, setShowModal] = useState(false);
+  const [prevInitialValues, setPrevInitialValues] = useState({})
 
   // render all input fields. Data comes in type orderedExams ordered by semester
   const renderInputOptions = (exams: OrderedExams): ReactFragment => {
@@ -254,6 +255,15 @@ const GradeInput = (props: IProps) => {
     form.setFieldsValue(settupDefaultValues(inputGrades, true))
   }
 
+
+  useEffect(() => {
+    // if incomping defaultValues are different from our current update Form values
+    if(JSON.stringify(prevInitialValues) != JSON.stringify(initialValues)){
+      setPrevInitialValues(initialValues)
+      form.resetFields()
+      form.setFieldsValue(initialValues)
+    }
+  }, [initialValues])
 
   return (
     <div>

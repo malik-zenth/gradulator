@@ -15,7 +15,8 @@ interface IState{
     inputValues ?: UserInput[],
     gradeInput ?: UserInput[],
     selectedOption ?: SingleOption,
-    displayFormular: boolean
+    displayFormular: boolean,
+    xy: boolean
 }
 
 // Home Page
@@ -23,7 +24,8 @@ class Home extends React.Component<IProps, IState>{
     constructor(props: IProps){
         super(props);
         this.state = {
-            displayFormular: true
+            displayFormular: true,
+            xy: false
         }
     }
 
@@ -57,6 +59,21 @@ class Home extends React.Component<IProps, IState>{
         })
     }
 
+    resetInputGradesAndUpdateSelectedDegree = (selectedDegree: string) => {
+        this.setState({
+            inputValues: [],
+            selectedDegree: selectedDegree
+        })
+    }
+
+    setGrades = (gradeInput: UserInput[], selectedDegree: string) => {
+        this.setState({
+            inputValues: gradeInput,
+            selectedDegree: selectedDegree,
+            displayFormular: true
+        })
+    }
+
 
 
     render(){
@@ -64,19 +81,23 @@ class Home extends React.Component<IProps, IState>{
 
         return(
             <div>
-                <div>
-                    HOME CONTENT WHATEVER BY
-                  <PdfUpload></PdfUpload>
-                </div>
 
                 {displayFormular &&
+                <div>
+                <PdfUpload
+                    setGrades={(grades: UserInput[], selectedDegree: string) => this.setGrades(grades, selectedDegree)}
+                />
+
                 <Formular
                 selected={selectedDegree}
                 inputGrades={inputValues}
                 displayAverage={(gradeValues : UserInput[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
                 resetInputGrades={() => this.resetInputGrades()}
+                resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
                 />
+                </div>
                 }
+
                 {!displayFormular &&
                 <AveragePage
                 inputGrades={gradeInput}

@@ -4,5 +4,5 @@ import {mid} from "./mid"
 
 export const options: DegreeOptions = {
     "Wirtschaftsinformatik": win,
-    "Master Wirtschaftsinformatik": mid
+    "Wirtschaftsinformatik - Informationsmanagementund Data Science": mid
 }

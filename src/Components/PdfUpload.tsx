@@ -50,10 +50,18 @@ interface extractedGrades {
     }
 }
 
-class PdfUpload extends React.Component {
+interface iProps{
+    setGrades: Function
+}
+
+interface iState{}
+
+
+class PdfUpload extends React.Component<iProps, iState> {
     constructor(props: any) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleUpload = this.handleUpload.bind(this);
     }
 
     //Pdf-Content-Extraction
@@ -61,14 +69,15 @@ class PdfUpload extends React.Component {
         const { status } = info.file;
         if (status === 'done') {
             message.success(`${info.file.name} file uploaded successfully.`);
-            handleUpload();
+            this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a,b));
 
         } else if (status === 'error') {
             message.error(`${info.file.name} file upload failed.`);
-            handleUpload();
+            this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a,b));
         }
+    }
 
-        function handleUpload() {
+    handleUpload(info: uploadedFile, setGrades: Function) {
             //Save uploaded file within var
             var file:any = info.file.originFileObj
 
@@ -85,7 +94,7 @@ class PdfUpload extends React.Component {
                 // Will call sub-process to extract grades from text
                 transformPdftoText(fileAsTypedArray).then(function (text: string) {
                     let returnedObject = mainProcess(text);
-                    console.log(returnedObject);
+                    setGrades(returnedObject.grades, returnedObject.studiengang)
                 }, function (reason: string) {
                     alert('Seems this file is broken, please upload another file');
                 });
@@ -208,7 +217,6 @@ class PdfUpload extends React.Component {
                 }
             };
             fileReaderObject.readAsArrayBuffer(file);
-        }
     }
 
     render() {
