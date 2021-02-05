@@ -61,6 +61,7 @@ export interface SingleOption{
 export interface UserInput{
     examid: number,
     grade: number,
+    status?: boolean
     estimated?: boolean
 }
 

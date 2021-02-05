@@ -4,6 +4,7 @@ import { options } from "../Data";
 import GradeInput from "./GradeInput";
 import { UserInput } from "../Data/types";
 import { MailLink } from "./const";
+import { FormInstance } from 'antd/lib/form';
 
 // form inital values
 interface InitialValues {
@@ -19,7 +20,8 @@ interface IProps {
   selected?: string;
   inputGrades?: UserInput[];
   displayAverage: Function;
-  resetInputGrades: Function
+  resetInputGrades: Function,
+  resetInputGradesAndUpdateSelectedDegree: Function
 }
 
 // selectedOption -> selected Value
@@ -44,12 +46,25 @@ class Formular extends React.Component<IProps, IState> {
       showModal: false
     };
   }
-  formRef = React.createRef();
+
+  formRef = React.createRef<FormInstance>();
+
+  componentDidUpdate(prevProps: IProps){
+    if(this.props != prevProps){
+    const { selected } = this.props;
+    const formOptions: FormOption[] = this.settupData(selected)
+    this.formRef.current.setFieldsValue(formOptions)
+    }
+  }
 
   // settup data
   // if an emphasis is selected, set it as default value, disable the field and show grade input
   componentDidMount() {
     const { selected } = this.props;
+    this.settupData(selected)
+  }
+
+  settupData(selected: string): any{
     // add all emphasis options to a array, so we easiely can check if an selected value is a valid option
     const emphasisOptions: string[] = [];
     const selectOptions = Object.keys(options).map(function (value, _) {
@@ -63,6 +78,7 @@ class Formular extends React.Component<IProps, IState> {
         selectedOption: selected,
         formOptions: selectOptions,
       });
+      return { select: { value: selected, label: selected } }
     } else if (selected && !emphasisOptions.includes(selected)) {
       this.setState({
         formOptions: selectOptions,
@@ -131,7 +147,9 @@ class Formular extends React.Component<IProps, IState> {
     } = this.state;
     // settup all option so antd Form can handle them
     const handleChange = (value: any) => {
-      this.setState({ selectedOption: value.value });
+      this.setState({ selectedOption: value.value })
+      // on change of selectedDegree also reset the current InputGrades
+      this.props.resetInputGradesAndUpdateSelectedDegree(value.value)
     };
 
     // if form values are not ready return empty div so initialValues are handled correctly
@@ -143,7 +161,7 @@ class Formular extends React.Component<IProps, IState> {
         {this.renderModal()}
         <div className="selectDegree-box">
           <div className="form-selectDegree">
-            <Form initialValues={initialValues}>
+            <Form initialValues={initialValues} ref={this.formRef}>
               <Form.Item name="select">
                 <Select
                   style={{ width: 300 }}
