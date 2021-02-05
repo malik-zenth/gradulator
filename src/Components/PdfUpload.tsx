@@ -1,7 +1,7 @@
 // Imports
 import React from 'react';
 import { Upload, message } from 'antd';
-import { ConsoleSqlOutlined, InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
 import { Input } from "../Data/types";
 
@@ -17,10 +17,6 @@ const dummyRequest = ({ onSuccess = Function }) => {
 };
 
 //Interface definition
-interface IProps {
-    handleChange: Function
-}
-
 
 interface uploadedFile {
     file: {
