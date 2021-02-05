@@ -1,4 +1,5 @@
 import React from "react"
+import PdfUpload from "../Components/PdfUpload"
 import {Formular, AveragePage} from "../Components"
 import { UserInput, SingleOption} from "../Data/types";
 
@@ -64,7 +65,8 @@ class Home extends React.Component<IProps, IState>{
         return(
             <div>
                 <div>
-                    HOME CONTENT WHATEVER BYE
+                    HOME CONTENT WHATEVER BY
+                  <PdfUpload></PdfUpload>
                 </div>
 
                 {displayFormular &&
