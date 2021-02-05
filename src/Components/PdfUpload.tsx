@@ -1,9 +1,9 @@
 // Imports
 import React from 'react';
-import { Upload, message} from 'antd';
+import { Upload, message } from 'antd';
 import { ConsoleSqlOutlined, InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
-import { Input} from "../Data/types";
+import { Input } from "../Data/types";
 
 //Pds.js setup
 let pdfjsLib = require("pdfjs-dist/build/pdf");
@@ -17,11 +17,10 @@ const dummyRequest = ({ onSuccess = Function }) => {
 };
 
 //Interface definition
-
 interface IProps {
     handleChange: Function
-  }
-  
+}
+
 
 interface uploadedFile {
     file: {
@@ -44,7 +43,14 @@ interface pdfPage {
 
 interface parsedText {
     items: {
-        [key: string]: any 
+        [key: string]: any
+    }
+}
+
+interface extractedGrades {
+    studiengang: string,
+    grades : {
+        [key: string]: any
     }
 }
 
@@ -55,7 +61,7 @@ class PdfUpload extends React.Component {
     }
 
     //Pdf-Content-Extraction
-    handleChange = (info: uploadedFile ) => {
+    handleChange = (info: uploadedFile) => {
         const { status } = info.file;
         if (status === 'done') {
             message.success(`${info.file.name} file uploaded successfully.`);
@@ -68,7 +74,7 @@ class PdfUpload extends React.Component {
 
         function handleUpload() {
             //Save uploaded file within var
-            var file = info.file.originFileObj
+            var file:any = info.file.originFileObj
 
             //Declare new FileReader Object
             var fileReaderObject = new FileReader();
@@ -114,8 +120,9 @@ class PdfUpload extends React.Component {
 
                 //mainProcess will perform data preprocessing and grade extraction for each page of the pdf 
                 function mainProcess(text: string) {
+                    let Studiengang = extractStudiengang(text)
                     let arrayGrades = preprocessData(text);
-                    let gradesFormatted: Array<any> = [];
+                    let gradesFormatted: Array<Input> = [];
                     arrayGrades.forEach(element => {
                         let tempString = element.replaceAll("✓", "$✓")
                         tempString = tempString.replaceAll("✕", "$✕")
@@ -129,9 +136,19 @@ class PdfUpload extends React.Component {
                             }
                         });
                     });
-                    // @ts-ignore: Unreachable code error
-                    gradesFormatted = JSON.stringify(gradesFormatted)
-                    return gradesFormatted
+                    var extractedGrades: extractedGrades = {studiengang: Studiengang, grades: gradesFormatted}
+                    return extractedGrades
+                }
+
+                // Will extract Studiengang from text
+                function extractStudiengang(text:string) {
+                    const firstSplit: string = "Studiengang / Program: ";
+                    const secondSplit: string = "  SPO-Version / Examination regulation version:";
+                    const Studiengang: string = text.substring(
+                        text.lastIndexOf(firstSplit) + firstSplit.length, 
+                        text.lastIndexOf(secondSplit)
+                    );
+                    return Studiengang
                 }
 
                 // Will preprocess the data
@@ -168,34 +185,32 @@ class PdfUpload extends React.Component {
                     }
                     const found = element.match(tempregex)
                     if (found) {
-                        console.log(typeof(found[0]))
                         var indexOfFound = pdfPageAsList.indexOf(originalElement)
                         let note = pdfPageAsList[indexOfFound + 1].substring(0, 4)
                         if (note.includes("✓")) {
                             if (note.includes(",")) {
                                 note = note.replace("✓", "")
                                 note = note.replace(",", ".")
-                                var tempObject: Input = {examid: parseInt(found[0]), grade: parseFloat(note), status: true, estimated: false};
+                                var tempObject: Input = { examid: parseInt(found[0]), grade: parseFloat(note), status: true, estimated: false };
                             }
                             else {
-                                var tempObject: Input = {examid: parseInt(found[0]), grade: 0, status: true, estimated: false};
+                                var tempObject: Input = { examid: parseInt(found[0]), grade: 0, status: true, estimated: false };
                             }
                         }
                         if (note.includes("✕")) {
                             if (note.includes(",")) {
                                 note = note.replace("✕", "")
                                 note = note.replace(",", ".")
-                                var tempObject: Input = {examid: parseInt(found[0]), grade: parseFloat(note), status: false, estimated: false};
+                                var tempObject: Input = { examid: parseInt(found[0]), grade: parseFloat(note), status: false, estimated: false };
                             }
                             else {
-                                var tempObject: Input = {examid: parseInt(found[0]), grade: 0, status: false, estimated: false};
+                                var tempObject: Input = { examid: parseInt(found[0]), grade: 0, status: false, estimated: false };
                             }
                         }
                         return tempObject
                     }
                 }
             };
-            // @ts-ignore: Unreachable code error
             fileReaderObject.readAsArrayBuffer(file);
         }
     }
@@ -210,7 +225,7 @@ class PdfUpload extends React.Component {
                     </p>
                     <p className="ant-upload-text">Notenspiegel per Klick oder drag & drop einlesen</p>
                     <p className="ant-upload-hint">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
                     </p>
                 </Dragger>
             </div>
