@@ -1,17 +1,52 @@
+// Imports
 import React from 'react';
-import { Upload, message, Button, Card, Input } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
-
+import { Upload, message} from 'antd';
+import { ConsoleSqlOutlined, InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
+import { Input} from "../Data/types";
+
+//Pds.js setup
 let pdfjsLib = require("pdfjs-dist/build/pdf");
 let pdfjsWorker = require("pdfjs-dist/build/pdf.worker.entry");
 
-// @ts-ignore: Unreachable code error
-const dummyRequest = ({ file, onSuccess }) => {
+//Request for pdf.js
+const dummyRequest = ({ onSuccess = Function }) => {
     setTimeout(() => {
         onSuccess("ok");
     }, 0);
 };
+
+//Interface definition
+
+interface IProps {
+    handleChange: Function
+  }
+  
+
+interface uploadedFile {
+    file: {
+        name: string,
+        originFileObj: Object,
+        status: string
+    }
+}
+
+interface pdfFile {
+    _pdfInfo: {
+        numPages: Number,
+    },
+    getPage: Function
+}
+
+interface pdfPage {
+    getTextContent: Function
+}
+
+interface parsedText {
+    items: {
+        [key: string]: any 
+    }
+}
 
 class PdfUpload extends React.Component {
     constructor(props: any) {
@@ -20,8 +55,7 @@ class PdfUpload extends React.Component {
     }
 
     //Pdf-Content-Extraction
-    // @ts-ignore: Unreachable code error
-    handleChange = info => {
+    handleChange = (info: uploadedFile ) => {
         const { status } = info.file;
         if (status === 'done') {
             message.success(`${info.file.name} file uploaded successfully.`);
@@ -57,19 +91,16 @@ class PdfUpload extends React.Component {
                 //Will transform pdf object to text
                 function transformPdftoText(fileAsTypedArray: Uint8Array) {
                     var pdfFile = pdfjsLib.getDocument(fileAsTypedArray);
-                    // @ts-ignore: Unreachable code error
-                    return pdfFile.promise.then(function (pdfFile) {
+                    return pdfFile.promise.then(function (pdfFile: pdfFile) {
                         var pageNumber = pdfFile._pdfInfo.numPages;
                         var countPromises = [];
                         for (var counter = 1; counter <= pageNumber; counter++) {
                             var page = pdfFile.getPage(counter);
-                            // @ts-ignore: Unreachable code error
-                            countPromises.push(page.then(function (page) {
+                            countPromises.push(page.then(function (page: pdfPage) {
                                 var textContent = page.getTextContent();
 
-                                return textContent.then(function (text: string) {
-                                    // @ts-ignore: Unreachable code error
-                                    return text.items.map(function (s) {
+                                return textContent.then(function (text: parsedText) {
+                                    return text.items.map(function (s: any) {
                                         return s.str;
                                     }).join('');
                                 });
@@ -86,14 +117,12 @@ class PdfUpload extends React.Component {
                     let arrayGrades = preprocessData(text);
                     let gradesFormatted: Array<any> = [];
                     arrayGrades.forEach(element => {
-                        // let tempString = element.replace(/(\r\n|\n|\r)/gm, "$")
                         let tempString = element.replaceAll("✓", "$✓")
                         tempString = tempString.replaceAll("✕", "$✕")
 
                         let pdfPageAsList = tempString.split("$")
 
-                        // @ts-ignore: Unreachable code error
-                        pdfPageAsList.forEach(element => {
+                        pdfPageAsList.forEach(function (element: string) {
                             let tempObject = extractGradeProcess(element, pdfPageAsList)
                             if (tempObject != null) {
                                 gradesFormatted.push(tempObject)
@@ -139,41 +168,34 @@ class PdfUpload extends React.Component {
                     }
                     const found = element.match(tempregex)
                     if (found) {
-                        let tempObject = {}
-                        // @ts-ignore: Unreachable code error
-                        tempObject["Prüfungsnummer"] = found[0]
+                        console.log(typeof(found[0]))
                         var indexOfFound = pdfPageAsList.indexOf(originalElement)
                         let note = pdfPageAsList[indexOfFound + 1].substring(0, 4)
                         if (note.includes("✓")) {
-                            // @ts-ignore: Unreachable code error
-                            tempObject["Status"] = "Bestanden"
                             if (note.includes(",")) {
                                 note = note.replace("✓", "")
-                                // @ts-ignore: Unreachable code error
-                                tempObject["Note"] = note
+                                note = note.replace(",", ".")
+                                var tempObject: Input = {examid: parseInt(found[0]), grade: parseFloat(note), status: true, estimated: false};
                             }
                             else {
-                                // @ts-ignore: Unreachable code error
-                                tempObject["Note"] = "Bestanden ohne Note"
+                                var tempObject: Input = {examid: parseInt(found[0]), grade: 0, status: true, estimated: false};
                             }
                         }
                         if (note.includes("✕")) {
-                            // @ts-ignore: Unreachable code error
-                            tempObject["Status"] = "Nicht Bestanden"
                             if (note.includes(",")) {
                                 note = note.replace("✕", "")
-                                // @ts-ignore: Unreachable code error
-                                tempObject["Note"] = note
+                                note = note.replace(",", ".")
+                                var tempObject: Input = {examid: parseInt(found[0]), grade: parseFloat(note), status: false, estimated: false};
                             }
                             else {
-                                // @ts-ignore: Unreachable code error
-                                tempObject["Note"] = "Nicht Bestanden ohne Note"
+                                var tempObject: Input = {examid: parseInt(found[0]), grade: 0, status: false, estimated: false};
                             }
                         }
                         return tempObject
                     }
                 }
             };
+            // @ts-ignore: Unreachable code error
             fileReaderObject.readAsArrayBuffer(file);
         }
     }
@@ -181,11 +203,6 @@ class PdfUpload extends React.Component {
     render() {
         return (
             <div>
-                {/* <Card title="Card title" bordered={false} style={{ width: 300 }}>
-                    <div>
-                        <Input type="file" onChange={(e) => this.handleChange(e.target.files)} />
-                    </div>
-                </Card> */}
                 {/* @ts-ignore: Unreachable code error */}
                 <Dragger customRequest={dummyRequest} onChange={this.handleChange}>
                     <p className="ant-upload-drag-icon">

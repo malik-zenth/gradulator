@@ -49,5 +49,6 @@ export interface SingleOption{
 export interface Input{
     examid: number,
     grade: number,
-    estimated: boolean | null
+    estimated: boolean | null,
+    status?: boolean
 }
