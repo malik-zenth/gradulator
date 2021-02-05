@@ -1,6 +1,10 @@
+import { GradePackageAverage } from "../Components/Calculation/types";
+
 // Basic Information about each degree
 export interface BasicInformation {
+    name: string,
     ects: number,
+    weight: number,
     required_emphasis: number,
     emphasis: Emphasis[] | null
 }
@@ -9,27 +13,35 @@ export interface BasicInformation {
 export interface Emphasis {
     ids: number[],
     name: string,
-    weight: number
+    weight: number,
+    emphasisid: number
 }
 
 // all the exams the degree has
 export interface Exams{
-    [key: number]: {
-        semester: number,
-        ects: number,
-        weight: number,
-        name: string,
-        packageid: number
-    }
+    [key: number]: Exam
+}
+
+export interface Exam{
+    semester: number,
+    ects: number,
+    weight: number,
+    name: string,
+    packageid: number,
+    emphasisid?: number,
+    ignored?: boolean
 }
 
 // all the packages of exams the exams get turned into
 export interface ExamPackages{
-    [Key: number]: {
-        name: string,
-        weight: number,
-        required: number[]
-    }
+    [Key: number]: ExamPackage
+}
+
+export interface ExamPackage{
+    name: string,
+    weight: number,
+    required: number[],
+    ignored?: true
 }
 
 // object of all options
@@ -46,8 +58,23 @@ export interface SingleOption{
 }
 
 // imput into calculation
-export interface Input{
+export interface UserInput{
     examid: number,
     grade: number,
-    estimated: boolean | null
+    estimated?: boolean
+}
+
+export interface CalculationResult{
+    grade: number,
+    bestAverage?: number,
+    worstAverage?: number,
+    singleGrades: GradePackageAverage[],
+    requiredECTS: number,
+    achivedECTS: number,
+    requiredEmphasis: number,
+    completedEmphasis: number,
+    removedEmphasis: boolean,
+    removedEmphasisName: string,
+    observedWeight: number,
+    overallWeight: number
 }

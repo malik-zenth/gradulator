@@ -1,4 +1,173 @@
 /*Style Desktop Layout*/
 
 @media screen and (min-width: 1025px) {
+
+    .form-grades{
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    .form-emphasis{
+        display: inline-flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .form-semester-heading{
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .row{
+        margin-left: 5%;
+    }
+
+    .form-editSelectDegree{
+        font-size: 20px;
+        padding-left: .5em;
+        cursor: pointer;
+        color: #1890ff
+    }
+
+    .modal_link{
+        display: block
+    }
+
+    .selectDegree-box{
+        width: 90%;
+        margin-left: 5%;
+        justify-content: center;
+        padding: 1em;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        display: inline-flex
+    }
+
+    .form-selectDegree{
+        margin-top: .5em;
+    }
+
+    .selectDegree-info{
+        margin-left: 1em;
+    }
+
+    .selectDegree-text{
+        font-size: 20px;
+    }
+
+    .form-submit{
+        width: 90%;
+        margin-left: 5%;
+        padding: 1em;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        justify-content: center;
+        display: inline-flex
+    }
+
+    .form-grades-button-reset{
+        margin-left: 1em;
+    }
+
+    .result-page{
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    .single-grade-name{
+        font-size: 22px;
+        width: 70%;
+    }
+
+    .single-gradebox{
+        display: inline-flex;
+        width: 80%;
+        margin-left: 10%;
+    }
+
+    .single-grade-grade{
+        font-size: 22px;
+    }
+
+    .result-incomplete-box{
+        margin-left: 12%;
+        padding-bottom: .5em;
+    }
+
+    .result-incomplete-info{
+        color: red
+    }
+
+    .result-heading{
+        text-align: center;
+    }
+
+    .result-case-grades{
+        margin-left: 12%;
+        width: 100%;
+        display: inline-flex
+    }
+
+    .result-case-info{
+        width: 15%;
+    }
+
+    .result-best-case{
+        width: 10%;
+        color: green
+    }
+
+    .result-worst-case{
+        width: 10%;
+        color: red
+    }
+
+    .result-average-basic{
+        width: 60%;
+    }
+
+    .result-average{
+        width: 80%;
+        margin-left: 10%;
+        display: inline-flex
+    }
+
+    .result-average-expected{
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .result-case-best-average{
+        color: green
+    }
+
+    .result-case-worst-average{
+        color: red
+    }
+
+    .average-page-buttons{
+        display: inline-flex
+    }
+
+    .single-grade-collabs{
+        width: 20px;
+        font-size: 22px;
+    }
+
+    .single-grade-collabs-icon{
+        cursor: pointer;
+        height: 100%;
+        width: 100%;
+    }
+
+    .selectDegree-contact-link{
+        margin-left: 5px;
+    }
+
+    .form-grades-back{
+        margin-left: 10%;
+    }
+
+    .text-icon{
+        margin-right: 5px;
+    }
 }
