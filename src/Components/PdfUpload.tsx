@@ -3,7 +3,7 @@ import React from 'react';
 import { Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
-import { Input } from "../Data/types";
+import { UserInput } from "../Data/types";
 
 //Pds.js setup
 let pdfjsLib = require("pdfjs-dist/build/pdf");
@@ -118,7 +118,7 @@ class PdfUpload extends React.Component {
                 function mainProcess(text: string) {
                     let Studiengang = extractStudiengang(text)
                     let arrayGrades = preprocessData(text);
-                    let gradesFormatted: Array<Input> = [];
+                    let gradesFormatted: Array<UserInput> = [];
                     arrayGrades.forEach(element => {
                         let tempString = element.replaceAll("✓", "$✓")
                         tempString = tempString.replaceAll("✕", "$✕")
@@ -187,20 +187,20 @@ class PdfUpload extends React.Component {
                             if (note.includes(",")) {
                                 note = note.replace("✓", "")
                                 note = note.replace(",", ".")
-                                var tempObject: Input = { examid: parseInt(found[0]), grade: parseFloat(note), status: true, estimated: false };
+                                var tempObject: UserInput = { examid: parseInt(found[0]), grade: parseFloat(note), status: true, estimated: false };
                             }
                             else {
-                                var tempObject: Input = { examid: parseInt(found[0]), grade: 0, status: true, estimated: false };
+                                var tempObject: UserInput = { examid: parseInt(found[0]), grade: 0, status: true, estimated: false };
                             }
                         }
                         if (note.includes("✕")) {
                             if (note.includes(",")) {
                                 note = note.replace("✕", "")
                                 note = note.replace(",", ".")
-                                var tempObject: Input = { examid: parseInt(found[0]), grade: parseFloat(note), status: false, estimated: false };
+                                var tempObject: UserInput = { examid: parseInt(found[0]), grade: parseFloat(note), status: false, estimated: false };
                             }
                             else {
-                                var tempObject: Input = { examid: parseInt(found[0]), grade: 0, status: false, estimated: false };
+                                var tempObject: UserInput = { examid: parseInt(found[0]), grade: 0, status: false, estimated: false };
                             }
                         }
                         return tempObject
