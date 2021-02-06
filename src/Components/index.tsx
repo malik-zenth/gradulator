@@ -3,10 +3,12 @@ import Formular from "./Formular"
 import AveragePage from "./AveragePage"
 import Footer from "./Footer"
 import Header from "./Header"
+import GradeInput from "./GradeInput"
 
 export {
     Formular,
     AveragePage,
     Footer,
-    Header
+    Header,
+    GradeInput
 }
