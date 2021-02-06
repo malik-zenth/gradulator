@@ -16,13 +16,16 @@ const dummyRequest = ({ onSuccess = Function }) => {
     }, 0);
 };
 
+const key = 'updatable';
+
 //Interface definition
 
 interface uploadedFile {
     file: {
         name: string,
         originFileObj: Object,
-        status: string
+        status: string,
+        type: string
     }
 }
 
@@ -66,13 +69,15 @@ class PdfUpload extends React.Component<iProps, iState> {
 
     //Pdf-Content-Extraction
     handleChange = (info: uploadedFile) => {
-        const { status } = info.file;
-        if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
+        if (info.file.type != "application/pdf") {
+            info.file.status = "Not a pdf"
+            message.error(`${info.file.name} ist keine .pdf Datei`);
+        }
+        if (info.file.status === 'done') {
             this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a, b));
 
-        } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
+        } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} konnte leider nicht eingelesen werden.`);
             this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a, b));
         }
     }
@@ -94,9 +99,18 @@ class PdfUpload extends React.Component<iProps, iState> {
             // Will call sub-process to extract grades from text
             transformPdftoText(fileAsTypedArray).then(function (text: string) {
                 let returnedObject = mainProcess(text);
-                setGrades(returnedObject.grades, returnedObject.studiengang)
+                if(returnedObject.grades.length == 0) {
+                    message.error(`${info.file.name} konnte leider nicht eingelesen werden.`);
+                }
+                else {
+                    message.loading({ content: 'Notenspiegel wird verarbeitet', key});
+                    setTimeout(() => {
+                      message.success({ content: 'Notenspiegel wurde erfolgreich eingelesen!', key, duration: 2 });
+                    }, 1500);
+                    setGrades(returnedObject.grades, returnedObject.studiengang)
+                }
             }, function (reason: string) {
-                alert('Seems this file is broken, please upload another file');
+                message.error('Wir konnten diese Datei leider nicht einlesen, bitte versuche es mit einer anderen Datei');
             });
 
             //Will transform pdf object to text
@@ -222,10 +236,10 @@ class PdfUpload extends React.Component<iProps, iState> {
     render() {
         return (
                 <div>
-                    <Card title="Pdf Upload" bordered={false}>
+                    <Card title="PDF Upload" bordered={false}>
                         <p>Lasse deinen Notendurchschnitt berechnen, indem du deinen aktuellen Notenspiegel der Hochschule Heilbronn als PDF einließt. Hinweis: Deinen aktuellen Notenspiegel findest du unter https://stud.zv.hs-heilbronn.de/</p>
                         {/* @ts-ignore: Unreachable code error */}
-                        <Dragger customRequest={dummyRequest} onChange={this.handleChange}>
+                        <Dragger customRequest={dummyRequest} onChange={this.handleChange} showUploadList={false}>
                             <p className="ant-upload-drag-icon">
                                 <InboxOutlined />
                             </p>
