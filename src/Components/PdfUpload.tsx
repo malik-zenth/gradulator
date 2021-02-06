@@ -1,6 +1,6 @@
 // Imports
 import React from 'react';
-import { Upload, message } from 'antd';
+import { Upload, message, Card } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
 import { UserInput } from "../Data/types";
@@ -45,16 +45,16 @@ interface parsedText {
 
 interface extractedGrades {
     studiengang: string,
-    grades : {
+    grades: {
         [key: string]: any
     }
 }
 
-interface iProps{
+interface iProps {
     setGrades: Function
 }
 
-interface iState{}
+interface iState { }
 
 
 class PdfUpload extends React.Component<iProps, iState> {
@@ -69,170 +69,171 @@ class PdfUpload extends React.Component<iProps, iState> {
         const { status } = info.file;
         if (status === 'done') {
             message.success(`${info.file.name} file uploaded successfully.`);
-            this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a,b));
+            this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a, b));
 
         } else if (status === 'error') {
             message.error(`${info.file.name} file upload failed.`);
-            this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a,b));
+            this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a, b));
         }
     }
 
     handleUpload(info: uploadedFile, setGrades: Function) {
-            //Save uploaded file within var
-            var file:any = info.file.originFileObj
+        //Save uploaded file within var
+        var file: any = info.file.originFileObj
 
-            //Declare new FileReader Object
-            var fileReaderObject = new FileReader();
+        //Declare new FileReader Object
+        var fileReaderObject = new FileReader();
 
-            //When then FileReader is loaded, extractText
-            fileReaderObject.onload = function () {
+        //When then FileReader is loaded, extractText
+        fileReaderObject.onload = function () {
 
-                // Transform file to TypedArray representation (needed for pdfjs)
-                // @ts-ignore: Unreachable code error
-                var fileAsTypedArray = new Uint8Array(this.result);
+            // Transform file to TypedArray representation (needed for pdfjs)
+            // @ts-ignore: Unreachable code error
+            var fileAsTypedArray = new Uint8Array(this.result);
 
-                // Will call sub-process to extract grades from text
-                transformPdftoText(fileAsTypedArray).then(function (text: string) {
-                    let returnedObject = mainProcess(text);
-                    setGrades(returnedObject.grades, returnedObject.studiengang)
-                }, function (reason: string) {
-                    alert('Seems this file is broken, please upload another file');
-                });
+            // Will call sub-process to extract grades from text
+            transformPdftoText(fileAsTypedArray).then(function (text: string) {
+                let returnedObject = mainProcess(text);
+                setGrades(returnedObject.grades, returnedObject.studiengang)
+            }, function (reason: string) {
+                alert('Seems this file is broken, please upload another file');
+            });
 
-                //Will transform pdf object to text
-                function transformPdftoText(fileAsTypedArray: Uint8Array) {
-                    var pdfFile = pdfjsLib.getDocument(fileAsTypedArray);
-                    return pdfFile.promise.then(function (pdfFile: pdfFile) {
-                        var pageNumber = pdfFile._pdfInfo.numPages;
-                        var countPromises = [];
-                        for (var counter = 1; counter <= pageNumber; counter++) {
-                            var page = pdfFile.getPage(counter);
-                            countPromises.push(page.then(function (page: pdfPage) {
-                                var textContent = page.getTextContent();
+            //Will transform pdf object to text
+            function transformPdftoText(fileAsTypedArray: Uint8Array) {
+                var pdfFile = pdfjsLib.getDocument(fileAsTypedArray);
+                return pdfFile.promise.then(function (pdfFile: pdfFile) {
+                    var pageNumber = pdfFile._pdfInfo.numPages;
+                    var countPromises = [];
+                    for (var counter = 1; counter <= pageNumber; counter++) {
+                        var page = pdfFile.getPage(counter);
+                        countPromises.push(page.then(function (page: pdfPage) {
+                            var textContent = page.getTextContent();
 
-                                return textContent.then(function (text: parsedText) {
-                                    return text.items.map(function (s: any) {
-                                        return s.str;
-                                    }).join('');
-                                });
-                            }));
-                        }
-                        return Promise.all(countPromises).then(function (texts) {
-                            return texts.join('');
-                        });
+                            return textContent.then(function (text: parsedText) {
+                                return text.items.map(function (s: any) {
+                                    return s.str;
+                                }).join('');
+                            });
+                        }));
+                    }
+                    return Promise.all(countPromises).then(function (texts) {
+                        return texts.join('');
                     });
-                }
+                });
+            }
 
-                //mainProcess will perform data preprocessing and grade extraction for each page of the pdf 
-                function mainProcess(text: string) {
-                    let Studiengang = extractStudiengang(text)
-                    let arrayGrades = preprocessData(text);
-                    let gradesFormatted: Array<UserInput> = [];
-                    arrayGrades.forEach(element => {
-                        let tempString = element.replaceAll("✓", "$✓")
-                        tempString = tempString.replaceAll("✕", "$✕")
+            //mainProcess will perform data preprocessing and grade extraction for each page of the pdf 
+            function mainProcess(text: string) {
+                let Studiengang = extractStudiengang(text)
+                let arrayGrades = preprocessData(text);
+                let gradesFormatted: Array<UserInput> = [];
+                arrayGrades.forEach(element => {
+                    let tempString = element.replaceAll("✓", "$✓")
+                    tempString = tempString.replaceAll("✕", "$✕")
 
-                        let pdfPageAsList = tempString.split("$")
+                    let pdfPageAsList = tempString.split("$")
 
-                        pdfPageAsList.forEach(function (element: string) {
-                            let tempObject = extractGradeProcess(element, pdfPageAsList)
-                            if (tempObject != null) {
-                                gradesFormatted.push(tempObject)
+                    pdfPageAsList.forEach(function (element: string) {
+                        let tempObject = extractGradeProcess(element, pdfPageAsList)
+                        if (tempObject != null) {
+                            gradesFormatted.push(tempObject)
+                        }
+                    });
+                });
+                var extractedGrades: extractedGrades = { studiengang: Studiengang, grades: gradesFormatted }
+                return extractedGrades
+            }
+
+            // Will extract Studiengang from text
+            function extractStudiengang(text: string) {
+                const firstSplit: string = "Studiengang / Program: ";
+                const secondSplit: string = "  SPO-Version / Examination regulation version:";
+                const Studiengang: string = text.substring(
+                    text.lastIndexOf(firstSplit) + firstSplit.length,
+                    text.lastIndexOf(secondSplit)
+                );
+                return Studiengang
+            }
+
+            // Will preprocess the data
+            function preprocessData(text: string) {
+                let stoken;
+                stoken = text.split("Grade")
+                stoken.splice(0, 1);
+                let arrayGrades: Array<any> = []
+                stoken.forEach(element => {
+                    var splittedText = element.split("Daten- und Notenabschrift / Transcript of Records")
+                    if (splittedText.length > 1) {
+                        splittedText.forEach(element => {
+                            let tempString = element.replace(/(\r\n|\n|\r)/gm, "")
+                            if (tempString.match(/^\d/)) {
+                                arrayGrades.push(element);
                             }
                         });
-                    });
-                    var extractedGrades: extractedGrades = {studiengang: Studiengang, grades: gradesFormatted}
-                    return extractedGrades
-                }
+                    }
+                    else {
+                        arrayGrades.push(element);
+                    }
+                });
+                return arrayGrades
+            }
 
-                // Will extract Studiengang from text
-                function extractStudiengang(text:string) {
-                    const firstSplit: string = "Studiengang / Program: ";
-                    const secondSplit: string = "  SPO-Version / Examination regulation version:";
-                    const Studiengang: string = text.substring(
-                        text.lastIndexOf(firstSplit) + firstSplit.length, 
-                        text.lastIndexOf(secondSplit)
-                    );
-                    return Studiengang
+            //Will extract grades from data
+            function extractGradeProcess(element: any, pdfPageAsList: any) {
+                var tempregex = /\d{6}/;
+                let regEx = /(✓|✕)\d{1}\,\d\d{0}/;
+                let originalElement = element
+                let formattedGrade = element.match(regEx)
+                if (formattedGrade) {
+                    element = element.replace(formattedGrade[0], formattedGrade[0] + "?")
                 }
-
-                // Will preprocess the data
-                function preprocessData(text: string) {
-                    let stoken;
-                    stoken = text.split("Grade")
-                    stoken.splice(0, 1);
-                    let arrayGrades: Array<any> = []
-                    stoken.forEach(element => {
-                        var splittedText = element.split("Daten- und Notenabschrift / Transcript of Records")
-                        if (splittedText.length > 1) {
-                            splittedText.forEach(element => {
-                                let tempString = element.replace(/(\r\n|\n|\r)/gm, "")
-                                if (tempString.match(/^\d/)) {
-                                    arrayGrades.push(element);
-                                }
-                            });
+                const found = element.match(tempregex)
+                if (found) {
+                    var indexOfFound = pdfPageAsList.indexOf(originalElement)
+                    let note = pdfPageAsList[indexOfFound + 1].substring(0, 4)
+                    if (note.includes("✓")) {
+                        if (note.includes(",")) {
+                            note = note.replace("✓", "")
+                            note = note.replace(",", ".")
+                            var tempObject: UserInput = { examid: parseInt(found[0]), grade: parseFloat(note), status: true, estimated: false };
                         }
                         else {
-                            arrayGrades.push(element);
+                            var tempObject: UserInput = { examid: parseInt(found[0]), grade: 0, status: true, estimated: false };
                         }
-                    });
-                    return arrayGrades
-                }
-
-                //Will extract grades from data
-                function extractGradeProcess(element: any, pdfPageAsList: any) {
-                    var tempregex = /\d{6}/;
-                    let regEx = /(✓|✕)\d{1}\,\d\d{0}/;
-                    let originalElement = element
-                    let formattedGrade = element.match(regEx)
-                    if (formattedGrade) {
-                        element = element.replace(formattedGrade[0], formattedGrade[0] + "?")
                     }
-                    const found = element.match(tempregex)
-                    if (found) {
-                        var indexOfFound = pdfPageAsList.indexOf(originalElement)
-                        let note = pdfPageAsList[indexOfFound + 1].substring(0, 4)
-                        if (note.includes("✓")) {
-                            if (note.includes(",")) {
-                                note = note.replace("✓", "")
-                                note = note.replace(",", ".")
-                                var tempObject: UserInput = { examid: parseInt(found[0]), grade: parseFloat(note), status: true, estimated: false };
-                            }
-                            else {
-                                var tempObject: UserInput = { examid: parseInt(found[0]), grade: 0, status: true, estimated: false };
-                            }
+                    if (note.includes("✕")) {
+                        if (note.includes(",")) {
+                            note = note.replace("✕", "")
+                            note = note.replace(",", ".")
+                            var tempObject: UserInput = { examid: parseInt(found[0]), grade: parseFloat(note), status: false, estimated: false };
                         }
-                        if (note.includes("✕")) {
-                            if (note.includes(",")) {
-                                note = note.replace("✕", "")
-                                note = note.replace(",", ".")
-                                var tempObject: UserInput = { examid: parseInt(found[0]), grade: parseFloat(note), status: false, estimated: false };
-                            }
-                            else {
-                                var tempObject: UserInput = { examid: parseInt(found[0]), grade: 0, status: false, estimated: false };
-                            }
+                        else {
+                            var tempObject: UserInput = { examid: parseInt(found[0]), grade: 0, status: false, estimated: false };
                         }
-                        return tempObject
                     }
+                    return tempObject
                 }
-            };
-            fileReaderObject.readAsArrayBuffer(file);
+            }
+        };
+        fileReaderObject.readAsArrayBuffer(file);
     }
 
     render() {
         return (
-            <div>
-                {/* @ts-ignore: Unreachable code error */}
-                <Dragger customRequest={dummyRequest} onChange={this.handleChange}>
-                    <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">Notenspiegel per Klick oder drag & drop einlesen</p>
-                    <p className="ant-upload-hint">
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-                    </p>
-                </Dragger>
-            </div>
+                <div>
+                    <Card title="Pdf Upload" bordered={false}>
+                        <p>Lasse deinen Notendurchschnitt berechnen, indem du deinen aktuellen Notenspiegel der Hochschule Heilbronn als PDF einließt. Hinweis: Deinen aktuellen Notenspiegel findest du unter https://stud.zv.hs-heilbronn.de/</p>
+                        {/* @ts-ignore: Unreachable code error */}
+                        <Dragger customRequest={dummyRequest} onChange={this.handleChange}>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
+                            </p>
+                            <p className="ant-upload-text">Notenspiegel per Klick oder drag & drop einlesen</p>
+                            <p className="ant-upload-hint">Wir legen hohen Wert auf Datenschutz! Dein hochgeladener Notenspiegel wird ausschließlich im Browser ausgelesen, eine übermittlung an dritte oder speicherung der Daten findet nicht statt.</p>
+                        </Dragger>
+                    </Card>
+                </div>
         )
     }
 }

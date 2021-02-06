@@ -1,26 +1,28 @@
 import React from "react"
 import PdfUpload from "../Components/PdfUpload"
-import {Formular, AveragePage, Footer, Header} from "../Components"
-import { UserInput, SingleOption} from "../Data/types";
+import ManualDataEntry from "../Components/ManualDataEntry"
+import { Formular, AveragePage, Footer, Header } from "../Components"
+import { UserInput, SingleOption } from "../Data/types";
+import { Row, Col } from 'antd';
 
-interface IProps{}
+interface IProps { }
 
 // selectedDegree -> Degree from PDF Reader for GradeInput Formular
 // inputValues -> InputValues from PDF for GradeInput Formular
 // gradeInput -> GradeInput from User from GradeInput Formular
 // displayFormular -> If Grade Input Formular should be displayed
 // selectedOption -> Selected Degree from GradeInput Formular
-interface IState{
-    selectedDegree ?: string
-    inputValues ?: UserInput[],
-    gradeInput ?: UserInput[],
-    selectedOption ?: SingleOption,
+interface IState {
+    selectedDegree?: string
+    inputValues?: UserInput[],
+    gradeInput?: UserInput[],
+    selectedOption?: SingleOption,
     displayFormular: boolean,
 }
 
 // Home Page
 class Home extends React.Component<IProps, IState>{
-    constructor(props: IProps){
+    constructor(props: IProps) {
         super(props);
         this.state = {
             displayFormular: true,
@@ -74,41 +76,51 @@ class Home extends React.Component<IProps, IState>{
 
 
 
-    render(){
-        const {inputValues, selectedDegree, gradeInput, displayFormular, selectedOption} = this.state
+    render() {
+        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption } = this.state
 
-        return(
+        return (
             <div>
                 <div className="content">
-                <Header
-                home={displayFormular}
-                showHome={() => this.newCalculation()}/>
-                {displayFormular &&
-                <div>
-                <PdfUpload
-                    setGrades={(grades: UserInput[], selectedDegree: string) => this.setGrades(grades, selectedDegree)}
-                />
+                    <Header
+                        home={displayFormular}
+                        showHome={() => this.newCalculation()} />
+                    {displayFormular &&
+                        <div>
+                            <Row>
+                                <Col span={2}></Col>
+                                <Col span={9}>
+                                    <PdfUpload
+                                        setGrades={(grades: UserInput[], selectedDegree: string) => this.setGrades(grades, selectedDegree)}
+                                    />
+                                </Col>
+                                <Col span={2}></Col>
+                                <Col span={9}>
+                                    <ManualDataEntry></ManualDataEntry>
+                                </Col>
+                                <Col span={2}></Col>
+                            </Row>
 
-                <Formular
-                selected={selectedDegree}
-                inputGrades={inputValues}
-                displayAverage={(gradeValues : UserInput[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
-                resetInputGrades={() => this.resetInputGrades()}
-                resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
-                />
-                </div>
-                }
+                            <Formular
+                                selected={selectedDegree}
+                                inputGrades={inputValues}
+                                displayAverage={(gradeValues: UserInput[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
+                                resetInputGrades={() => this.resetInputGrades()}
+                                resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
+                            />
+                        </div>
+                    }
 
-                {!displayFormular &&
-                <AveragePage
-                inputGrades={gradeInput}
-                selectedOption={selectedOption}
-                editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
-                newCalculation={() => this.newCalculation()}
-                />
-                }
+                    {!displayFormular &&
+                        <AveragePage
+                            inputGrades={gradeInput}
+                            selectedOption={selectedOption}
+                            editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
+                            newCalculation={() => this.newCalculation()}
+                        />
+                    }
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         )
     }
