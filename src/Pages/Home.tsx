@@ -1,9 +1,11 @@
 import React from "react"
 import PdfUpload from "../Components/PdfUpload"
 import ManualDataEntry from "../Components/ManualDataEntry"
-import { Formular, AveragePage, Footer, Header } from "../Components"
+import { Formular, AveragePage, Footer, Header, GradeInput } from "../Components"
 import { UserInput, SingleOption } from "../Data/types";
-import { Row, Col } from 'antd';
+import { Row, Col, Modal, Button } from 'antd';
+import { options } from "../Data";
+import {MailLink} from "../Components/const"
 
 interface IProps { }
 
@@ -18,6 +20,7 @@ interface IState {
     gradeInput?: UserInput[],
     selectedOption?: SingleOption,
     displayFormular: boolean,
+    showModal: boolean
 }
 
 // Home Page
@@ -26,6 +29,7 @@ class Home extends React.Component<IProps, IState>{
         super(props);
         this.state = {
             displayFormular: true,
+            showModal: false
         }
     }
 
@@ -67,21 +71,59 @@ class Home extends React.Component<IProps, IState>{
     }
 
     setGrades = (gradeInput: UserInput[], selectedDegree: string) => {
+        if(this.validateDegreeFromPdf(selectedDegree)){
         this.setState({
             inputValues: gradeInput,
             selectedDegree: selectedDegree,
             displayFormular: true
         })
+        }
     }
+
+    validateDegreeFromPdf = (selectedDegree: string) => {
+        if(Object.keys(options).includes(selectedDegree)) return true
+        else{
+            this.setState({showModal: true, selectedDegree: selectedDegree})
+            return false
+        }
+    }
+
+      // Modal displayed if the detected degree is not supported
+  renderModal() {
+    return (
+      <Modal
+        title="Studiengang wird nicht unterstützt"
+        visible={this.state.showModal}
+        footer={[
+          <Button
+            key="submit"
+            type="primary"
+            onClick={() => this.setState({ showModal: false, selectedDegree: null })}>Ok
+          </Button>,
+        ]}>
+        <p>Der Studiengang {this.state.selectedDegree} wird aktuell leider nicht unterstützt</p>
+        <p>
+          Lasse uns einen der unteren Wege wissen, dass wir
+          {this.state.selectedDegree} hinzufügen sollen und wir melden uns bei
+          dir, sollten wir ihn hinzufügen
+        </p>
+        <a className="modal_link" onClick={() => (window.location.href = MailLink)}>per E-Mail</a>
+        <a className="modal_link" onClick={() => window.open("https://www.linkedin.com/in/benjamin-zenth-6290681ba/","_blank")}>
+          über LinkedIn
+        </a>
+      </Modal>
+    );
+  }
 
 
 
     render() {
-        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption } = this.state
+        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal } = this.state
 
         return (
             <div>
                 <div className="content">
+                    {this.renderModal()}
                     <Header
                         home={displayFormular}
                         showHome={() => this.newCalculation()} />
@@ -96,18 +138,28 @@ class Home extends React.Component<IProps, IState>{
                                 </Col>
                                 <Col span={2}></Col>
                                 <Col span={9}>
-                                    <ManualDataEntry></ManualDataEntry>
+                                    <ManualDataEntry/>
+
+                                    <Formular
+                                    options={options}
+                                    selected={selectedDegree}
+                                    inputGrades={inputValues}
+                                    resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
+                                />
+
                                 </Col>
                                 <Col span={2}></Col>
                             </Row>
 
-                            <Formular
-                                selected={selectedDegree}
-                                inputGrades={inputValues}
-                                displayAverage={(gradeValues: UserInput[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
-                                resetInputGrades={() => this.resetInputGrades()}
-                                resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
-                            />
+                        {(selectedDegree && !showModal) &&
+                        <GradeInput
+                            options={options[selectedDegree]}
+                            inputGrades={inputValues}
+                            displayAverage={(gradeValues: UserInput[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
+                            resetInputGrades={() => this.resetInputGrades()}
+                        />
+                        }
+
                         </div>
                     }
 

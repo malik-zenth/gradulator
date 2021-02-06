@@ -1,5 +1,5 @@
 import React from "react"
-import { Upload, message, Card } from 'antd';
+import { Card } from 'antd';
 
 class ManualDataEntry extends React.Component {
 
