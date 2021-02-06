@@ -170,4 +170,97 @@
     .text-icon{
         margin-right: 5px;
     }
+
+    .footer{
+      height: 50px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: inline-flex;
+      width: 100%;
+    }
+
+    .content{
+        min-height: calc(100vh - 60px);
+    }
+
+    .footer-link{
+        float: right;
+        color: rgba(0, 0, 0, 0.85);;
+        cursor: pointer;
+        padding: 1em
+    }
+
+    .footer-link:first-of-type{
+        margin-right: 5%;
+    }
+
+    .footer-name{
+        padding: .3em;
+        margin-left: 5%;
+        width: 15%;
+        font-size: 20px;
+        font-family: "Bradley Hand, cursive";
+    }
+
+    .footer-links{
+        width: 80%;
+    }
+
+    .content.contact{
+    }
+
+    .content.explanation{
+
+    }
+
+    .content.imprint{
+    }
+
+    .header{
+        height: 200px;
+    }
+
+    .header-name{
+        min-width: 100%;
+        height: 100%;
+        font-size: 40px;
+        color: black;
+        text-align: center;
+        display: -ms-flexbox;
+        -ms-flex-pack: center;
+        -ms-flex-align: center;
+
+        display: -moz-box;
+        -moz-box-pack: center;
+        -mos-box-align: center;
+
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+
+        display: box;
+        box-pack: center;
+        box-align: center;
+    }
+
+    .header-small{
+        height: 50px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        width: 100%;
+        padding: .4em;
+        display: inline-flex
+    }
+
+    .header-link{
+        color: black;
+        font-size: 20px;
+        height: 100%;
+        display: block;
+        margin-left: 5%;
+    }
+
+    .header-back{
+        position: absolute;
+        right: 5%
+    }
+
 }

@@ -3,7 +3,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require("path");
 
 // add paths for subdomains here
-const paths  = []
+const paths  = [
+  "impressum",
+  "kontakt",
+  "erklarung"
+]
 
 
 let multipleHtmlPlugins = paths.map(name => {
