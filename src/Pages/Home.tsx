@@ -1,6 +1,6 @@
 import React from "react"
 import PdfUpload from "../Components/PdfUpload"
-import {Formular, AveragePage} from "../Components"
+import {Formular, AveragePage, Footer, Header} from "../Components"
 import { UserInput, SingleOption} from "../Data/types";
 
 interface IProps{}
@@ -16,7 +16,6 @@ interface IState{
     gradeInput ?: UserInput[],
     selectedOption ?: SingleOption,
     displayFormular: boolean,
-    xy: boolean
 }
 
 // Home Page
@@ -25,7 +24,6 @@ class Home extends React.Component<IProps, IState>{
         super(props);
         this.state = {
             displayFormular: true,
-            xy: false
         }
     }
 
@@ -81,7 +79,10 @@ class Home extends React.Component<IProps, IState>{
 
         return(
             <div>
-
+                <div className="content">
+                <Header
+                home={displayFormular}
+                showHome={() => this.newCalculation()}/>
                 {displayFormular &&
                 <div>
                 <PdfUpload
@@ -106,6 +107,8 @@ class Home extends React.Component<IProps, IState>{
                 newCalculation={() => this.newCalculation()}
                 />
                 }
+                </div>
+                <Footer/>
             </div>
         )
     }

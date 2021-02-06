@@ -15,7 +15,7 @@ import {
   faAngleRight,
   faAngleDown
 } from "@fortawesome/free-solid-svg-icons";
-import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte } from "./const";
+import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation } from "./const";
 
 interface IProps {
   inputGrades: UserInput[];
@@ -171,10 +171,19 @@ class AveragePage extends React.Component<IProps, IState> {
               )}
               {averageData.worstAverage && (
                 <p className="result-case-worst-average">
-                  Schlechtester Möglicher Durchschnitt:{" "}
+                  Schlechtester Möglicher Durchschnitt:
                   {averageData.worstAverage}
                 </p>
               )}
+              <div className="selectDegree-contact">
+              Fehler in der Berechnung?
+              <a
+                onClick={() => (window.location.href = MailErrorCalculation)}
+                className="selectDegree-contact-link"
+              >
+                Hilf uns ihn zu beheben
+              </a>
+            </div>
             </div>
           </div>
         </div>
@@ -209,9 +218,6 @@ class AveragePage extends React.Component<IProps, IState> {
     return (
       <div className="result-page">
           <div className="form-grades-back">
-          <Button htmlType="button" onClick={() => this.props.newCalculation()}>
-            Zurück zur Startseite
-          </Button>
         </div>
         <h2 className="result-heading">
           Notenschnitt {selectedOption.basics.name}

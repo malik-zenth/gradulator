@@ -1,6 +1,6 @@
 import React from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
-import {Home, NotFound} from "./Pages"
+import {Home, NotFound, ImPrint, Contact, Explanation} from "./Pages"
 import "../static/style-mobile.css"
 import "../static/style-desktop.css"
 import "../static/style-tablet.css"
@@ -15,6 +15,15 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path="/">
                             <Home/>
+                        </Route>
+                        <Route exact path="/erklarung">
+                            <Explanation/>
+                        </Route>
+                        <Route exact path="/kontakt">
+                            <Contact/>
+                        </Route>
+                        <Route exact path="/impressum">
+                            <ImPrint/>
                         </Route>
                         {/* If no Route is fitting return 404 Page */}
                         <Route path="*">
