@@ -1,5 +1,10 @@
 /*Style Desktop Layout*/
 
+@font-face {
+    font-family: 'Alex Brush';
+    src: url('./AlexBrush.ttf') format('truetype');
+  }
+
 @media screen and (min-width: 1025px) {
 
     .form-grades{
@@ -196,8 +201,8 @@
         padding: .3em;
         margin-left: 5%;
         width: 15%;
-        font-size: 20px;
-        font-family: "Bradley Hand, cursive";
+        font-size: 25px;
+        font-family: "Alex Brush";
     }
 
     .footer-links{
@@ -221,7 +226,8 @@
     .header-name{
         min-width: 100%;
         height: 100%;
-        font-size: 40px;
+        font-family: "Alex Brush";
+        font-size: 70px;
         color: black;
         text-align: center;
         display: -ms-flexbox;
@@ -251,8 +257,9 @@
 
     .header-link{
         color: black;
-        font-size: 20px;
+        font-size: 25px;
         height: 100%;
+        font-family: "Alex Brush";
         display: block;
         margin-left: 5%;
     }
@@ -260,6 +267,26 @@
     .header-back{
         position: absolute;
         right: 5%
+    }
+
+    .imprint-us{
+        display: inline-flex;
+        margin-left: 10%;
+        width: 80%;
+    }
+
+    .imprint-person{
+        padding: 2em;
+        width: 20%;
+    }
+
+    .imprint-heading{
+        text-align: center;
+    }
+
+    .imprint-body{
+        width: 80%;
+        margin-left: 10%;
     }
 
 }

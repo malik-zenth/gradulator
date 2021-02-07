@@ -39,6 +39,12 @@ module.exports = {
           test: /\.css$/i,
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
+        {
+          test: /\.(ttf)$/,
+          use: {
+            loader: "url-loader"
+          }
+        }
       ]
     },
     resolve: {

@@ -18,7 +18,7 @@ interface IState {
     selectedDegree?: string
     inputValues?: UserInput[],
     gradeInput?: UserInput[],
-    selectedOption?: SingleOption,
+    selectedOption: string,
     displayFormular: boolean,
     showModal: boolean
 }
@@ -29,16 +29,16 @@ class Home extends React.Component<IProps, IState>{
         super(props);
         this.state = {
             displayFormular: true,
-            showModal: false
+            showModal: false, 
+            selectedOption: null
         }
     }
 
-    displayAverage = (gradeInput: UserInput[], selectedOption: SingleOption): void => {
+    displayAverage = (gradeInput: UserInput[], selectedOption: string): void => {
         this.setState({
             gradeInput: gradeInput,
             displayFormular: false,
             selectedOption: selectedOption,
-            selectedDegree: selectedOption.basics.name
         })
     }
 
@@ -155,18 +155,18 @@ class Home extends React.Component<IProps, IState>{
                         <GradeInput
                             options={options[selectedDegree]}
                             inputGrades={inputValues}
-                            displayAverage={(gradeValues: UserInput[], selectedOption: SingleOption) => this.displayAverage(gradeValues, selectedOption)}
+                            selectedOption={selectedDegree}
+                            displayAverage={(gradeValues: UserInput[], selectedOption: string) => this.displayAverage(gradeValues, selectedOption)}
                             resetInputGrades={() => this.resetInputGrades()}
                         />
                         }
 
                         </div>
                     }
-
-                    {!displayFormular &&
+                    {(!displayFormular && selectedOption) &&
                         <AveragePage
                             inputGrades={gradeInput}
-                            selectedOption={selectedOption}
+                            selectedOption={options[selectedOption]}
                             editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
                             newCalculation={() => this.newCalculation()}
                         />
