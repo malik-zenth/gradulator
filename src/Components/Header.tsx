@@ -25,8 +25,12 @@ class Header extends React.Component<IProps, IState>{
         else return(
             <div>
                 <div className="header-small">
+                    {!showHome &&
                     <Link to="/" className="header-link">Gradulator</Link>
-
+                    }
+                    {showHome &&
+                    <div onClick={() => showHome()} className="header-link">Gradulator</div>
+                    }
                     <div className="header-back">
                     {showHome &&
                     <Button htmlType="button" onClick={() => showHome()}>

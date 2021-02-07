@@ -261,6 +261,7 @@
         height: 100%;
         font-family: "Alex Brush";
         display: block;
+        cursor: pointer;
         margin-left: 5%;
     }
 
