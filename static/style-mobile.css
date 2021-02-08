@@ -106,6 +106,7 @@
 
     .single-gradebox{
         display: inline-flex;
+        width: 100%;
     }
 
     .single-grade-name{
