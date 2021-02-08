@@ -25,7 +25,7 @@ class App extends React.Component {
                         <Route exact path="/impressum">
                             <ImPrint/>
                         </Route>
-                        <Route exact path="/über-uns">
+                        <Route exact path="/ueber-uns">
                             <AboutUs/>
                         </Route>
                         {/* If no Route is fitting return 404 Page */}

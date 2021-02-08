@@ -7,7 +7,7 @@ const paths  = [
   "impressum",
   "kontakt",
   "erklarung",
-  "über-uns"
+  "ueber-uns"
 ]
 
 

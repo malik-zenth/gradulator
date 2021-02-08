@@ -13,7 +13,7 @@ class Footer extends React.Component {
                 <Link className="footer-link" to="/impressum">
                     Impressum
                 </Link>
-                <Link className="footer-link" to="/über-uns">
+                <Link className="footer-link" to="/ueber-uns">
                     Über uns
                 </Link>
                 <Link className="footer-link" to="/kontakt">
