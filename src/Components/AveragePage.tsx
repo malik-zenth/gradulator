@@ -22,6 +22,7 @@ interface IProps {
   selectedOption: SingleOption;
   newCalculation: Function;
   editCalculation: Function;
+  exportAsPdf: Function;
 }
 
 interface IState {
@@ -203,6 +204,11 @@ class AveragePage extends React.Component<IProps, IState> {
         <div className="form-grades-button-reset">
           <Button htmlType="button" onClick={() => this.props.newCalculation()}>
             Neuen Durchschnitt berechnen
+          </Button>
+        </div>
+        <div className="form-grades-button-reset">
+          <Button htmlType="button" onClick={() => this.props.exportAsPdf()}>
+            Als PDF exportieren
           </Button>
         </div>
       </div>
