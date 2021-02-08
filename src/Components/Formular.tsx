@@ -4,6 +4,11 @@ import { DegreeOptions, UserInput } from "../Data/types";
 import { MailLink } from "./const";
 import { FormInstance } from 'antd/lib/form';
 import { options } from "../Data";
+import { EditOutlined } from '@ant-design/icons';
+import { Upload } from 'antd';
+
+
+const { Dragger } = Upload;
 
 // form inital values
 interface InitialValues {
@@ -45,11 +50,11 @@ class Formular extends React.Component<IProps, IState> {
 
   formRef = React.createRef<FormInstance>();
 
-  componentDidUpdate(prevProps: IProps){
-    if(this.props != prevProps){
-    const { selected } = this.props;
-    const formOptions: FormOption[] = this.settupData(selected)
-    this.formRef.current.setFieldsValue(formOptions)
+  componentDidUpdate(prevProps: IProps) {
+    if (this.props != prevProps) {
+      const { selected } = this.props;
+      const formOptions: FormOption[] = this.settupData(selected)
+      this.formRef.current.setFieldsValue(formOptions)
     }
   }
 
@@ -60,7 +65,7 @@ class Formular extends React.Component<IProps, IState> {
     this.settupData(selected)
   }
 
-  settupData(selected: string): any{
+  settupData(selected: string): any {
     const selectOptions = Object.keys(this.props.options).map(function (value, _) {
       return { value: value, label: value };
     });
@@ -97,7 +102,46 @@ class Formular extends React.Component<IProps, IState> {
     return (
       <div>
         <div className="selectDegree-box">
-          <div className="form-selectDegree">
+          <div >
+            {/* <div className="selectDegree-text">Studiengang auswählen</div>
+            <div className="selectDegree-contact">
+              Dein Studiengang fehlt?
+              <a
+                onClick={() => (window.location.href = MailLink)}
+                className="selectDegree-contact-link"
+              >
+                Melde dich hier
+              </a>
+            </div> */}
+            <div className="ant-upload ant-upload-drag" style={{paddingTop: '16px'}}>
+              <p className="ant-upload-drag-icon ant-upload-drag ">
+              <EditOutlined />
+              </p>
+              <p className="ant-upload-text">Studiengang auswählen</p>
+              <p className="ant-upload-hint">
+                Dein Studiengang fehlt?
+              <a
+                  onClick={() => (window.location.href = MailLink)}
+                  className="selectDegree-contact-link"
+                >
+                  Melde dich hier
+              </a>
+              </p>
+              <div style={{paddingLeft: 15, paddingRight: 15, paddingTop: 15}}>
+              <Form initialValues={initialValues} ref={this.formRef}>
+              <Form.Item name="select">
+                <Select
+                  labelInValue
+                  placeholder="Studiengang auswählen"
+                  options={formOptions}
+                  onSelect={handleChange}
+                ></Select>
+              </Form.Item>
+            </Form>
+            </div>
+            </div>
+          </div>
+          {/* <div className="form-selectDegree">
             <Form initialValues={initialValues} ref={this.formRef}>
               <Form.Item name="select">
                 <Select
@@ -109,19 +153,7 @@ class Formular extends React.Component<IProps, IState> {
                 ></Select>
               </Form.Item>
             </Form>
-          </div>
-          <div className="selectDegree-info">
-            <div className="selectDegree-text">Studiengang auswählen</div>
-            <div className="selectDegree-contact">
-              Dein Studiengang fehlt?
-              <a
-                onClick={() => (window.location.href = MailLink)}
-                className="selectDegree-contact-link"
-              >
-                Melde dich hier
-              </a>
-            </div>
-          </div>
+          </div> */}
         </div>
       </div>
     );
