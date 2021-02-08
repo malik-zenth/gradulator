@@ -71,10 +71,10 @@ const calculateCase = (inputGrades: GradePackages, examPackages: ExamPackages, b
 
 const addCasesToPackages = (average : GradePackageAverage[], worstCase: GradePackageAverage[], bestCase: GradePackageAverage[]) => {
     for(var index = 0; index < average.length; index++){
-        if(average[index].grade != worstCase[index].grade){
+        if(worstCase[index].grade){
             average[index].worstPossibleGrade = worstCase[index].grade
         }
-        if(average[index].grade != bestCase[index].grade){
+        if(bestCase[index].grade){
             average[index].bestPossibleGrade = bestCase[index].grade
         }
     }
@@ -198,7 +198,7 @@ const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: 
         emphasisOptions[index].ids.map((x: number) => idsToRemove.push(x))
         const examPackagesWithEmphasis: GradePackageAverage[] = averages.filter(x => emphasisOptions[index].ids.includes(x.gradePackageID))
         examPackagesWithEmphasis.map((x: GradePackageAverage) => {
-            if(x.complete){
+            if(!x.completeness && x.complete != false){
                 completedWeight+=x.weight
             }else{
                 completedWeight+=x.weight*(x.completeness/100)
@@ -237,7 +237,7 @@ const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: 
         }
     }
     if(emphasis.length > required){
-        emphasis.sort((a:GradePackageAverage, b:GradePackageAverage) => (a.missing.length > b.missing.length) ? 1 : ((b.missing.length > a.missing.length) ? -1 : 0))
+        emphasis.sort((a:GradePackageAverage, b:GradePackageAverage) => (a.completeness < b.completeness) ? 1 : ((b.completeness < a.completeness) ? -1 : 0))
         removedEmphasisName = emphasis.pop().name
         removedEmphasis = true
     }

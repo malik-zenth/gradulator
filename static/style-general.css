@@ -1,0 +1,57 @@
+/* Style for all types of screens*/ 
+
+@font-face {
+    font-family: 'Alex Brush';
+    src: url('./AlexBrush.ttf') format('truetype');
+  }
+
+.form-editSelectDegree{
+    cursor: pointer;
+    color: #1890ff
+}
+
+.result-incomplete-info{
+    color: red
+}
+
+.result-best-case{
+    color: green
+}
+
+.result-worst-case{
+    color: red
+}
+
+.result-case-best-average{
+    color: green
+}
+
+.result-case-worst-average{
+    color:red
+}
+
+.footer{
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.footer-link{
+    color: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+}
+
+.footer-name{
+    font-family: "Alex Brush";
+}
+
+.header-name{
+    font-family: "Alex Brush";
+}
+
+.header-link{
+    font-family: "Alex Brush";
+}
+
+
+.modal_link{
+    display: block
+}

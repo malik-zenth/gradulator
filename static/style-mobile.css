@@ -1,4 +1,177 @@
 /*Style Smartphone Layout*/
 
 @media screen and (max-width: 480px) {
+
+    .header{
+        height: 100px;
+    }
+
+    .header-name{
+        min-width: 100%;
+        height: 100%;
+        font-size: 50px;
+        color: black;
+        text-align: center;
+        display: -ms-flexbox;
+        -ms-flex-pack: center;
+        -ms-flex-align: center;
+
+        display: -moz-box;
+        -moz-box-pack: center;
+        -mos-box-align: center;
+
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+
+        display: box;
+        box-pack: center;
+        box-align: center;
+    }
+
+    .header-small{
+        height: 50px;
+        width: 100%;
+        display: inline-flex;
+        padding-top: .3em
+    }
+
+    .header-back{
+        position: absolute;
+        right: 5%;
+    }
+
+    .header-link{
+        color: black;
+        font-size: 22px;
+        display: block;
+        margin-left: 5%;
+        cursor: pointer;
+    }
+
+    .footer{
+        height: 40px;
+        margin-top: 20px
+    }
+
+    .footer-name{
+        display: none
+    }
+
+    .footer-link{
+        padding: .5em
+    }
+
+    .footer-links{
+        width: 95%;
+        text-align: center;
+        margin-left: 2.5%;
+    }
+
+    .content{
+        min-height: calc(100vh - 60px);
+    }
+    
+    #grade-formular{
+        width: 95%;
+        margin-left: 2.5%;
+    }
+
+    .grade-input-heading{
+        text-align: center;
+    }
+
+    .form-submit{
+        width: 95%;
+        margin-left: 2.5%;
+        justify-content: center;
+        display: inline-flex
+    }
+
+    .form-grades-button-reset{
+        margin-left: 1em;
+    }
+
+    .form-singleGrade-name{
+        margin-left: 10%;
+    }
+
+    .form-singleGrade-items{
+        text-align: center;
+    }
+
+    .result-heading{
+        text-align: center;
+    }
+
+    .single-gradebox{
+        display: inline-flex;
+        width: 100%;
+    }
+
+    .single-grade-name{
+        width: 80%;
+        font-size: 20px;
+    }
+
+    .single-grade-grade{
+        margin-left: 5%;
+        font-size: 20px;
+    }
+
+
+    .text-icon{
+        margin-right: 5px;
+    }
+
+    .average-page-buttons{
+        margin-left: 10%;
+    }
+
+    .average-grades-button-reset{
+        margin-top: 1em
+    }
+
+    #button-average-page{
+        min-width: 80%;
+    }
+
+    .result-average-expected{
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .result-average{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .result-average-basic{
+        padding-top: 1em
+    }
+
+    .result-page{
+        width: 95%;
+        margin-left: 2.5%;
+    }
+
+    .selectDegree-contact-link{
+        margin-left: 5px;
+    }
+
+    .single-grade-collabs{
+        font-size: 20px;
+        width: 5%;
+    }
+
+    .content.imprint{
+        width: 95%;
+        margin-left: 2.5%;
+    }
+
+    .imprint-heading{
+        text-align: center;
+    }
+
+
 }
