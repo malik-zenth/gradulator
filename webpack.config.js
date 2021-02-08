@@ -6,7 +6,8 @@ const path = require("path");
 const paths  = [
   "impressum",
   "kontakt",
-  "erklarung"
+  "erklarung",
+  "über-uns"
 ]
 
 

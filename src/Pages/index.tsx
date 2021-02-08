@@ -4,11 +4,13 @@ import Home from "./Home"
 import ImPrint from "./Imprint"
 import Contact from "./Contact"
 import Explanation from "./Explanation"
+import AboutUs from "./AboutUs"
 
 export {
     NotFound,
     Home,
     ImPrint,
     Contact,
-    Explanation
+    Explanation,
+    AboutUs
 }
