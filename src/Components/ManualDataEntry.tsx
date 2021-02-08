@@ -6,7 +6,7 @@ class ManualDataEntry extends React.Component {
     render() {
         return (
             <div>
-                <Card title="Manuelle Noteneingabe" bordered={false}>
+                <Card title="Manuelle Noteneingabe" bordered={false} bodyStyle={{paddingBottom: 0}}>
                     <p>Lasse deinen Notendurchschnitt berechnen, indem du manuell deine aktuellen Noten eingibst</p>
                 </Card>
             </div>

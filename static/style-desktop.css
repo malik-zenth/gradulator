@@ -40,19 +40,11 @@
     }
 
     .selectDegree-box{
-        width: 90%;
-        margin-left: 5%;
-        justify-content: center;
-        padding: 1em;
-        display: inline-flex
+        padding-left: 24px;
     }
 
     .form-selectDegree{
         margin-top: .5em;
-    }
-
-    .selectDegree-info{
-        margin-left: 1em;
     }
 
     .selectDegree-text{

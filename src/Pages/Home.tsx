@@ -130,25 +130,24 @@ class Home extends React.Component<IProps, IState>{
                     {displayFormular &&
                         <div>
                             <Row>
-                                <Col span={2}></Col>
-                                <Col span={9}>
+                                <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
+                                <Col xs={20} sm={20} md={20} lg={9} xl={9}>
                                     <PdfUpload
                                         setGrades={(grades: UserInput[], selectedDegree: string) => this.setGrades(grades, selectedDegree)}
                                     />
                                 </Col>
-                                <Col span={2}></Col>
-                                <Col span={9}>
+                                <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
+                                <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
+                                <Col xs={20} sm={20} md={20} lg={9} xl={9}>
                                     <ManualDataEntry/>
-
                                     <Formular
                                     options={options}
                                     selected={selectedDegree}
                                     inputGrades={inputValues}
                                     resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
                                 />
-
                                 </Col>
-                                <Col span={2}></Col>
+                                <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
                             </Row>
 
                         {(selectedDegree && !showModal) &&
