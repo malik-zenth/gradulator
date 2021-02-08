@@ -20,6 +20,7 @@ interface IProps {
   options: SingleOption;
   inputGrades?: UserInput[];
   displayAverage: Function;
+  selectedOption: string,
   resetInputGrades: Function;
 }
 
@@ -231,7 +232,7 @@ const GradeInput = (props: IProps) => {
           if (values[key] == undefined) delete values[key];
         });
         if (Object.keys(values).length > 0 && Object.keys(values).filter(x => !x.includes(checkboxMark)).length > 0) {
-          props.displayAverage(settupGrades(values));
+          props.displayAverage(settupGrades(values), props.selectedOption);
         } else {
           setShowModal(true);
         }
