@@ -128,6 +128,10 @@
         margin-left: 10%;
     }
 
+    .desktop-only {
+        display:none;
+      }
+
     .average-grades-button-reset{
         margin-top: 1em
     }
