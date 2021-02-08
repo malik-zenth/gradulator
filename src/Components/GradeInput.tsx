@@ -69,7 +69,7 @@ const GradeInput = (props: IProps) => {
   // render a single Input Field and its checkbox to set it as an estimated grade
   const renderInputField = (exam: SingleExam): ReactFragment => {
     return (
-      <Col span={6} key={keyGenerator()}>
+      <Col xl={6} xxl={6} lg={8} md={12} sm={12} xs={24} key={keyGenerator()}>
         <div className="form-singleGrade-name">{exam.data.name}</div>
         <div className="form-singleGrade-items">
           <Form.Item name={exam.examID} style={{ marginBottom: 0 }}>
@@ -172,7 +172,7 @@ const GradeInput = (props: IProps) => {
     // go through all inputValues
     Object.keys(inputValues).map((singleInput) => {
       // if examId is already inside of grade data go through it and add the estimated tag
-      if (usedExamIds.includes(removeCheckboxTag(singleInput))) {
+      if (usedExamIds.includes(removeCheckboxTag(singleInput)) && inputValues[singleInput]) {
         for (var i = 0; i < gradeData.length; i++) {
           if (gradeData[i].examid === parseFloat(singleInput)) {
             gradeData[i].estimated = true;
@@ -192,6 +192,7 @@ const GradeInput = (props: IProps) => {
         }
       }
     });
+    console.log(gradeData)
     return gradeData;
   };
 
@@ -270,8 +271,8 @@ const GradeInput = (props: IProps) => {
     <div>
       {renderModal()}
       <Form initialValues={initialValues} form={form} id="grade-formular">
+        <h2 className="grade-input-heading">Noteneingabe</h2>
         <div className="form-emphasis">{renderEmphasisCheckboxes(basics)}</div>
-        <div className="form-grades">{renderInputOptions(orderdExams)}</div>
         <div className="form-submit">
           <Button type="primary" htmlType="submit" onClick={onSubmit}>
             Notenschnitt berechnen
@@ -282,6 +283,7 @@ const GradeInput = (props: IProps) => {
             </Button>
           </div>
         </div>
+        <div className="form-grades">{renderInputOptions(orderdExams)}</div>
       </Form>
     </div>
   );

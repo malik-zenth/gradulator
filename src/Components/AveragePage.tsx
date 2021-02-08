@@ -15,7 +15,7 @@ import {
   faAngleRight,
   faAngleDown
 } from "@fortawesome/free-solid-svg-icons";
-import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation } from "./const";
+import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation, TooltipRemovedEmphasis } from "./const";
 
 interface IProps {
   inputGrades: UserInput[];
@@ -154,7 +154,9 @@ class AveragePage extends React.Component<IProps, IState> {
             </p>
             {averageData.removedEmphasis && (
               <p>
+                <Tooltip title={TooltipRemovedEmphasis}>
                 Noten des Schwerpunktes {averageData.removedEmphasisName} wurden entfernt
+                </Tooltip>
               </p>
             )}
             {this.renderButtons()}
@@ -171,8 +173,7 @@ class AveragePage extends React.Component<IProps, IState> {
               )}
               {averageData.worstAverage && (
                 <p className="result-case-worst-average">
-                  Schlechtester Möglicher Durchschnitt:
-                  {averageData.worstAverage}
+                  Schlechtester Möglicher Durchschnitt: {averageData.worstAverage}
                 </p>
               )}
               <div className="selectDegree-contact">
@@ -196,12 +197,13 @@ class AveragePage extends React.Component<IProps, IState> {
       <div className="average-page-buttons">
         <Button
           htmlType="submit"
+          id="button-average-page"
           onClick={() => this.props.editCalculation(this.props.inputGrades)}
         >
           Noteneingabe bearbeiten
         </Button>
-        <div className="form-grades-button-reset">
-          <Button htmlType="button" onClick={() => this.props.newCalculation()}>
+        <div className="average-grades-button-reset">
+          <Button id="button-average-page" htmlType="button" onClick={() => this.props.newCalculation()}>
             Neuen Durchschnitt berechnen
           </Button>
         </div>
