@@ -7,6 +7,14 @@ import { Row, Col, Modal, Button } from 'antd';
 import { options } from "../Data";
 import {MailLink} from "../Components/const"
 
+const ref:any = React.createRef();
+
+const handleClick = () =>
+ref.current.scrollIntoView({
+  behavior: 'smooth',
+  block: 'start',
+});
+
 interface IProps { }
 
 // selectedDegree -> Degree from PDF Reader for GradeInput Formular
@@ -77,6 +85,7 @@ class Home extends React.Component<IProps, IState>{
             selectedDegree: selectedDegree,
             displayFormular: true
         })
+        handleClick()
         }
     }
 
@@ -152,6 +161,7 @@ class Home extends React.Component<IProps, IState>{
                             </Row>
 
                         {(selectedDegree && !showModal) &&
+                        <div ref={ref as React.RefObject<HTMLDivElement>}>
                         <GradeInput
                             options={options[selectedDegree]}
                             inputGrades={inputValues}
@@ -159,6 +169,7 @@ class Home extends React.Component<IProps, IState>{
                             displayAverage={(gradeValues: UserInput[], selectedOption: string) => this.displayAverage(gradeValues, selectedOption)}
                             resetInputGrades={() => this.resetInputGrades()}
                         />
+                        </div>
                         }
 
                         </div>
