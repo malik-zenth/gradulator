@@ -3,9 +3,11 @@ import PdfUpload from "../Components/PdfUpload"
 import ManualDataEntry from "../Components/ManualDataEntry"
 import { Formular, AveragePage, Footer, Header, GradeInput } from "../Components"
 import { UserInput, SingleOption } from "../Data/types";
-import { Row, Col, Modal, Button } from 'antd';
+import { Row, Col, Modal, Button, message } from 'antd';
 import { options } from "../Data";
 import {MailLink} from "../Components/const"
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const ref:any = React.createRef();
 
@@ -56,6 +58,25 @@ class Home extends React.Component<IProps, IState>{
             inputValues: [],
             selectedDegree: null
         })
+    }
+
+    exportAsPdf = () => {
+        const key = 'updatable';
+        const input = document.getElementById('capture');
+        const resultPage = document.querySelector('.result-page')
+        // @ts-ignore: Unreachable code error
+        html2canvas(resultPage, {scrollY: -window.scrollY})
+        .then(function(canvas: any) {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            const imgProps= pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            pdf.addImage(imgData, 'PNG', 0, 20, pdfWidth, pdfHeight);
+            pdf.save('Gradulator_Notenschrift.pdf');
+        });
+          message.success({ content: 'PDF Datei wurde erstellt und wird heruntergeladen', key, duration: 2 });
+        ;
     }
 
     editGrades = (gradeInput: UserInput[]) => {
@@ -174,12 +195,15 @@ class Home extends React.Component<IProps, IState>{
                         </div>
                     }
                     {(!displayFormular && selectedOption) &&
+                    <div id="capture">
                         <AveragePage
                             inputGrades={gradeInput}
                             selectedOption={options[selectedOption]}
                             editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
                             newCalculation={() => this.newCalculation()}
+                            exportAsPdf={() => this.exportAsPdf()}
                         />
+                        </div>
                     }
                 </div>
                 <Footer />
