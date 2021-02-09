@@ -208,7 +208,7 @@ class AveragePage extends React.Component<IProps, IState> {
             Neuen Durchschnitt berechnen
           </Button>
         </div>
-        <div className="average-grades-button-reset desktop-only">
+        <div className="average-grades-button-reset">
           <Button id="button-average-page" htmlType="button" onClick={() => this.props.exportAsPdf(averageData)}>
             Als PDF exportieren
           </Button>
