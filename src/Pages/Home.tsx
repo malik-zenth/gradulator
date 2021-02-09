@@ -62,18 +62,35 @@ class Home extends React.Component<IProps, IState>{
 
     exportAsPdf = (averageData: CalculationResult, selectedOption: string) => {
         const key = 'updatable';
-        const pdf = new jsPDF();
-        pdf.text("Aktueller Notenschnitt " + selectedOption, 10, 20)
-        this.addDataToPdf(averageData, pdf)
-        pdf.setFontSize(8)
-        pdf.text("Dokument automatisiert auf www.gradulator.de erstellt. Alle Angaben ohne Gewähr",10,280)
-        pdf.text("Dieses Dokument ist kein Prüfungszeugnis, sondern ausschließlich eine Übersicht über bisher erreichte Leistungen auf Basis der Eingaben des Nutzers. ",10,285)
-        pdf.save('Gradulator_Notenschrift.pdf');
-        message.success({ content: 'PDF Datei wurde erstellt und wird heruntergeladen', key, duration: 2 });
+        try{
+            const pdf = new jsPDF();
+            // if the name of the selected option is to long, we need to split the text "Aktueller Notenschnitt" from the selected option
+            if(selectedOption.length > 40){
+                pdf.text("Aktueller Notenschnitt", 10, 15)
+                pdf.text(selectedOption, 10, 20)
+            }else{
+                pdf.text("Aktueller Notenschnitt " + selectedOption, 100, 20, {align: "center"})
+            }
+            // add first diagonal line
+            pdf.line(0, 25, 290, 25)
+            // add the content to the pdf
+            this.addDataToPdf(averageData, pdf)
+            // add the footer
+            pdf.setFontSize(8)
+            pdf.text("Dokument automatisiert auf www.gradulator.de erstellt. Alle Angaben ohne Gewähr",10,280)
+            pdf.text("Dieses Dokument ist kein Prüfungszeugnis, sondern ausschließlich eine Übersicht über bisher erreichte Leistungen auf Basis der Eingaben des Nutzers. ",10,285)
+            pdf.save('Gradulator_Notenschrift.pdf');
+            message.success({ content: 'PDF Datei wurde erstellt und wird heruntergeladen', key, duration: 2 });
+        }catch{
+            // if their is an error, display error
+            message.error({content: "PDF konnte nicht erstellt werden", key, duration: 2})
+        }
+
     }
 
     addAverage = (averageData: CalculationResult, pdf: jsPDF, longitude: number) => {
-        pdf.setFontSize(18)
+        // add the average of the user and all other stuff displayed on average page
+        pdf.setFontSize(15)
         pdf.text("Durchschnitt: " + averageData.grade.toString(), 10, longitude)
         longitude+=5
         pdf.setFontSize(12)
@@ -90,17 +107,19 @@ class Home extends React.Component<IProps, IState>{
         longitude+=5
         pdf.text(averageData.observedWeight.toString() + " von " + averageData.overallWeight.toString() + " Wertungspunkten für den Durchschnitt berücksichtigt", 10, longitude)
         longitude+=5
-        pdf.text(averageData.achivedECTS.toString() + " von " + averageData.requiredECTS.toString() + "für den Durchschnitt relevanten ECTS erreicht", 10, longitude)
+        pdf.text(averageData.achivedECTS.toString() + " von " + averageData.requiredECTS.toString() + " für den Durchschnitt relevanten ECTS erreicht", 10, longitude)
         return pdf
     }
 
     addDataToPdf = (averageData: CalculationResult, pdf: jsPDF) => {
-        let longitude = 30
+        let longitude = 35
+        // go through all single Grades and add them to the pdf. 
         averageData.singleGrades.forEach((single: GradePackageAverage) => {
             pdf.setFontSize(15)
             pdf.text(single.name, 10, longitude)
             pdf.text(single.grade.toString(), 180, longitude)
             pdf.setFontSize(12)
+            // if their are best of worst possible Grades given add them
             if(single.bestPossibleGrade || single.worstPossibleGrade){
                 longitude+=5
                 pdf.text("Note enthält geschätzte Noten", 15, longitude)
@@ -110,6 +129,7 @@ class Home extends React.Component<IProps, IState>{
                 pdf.text("Schlechteste Note: " + single.worstPossibleGrade.toString(), 125, longitude)
                 pdf.setTextColor("black")
             }
+            // if some grades are incomplete add them
             if(single.incomplete){
                 longitude+=5
                 pdf.setTextColor("red")
@@ -124,6 +144,8 @@ class Home extends React.Component<IProps, IState>{
             }
             longitude+=10
         })
+        pdf.line(0, longitude, 290, longitude)
+        longitude+=10
         this.addAverage(averageData, pdf, longitude)
         return pdf
     }

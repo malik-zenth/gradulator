@@ -65,16 +65,16 @@ const calculateCase = (inputGrades: GradePackages, examPackages: ExamPackages, b
     const caseGrade = calculateGrade(average)
     return{
         caseGrade,
-        caseAverage
+        caseAverage: average
     }
 }
 
 const addCasesToPackages = (average : GradePackageAverage[], worstCase: GradePackageAverage[], bestCase: GradePackageAverage[]) => {
     for(var index = 0; index < average.length; index++){
-        if(worstCase[index].grade){
+        // if any value (best or worst case is different from calculated grade display both)
+        // this can be improved by adding sth. like a boolean tag to the worst and bestCase Packages and look after this
+        if(worstCase[index].grade != average[index].grade || bestCase[index].grade != average[index].grade){
             average[index].worstPossibleGrade = worstCase[index].grade
-        }
-        if(bestCase[index].grade){
             average[index].bestPossibleGrade = bestCase[index].grade
         }
     }
@@ -161,8 +161,7 @@ const calculateAverages = (userGrades: GradePackages, gradePackages: ExamPackage
             name: gradePackages[single].name,
             weight: gradePackages[single].weight,
             gradePackageID: parseInt(single),
-            grade: cutGrade(grade / points)
-
+            grade: cutGrade(grade / points),
         })
     })
 
