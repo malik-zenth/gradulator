@@ -160,7 +160,7 @@ class AveragePage extends React.Component<IProps, IState> {
                 </Tooltip>
               </p>
             )}
-            {this.renderButtons()}
+            {this.renderButtons(averageData)}
           </div>
           <div className="result-average-result">
             <p className="result-average-expected">
@@ -193,7 +193,7 @@ class AveragePage extends React.Component<IProps, IState> {
     );
   }
 
-  renderButtons(): ReactFragment {
+  renderButtons(averageData: CalculationResult): ReactFragment {
     return (
       <div className="average-page-buttons">
         <Button
@@ -209,7 +209,7 @@ class AveragePage extends React.Component<IProps, IState> {
           </Button>
         </div>
         <div className="average-grades-button-reset desktop-only">
-          <Button id="button-average-page" htmlType="button" onClick={() => this.props.exportAsPdf()}>
+          <Button id="button-average-page" htmlType="button" onClick={() => this.props.exportAsPdf(averageData)}>
             Als PDF exportieren
           </Button>
         </div>

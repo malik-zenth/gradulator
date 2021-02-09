@@ -2,12 +2,12 @@ import React from "react"
 import PdfUpload from "../Components/PdfUpload"
 import ManualDataEntry from "../Components/ManualDataEntry"
 import { Formular, AveragePage, Footer, Header, GradeInput } from "../Components"
-import { UserInput, SingleOption } from "../Data/types";
+import { UserInput, SingleOption, CalculationResult, Exam } from "../Data/types";
+import {GradePackageAverage} from "../Components/Calculation/types"
 import { Row, Col, Modal, Button, message } from 'antd';
 import { options } from "../Data";
 import {MailLink} from "../Components/const"
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 const ref:any = React.createRef();
 
@@ -60,23 +60,72 @@ class Home extends React.Component<IProps, IState>{
         })
     }
 
-    exportAsPdf = () => {
+    exportAsPdf = (averageData: CalculationResult, selectedOption: string) => {
         const key = 'updatable';
-        const input = document.getElementById('capture');
-        const resultPage = document.querySelector('.result-page')
-        // @ts-ignore: Unreachable code error
-        html2canvas(resultPage, {scrollY: -window.scrollY})
-        .then(function(canvas: any) {
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF();
-            const imgProps= pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            pdf.addImage(imgData, 'PNG', 0, 20, pdfWidth, pdfHeight);
-            pdf.save('Gradulator_Notenschrift.pdf');
-        });
-          message.success({ content: 'PDF Datei wurde erstellt und wird heruntergeladen', key, duration: 2 });
-        ;
+        const pdf = new jsPDF();
+        pdf.text("Aktueller Notenschnitt " + selectedOption, 10, 20)
+        this.addDataToPdf(averageData, pdf)
+        pdf.setFontSize(8)
+        pdf.text("Dokument automatisiert auf www.gradulator.de erstellt. Alle Angaben ohne Gewähr",10,280)
+        pdf.text("Dieses Dokument ist kein Prüfungszeugnis, sondern ausschließlich eine Übersicht über bisher erreichte Leistungen auf Basis der Eingaben des Nutzers. ",10,285)
+        pdf.save('Gradulator_Notenschrift.pdf');
+        message.success({ content: 'PDF Datei wurde erstellt und wird heruntergeladen', key, duration: 2 });
+    }
+
+    addAverage = (averageData: CalculationResult, pdf: jsPDF, longitude: number) => {
+        pdf.setFontSize(18)
+        pdf.text("Durchschnitt: " + averageData.grade.toString(), 10, longitude)
+        longitude+=5
+        pdf.setFontSize(12)
+        if(averageData.bestAverage || averageData.worstAverage){
+            pdf.setTextColor("green")
+            pdf.text("Bestmöglicher Durchschnitt: " + averageData.bestAverage, 10, longitude)
+            pdf.setTextColor("red")
+            pdf.text("Schlechtester Möglicher Durchschnitt: " + averageData.worstAverage, 100, longitude)
+            pdf.setTextColor("black")
+            longitude+=10
+        }
+        longitude+=5
+        pdf.text(averageData.completedEmphasis.toString() + " von " + averageData.requiredEmphasis.toString() + " benötigten Schwerpunkten abgeschlossen", 10, longitude)
+        longitude+=5
+        pdf.text(averageData.observedWeight.toString() + " von " + averageData.overallWeight.toString() + " Wertungspunkten für den Durchschnitt berücksichtigt", 10, longitude)
+        longitude+=5
+        pdf.text(averageData.achivedECTS.toString() + " von " + averageData.requiredECTS.toString() + "für den Durchschnitt relevanten ECTS erreicht", 10, longitude)
+        return pdf
+    }
+
+    addDataToPdf = (averageData: CalculationResult, pdf: jsPDF) => {
+        let longitude = 30
+        averageData.singleGrades.forEach((single: GradePackageAverage) => {
+            pdf.setFontSize(15)
+            pdf.text(single.name, 10, longitude)
+            pdf.text(single.grade.toString(), 180, longitude)
+            pdf.setFontSize(12)
+            if(single.bestPossibleGrade || single.worstPossibleGrade){
+                longitude+=5
+                pdf.text("Note enthält geschätzte Noten", 15, longitude)
+                pdf.setTextColor("red")
+                pdf.text("Bestmögliche Note: " + single.bestPossibleGrade.toString(), 75, longitude)
+                pdf.setTextColor("green")
+                pdf.text("Schlechteste Note: " + single.worstPossibleGrade.toString(), 125, longitude)
+                pdf.setTextColor("black")
+            }
+            if(single.incomplete){
+                longitude+=5
+                pdf.setTextColor("red")
+                pdf.text("Modul erst zu " + single.completeness + "% abgeschlossen", 15, longitude)
+                pdf.setTextColor("black")
+                longitude+=5
+                pdf.text("Folgende Noten fehlen noch:", 15, longitude)
+                single.missing.forEach((x: Exam) => {
+                    longitude+=5
+                    pdf.text("- " + x.name, 15, longitude)
+                } )
+            }
+            longitude+=10
+        })
+        this.addAverage(averageData, pdf, longitude)
+        return pdf
     }
 
     editGrades = (gradeInput: UserInput[]) => {
@@ -201,7 +250,7 @@ class Home extends React.Component<IProps, IState>{
                             selectedOption={options[selectedOption]}
                             editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
                             newCalculation={() => this.newCalculation()}
-                            exportAsPdf={() => this.exportAsPdf()}
+                            exportAsPdf={(input: CalculationResult) => this.exportAsPdf(input, selectedOption)}
                         />
                         </div>
                     }
