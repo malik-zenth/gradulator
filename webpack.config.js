@@ -6,9 +6,9 @@ const path = require("path");
 const paths  = [
   "impressum",
   "kontakt",
-  "erklarung"
+  "erklarung",
+  "ueber-uns"
 ]
-
 
 let multipleHtmlPlugins = paths.map(name => {
   return new HtmlWebPackPlugin({
