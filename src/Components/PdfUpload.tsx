@@ -99,13 +99,13 @@ class PdfUpload extends React.Component<iProps, iState> {
             // Will call sub-process to extract grades from text
             transformPdftoText(fileAsTypedArray).then(function (text: string) {
                 let returnedObject = mainProcess(text);
-                if(returnedObject.grades.length == 0) {
+                if (returnedObject.grades.length == 0) {
                     message.error(`${info.file.name} konnte leider nicht eingelesen werden.`);
                 }
                 else {
-                    message.loading({ content: 'Notenspiegel wird verarbeitet', key});
+                    message.loading({ content: 'Notenspiegel wird verarbeitet', key });
                     setTimeout(() => {
-                      message.success({ content: 'Notenspiegel wurde erfolgreich eingelesen!', key, duration: 2 });
+                        message.success({ content: 'Notenspiegel wurde erfolgreich eingelesen!', key, duration: 2 });
                     }, 1500);
                     setGrades(returnedObject.grades, returnedObject.studiengang)
                 }
@@ -235,19 +235,16 @@ class PdfUpload extends React.Component<iProps, iState> {
 
     render() {
         return (
-                <div>
-                    <Card title="PDF Upload" bordered={false}>
-                        <p>Lasse deinen Notendurchschnitt berechnen, indem du deinen aktuellen Notenspiegel der Hochschule Heilbronn als PDF einließt. Hinweis: Deinen aktuellen Notenspiegel findest du unter https://stud.zv.hs-heilbronn.de/</p>
-                        {/* @ts-ignore: Unreachable code error */}
-                        <Dragger customRequest={dummyRequest} onChange={this.handleChange} showUploadList={false}>
-                            <p className="ant-upload-drag-icon">
-                                <InboxOutlined />
-                            </p>
-                            <p className="ant-upload-text">Notenspiegel per Klick oder drag & drop einlesen</p>
-                            <p className="ant-upload-hint">Wir legen hohen Wert auf Datenschutz! Dein hochgeladener Notenspiegel wird ausschließlich im Browser ausgelesen, eine übermittlung an dritte oder speicherung der Daten findet nicht statt.</p>
-                        </Dragger>
-                    </Card>
-                </div>
+            <div>
+                {/* @ts-ignore: Unreachable code error */}
+                <Dragger customRequest={dummyRequest} onChange={this.handleChange} showUploadList={false} style={{minHeight: '217px'}}>
+                    <p className="ant-upload-drag-icon">
+                        <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">Notenspiegel per Klick oder drag & drop einlesen</p>
+                    <p className="ant-upload-hint">Wir legen hohen Wert auf Datenschutz! Dein hochgeladener Notenspiegel wird ausschließlich im Browser ausgelesen, eine übermittlung an dritte oder speicherung der Daten findet nicht statt.</p>
+                </Dragger>
+            </div>
         )
     }
 }

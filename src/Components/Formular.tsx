@@ -101,7 +101,7 @@ class Formular extends React.Component<IProps, IState> {
     }
     return (
       <div>
-        <div className="selectDegree-box">
+        <div>
           <div >
             {/* <div className="selectDegree-text">Studiengang auswählen</div>
             <div className="selectDegree-contact">
@@ -113,7 +113,7 @@ class Formular extends React.Component<IProps, IState> {
                 Melde dich hier
               </a>
             </div> */}
-            <div className="ant-upload ant-upload-drag" style={{paddingTop: '16px'}}>
+            <div className="ant-upload ant-upload-drag" style={{paddingTop: '16px', minHeight: '217px'}}>
               <p className="ant-upload-drag-icon ant-upload-drag ">
               <EditOutlined />
               </p>
