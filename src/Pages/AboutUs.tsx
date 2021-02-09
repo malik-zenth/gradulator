@@ -3,11 +3,8 @@ import { Footer, Header } from "../Components"
 import { Row, Col } from 'antd';
 import { LinkedinOutlined, GithubOutlined, UserOutlined, BookOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
-
 import { Card } from 'antd';
-
 const { Meta } = Card;
-
 
 class AboutUs extends React.Component {
 
@@ -21,7 +18,7 @@ class AboutUs extends React.Component {
                     <Row>
                         <Col xs={2} sm={2} md={2} lg={4} xl={4}></Col>
                         <Col xs={6} sm={5} md={6} lg={5} xl={4}>
-                            <Avatar size={150} src="https://media-exp1.licdn.com/dms/image/C4E03AQGpUZRcRVKFfg/profile-displayphoto-shrink_800_800/0/1603128877124?e=1618444800&v=beta&t=Ab-jTFU2rbkNrQ23yEBYHAJMHjorCADR7HOqlG14tSw"/>
+                            <Avatar size={150} src={"/static/bzenth.jpg"}/>
                         </Col>
                         <Col xs={16} sm={0} md={0} lg={0} xl={0}></Col>
                         <Col xs={24} sm={0} md={0} lg={0} xl={0} style={{paddingTop: '15px'}}></Col>
@@ -42,7 +39,7 @@ class AboutUs extends React.Component {
                     <Row>
                         <Col xs={2} sm={2} md={2} lg={4} xl={4}></Col>
                         <Col xs={6} sm={5} md={6} lg={5} xl={4}>
-                            <Avatar size={150} src="https://profile-images.xing.com/images/a4f240bde94eedff595443916b6f1620-7/majeed-malik.1024x1024.jpg"/>
+                            <Avatar size={150} src={"/static/mmalik.jpg"}/>
                         </Col>
                         <Col xs={16} sm={0} md={0} lg={0} xl={0}></Col>
                         <Col xs={24} sm={0} md={0} lg={0} xl={0} style={{paddingTop: '15px'}}></Col>

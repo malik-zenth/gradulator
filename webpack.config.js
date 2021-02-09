@@ -10,7 +10,6 @@ const paths  = [
   "ueber-uns"
 ]
 
-
 let multipleHtmlPlugins = paths.map(name => {
   return new HtmlWebPackPlugin({
     template: "./static/index.html",
