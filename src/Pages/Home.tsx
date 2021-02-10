@@ -1,10 +1,11 @@
 import React from "react"
 import PdfUpload from "../Components/PdfUpload"
 import ManualDataEntry from "../Components/ManualDataEntry"
+import CardPdf from "../Components/Card_PdfUpload"
 import { Formular, AveragePage, Footer, Header, GradeInput } from "../Components"
 import { UserInput, SingleOption, CalculationResult, Exam } from "../Data/types";
 import {GradePackageAverage} from "../Components/Calculation/types"
-import { Row, Col, Modal, Button, message } from 'antd';
+import { Row, Col, Modal, Button, message, Card } from 'antd';
 import { options } from "../Data";
 import {MailLink} from "../Components/const"
 import jsPDF from 'jspdf';
@@ -233,14 +234,41 @@ class Home extends React.Component<IProps, IState>{
                             <Row>
                                 <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
                                 <Col xs={20} sm={20} md={20} lg={9} xl={9}>
+                                    <CardPdf />
+                                </Col>
+                                <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
+                                <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
+                                <Col xs={20} sm={20} md={20} lg={0} xl={0}>
+                                    <PdfUpload
+                                            setGrades={(grades: UserInput[], selectedDegree: string) => this.setGrades(grades, selectedDegree)}
+                                        />
+                                </Col>
+                                <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
+                                <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
+                                <Col xs={20} sm={20} md={20} lg={9} xl={9}>
+                                    <ManualDataEntry/>
+                                </Col>
+                                <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
+                                <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
+                                <Col xs={20} sm={20} md={20} lg={0} xl={0}>
+                                    <Formular
+                                        options={options}
+                                        selected={selectedDegree}
+                                        inputGrades={inputValues}
+                                        resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
+                                    />
+                                </Col>
+                                <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
+                            </Row>
+                            <Row>
+                                <Col xs={0} sm={0} md={0} lg={2} xl={2}></Col>
+                                <Col xs={0} sm={0} md={0} lg={9} xl={9}>
                                     <PdfUpload
                                         setGrades={(grades: UserInput[], selectedDegree: string) => this.setGrades(grades, selectedDegree)}
                                     />
                                 </Col>
-                                <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
-                                <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
-                                <Col xs={20} sm={20} md={20} lg={9} xl={9}>
-                                    <ManualDataEntry/>
+                                <Col xs={0} sm={0} md={0} lg={2} xl={2}></Col>
+                                <Col xs={0} sm={0} md={0} lg={9} xl={9}>
                                     <Formular
                                     options={options}
                                     selected={selectedDegree}
@@ -248,11 +276,11 @@ class Home extends React.Component<IProps, IState>{
                                     resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
                                 />
                                 </Col>
-                                <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
+                                <Col xs={0} sm={0} md={0} lg={2} xl={2}></Col>
                             </Row>
 
                         {(selectedDegree && !showModal) &&
-                        <div ref={ref as React.RefObject<HTMLDivElement>}>
+                        <div ref={ref as React.RefObject<HTMLDivElement>} style={{paddingTop: 50}}>
                         <GradeInput
                             options={options[selectedDegree]}
                             inputGrades={inputValues}
