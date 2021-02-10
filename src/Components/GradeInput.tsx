@@ -192,7 +192,6 @@ const GradeInput = (props: IProps) => {
         }
       }
     });
-    console.log(gradeData)
     return gradeData;
   };
 
