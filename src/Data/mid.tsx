@@ -1,7 +1,7 @@
 import {BasicInformation, ExamPackages, Exams, SingleOption} from "./types"
 
 const mid_basic_data: BasicInformation = {
-    name: "Master Wirtschaftsinformatik",
+    name: "Wirtschaftsinformatik - Informationsmanagement und Data Science",
     weight: 90,
     ects: 90,
     required_emphasis: 0,

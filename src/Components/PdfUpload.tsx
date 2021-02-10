@@ -167,7 +167,22 @@ class PdfUpload extends React.Component<iProps, iState> {
                     text.lastIndexOf(firstSplit) + firstSplit.length,
                     text.lastIndexOf(secondSplit)
                 );
-                return Studiengang
+                const mappedDegree = mapName(Studiengang)
+                return mappedDegree
+            }
+
+            
+            // map name to display name
+            function mapName(text: string): string{
+                if(text === "Wirtschaftsinformatik") return text
+                else if(text.includes("Wirtschaftsinformatik") && text.includes("Informationsmanagement")){
+                    return "Wirtschaftsinformatik - Informationsmanagement und Data Science"
+                }
+                else if(text.includes("Wirtschaftsinformatik") && text.includes("Digitale")){
+                    return "Wirtschaftsinformatik - Digitale Transformation"
+                }else{
+                    return text
+                }
             }
 
             // Will preprocess the data
