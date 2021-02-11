@@ -6,13 +6,22 @@ import {
 faSadCry
 } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
+import {isMobile, isTablet} from "react-device-detect"
 // this page is going to be displayed if requested sub is not found
 class NotFound extends React.Component{
 
+    componentDidMount(){
+        if(isMobile || isTablet){
+        const content= document.getElementsByClassName("content")[0]
+        const height: number = window.innerHeight - 60
+        content.setAttribute("style", `min-height: ${height}px`)
+        }
+    }
+    
     render(){
         return(
             <div>
-            <div className="content imprint">
+            <div className="content">
                 <Header home={true}/>
 
                 <div className="icon-404">

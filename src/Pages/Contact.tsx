@@ -8,8 +8,18 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { MailLink, MailErrorCalculation, MailAdress } from "../Components/const";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import {isMobile, isTablet} from "react-device-detect"
 
 class Contact extends React.Component {
+
+    componentDidMount(){
+        if(isMobile || isTablet){
+        const content= document.getElementsByClassName("content")[0]
+        const height: number = window.innerHeight - 60
+        content.setAttribute("style", `min-height: ${height}px`)
+        }
+    }
+
 
     showAlert(){
         message.success({ content: 'E-Mail Adresse wurde erfolgreich kopiert!'});

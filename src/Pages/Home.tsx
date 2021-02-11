@@ -340,11 +340,7 @@ class Home extends React.Component<IProps, IState>{
                     visible={this.state.instructionsVisible}
                     width={1000}
                     onCancel={() => this.setState({ instructionsVisible: false })}
-                    footer={
-                        <Button key="verstanden" onClick={() => this.setState({ instructionsVisible: false })}>
-                            Anleitung schließen
-                    </Button>
-                    }
+                    footer={null}
                 >
                     <Row>
                         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
