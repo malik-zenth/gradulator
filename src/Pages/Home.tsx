@@ -3,9 +3,9 @@ import PdfUpload from "../Components/PdfUpload"
 import ManualDataEntry from "../Components/ManualDataEntry"
 import CardPdf from "../Components/Card_PdfUpload"
 import { Formular, AveragePage, Footer, Header, GradeInput } from "../Components"
-import { UserInput, SingleOption, CalculationResult, Exam } from "../Data/types";
+import { UserInput, CalculationResult, Exam } from "../Data/types";
 import {GradePackageAverage} from "../Components/Calculation/types"
-import { Row, Col, Modal, Button, message, Card } from 'antd';
+import { Row, Col, Modal, Button, message } from 'antd';
 import { options } from "../Data";
 import {MailLink} from "../Components/const"
 import jsPDF from 'jspdf';
