@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PdfUpload from "../Components/PdfUpload"
 import ManualDataEntry from "../Components/ManualDataEntry"
 import CardPdf from "../Components/Card_PdfUpload"
-import Instructions from "../Components/Intructions"
 import { Formular, AveragePage, Footer, Header, GradeInput } from "../Components"
 import { UserInput, SingleOption, CalculationResult, Exam } from "../Data/types";
 import { GradePackageAverage } from "../Components/Calculation/types"
@@ -223,8 +222,13 @@ class Home extends React.Component<IProps, IState>{
         );
     }
 
-    renderInstructions() {
+    //State handle for instruction modal
+    setStateofInstruction() {
+        this.setState({ instructionsVisible: true })
+    }
 
+    //Will render the instructions in a modal
+    renderInstructions() {
         const steps = [
             {
                 title: 'Studentenportal',
@@ -370,10 +374,8 @@ class Home extends React.Component<IProps, IState>{
         )
     }
 
-
-
     render() {
-        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal, instructionsVisible } = this.state
+        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal } = this.state
 
         return (
             <div>
@@ -389,7 +391,7 @@ class Home extends React.Component<IProps, IState>{
                             <Row>
                                 <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
                                 <Col xs={20} sm={20} md={20} lg={9} xl={9}>
-                                    <CardPdf instructionsVisible={instructionsVisible}/>
+                                    <CardPdf setStateofInstruction={() => this.setStateofInstruction()}/>
                                 </Col>
                                 <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
@@ -401,7 +403,7 @@ class Home extends React.Component<IProps, IState>{
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
                                 <Col xs={20} sm={20} md={20} lg={9} xl={9}>
-                                    <ManualDataEntry instructionsVisible={instructionsVisible}/>
+                                    <ManualDataEntry setStateofInstruction={() => this.setStateofInstruction()}/>
                                 </Col>
                                 <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>

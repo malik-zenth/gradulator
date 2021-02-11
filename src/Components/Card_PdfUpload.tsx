@@ -1,22 +1,20 @@
 import React from "react"
 import { Card } from 'antd';
 
-  interface IState {
-    instructionsVisible: boolean;
-  }
+interface IProps {
+    setStateofInstruction: Function;
+}
 
-class CardPdf extends React.Component<IState> {
-    constructor(props: any) {
+
+class CardPdf extends React.Component<IProps> {
+    constructor(props: IProps) {
         super(props);
-        this.state = {
-            instructionsVisible: true,
-          };
       }
 
     render() {
         return (
             <div>
-                <Card title="PDF Upload" extra={<a onClick={() => this.setState({instructionsVisible: true})}>Anleitung</a>} bordered={false} headStyle={{padding: 0}} bodyStyle={{paddingLeft: 0, paddingRight: 0}}>
+                <Card title="PDF Upload" extra={<a onClick={() => this.props.setStateofInstruction()}>Anleitung</a>} bordered={false} headStyle={{padding: 0}} bodyStyle={{paddingLeft: 0, paddingRight: 0}}>
                     <p>Lasse deinen Notendurchschnitt berechnen, indem du deinen aktuellen Notenspiegel der Hochschule Heilbronn als PDF einließt. Hinweis: Deinen aktuellen Notenspiegel findest du unter https://stud.zv.hs-heilbronn.de/</p>
                 </Card>
             </div>
