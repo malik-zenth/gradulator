@@ -4,7 +4,7 @@ class Explanation extends React.Component{
     render(){
         return(
             <div>
-                <div className="content explanation">
+                <div className="content">
                 <Header home={false}/>
                 </div>
                 <Footer/>

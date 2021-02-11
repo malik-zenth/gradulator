@@ -4,14 +4,23 @@ import { Row, Col } from 'antd';
 import { LinkedinOutlined, GithubOutlined, BookOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { Card } from 'antd';
+import {isMobile, isTablet} from "react-device-detect"
 const { Meta } = Card;
 
 class AboutUs extends React.Component {
 
+    componentDidMount(){
+        if(isMobile || isTablet){
+        const content= document.getElementsByClassName("content")[0]
+        const height: number = window.innerHeight - 60
+        content.setAttribute("style", `min-height: ${height}px`)
+        }
+    }
+
     render() {
         return (
             <div>
-                <div className="content contact">
+                <div className="content">
                     <Header home={false} />
                     <h1 style={{ textAlign: 'center', paddingTop: '50px', paddingBottom: '50px' }}>Kontaktiere uns</h1>
 

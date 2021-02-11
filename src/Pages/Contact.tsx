@@ -17,7 +17,7 @@ class Contact extends React.Component {
     render() {
         return (
             <div>
-                <div className="content contact">
+                <div className="content">
                     <Header home={false} />
                     <div style={{ paddingTop: '50px' }}>
                         <Row>
