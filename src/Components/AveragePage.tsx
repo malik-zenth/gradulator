@@ -40,6 +40,10 @@ class AveragePage extends React.Component<IProps, IState> {
     };
   }
 
+  componentDidMount(){
+    window.scrollTo(0,0)
+  }
+
   changeCollabStatus(name: string){
     var {notDisplayedGradeNames} = this.state
     if(!notDisplayedGradeNames.includes(name)){
