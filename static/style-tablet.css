@@ -90,7 +90,7 @@
     }
 
     .content{
-        min-height: calc(100vh - 60px);
+        min-height: calc(90vh - 60px);
     }
     
     .form-emphasis{

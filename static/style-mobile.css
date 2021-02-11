@@ -105,9 +105,9 @@
     }
 
     .content{
-        min-height: calc(90vh - 60px);
+        min-height: calc(88vh - 60px);
     }
-    
+
     #grade-formular{
         width: 95%;
         margin-left: 2.5%;
