@@ -10,7 +10,7 @@ const { Step } = Steps;
 import { options } from "../Data";
 import { MailLink } from "../Components/const"
 import jsPDF from 'jspdf';
-
+import {isMobile, isTablet} from "react-device-detect"
 
 const ref: any = React.createRef();
 
@@ -48,6 +48,14 @@ class Home extends React.Component<IProps, IState>{
             selectedOption: null,
             instructionsVisible: false,
             current: 0
+        }
+    }
+
+    componentDidMount(){
+        if(isMobile || isTablet){
+        const content= document.getElementsByClassName("content")[0]
+        const height: number = window.innerHeight - 60
+        content.setAttribute("style", `min-height: ${height}px`)
         }
     }
 
