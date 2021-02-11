@@ -1,7 +1,7 @@
 import React from "react"
 import { Footer, Header } from "../Components"
 import { Row, Col } from 'antd';
-import { LinkedinOutlined, GithubOutlined, UserOutlined, BookOutlined } from '@ant-design/icons';
+import { LinkedinOutlined, GithubOutlined, BookOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { Card } from 'antd';
 const { Meta } = Card;
