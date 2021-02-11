@@ -11,6 +11,7 @@ import { options } from "../Data";
 import { MailLink } from "../Components/const"
 import jsPDF from 'jspdf';
 
+
 const ref: any = React.createRef();
 
 const handleClick = () =>
@@ -208,16 +209,13 @@ class Home extends React.Component<IProps, IState>{
                         onClick={() => this.setState({ showModal: false, selectedDegree: null })}>Ok
           </Button>,
                 ]}>
-                <p>Der Studiengang {this.state.selectedDegree} wird aktuell leider nicht unterstützt</p>
+                <p>Der Studiengang {this.state.selectedDegree} wird aktuell leider nicht unterstützt.</p>
                 <p>
-                    Lasse uns einen der unteren Wege wissen, dass wir
+                    Lasse uns über einen der unteren Wege wissen, dass wir
           {this.state.selectedDegree} hinzufügen sollen und wir melden uns bei
-          dir, sollten wir ihn hinzufügen
+          dir, sollten wir ihn hinzufügen haben.
         </p>
-                <a className="modal_link" onClick={() => (window.location.href = MailLink)}>per E-Mail</a>
-                <a className="modal_link" onClick={() => window.open("https://www.linkedin.com/in/benjamin-zenth-6290681ba/", "_blank")}>
-                    über LinkedIn
-        </a>
+                <a className="modal_link" onClick={() => (window.location.href = MailLink)}>E-Mail</a> kontakt@gradulator.de
             </Modal>
         );
     }
@@ -244,14 +242,14 @@ class Home extends React.Component<IProps, IState>{
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}>
                             <ol style={{ paddingLeft: '16px', paddingTop: '25px' }}>
                                 <li>Rufe das Studentenportal auf</li>
-                                <li>Melde dich mit deinem Hochschulaccout an</li>
+                                <li>Melde dich mit deinem Hochschulaccount an</li>
                             </ol>
                             <p>Hinweis: Das Studentenportal erreichts du unter <a target="_blank" rel="noopener noreferrer" href="https://stud.zv.hs-heilbronn.de/">https://stud.zv.hs-heilbronn.de/</a></p>
                         </Col>
                     </Row>
             },
             {
-                title: 'Notenspiegel',
+                title: 'Navigation',
                 content:
                     <Row>
                         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
@@ -269,7 +267,7 @@ class Home extends React.Component<IProps, IState>{
                     </Row>
             },
             {
-                title: 'Studium auswahl',
+                title: 'Studium',
                 content:
                     <Row>
                         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
@@ -288,13 +286,13 @@ class Home extends React.Component<IProps, IState>{
                     </Row>
             },
             {
-                title: 'Notenspiegl herunterladen',
+                title: 'Notenspiegel',
                 content:
                     <Row>
                         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
                             <div>
                                 <h2>Lade deinen Notenspiegel herunter</h2>
-                                <p>Hinweis: Deinen Notenspiegl kannst du entweder für das Hauptstudium oder für das Grund- und Hauptstuidum herunterladen</p>
+                                <p>Hinweis: Deinen Notenspiegel kannst du entweder für das Hauptstudium oder für das Grund- und Hauptstudium herunterladen</p>
                                 <img src="static/download_grades.jpg"></img>
                             </div>
                         </Col>
@@ -302,12 +300,12 @@ class Home extends React.Component<IProps, IState>{
                             <ol style={{ paddingLeft: '16px', paddingTop: '25px' }}>
                                 <li>Lade deinen Notenspiegel herunter</li>
                             </ol>
-                            <p>Hinweis: Deinen Notenspiegl kannst du entweder für das Hauptstudium oder für das Grund- und Hauptstuidum herunterladen</p>
+                            <p>Hinweis: Deinen Notenspiegel kannst du entweder für das Hauptstudium oder für das Grund- und Hauptstudium herunterladen</p>
                         </Col>
                     </Row>
             },
             {
-                title: 'Notenspiegel einlesen',
+                title: 'Einlesen',
                 content:
                     <Row>
                         <Col xs={0} sm={0} md={0} lg={24} xl={24}>

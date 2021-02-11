@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Select, Modal, Button } from "antd";
 import { DegreeOptions, UserInput } from "../Data/types";
-import { MailLink } from "./const";
+import { Link } from "react-router-dom";
 import { FormInstance } from 'antd/lib/form';
 import { options } from "../Data";
 import { EditOutlined } from '@ant-design/icons';
@@ -103,16 +103,6 @@ class Formular extends React.Component<IProps, IState> {
       <div>
         <div>
           <div >
-            {/* <div className="selectDegree-text">Studiengang auswählen</div>
-            <div className="selectDegree-contact">
-              Dein Studiengang fehlt?
-              <a
-                onClick={() => (window.location.href = MailLink)}
-                className="selectDegree-contact-link"
-              >
-                Melde dich hier
-              </a>
-            </div> */}
             <div className="ant-upload ant-upload-drag" style={{paddingTop: '16px', minHeight: '217px'}}>
               <p className="ant-upload-drag-icon ant-upload-drag ">
               <EditOutlined />
@@ -120,12 +110,7 @@ class Formular extends React.Component<IProps, IState> {
               <p className="ant-upload-text">Studiengang auswählen</p>
               <p className="ant-upload-hint">
                 Dein Studiengang fehlt?
-              <a
-                  onClick={() => (window.location.href = MailLink)}
-                  className="selectDegree-contact-link"
-                >
-                  Melde dich hier
-              </a>
+                <Link to="/kontakt" className="selectDegree-contact-link">Melde dich hier</Link>
               </p>
               <div style={{paddingLeft: 15, paddingRight: 15, paddingTop: 15}}>
               <Form initialValues={initialValues} ref={this.formRef}>

@@ -15,13 +15,14 @@ class Imprint extends React.Component{
                         Benjamin Zenth <br/>
                         Baierbacher Straße 41 <br/>
                         74629 Pfedelbach <br/>
+                        kontakt@gradulator.de
                         0151/12512194 <br/>
-                        benjaminzenth@icloud.com
                     </p>
                     <p className="imprint-person">
                         Majeed Malik <br/>
                         Herbststraße 27 <br/>
                         74072 Heilbronn<br/>
+                        kontakt@gradulator.de
                     </p>
                 </div>
 
@@ -33,7 +34,7 @@ class Imprint extends React.Component{
                 <p>Diese Website enthält Verknüpfungen zu Websites Dritter ("externe Links"). Diese Websites unterliegen der Haftung der jeweiligen Betreiber. Der Anbieter hat bei der erstmaligen Verknüpfung der externen Links die fremden Inhalte daraufhin überprüft, ob etwaige Rechtsverstöße bestehen. Zu dem Zeitpunkt waren keine Rechtsverstöße ersichtlich. Der Anbieter hat keinerlei Einfluss auf die aktuelle und zukünftige Gestaltung und auf die Inhalte der verknüpften Seiten. Das Setzen von externen Links bedeutet nicht, dass sich der Anbieter die hinter dem Verweis oder Link liegenden Inhalte zu Eigen macht. Eine ständige Kontrolle der externen Links ist für den Anbieter ohne konkrete Hinweise auf Rechtsverstöße nicht zumutbar. Bei Kenntnis von Rechtsverstößen werden jedoch derartige externe Links unverzüglich gelöscht.</p>
 
                 <h2>Datenschutz</h2>
-                <p>Diese Webseite speichert oder verarbeitet keine der von dem Nutzer eingegebenen oder hochgeladenen Daten. <br/> Gehostet wird diese Webseite 
+                <p>Diese Webseite speichert keine der von dem Nutzer eingegebenen oder hochgeladenen Daten. <br/> Gehostet wird diese Webseite 
                     über <a href="https://pages.github.com/" target="_blank">Github Pages</a>, bereitgestellt von Github Inc., 88 Colin P Kerry Jr St, San Francisco, CA 94107, United States.
                     Weitere Informationen zum Umgang mit Nutzerdaten finden Sie in 
                     der <a href="https://docs.github.com/en/github/site-policy/github-privacy-statement" target="_blank">Datenschutzerklärung</a> von Github

@@ -1,5 +1,28 @@
 @media screen and (max-width: 1024px) and (min-width: 481px) {
 
+    .icon-notfound{
+        font-size: 200px;
+        text-align: center;
+        width: 100%;
+        color: #1890ff
+    }
+
+    .icon-404{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2em;
+    }
+
+    .button-notfound{
+        text-align: center;
+        width: 100%;
+        margin-top: 1em
+    }
+
+    .button-copy-mail{
+        margin-left: 1em;
+    }
+
     .header{
         height: 100px;
     }

@@ -26,11 +26,11 @@ class AboutUs extends React.Component {
                         <Col xs={20} sm={15} md={14} lg={11} xl={12}>
                             <div>
                             <h2>Benjamin Zenth</h2>
-                            <BookOutlined style={{ fontSize: '25px', color: '#00008B', paddingRight: '10px' }}/> <h2 style={{ display: 'inline'}}>Wirtschaftsinformatik</h2>
+                            <BookOutlined style={{ fontSize: '25px', color: '#1471c7', paddingRight: '10px' }}/> <h2 style={{ display: 'inline'}}>Wirtschaftsinformatik</h2>
                             <br/>
-                            <LinkedinOutlined style={{ fontSize: '25px', color: '#00008B', paddingRight: '10px' }}/> <a href="https://www.linkedin.com/in/benjamin-zenth-6290681ba/" style={{textDecoration: 'none', color: 'black'}}><h2 style={{display: 'inline'}}>LinkedIn</h2></a>
+                            <LinkedinOutlined style={{ fontSize: '25px', color: '#1471c7', paddingRight: '10px' }}/> <a href="https://www.linkedin.com/in/benjamin-zenth-6290681ba/" style={{textDecoration: 'none', color: 'black'}}><h2 style={{display: 'inline'}}>LinkedIn</h2></a>
                             <br/>
-                            <GithubOutlined style={{ fontSize: '25px', color: '#00008B', paddingRight: '10px' }}/> <a href="https://github.com/chooklii" style={{textDecoration: 'none', color: 'black'}}><h2 style={{display: 'inline'}}>GitHub Profil</h2></a>
+                            <GithubOutlined style={{ fontSize: '25px', color: '#1471c7', paddingRight: '10px' }}/> <a href="https://github.com/chooklii" style={{textDecoration: 'none', color: 'black'}}><h2 style={{display: 'inline'}}>GitHub Profil</h2></a>
                             </div>
                         </Col>
                         <Col xs={2} sm={2} md={2} lg={4} xl={4}></Col>
@@ -47,11 +47,11 @@ class AboutUs extends React.Component {
                         <Col xs={20} sm={15} md={14} lg={11} xl={12}>
                         <div>
                             <h2>Majeed Malik</h2>
-                            <BookOutlined style={{ fontSize: '25px', color: '#00008B', paddingRight: '10px' }}/> <h2 style={{display: 'inline'}}>Wirtschaftsinformatik</h2>
+                            <BookOutlined style={{ fontSize: '25px', color: '#1471c7', paddingRight: '10px' }}/> <h2 style={{display: 'inline'}}>Wirtschaftsinformatik</h2>
                             <br/>
-                            <LinkedinOutlined style={{ fontSize: '25px', color: '#00008B', paddingRight: '10px' }}/> <a href="https://www.linkedin.com/in/majeed-malik-9411ba153/" style={{textDecoration: 'none', color: 'black'}}><h2 style={{display: 'inline'}}>LinkedIn</h2></a>
+                            <LinkedinOutlined style={{ fontSize: '25px', color: '#1471c7', paddingRight: '10px' }}/> <a href="https://www.linkedin.com/in/majeed-malik-9411ba153/" style={{textDecoration: 'none', color: 'black'}}><h2 style={{display: 'inline'}}>LinkedIn</h2></a>
                             <br/>
-                            <GithubOutlined style={{ fontSize: '25px', color: '#00008B', paddingRight: '10px' }}/> <a href="https://github.com/malik-majeed" style={{textDecoration: 'none', color: 'black'}}><h2 style={{display: 'inline'}}>GitHub Profil</h2></a>
+                            <GithubOutlined style={{ fontSize: '25px', color: '#1471c7', paddingRight: '10px' }}/> <a href="https://github.com/malik-majeed" style={{textDecoration: 'none', color: 'black'}}><h2 style={{display: 'inline'}}>GitHub Profil</h2></a>
                             </div>
                         </Col>
                         <Col xs={2} sm={2} md={2} lg={4} xl={4}></Col>

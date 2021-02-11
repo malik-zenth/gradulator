@@ -257,7 +257,7 @@ class PdfUpload extends React.Component<iProps, iState> {
                         <InboxOutlined />
                     </p>
                     <p className="ant-upload-text">Notenspiegel per Klick oder drag & drop einlesen</p>
-                    <p className="ant-upload-hint">Wir legen hohen Wert auf Datenschutz! Dein hochgeladener Notenspiegel wird ausschließlich im Browser ausgelesen, eine übermittlung an dritte oder speicherung der Daten findet nicht statt.</p>
+                    <p className="ant-upload-hint">Wir legen hohen Wert auf Datenschutz! Dein Notenspiegel wird ausschließlich in deinem Browser ausgelesen, eine Übermittlung an dritte oder Speicherung der Daten findet nicht statt.</p>
                 </Dragger>
             </div>
         )
