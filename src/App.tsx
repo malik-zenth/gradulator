@@ -1,6 +1,7 @@
 import React from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 import {Home, NotFound, ImPrint, Contact, Explanation, AboutUs} from "./Pages"
+import {ScrollToTop} from "./Components"
 import "../static/style-mobile.css"
 import "../static/style-desktop.css"
 import "../static/style-tablet.css"
@@ -15,23 +16,34 @@ class App extends React.Component {
                 <div>
                     <Switch>
                         <Route exact path="/">
-                            <Home/>
+                            <ScrollToTop>
+                                <Home/>
+                            </ScrollToTop>
                         </Route>
                         <Route exact path="/erklarung">
-                            <Explanation/>
+                            <ScrollToTop>
+                                <Explanation/>
+                            </ScrollToTop>
                         </Route>
                         <Route exact path="/kontakt">
-                            <Contact/>
+                            <ScrollToTop>
+                                <Contact/>
+                            </ScrollToTop>
                         </Route>
                         <Route exact path="/impressum">
-                            <ImPrint/>
+                            <ScrollToTop>
+                                <ImPrint/>
+                            </ScrollToTop>
                         </Route>
                         <Route exact path="/ueber-uns">
-                            <AboutUs/>
+                            <ScrollToTop>
+                                <AboutUs/>
+                            </ScrollToTop>
                         </Route>
-                        {/* If no Route is fitting return 404 Page */}
                         <Route path="*">
-                            <NotFound/>
+                            <ScrollToTop>
+                                <NotFound/>
+                            </ScrollToTop>
                         </Route>
                     </Switch>
                 </div>

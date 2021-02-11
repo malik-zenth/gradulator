@@ -4,11 +4,13 @@ import AveragePage from "./AveragePage"
 import Footer from "./Footer"
 import Header from "./Header"
 import GradeInput from "./GradeInput"
+import ScrollToTop from "./ScrollToTop"
 
 export {
     Formular,
     AveragePage,
     Footer,
     Header,
-    GradeInput
+    GradeInput,
+    ScrollToTop
 }

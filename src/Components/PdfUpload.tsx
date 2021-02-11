@@ -57,7 +57,9 @@ interface iProps {
     setGrades: Function
 }
 
-interface iState { }
+interface iState {
+    displayError: Boolean
+ }
 
 
 class PdfUpload extends React.Component<iProps, iState> {
@@ -65,14 +67,20 @@ class PdfUpload extends React.Component<iProps, iState> {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleUpload = this.handleUpload.bind(this);
+        this.state={
+            displayError: true
+        }
     }
 
     //Pdf-Content-Extraction
     handleChange = (info: uploadedFile) => {
         if (info.file.type != "application/pdf") {
             info.file.status = "Not a pdf"
+            if(this.state.displayError){
+            this.setState({displayError: false})
             message.error(`${info.file.name} ist keine .pdf Datei`);
         }
+    }
         if (info.file.status === 'done') {
             this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a, b));
 

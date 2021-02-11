@@ -15,7 +15,7 @@ class Imprint extends React.Component{
                         Benjamin Zenth <br/>
                         Baierbacher Straße 41 <br/>
                         74629 Pfedelbach <br/>
-                        kontakt@gradulator.de
+                        kontakt@gradulator.de<br/>
                         0151/12512194 <br/>
                     </p>
                     <p className="imprint-person">
