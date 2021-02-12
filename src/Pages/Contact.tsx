@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react"
 import { Footer, Header } from "../Components"
 import { Card, Button, Row, Col, message } from 'antd';
-import { GithubOutlined, MailOutlined } from '@ant-design/icons';
+import { GithubOutlined, MailOutlined, GiftOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faSmileWink
@@ -71,6 +71,11 @@ class Contact extends React.Component {
                             <p>Werde Teil des Entwicklerteams und hilf uns den Gradulator weiterzuentwickeln.</p>
                             <Button href="https://github.com/malik-zenth/gradulator" target="_blank"  type="primary" icon={<GithubOutlined />}>
                                 GitHub
+                            </Button>
+                            <Button 
+                            className="button-copy-mail" 
+                            href="https://www.paypal.com/donate?hosted_button_id=H8MWJAKT28XEW" target="_blank" icon={<GiftOutlined />}>
+                                Spenden
                             </Button>
                         </Card>
                         </Col>
