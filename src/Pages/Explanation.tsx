@@ -32,7 +32,8 @@ class Explanation extends React.Component {
                                     <li>1x mit einer 1,0 als Note (Wird als Bestmögliche Note angezeigt)</li>
                                     <li>1x mit einer 4,0 als Note (Wird als Schlechteste Note angezeigt)</li>
                                 </ul>
-                                    Des weiteren wird der Gesamtdurchschnitt nach dem selben Muster 3x berechnet und die entsprechenden Durchschnitte angezeigt.
+                                    Dies hat den Grund, dass diese beiden Noten unter normalen Umständen die Extremwerte darstellen und folglich ersichtlich ist, in welchem
+                                    Rahmen sich die Note noch ändern kann. Des weiteren wird der Gesamtdurchschnitt nach dem selben Muster 3x berechnet und die entsprechenden Durchschnitte angezeigt.
 
                                     <p className="explaination_note">
                                     Hinweis: In einzelnen Fällen ist es möglich Noten auszugleichen und somit eine 5 als Note zu erhalten. Dies wird durch die Geschätzten Noten nicht
@@ -50,7 +51,8 @@ class Explanation extends React.Component {
                                 <p>
                                     Wenn einzelne Noten eines Modules nicht eingetragen werden, wird durch eine entsprechende Meldung angezeigt, zu wieviel Prozent das
                                     Modul abgeschlossen ist. Die aktuelle Note des Modules wird jedoch mit voller Wertigkeit in den Durchschnitt einberechnet. Folglich kann
-                                    die Note eines einzelnen Modules, welches erst zu einem geringen Prozentsatz abgeschlossen ist noch stark variieren.
+                                    die Note eines einzelnen Modules, welches erst zu einem geringen Prozentsatz abgeschlossen ist noch stark variieren. Um ein genaueres Ergebnis
+                                    zu erhalten muss eine Schätzung für die angezeigten fehlenden Noten eingetragen werden.
                                 </p>
                             </Card>
                         </Col>
@@ -62,7 +64,7 @@ class Explanation extends React.Component {
                         <Col span={22}>
                             <Card title="Wertungspunkte" bordered={false} style={{ maxWidth: 1000 }}>
                                 <p> Wenn alle Noten eines Modules fehlen, so wird dies auf der Ergebnissseite nicht angezeigt und nicht für den Durchschnitt berücksichtigt.
-                                    Da dieses jedoch für den Durchschnitt relevant ist, besitzt der angezeigte Durchschnitt eine geringere Aussagekraft, umso weniger Noten
+                                    Da diese jedoch für den Durchschnitt relevant ist, besitzt der angezeigte Durchschnitt eine geringere Aussagekraft, umso weniger Noten
                                     eingegeben werden.
                                     Über die angezeigten Wertungspunkte kann eingesehen werden, wie viele der für den Durchschnitt relevanten Punkte im angezeigten Durchschnitt
                                     berücksichtigt wurden. Wenn Beispielsweise 50 von 100 Wertungspunkten berücksichtigt wurden bedeutet dies, dass der aktuell angezeigte
@@ -77,10 +79,10 @@ class Explanation extends React.Component {
                         <Col span={1}></Col>
                         <Col span={22}>
                             <Card title="Entfernung von Schwerpunkten" bordered={false} style={{ maxWidth: 1000 }}>
-                                <p> Wenn bei der Noteneingabe Noten von mehr Schwerpunkten eingegeben werden, als für den Abschluss benötigt werden werden die Noten des
+                                <p> Wenn Noten von mehr Schwerpunkten eingegeben werden, als für den Abschluss benötigt werden werden die Noten des
                                     Schwerpunktes, welcher am unvollständigsten ist automatisiert entfernt und für den Durchschnitt ignoriert. Sollte dies der Fall sein,
                                     wird dies über eine entsprechende Anzeige unter "Durchschnitt" dargestellt.
-                                    Sollte der Durchschnitt unter Berücksichtigung des entfernten Schwerpunktes berechnet werden muss die Noteneingabe entsprechend angepasst werden.
+                                    Soll der Durchschnitt unter Berücksichtigung des entfernten Schwerpunktes berechnet werden muss die Noteneingabe entsprechend angepasst werden.
                                 </p>
                             </Card>
                         </Col>
