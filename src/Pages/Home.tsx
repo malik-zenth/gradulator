@@ -118,8 +118,10 @@ class Home extends React.Component<IProps, IState>{
             longitude += 10
         }
         longitude += 5
+        if(averageData.requiredEmphasis > 0){
         pdf.text(averageData.completedEmphasis.toString() + " von " + averageData.requiredEmphasis.toString() + " benötigten Schwerpunkten abgeschlossen", 10, longitude)
         longitude += 5
+        }
         pdf.text(averageData.observedWeight.toString() + " von " + averageData.overallWeight.toString() + " Wertungspunkten für den Durchschnitt berücksichtigt", 10, longitude)
         longitude += 5
         pdf.text(averageData.achivedECTS.toString() + " von " + averageData.requiredECTS.toString() + " für den Durchschnitt relevanten ECTS erreicht", 10, longitude)
