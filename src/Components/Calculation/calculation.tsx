@@ -209,8 +209,8 @@ const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: 
             completlyMissing = get_missing(emphasisExams.ids, ExamPackagesWithEmphasisIds)
         }
         for(var indextwo = 0; indextwo < examPackagesWithEmphasis.length; indextwo++){
-            weight = examPackagesWithEmphasis[indextwo].weight
-            grade = examPackagesWithEmphasis[indextwo].weight * examPackagesWithEmphasis[indextwo].grade
+            weight+= examPackagesWithEmphasis[indextwo].weight
+            grade+= examPackagesWithEmphasis[indextwo].weight * examPackagesWithEmphasis[indextwo].grade
             if(examPackagesWithEmphasis[indextwo].incomplete){
                 complete = false
                 examPackagesWithEmphasis[indextwo].missing.map((x: Exam) => missing.push(x))
