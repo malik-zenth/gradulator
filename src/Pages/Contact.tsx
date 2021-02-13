@@ -1,10 +1,11 @@
 import React, { ReactElement } from "react"
 import { Footer, Header } from "../Components"
 import { Card, Button, Row, Col, message } from 'antd';
-import { GithubOutlined, MailOutlined } from '@ant-design/icons';
+import { GithubOutlined, MailOutlined, GiftOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faSmileWink
+    faSmileWink,
+    faSmile
 } from "@fortawesome/free-regular-svg-icons";
 import { MailLink, MailErrorCalculation, MailAdress } from "../Components/const";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
@@ -68,9 +69,14 @@ class Contact extends React.Component {
                         <Col span={1}></Col>
                         <Col span={22}>
                         <Card title="Möchtest du uns Unterstützen?" bordered={false} style={{ maxWidth: 500, paddingTop: '50px'}}>
-                            <p>Werde Teil des Entwicklerteams und hilf uns den Gradulator weiterzuentwickeln.</p>
+                            <p>Werde Teil des Entwicklerteams und hilf uns den Gradulator weiterzuentwickeln oder mach uns eine Freude mit einem kleinen Trinkgeld <FontAwesomeIcon icon={faSmile}/></p>
                             <Button href="https://github.com/malik-zenth/gradulator" target="_blank"  type="primary" icon={<GithubOutlined />}>
                                 GitHub
+                            </Button>
+                            <Button 
+                            className="button-copy-mail"
+                            href="https://www.paypal.com/donate?hosted_button_id=H8MWJAKT28XEW" target="_blank" icon={<GiftOutlined />}>
+                                Spenden
                             </Button>
                         </Card>
                         </Col>
