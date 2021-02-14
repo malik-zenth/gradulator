@@ -21,5 +21,15 @@
   <link href="style.css" rel="stylesheet"></head>
   <body>
     <div id="root"></div>
+    <script>
+      function isIE() {
+        ua = navigator.userAgent;
+        var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+        return is_ie; 
+      }
+      if (isIE()){
+        alert('Leider wird der Internet Explorer nicht unterstützt. Bitte verwende einen anderen Web browser');
+      }
+    </script>
   <script type="text/javascript" src="bundle.js"></script></body>
 </html>
