@@ -266,23 +266,29 @@ const GradeInput = (props: IProps) => {
     }
   }, [initialValues])
 
+  const renderButtons = () => {
+    return(
+      <div className="form-submit">
+      <Button type="primary" htmlType="submit" onClick={onSubmit}>
+        Notenschnitt berechnen
+      </Button>
+      <div className="form-grades-button-reset">
+        <Button htmlType="button" onClick={resetForm}>
+          Formular zurücksetzen
+        </Button>
+      </div>
+    </div>
+    )
+  }
   return (
     <div>
       {renderModal()}
       <Form initialValues={initialValues} form={form} id="grade-formular">
         <h2 className="grade-input-heading">Noteneingabe</h2>
         <div className="form-emphasis">{renderEmphasisCheckboxes(basics)}</div>
-        <div className="form-submit">
-          <Button type="primary" htmlType="submit" onClick={onSubmit}>
-            Notenschnitt berechnen
-          </Button>
-          <div className="form-grades-button-reset">
-            <Button htmlType="button" onClick={resetForm}>
-              Formular zurücksetzen
-            </Button>
-          </div>
-        </div>
+        {renderButtons()}
         <div className="form-grades">{renderInputOptions(orderdExams)}</div>
+        {renderButtons()}
       </Form>
     </div>
   );
