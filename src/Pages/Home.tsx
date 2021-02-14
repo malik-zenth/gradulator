@@ -233,6 +233,7 @@ class Home extends React.Component<IProps, IState>{
     //State handle for instruction modal
     setStateofInstruction() {
         this.setState({ instructionsVisible: true })
+        this.setState({ current: 0 })
     }
 
     //Will render the instructions in a modal
@@ -250,7 +251,7 @@ class Home extends React.Component<IProps, IState>{
                             </div>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}>
-                            <ol style={{ paddingLeft: '16px', paddingTop: '25px' }}>
+                            <ol style={{ paddingLeft: '16px' }}>
                                 <li>Rufe das Studentenportal auf</li>
                                 <li>Melde dich mit deinem Hochschulaccount an</li>
                             </ol>
@@ -269,7 +270,7 @@ class Home extends React.Component<IProps, IState>{
                             </div>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}>
-                            <ol style={{ paddingLeft: '16px', paddingTop: '25px' }}>
+                            <ol style={{ paddingLeft: '16px' }}>
                                 <li>Klicke auf Prüfungsverwaltung</li>
                                 <li>Wähle anschließend Notenspiegel aus</li>
                             </ol>
@@ -288,7 +289,7 @@ class Home extends React.Component<IProps, IState>{
                             </div>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}>
-                            <ol style={{ paddingLeft: '16px', paddingTop: '25px' }}>
+                            <ol style={{ paddingLeft: '16px' }}>
                                 <li>Wähle anschließend deinen Studiengang aus, indem du auf das "i" klickst</li>
                             </ol>
                             <p>Hinweis: Klicke hierfür das kleine "i"</p>
@@ -307,7 +308,7 @@ class Home extends React.Component<IProps, IState>{
                             </div>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}>
-                            <ol style={{ paddingLeft: '16px', paddingTop: '25px' }}>
+                            <ol style={{ paddingLeft: '16px' }}>
                                 <li>Lade deinen Notenspiegel herunter</li>
                             </ol>
                             <p>Hinweis: Deinen Notenspiegel kannst du entweder für das Hauptstudium oder für das Grund- und Hauptstudium herunterladen</p>
@@ -326,7 +327,7 @@ class Home extends React.Component<IProps, IState>{
                             </div>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={0} xl={0}>
-                            <ol style={{ paddingLeft: '16px', paddingTop: '25px' }}>
+                            <ol style={{ paddingLeft: '16px' }}>
                                 <li>Lese abschließend deinen Notenspiegel als .pdf auf Gradulator ein</li>
                             </ol>
                             <p>Hinweis: Alternativ kannst du auch gerne manuell deinen Noten eingeben</p>
@@ -368,8 +369,13 @@ class Home extends React.Component<IProps, IState>{
                                 Weiter
                             </Button>
                         )}
-                        {this.state.current > 0 && (
+                        {this.state.current > 0 && this.state.current < steps.length && (
                             <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                                Zurück
+                            </Button>
+                        )}
+                        {this.state.current == steps.length && (
+                            <Button onClick={() => prev()}>
                                 Zurück
                             </Button>
                         )}

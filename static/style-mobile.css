@@ -26,11 +26,6 @@
     }
 
     .steps-content {
-        margin-top: 16px;
-        padding-top: 16px;
-        background-color: #fafafa;
-        border: 1px dashed #e9e9e9;
-        border-radius: 2px;
         min-height: 160px;
       }
       
