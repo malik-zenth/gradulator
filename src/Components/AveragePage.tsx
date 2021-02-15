@@ -200,6 +200,7 @@ class AveragePage extends React.Component<IProps, IState> {
   renderButtons(averageData: CalculationResult): ReactFragment {
     return (
       <div className="average-page-buttons">
+        <div className="average-grades-button-reset">
         <Button
           htmlType="submit"
           id="button-average-page"
@@ -207,6 +208,7 @@ class AveragePage extends React.Component<IProps, IState> {
         >
           Noteneingabe bearbeiten
         </Button>
+        </div>
         <div className="average-grades-button-reset">
           <Button id="button-average-page" htmlType="button" onClick={() => this.props.newCalculation()}>
             Neuen Durchschnitt berechnen

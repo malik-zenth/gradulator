@@ -132,11 +132,12 @@
     }
 
     .result-best-case{
-        width: 10%;
+        width: fit-content;
     }
 
     .result-worst-case{
-        width: 10%;
+        width: fit-content;
+        margin-left: 10px;
     }
 
     .result-average-basic{
@@ -155,11 +156,13 @@
     }
 
     .average-page-buttons{
-        display: inline-flex
+        display: inline-flex;
+        flex-flow: wrap;
     }
 
     .average-grades-button-reset{
-        margin-left: 1em;
+        margin-right: 1em;
+        margin-top: .5em
     }
 
     .single-grade-collabs{
