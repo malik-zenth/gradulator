@@ -217,15 +217,17 @@ const win_exams: Exams = {
         name: "Social Relationship Management",
         packageid: 282090,
         emphasisid:3
-    }, 282193:
-    {
-        semester: 4,
-        ects: 5,
-        weight: 5,
-        name: "Usability und audiovisuelle Kommunikation",
-        packageid: 282092,
-        emphasisid:3
-    }, 282192:
+    }, 
+    // 282193:
+    // {
+    //     semester: 4,
+    //     ects: 5,
+    //     weight: 0,
+    //     name: "Usability und audiovisuelle Kommunikation",
+    //     packageid: 282092,
+    //     emphasisid:3,
+    // }, 
+    282192:
     {
         semester: 4,
         ects: 2.5,
@@ -329,7 +331,9 @@ const win_ExamPackages: ExamPackages = {
     {
         name: "Usability und audiovisuelle Kommunikation",
         weight: 10,
-        required: [282193, 282196]
+        required: [
+            // 282193, 
+            282196]
     },
     282093: {
         name: "Projektstudie Social Media",
