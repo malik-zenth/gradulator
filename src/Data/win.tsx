@@ -4,6 +4,7 @@ const win_basic_data: BasicInformation = {
     name: "Wirtschaftsinformatik",
     weight: 120,
     ects: 114.5,
+    spo: 5,
     required_emphasis: 2,
     emphasis: [{
         ids: [282060, 282061, 282062, 282063],
@@ -37,7 +38,7 @@ const win_exams: Exams = {
         semester: 3,
         ects: 5,
         weight: 5,
-        name: "Praxis betrieblicher Informationssysteme",
+        name: "Einführung in betriebliche Informationssysteme",
         packageid: 282011
     }, 282133:
     {
@@ -123,7 +124,7 @@ const win_exams: Exams = {
     }, 282164:
     {
         semester: 6,
-        ects: 5,
+        ects: 10,
         weight: 5,
         name: "Project Study Enerprice Information Systems",
         packageid: 282062,
@@ -217,7 +218,7 @@ const win_exams: Exams = {
         name: "Social Relationship Management",
         packageid: 282090,
         emphasisid:3
-    }, 
+    },
     // 282193:
     // {
     //     semester: 4,
@@ -226,7 +227,7 @@ const win_exams: Exams = {
     //     name: "Usability und audiovisuelle Kommunikation",
     //     packageid: 282092,
     //     emphasisid:3,
-    // }, 
+    // },
     282192:
     {
         semester: 4,
@@ -256,7 +257,7 @@ const win_exams: Exams = {
         semester: 6,
         ects: 5,
         weight: 5,
-        name: "Project Study Social Media Management and Audiovisual Communication",
+        name: "Usability and Audiovisual Communication",
         packageid: 282092,
         emphasisid:3
     }, 282197:
@@ -332,7 +333,7 @@ const win_ExamPackages: ExamPackages = {
         name: "Usability und audiovisuelle Kommunikation",
         weight: 10,
         required: [
-            // 282193, 
+            // 282193,
             282196]
     },
     282093: {

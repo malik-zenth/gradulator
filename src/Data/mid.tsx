@@ -4,6 +4,7 @@ const mid_basic_data: BasicInformation = {
     name: "Wirtschaftsinformatik - Informationsmanagement und Data Science",
     weight: 90,
     ects: 90,
+    spo: 1,
     required_emphasis: 0,
     emphasis: []
 }
@@ -133,7 +134,7 @@ const mid_ExamPackages: ExamPackages = {
         required: [285121,285122]
     },
     285130: {
-        name: "Methoden der Wirtchaftsinformatik",
+        name: "Methoden der Wirtschaftsinformatik",
         weight: 10,
         required: [285131,285132]
     },

@@ -36,6 +36,7 @@ interface IState {
     showModal: boolean,
     instructionsVisible: boolean,
     current: number,
+    wrongSPO: boolean
 }
 
 // Home Page
@@ -47,6 +48,7 @@ class Home extends React.Component<IProps, IState>{
             showModal: false,
             selectedOption: null,
             instructionsVisible: false,
+            wrongSPO: false,
             current: 0
         }
     }
@@ -130,7 +132,7 @@ class Home extends React.Component<IProps, IState>{
 
     addDataToPdf = (averageData: CalculationResult, pdf: jsPDF) => {
         let longitude = 35
-        // go through all single Grades and add them to the pdf. 
+        // go through all single Grades and add them to the pdf.
         averageData.singleGrades.forEach((single: GradePackageAverage) => {
             pdf.setFontSize(15)
             pdf.text(single.name, 10, longitude)
@@ -187,8 +189,8 @@ class Home extends React.Component<IProps, IState>{
         })
     }
 
-    setGrades = (gradeInput: UserInput[], selectedDegree: string) => {
-        if (this.validateDegreeFromPdf(selectedDegree)) {
+    setGrades = (gradeInput: UserInput[], selectedDegree: string, spo: number) => {
+        if (this.validateDegreeFromPdf(selectedDegree, spo)) {
             this.setState({
                 inputValues: gradeInput,
                 selectedDegree: selectedDegree,
@@ -198,8 +200,17 @@ class Home extends React.Component<IProps, IState>{
         }
     }
 
-    validateDegreeFromPdf = (selectedDegree: string) => {
-        if (Object.keys(options).includes(selectedDegree)) return true
+    validateDegreeFromPdf = (selectedDegree: string, spo: number) => {
+        if (Object.keys(options).includes(selectedDegree)){
+            if(options[selectedDegree].basics.spo){
+                if(options[selectedDegree].basics.spo === spo){
+                    return true
+                }else{
+                    this.setState({ showModal: true, selectedDegree: selectedDegree, wrongSPO: true })
+                    return false
+                }
+            }else return true
+        }
         else {
             this.setState({ showModal: true, selectedDegree: selectedDegree })
             return false
@@ -208,6 +219,7 @@ class Home extends React.Component<IProps, IState>{
 
     // Modal displayed if the detected degree is not supported
     renderModal() {
+        const {selectedDegree, wrongSPO} = this.state
         return (
             <Modal
                 title="Studiengang wird nicht unterstützt"
@@ -216,13 +228,14 @@ class Home extends React.Component<IProps, IState>{
                     <Button
                         key="submit"
                         type="primary"
-                        onClick={() => this.setState({ showModal: false, selectedDegree: null })}>Ok
+                        onClick={() => this.setState({ showModal: false, selectedDegree: null, wrongSPO: false })}>Ok
           </Button>,
                 ]}>
-                <p>Der Studiengang {this.state.selectedDegree} wird aktuell leider nicht unterstützt.</p>
+                {!wrongSPO && <p>Der Studiengang {selectedDegree} wird aktuell leider nicht unterstützt.</p>}
+                {wrongSPO && <p>Der Studiengang {selectedDegree} wird in dieser SPO aktuell leider nicht unterstützt.</p>}
                 <p>
                     Lasse uns über einen der unteren Wege wissen, dass wir
-          {this.state.selectedDegree} hinzufügen sollen und wir melden uns bei
+          {selectedDegree} hinzufügen sollen und wir melden uns bei
           dir, sollten wir ihn hinzufügen haben.
         </p>
                 <a className="modal_link" onClick={() => (window.location.href = MailLink)}>E-Mail</a> kontakt@gradulator.de
@@ -407,7 +420,7 @@ class Home extends React.Component<IProps, IState>{
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
                                 <Col xs={20} sm={20} md={20} lg={0} xl={0}>
                                     <PdfUpload
-                                        setGrades={(grades: UserInput[], selectedDegree: string) => this.setGrades(grades, selectedDegree)}
+                                        setGrades={(grades: UserInput[], selectedDegree: string, spo: number) => this.setGrades(grades, selectedDegree, spo)}
                                     />
                                 </Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
@@ -431,7 +444,7 @@ class Home extends React.Component<IProps, IState>{
                                 <Col xs={0} sm={0} md={0} lg={2} xl={2}></Col>
                                 <Col xs={0} sm={0} md={0} lg={9} xl={9}>
                                     <PdfUpload
-                                        setGrades={(grades: UserInput[], selectedDegree: string) => this.setGrades(grades, selectedDegree)}
+                                        setGrades={(grades: UserInput[], selectedDegree: string, spo: number) => this.setGrades(grades, selectedDegree, spo)}
                                     />
                                 </Col>
                                 <Col xs={0} sm={0} md={0} lg={2} xl={2}></Col>

@@ -4,6 +4,7 @@ import { GradePackageAverage } from "../Components/Calculation/types";
 export interface BasicInformation {
     name: string,
     ects: number,
+    spo?: number,
     weight: number,
     required_emphasis: number,
     emphasis: Emphasis[] | null
