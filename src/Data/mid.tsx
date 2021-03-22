@@ -114,6 +114,13 @@ const mid_exams: Exams = {
         weight: 5,
         name: "Master Thesis",
         packageid: 285160
+    },
+    285170: {
+        semester: 5,
+        ects: 30,
+        weight: 30,
+        name: "Modul M8 International",
+        packageid: 285170
     }
 }
 
@@ -152,6 +159,11 @@ const mid_ExamPackages: ExamPackages = {
         name: "Abschlussmodul Master",
         weight: 30,
         required: [285161,285162,285163]
+    },
+    285170: {
+        name: "Modulprüfung M8 International",
+        weight: 30,
+        required: [285170]
     }
 }
 
