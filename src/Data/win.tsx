@@ -124,7 +124,7 @@ const win_exams: Exams = {
     }, 282164:
     {
         semester: 6,
-        ects: 10,
+        ects: 5,
         weight: 5,
         name: "Project Study Enerprice Information Systems",
         packageid: 282062,
@@ -255,7 +255,7 @@ const win_exams: Exams = {
     }, 282196:
     {
         semester: 6,
-        ects: 5,
+        ects: 10,
         weight: 5,
         name: "Usability and Audiovisual Communication",
         packageid: 282092,
