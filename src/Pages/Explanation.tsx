@@ -69,6 +69,9 @@ class Explanation extends React.Component {
                                     Über die angezeigten Wertungspunkte kann eingesehen werden, wie viele der für den Durchschnitt relevanten Punkte im angezeigten Durchschnitt
                                     berücksichtigt wurden. Wenn Beispielsweise 50 von 100 Wertungspunkten berücksichtigt wurden bedeutet dies, dass der aktuell angezeigte
                                     Durchschnitt 50% des finalen Durchschnitts ausmacht.
+                                    <br></br>
+                                    In einzelnen Fällen ist es möglich, dass z.B. durch ein zusätzliches Semester im Ausland mehr Wertungspunkte erreicht werden,
+                                    als in der Notenübersicht angezeigt.
                                 </p>
                             </Card>
                         </Col>

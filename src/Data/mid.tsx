@@ -4,6 +4,7 @@ const mid_basic_data: BasicInformation = {
     name: "Wirtschaftsinformatik - Informationsmanagement und Data Science",
     weight: 90,
     ects: 90,
+    spo: 1,
     required_emphasis: 0,
     emphasis: []
 }
@@ -113,6 +114,13 @@ const mid_exams: Exams = {
         weight: 5,
         name: "Master Thesis",
         packageid: 285160
+    },
+    285170: {
+        semester: 5,
+        ects: 30,
+        weight: 30,
+        name: "Modul M8 International",
+        packageid: 285170
     }
 }
 
@@ -133,7 +141,7 @@ const mid_ExamPackages: ExamPackages = {
         required: [285121,285122]
     },
     285130: {
-        name: "Methoden der Wirtchaftsinformatik",
+        name: "Methoden der Wirtschaftsinformatik",
         weight: 10,
         required: [285131,285132]
     },
@@ -151,6 +159,11 @@ const mid_ExamPackages: ExamPackages = {
         name: "Abschlussmodul Master",
         weight: 30,
         required: [285161,285162,285163]
+    },
+    285170: {
+        name: "Modulprüfung M8 International",
+        weight: 30,
+        required: [285170]
     }
 }
 

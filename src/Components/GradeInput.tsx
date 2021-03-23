@@ -72,14 +72,28 @@ const GradeInput = (props: IProps) => {
       <Col xl={6} xxl={6} lg={8} md={12} sm={12} xs={24} key={keyGenerator()}>
         <div className="form-singleGrade-name">{exam.data.name}</div>
         <div className="form-singleGrade-items">
-          <Form.Item name={exam.examID} style={{ marginBottom: 0 }}>
+          <Form.Item
+          name={exam.examID}
+          style={{ marginBottom: 0 }}>
             <InputNumber
               min={1}
               max={5}
               step={0.1}
               style={{ width: 200 }}
               placeholder="Note eingeben"
-              parser={(value) => value.replace(",", ".")}
+              parser={(value) => {
+                value.replace(",", ".")
+                // if value has more than one value after the dot we remove them
+                if(value.indexOf(".") +2 < value.length){
+                  value = value.substring(0, value.indexOf(".")+2)
+                }
+                // we only allow floats with .3 and .7 as those are the only values that are possible
+                if(value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("3") || value.endsWith("7"))){
+                  value = value.substring(0, value.indexOf(".")+1)
+                }
+                return value
+                }
+              }
             />
           </Form.Item>
           <Form.Item
@@ -118,6 +132,21 @@ const GradeInput = (props: IProps) => {
       return <div></div>;
     }
   };
+
+  // render SPO selection
+  const renderSPOCheckboxes = (
+    spo: number
+  ): ReactFragment => {
+    if(spo){
+      return(
+        <div>
+          Noteneingabe und Berechnung nach SPO {spo}
+        </div>
+      )
+    }else{
+      return <div></div>
+    }
+  }
 
   // if an emphasis checkbox is changed either add it to state or remove it from it
   const changeCheckboxState = (emphasisId: number) => {
@@ -280,11 +309,13 @@ const GradeInput = (props: IProps) => {
     </div>
     )
   }
+
   return (
     <div>
       {renderModal()}
       <Form initialValues={initialValues} form={form} id="grade-formular">
         <h2 className="grade-input-heading">Noteneingabe</h2>
+        <div className="form-emphasis">{renderSPOCheckboxes(basics.spo)}</div>
         <div className="form-emphasis">{renderEmphasisCheckboxes(basics)}</div>
         {renderButtons()}
         <div className="form-grades">{renderInputOptions(orderdExams)}</div>

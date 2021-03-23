@@ -68,7 +68,7 @@ class AveragePage extends React.Component<IProps, IState> {
               }
           </div>
             <p className="single-grade-name">{single.name}</p>
-            <p className="single-grade-grade">{single.grade}</p>
+            <p className="single-grade-grade">{single.grade.toFixed(1)}</p>
           </div>
           {!this.state.notDisplayedGradeNames.includes(single.name) &&
           <div>
@@ -80,6 +80,7 @@ class AveragePage extends React.Component<IProps, IState> {
       );
     });
   }
+
 
   renderCaseGrades(single: GradePackageAverage): ReactFragment {
     if (single.bestPossibleGrade) {
@@ -222,6 +223,7 @@ class AveragePage extends React.Component<IProps, IState> {
       </div>
     );
   }
+
 
   render() {
     const { inputGrades, selectedOption } = this.props;

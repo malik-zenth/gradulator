@@ -48,6 +48,7 @@ interface parsedText {
 
 interface extractedGrades {
     studiengang: string,
+    spo: number,
     grades: {
         [key: string]: any
     }
@@ -82,11 +83,11 @@ class PdfUpload extends React.Component<iProps, iState> {
         }
     }
         if (info.file.status === 'done') {
-            this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a, b));
+            this.handleUpload(info, (a: UserInput[], b: string, c: number) => this.props.setGrades(a, b, c));
 
         } else if (info.file.status === 'error') {
             message.error(`${info.file.name} konnte leider nicht eingelesen werden.`);
-            this.handleUpload(info, (a: UserInput[], b: string) => this.props.setGrades(a, b));
+            this.handleUpload(info, (a: UserInput[], b: string, c: number) => this.props.setGrades(a, b, c));
         }
     }
 
@@ -115,7 +116,7 @@ class PdfUpload extends React.Component<iProps, iState> {
                     setTimeout(() => {
                         message.success({ content: 'Notenspiegel wurde erfolgreich eingelesen!', key, duration: 2 });
                     }, 1500);
-                    setGrades(returnedObject.grades, returnedObject.studiengang)
+                    setGrades(returnedObject.grades, returnedObject.studiengang, returnedObject.spo)
                 }
             }, function (reason: string) {
                 message.error('Wir konnten diese Datei leider nicht einlesen, bitte versuche es mit einer anderen Datei');
@@ -149,6 +150,7 @@ class PdfUpload extends React.Component<iProps, iState> {
             function mainProcess(text: string) {
                 let Studiengang = extractStudiengang(text)
                 let arrayGrades = preprocessData(text);
+                let spoVersion = extractSpoVersion(text);
                 let gradesFormatted: Array<UserInput> = [];
                 arrayGrades.forEach(element => {
                     let tempString = element.replaceAll("✓", "$✓")
@@ -163,7 +165,7 @@ class PdfUpload extends React.Component<iProps, iState> {
                         }
                     });
                 });
-                var extractedGrades: extractedGrades = { studiengang: Studiengang, grades: gradesFormatted }
+                var extractedGrades: extractedGrades = { studiengang: Studiengang, grades: gradesFormatted, spo: spoVersion}
                 return extractedGrades
             }
 
@@ -177,6 +179,19 @@ class PdfUpload extends React.Component<iProps, iState> {
                 );
                 const mappedDegree = mapName(Studiengang)
                 return mappedDegree
+            }
+
+            // Will extract SPO version from pdf
+            function extractSpoVersion(text: string) {
+                const firstSpoSplit: string = "Examination regulation version: ";
+                const secondSpoSplit: string = "Angestrebter Abschluss"
+                const subText: string = text.substring(
+                    text.lastIndexOf(firstSpoSplit) + firstSpoSplit.length, 
+                    text.lastIndexOf(secondSpoSplit)
+                );
+                const spoVersion: number = parseInt(subText)
+                return spoVersion
+
             }
 
             
