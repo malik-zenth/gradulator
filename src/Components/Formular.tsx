@@ -66,8 +66,10 @@ class Formular extends React.Component<IProps, IState> {
   }
 
   settupData(selected: string): any {
-    const selectOptions = Object.keys(this.props.options).map(function (value, _) {
-      return { value: value, label: value };
+    const selectOptions = Object.keys(this.props.options).map(function (key, index) {
+      // if option has beta flag we add a beta sign
+      const label: string = options[key].basics.beta ? options[key].basics.name + " [BETA]" : options[key].basics.name
+      return { value: key, label: label };
     });
     // if their is a selected value and it is valid add it as default label and set it as selected
     if (selected && Object.keys(options).includes(selected)) {

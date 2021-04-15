@@ -3,6 +3,7 @@ import { GradePackageAverage } from "../Components/Calculation/types";
 // Basic Information about each degree
 export interface BasicInformation {
     name: string,
+    beta?: boolean,
     ects: number,
     spo?: number,
     weight: number,

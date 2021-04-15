@@ -6,6 +6,7 @@ import {
   Exams,
   SingleOption,
 } from "../Data/types";
+import {Link} from "react-router-dom"
 import { Form, InputNumber, Checkbox, Button, Modal, Row, Col, Divider } from "antd";
 
 interface InitialValues {
@@ -137,15 +138,21 @@ const GradeInput = (props: IProps) => {
   const renderSPOCheckboxes = (
     spo: number
   ): ReactFragment => {
-    if(spo){
       return(
         <div>
           Noteneingabe und Berechnung nach SPO {spo}
         </div>
       )
-    }else{
-      return <div></div>
     }
+
+  // render BETA Text
+  const renderBETAText = (
+  ): ReactFragment => {
+    return(
+      <div>
+        Dieser Studiengang ist aktuell in einer BETA-Version. <Link className="" to="/erklarung">Mehr Informationen</Link>
+      </div>
+    )
   }
 
   // if an emphasis checkbox is changed either add it to state or remove it from it
@@ -315,7 +322,10 @@ const GradeInput = (props: IProps) => {
       {renderModal()}
       <Form initialValues={initialValues} form={form} id="grade-formular">
         <h2 className="grade-input-heading">Noteneingabe</h2>
-        <div className="form-emphasis">{renderSPOCheckboxes(basics.spo)}</div>
+
+        {basics.spo && <div className="form-emphasis">{renderSPOCheckboxes(basics.spo)}</div>}
+        {basics.beta && <div className="form-emphasis">{renderBETAText()}</div>}
+
         <div className="form-emphasis">{renderEmphasisCheckboxes(basics)}</div>
         {renderButtons()}
         <div className="form-grades">{renderInputOptions(orderdExams)}</div>
