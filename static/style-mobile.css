@@ -25,10 +25,15 @@
         margin-top: 1em;
     }
 
+    .form-emphasis{
+        text-align: center;
+        padding: .2em
+    }
+
     .steps-content {
         min-height: 160px;
       }
-      
+
       .steps-action {
         margin-top: 24px;
       }

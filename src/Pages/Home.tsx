@@ -200,16 +200,28 @@ class Home extends React.Component<IProps, IState>{
         }
     }
 
+    displayWarningBETAVersion = () => {
+        message.warning("Dieser Studiengang befindet sich aktuell in einer BETA-Version", 5)
+    }
+
     validateDegreeFromPdf = (selectedDegree: string, spo: number) => {
         if (Object.keys(options).includes(selectedDegree)){
             if(options[selectedDegree].basics.spo){
                 if(options[selectedDegree].basics.spo === spo){
+                    if(options[selectedDegree].basics.beta){
+                        this.displayWarningBETAVersion()
+                    }
                     return true
                 }else{
                     this.setState({ showModal: true, selectedDegree: selectedDegree, wrongSPO: true })
                     return false
                 }
-            }else return true
+            }else{
+                if(options[selectedDegree].basics.beta){
+                    this.displayWarningBETAVersion()
+                }
+                return true
+            }
         }
         else {
             this.setState({ showModal: true, selectedDegree: selectedDegree })

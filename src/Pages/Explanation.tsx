@@ -24,7 +24,7 @@ class Explanation extends React.Component {
                         <Col span={22}>
                             <Card title="Beta Studiengang" bordered={false} style={{ maxWidth: 1000 }}>
                                 <p>
-                                    Sobald wir einen neuen Studiengang hinzugefügt haben versuchen wir in Zusammenarbeit mit den entsprechenden Ansprechpartnern des
+                                    Sobald wir einen neuen Studiengang hinzugefügt haben, versuchen wir in Zusammenarbeit mit den entsprechenden Ansprechpartnern des
                                     Studienganges die von uns aus der Studien &amp; Prüfungsordnung ausgearbeitete Berechnung zu validieren. Dieser Schritt dient der
                                     Qualitätssicherung und soll sicherstellen, dass die Berechnung absolut korrekt ist.
                                     <br></br>
