@@ -116,11 +116,11 @@ const mid_exams: Exams = {
         packageid: 285160
     },
     285170: {
-        semester: 5,
+        semester: 4,
         ects: 30,
         weight: 30,
-        name: "Modul M8 International",
-        packageid: 285170
+        name: "International",
+        packageid: 285171
     }
 }
 
@@ -160,8 +160,8 @@ const mid_ExamPackages: ExamPackages = {
         weight: 30,
         required: [285161,285162,285163]
     },
-    285170: {
-        name: "Modulprüfung M8 International",
+    285171: {
+        name: "International",
         weight: 30,
         required: [285170]
     }
