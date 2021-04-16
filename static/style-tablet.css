@@ -92,11 +92,15 @@
     .content{
         min-height: calc(90vh - 60px);
     }
-    
+
     .form-emphasis{
         display: inline-flex;
         width: 100%;
         justify-content: center;
+    }
+
+    .key_removed_elevtive{
+        margin-left: 20px;
     }
 
     #grade-formular{

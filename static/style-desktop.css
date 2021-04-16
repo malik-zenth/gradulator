@@ -35,7 +35,7 @@
         border-radius: 2px;
         min-height: 495px;
       }
-      
+
       .steps-action {
         margin-top: 24px;
       }
@@ -186,6 +186,10 @@
 
     .text-icon{
         margin-right: 5px;
+    }
+
+    .key_removed_elevtive{
+        margin-left: 20px;
     }
 
     .footer{
