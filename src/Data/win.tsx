@@ -2,7 +2,6 @@ import { BasicInformation, ExamPackages, Exams, SingleOption } from "./types";
 
 const win_basic_data: BasicInformation = {
     name: "Wirtschaftsinformatik",
-    beta: true,
     weight: 120,
     ects: 114.5,
     spo: 5,
