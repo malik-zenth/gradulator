@@ -22,6 +22,23 @@ class Explanation extends React.Component {
                     <Row>
                         <Col span={1}></Col>
                         <Col span={22}>
+                            <Card title="Beta Studiengang" bordered={false} style={{ maxWidth: 1000 }}>
+                                <p>
+                                    Sobald wir einen neuen Studiengang hinzugefügt haben, versuchen wir in Zusammenarbeit mit den entsprechenden Ansprechpartnern des
+                                    Studienganges die von uns aus der Studien &amp; Prüfungsordnung ausgearbeitete Berechnung zu validieren. Dieser Schritt dient der
+                                    Qualitätssicherung und soll sicherstellen, dass die Berechnung absolut korrekt ist.
+                                    <br></br>
+                                    Ist ein Studiengang als (Beta) gekennzeichnet, so bedeutet dies, dass die Berechnung sehr wahrscheinlich korrekt ist, jedoch noch nicht
+                                    validiert wurde.
+                                </p>
+                            </Card>
+                        </Col>
+                        <Col span={1}></Col>
+                    </Row>
+
+                    <Row>
+                        <Col span={1}></Col>
+                        <Col span={22}>
                             <Card title="Geschätzte Noten" bordered={false} style={{ maxWidth: 1000 }}>
                                 <p>Wenn eine Note noch nicht bekannt ist, kann hierfür eine erwartete Note eingetragen und diese anschließend über die
                                 Checkbox darunter als Schätzung markiert werden. Wenn eine Note als Schätzung markiert ist, wird die entsprechende Modulnote, welche diese

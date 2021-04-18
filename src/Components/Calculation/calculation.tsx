@@ -1,16 +1,23 @@
 // calculate the average for given grades
-import { ExamPackages, Exams, UserInput, SingleOption, ExamPackage, Exam, Emphasis, BasicInformation, CalculationResult} from "../../Data/types";
+import { ExamPackages, Exams, UserInput, SingleOption, ExamPackage, Exam, Emphasis, BasicInformation, CalculationResult, Electives} from "../../Data/types";
 import {GradePackage, GradePackages, IncompletePackages, GradePackageAverage, CaseReturn} from "./types"
 
 export const calculateData = (inputGrades: UserInput[], selectedOption: SingleOption): CalculationResult => {
     var bestCaseGrade: number
     var worstCaseGrade: number
+    var removedElevtive: GradePackage[]
     // settup data in a way that all grades from one package are together
     const gradePackages: GradePackages = settupGradePackages(inputGrades, selectedOption.exams)
     // check which packages are incomplete
-    const incompletePackages: IncompletePackages[] = checkIncompletePackes(gradePackages, selectedOption.examPackages, selectedOption.exams)
+    const incompletePackages: IncompletePackages[] = checkIncompletePackes(gradePackages, selectedOption.examPackages, selectedOption.exams, selectedOption.basics.elevtive)
     // calculate all achived ects
     const ects: number = calculateECTS(inputGrades, selectedOption.exams)
+
+    // bevor calculating the averages remove not required elevative grades
+    if(selectedOption.basics.elevtive){
+        removedElevtive = removeElevtiveGrades(gradePackages, selectedOption.basics.elevtive)
+    }
+
     // calculate the average for each package
     var average: GradePackageAverage[] = calculateAverages(gradePackages, selectedOption.examPackages)
     // if their are incomplete packages mark them
@@ -47,8 +54,33 @@ export const calculateData = (inputGrades: UserInput[], selectedOption: SingleOp
         requiredEmphasis: selectedOption.basics.required_emphasis,
         completedEmphasis: completedEmphasis,
         removedEmphasis: removedEmphasis,
-        removedEmphasisName: removedEmphasisName
+        removedEmphasisName: removedEmphasisName,
+        removedElevtive: removedElevtive
     }
+}
+
+const removeElevtiveGrades = (inputGrades: GradePackages, elevatives: Electives[]) => {
+    const removedElevtive: GradePackage[] = []
+    elevatives.map(single => {
+        if(single.required < inputGrades[single.emphasisid].length){
+            const sortedGradesElevatives: GradePackage[] = sortElevtiveByGrade(inputGrades[single.emphasisid])
+            // add all removed items to this list to display them on result page
+            removedElevtive.push(...sortedGradesElevatives.slice(single.required, sortedGradesElevatives.length))
+            // update inputGrades, remove the not required once
+            inputGrades[single.emphasisid] = sortedGradesElevatives.slice(0,single.required)
+        }
+    })
+    // return all gradePackages we have removed. inputGrades is updated as well
+    return removedElevtive
+}
+
+// order Grade Package by Grade in order to remove those grades that are the worst
+const sortElevtiveByGrade = (inputGrades: GradePackage[]): GradePackage[] => {
+    return inputGrades.sort(function(a, b) {
+        if (a.grade < b.grade) return -1;
+        if (a.grade > b.grade) return 1;
+        return 0;
+      });
 }
 
 const calculateCase = (inputGrades: GradePackages, examPackages: ExamPackages, basicData: BasicInformation,exams: Exams,grade: number): CaseReturn => {
@@ -108,7 +140,7 @@ const settupGradePackages = (inputGrades: UserInput[], examPackes: Exams): Grade
     return gradePackages
 }
 
-const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: ExamPackages, examData: Exams): IncompletePackages[] => {
+const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: ExamPackages, examData: Exams, elevative: Electives[]): IncompletePackages[] => {
     const incompletePackages: IncompletePackages[] = []
     Object.keys(inputPackages).forEach(singlePackage => {
         const exams = inputPackages[singlePackage].map((x: GradePackage) => x.examID)
@@ -122,12 +154,34 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
             missingGrades.map((x: Exam) => {
                 overallMissing += x.weight
             })
-            incompletePackages.push({
-                missing: missingGrades,
-                complete: false,
-                completeness: Math.round((1 - overallMissing / overallWeight) * 100),
-                gradePackageID: parseInt(singlePackage)
-            })
+            // if their are elevative grades check if current package is part of them, if so use other logik to detect completness
+            if(!elevative || !elevative.map(x => x.emphasisid).includes(parseInt(singlePackage))){
+                incompletePackages.push({
+                    missing: missingGrades,
+                    complete: false,
+                    completeness: Math.round((1 - overallMissing / overallWeight) * 100),
+                    gradePackageID: parseInt(singlePackage)
+                })
+            }else{
+                const elevative_package: Electives[] = elevative.filter(x => x.emphasisid == parseInt(singlePackage))
+                // if their are missing packages, but the amound of required once is reached do nothing
+                // if not, add this to incomplete onces
+                if(inputPackages[singlePackage].length < elevative_package[0].required){
+                    var achived_weight: number = 0
+                    inputPackages[singlePackage].map(x => {
+                        achived_weight += x.weight
+                    })
+                    incompletePackages.push({
+                        missing: missingGrades,
+                        complete: false,
+                        elevative: true,
+                        amoundMissing: elevative_package[0].required - inputPackages[singlePackage].length,
+                        completeness: Math.round((achived_weight / gradePackages[elevative_package[0].emphasisid].weight) * 100),
+                        gradePackageID: parseInt(singlePackage)
+                    })
+                }
+            }
+
         }
 
     })
@@ -176,6 +230,8 @@ const addImcompleteTag = (averages: GradePackageAverage[], incomplete: Incomplet
             averages[index].completeness = incompleteExams[0].completeness
             averages[index].missing = incompleteExams[0].missing
             averages[index].complete = incompleteExams[0].complete
+            incompleteExams[0].amoundMissing ? averages[index].amoundMissing = incompleteExams[0].amoundMissing: null
+            incompleteExams[0].elevative ? averages[index].elevative = incompleteExams[0].elevative: null
         }
     }
     return averages

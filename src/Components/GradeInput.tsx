@@ -6,6 +6,7 @@ import {
   Exams,
   SingleOption,
 } from "../Data/types";
+import {Link} from "react-router-dom"
 import { Form, InputNumber, Checkbox, Button, Modal, Row, Col, Divider } from "antd";
 
 interface InitialValues {
@@ -43,6 +44,8 @@ const GradeInput = (props: IProps) => {
   const [form] = Form.useForm();
   // this hook will handle all emphasis points which are not displayed
   const [notDisplayedEmphasis, setEmphasis] = useState([]);
+  // show BETA-Version Modal
+  const [showBETAModal, setBETAModal] = useState(false);
   // if Modal Error Message no Input detected is displayed
   const [showModal, setShowModal] = useState(false);
   const [prevInitialValues, setPrevInitialValues] = useState({})
@@ -137,15 +140,21 @@ const GradeInput = (props: IProps) => {
   const renderSPOCheckboxes = (
     spo: number
   ): ReactFragment => {
-    if(spo){
       return(
         <div>
           Noteneingabe und Berechnung nach SPO {spo}
         </div>
       )
-    }else{
-      return <div></div>
     }
+
+  // render BETA Text
+  const renderBETAText = (
+  ): ReactFragment => {
+    return(
+      <div>
+        Dieser Studiengang ist aktuell in einer BETA-Version. <a onClick={() => setBETAModal(true)}> Mehr Informationen</a>
+      </div>
+    )
   }
 
   // if an emphasis checkbox is changed either add it to state or remove it from it
@@ -245,6 +254,33 @@ const GradeInput = (props: IProps) => {
     );
   };
 
+    // Modal displayed if Beta Information are shown
+    const renderBETAModal = (): ReactFragment => {
+      return (
+        <Modal
+          title="BETA-Studiengang"
+          visible={showBETAModal}
+          footer={[
+            <Button
+              key="submit"
+              type="primary"
+              onClick={() => setBETAModal(false)}
+            >
+              Ok
+            </Button>,
+          ]}
+        >
+          <p>Sobald wir einen neuen Studiengang hinzugefügt haben, versuchen wir in Zusammenarbeit mit den entsprechenden Ansprechpartnern des
+            Studienganges die von uns aus der Studien &amp; Prüfungsordnung ausgearbeitete Berechnung zu validieren. Dieser Schritt dient der
+            Qualitätssicherung und soll sicherstellen, dass die Berechnung absolut korrekt ist.
+            <br></br><br></br>
+            Ist ein Studiengang als (Beta) gekennzeichnet, so bedeutet dies, dass die Berechnung sehr wahrscheinlich korrekt ist, jedoch noch nicht
+            validiert wurde.
+          </p>
+        </Modal>
+      );
+    };
+
   // remove the checkbox tag from the value of the input Object
   const removeCheckboxTag = (examID: string): string => {
     if (examID.indexOf(checkboxMark) === -1) return examID;
@@ -313,9 +349,13 @@ const GradeInput = (props: IProps) => {
   return (
     <div>
       {renderModal()}
+      {renderBETAModal()}
       <Form initialValues={initialValues} form={form} id="grade-formular">
         <h2 className="grade-input-heading">Noteneingabe</h2>
-        <div className="form-emphasis">{renderSPOCheckboxes(basics.spo)}</div>
+
+        {basics.spo && <div className="form-emphasis">{renderSPOCheckboxes(basics.spo)}</div>}
+        {basics.beta && <div className="form-emphasis">{renderBETAText()}</div>}
+
         <div className="form-emphasis">{renderEmphasisCheckboxes(basics)}</div>
         {renderButtons()}
         <div className="form-grades">{renderInputOptions(orderdExams)}</div>

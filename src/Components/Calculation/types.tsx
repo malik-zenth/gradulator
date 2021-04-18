@@ -15,7 +15,9 @@ export interface IncompletePackages{
     missing: Exam[]
     completeness: number,
     gradePackageID: number,
-    complete: boolean
+    complete: boolean,
+    amoundMissing?:number,
+    elevative?:boolean
 }
 
 export interface GradePackageAverage{
@@ -28,7 +30,9 @@ export interface GradePackageAverage{
     incomplete?:boolean,
     completeness?:number,
     complete?:boolean,
-    missing?:Exam[]
+    missing?:Exam[],
+    elevative?: boolean,
+    amoundMissing?:number
 }
 
 export interface CaseReturn{

@@ -1,13 +1,16 @@
-import { GradePackageAverage } from "../Components/Calculation/types";
+import { GradePackage, GradePackageAverage } from "../Components/Calculation/types";
 
 // Basic Information about each degree
 export interface BasicInformation {
     name: string,
+    beta?: boolean,
     ects: number,
     spo?: number,
     weight: number,
     required_emphasis: number,
-    emphasis: Emphasis[] | null
+    emphasis: Emphasis[] | null,
+    elevtive?: Electives[]
+
 }
 
 // used in BasicInformation - information about Emphasis
@@ -15,6 +18,13 @@ export interface Emphasis {
     ids: number[],
     name: string,
     weight: number,
+    emphasisid: number
+}
+
+// BasicInformation about Elevtives
+export interface Electives {
+    ids: number[],
+    required: number,
     emphasisid: number
 }
 
@@ -73,10 +83,11 @@ export interface CalculationResult{
     singleGrades: GradePackageAverage[],
     requiredECTS: number,
     achivedECTS: number,
-    requiredEmphasis: number,
-    completedEmphasis: number,
-    removedEmphasis: boolean,
-    removedEmphasisName: string,
+    requiredEmphasis?: number,
+    completedEmphasis?: number,
+    removedEmphasis?: boolean,
+    removedEmphasisName?: string,
     observedWeight: number,
-    overallWeight: number
+    overallWeight: number,
+    removedElevtive?: GradePackage[]
 }

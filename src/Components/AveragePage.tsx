@@ -15,7 +15,7 @@ import {
   faAngleRight,
   faAngleDown
 } from "@fortawesome/free-solid-svg-icons";
-import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation, TooltipRemovedEmphasis } from "./const";
+import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation, TooltipRemovedEmphasis, ToolTipRemovedElevtive } from "./const";
 
 interface IProps {
   inputGrades: UserInput[];
@@ -28,6 +28,8 @@ interface IProps {
 interface IState {
   notDisplayedGradeNames: string[]
 }
+
+const numWords = require('num-words')
 
 const keyGenerator = (): ReactText =>
   "_" + Math.random().toString(36).substr(2, 9);
@@ -113,9 +115,9 @@ class AveragePage extends React.Component<IProps, IState> {
               Modul erst zu {single.completeness}% abgeschlossen.
             </Tooltip>
           </p>
-
-          {single.missing.length > 1 && <p>Folgende Noten fehlen noch: </p>}
-          {single.missing.length == 1 && <p>Folgende Note fehlt noch: </p>}
+          {single.elevative && <p>{numWords(single.amoundMissing)} der folgenden Noten fehlt noch:</p>}
+          {!single.elevative && single.missing.length > 1 && <p>Folgende Noten fehlen noch: </p>}
+          {!single.elevative && single.missing.length == 1 && <p>Folgende Note fehlt noch: </p>}
           {single.missing.map((missing: Exam) => {
             return <li key={keyGenerator()}>{missing.name}</li>;
           })}
@@ -162,6 +164,16 @@ class AveragePage extends React.Component<IProps, IState> {
               <p>
                 <Tooltip title={TooltipRemovedEmphasis}>
                 Noten des Schwerpunktes {averageData.removedEmphasisName} wurden entfernt
+                </Tooltip>
+              </p>
+            )}
+            {(averageData.removedElevtive && averageData.removedElevtive.length != 0) && (
+              <p>
+                <Tooltip title={ToolTipRemovedElevtive}>
+                  <FontAwesomeIcon className="text-icon" icon={faInfoCircle} />
+                  Noten folgender Wahlfächer wurden ignoriert: {averageData.removedElevtive.map(x => {
+                    return <li className="key_removed_elevtive" key={keyGenerator()}>{this.props.selectedOption.exams[x.examID].name}</li>})
+                  }
                 </Tooltip>
               </p>
             )}
@@ -231,6 +243,7 @@ class AveragePage extends React.Component<IProps, IState> {
       inputGrades,
       selectedOption
     );
+    console.log(calculationResult)
     return (
       <div className="result-page">
           <div className="form-grades-back">
