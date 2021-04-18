@@ -16,6 +16,7 @@ import {
   faAngleDown
 } from "@fortawesome/free-solid-svg-icons";
 import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation, TooltipRemovedEmphasis, ToolTipRemovedElevtive } from "./const";
+import {numToWord} from "num-words-de"
 
 interface IProps {
   inputGrades: UserInput[];
@@ -115,7 +116,7 @@ class AveragePage extends React.Component<IProps, IState> {
               Modul erst zu {single.completeness}% abgeschlossen.
             </Tooltip>
           </p>
-          {single.elevative && <p>{numWords(single.amoundMissing)} der folgenden Noten fehlt noch:</p>}
+          {single.elevative && <p>{numToWord(single.amoundMissing, {indefinite_eine: true})} der folgenden Noten fehlt noch:</p>}
           {!single.elevative && single.missing.length > 1 && <p>Folgende Noten fehlen noch: </p>}
           {!single.elevative && single.missing.length == 1 && <p>Folgende Note fehlt noch: </p>}
           {single.missing.map((missing: Exam) => {
@@ -243,7 +244,6 @@ class AveragePage extends React.Component<IProps, IState> {
       inputGrades,
       selectedOption
     );
-    console.log(calculationResult)
     return (
       <div className="result-page">
           <div className="form-grades-back">
