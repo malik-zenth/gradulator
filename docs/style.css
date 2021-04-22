@@ -25,10 +25,19 @@
         margin-top: 1em;
     }
 
+    .key_removed_elevtive{
+        margin-left: 20px;
+    }
+
+    .form-emphasis{
+        text-align: center;
+        padding: .2em
+    }
+
     .steps-content {
         min-height: 160px;
       }
-      
+
       .steps-action {
         margin-top: 24px;
       }
@@ -247,7 +256,7 @@
         border-radius: 2px;
         min-height: 495px;
       }
-      
+
       .steps-action {
         margin-top: 24px;
       }
@@ -398,6 +407,10 @@
 
     .text-icon{
         margin-right: 5px;
+    }
+
+    .key_removed_elevtive{
+        margin-left: 20px;
     }
 
     .footer{
@@ -602,11 +615,15 @@
     .content{
         min-height: calc(90vh - 60px);
     }
-    
+
     .form-emphasis{
         display: inline-flex;
         width: 100%;
         justify-content: center;
+    }
+
+    .key_removed_elevtive{
+        margin-left: 20px;
     }
 
     #grade-formular{

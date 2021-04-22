@@ -85,7 +85,7 @@ const GradeInput = (props: IProps) => {
               style={{ width: 200 }}
               placeholder="Note eingeben"
               parser={(value) => {
-                value.replace(",", ".")
+                value = value.replace(",", ".")
                 // if value has more than one value after the dot we remove them
                 if(value.indexOf(".") +2 < value.length){
                   value = value.substring(0, value.indexOf(".")+2)

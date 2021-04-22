@@ -5,7 +5,7 @@ import {mwi} from "./mwi"
 import { vb } from "./vb";
 
 export const options: DegreeOptions = {
-    "Verkehrsbetriebswirtschaft und Logistik": vb,
+    //"Verkehrsbetriebswirtschaft und Logistik": vb,
     "Wirtschaftsinformatik": win,
     "Wirtschaftsinformatik - Informationsmanagement und Data Science": mid,
     "Wirtschaftsinformatik - Digitale Transformation": mwi
