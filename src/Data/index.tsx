@@ -3,9 +3,11 @@ import {win} from "./win"
 import {mid} from "./mid"
 import {mwi} from "./mwi"
 import { vb } from "./vb";
+import {mtl} from "./mtl"
 
 export const options: DegreeOptions = {
     //"Verkehrsbetriebswirtschaft und Logistik": vb,
+    "Master in Transport und Logistik Management": mtl,
     "Wirtschaftsinformatik": win,
     "Wirtschaftsinformatik - Informationsmanagement und Data Science": mid,
     "Wirtschaftsinformatik - Digitale Transformation": mwi
@@ -19,7 +21,11 @@ export function mapName(text: string): string{
     }
     else if(text.includes("Wirtschaftsinformatik") && text.includes("Digitale")){
         return "Wirtschaftsinformatik - Digitale Transformation"
-    }else{
+    }
+    else if(text.includes("Master in Transport")){
+        return "Master in Transport und Logistik Management"
+    }
+    else{
         return text
         }
     }

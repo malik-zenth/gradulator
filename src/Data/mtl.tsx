@@ -6,7 +6,8 @@ const mtl_basic_data: BasicInformation = {
     weight: 90,
     ects: 85,
     required_emphasis: 0,
-    emphasis: []
+    emphasis: [],
+    beta: true
 }
 
 const mtl_exams: Exams = {
@@ -94,6 +95,13 @@ const mtl_exams: Exams = {
         name: "Leadership & Enterpreneurship",
         packageid: 161200,
     },
+    161211: {
+        semester: 2,
+        ects: 5,
+        weight: 5,
+        name: "Forschungsstudie: Zukünftige Logistiklösungen",
+        packageid: 161210
+    },
     161241: {
         semester: 3,
         ects: 20,
@@ -113,7 +121,7 @@ const mtl_exams: Exams = {
         ects: 30,
         weight: 30,
         name: "Management-Fähigkeiten",
-        packageid: 161210
+        packageid: 161220
     }
 }
 
