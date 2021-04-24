@@ -434,96 +434,96 @@ const bu_exams: Exams = {
 
 const bu_ExamPackages: ExamPackages = {
     152201: {
-        name: "Modulprüfung Bachelorarbeit und -prüfung",
+        name: "Bachelorarbeit und -prüfung",
         weight: 15,
         required: [152271, 152272]
     }, 152202: {
-        name: "Modulprüfung Unternehmensführung",
+        name: "Unternehmensführung",
         weight: 15,
         required: [152261, 152273, 152274]
     }, 152203: {
-        name: "Modulprüfung Leadership Skills",
+        name: "Leadership Skills",
         weight: 14,
         required: [152242, 152262, 152275]
     }, 152204: {
-        name: "Modulprüfung Informationsmanagement",
+        name: "Informationsmanagement",
         weight: 5,
         required: [152231, 152243]
     }, 152205: {
-        name: "Modulprüfung Produktion und Marketing",
+        name: "Produktion und Marketing",
         weight: 7,
         required: [152232, 152233]
     }, 152206: {
-        name: "Modulprüfung Controlling, Finanzwirtschaft und Steuern",
+        name: "Controlling, Finanzwirtschaft und Steuern",
         weight: 15,
         required: [152234, 152235, 152236]
     }, 152207: {
-        name: "Modulprüfung Recht",
+        name: "Recht",
         weight: 7,
         required: [152237, 152244]
     }, 152208: {
-        name: "Modulprüfung Volkswirtschaft",
+        name: "Volkswirtschaft",
         weight: 5,
         required: [152245]
     }, 152501:
     {
-        name: "Modulprüfung Basiskompetenzen FACT",
+        name: "Basiskompetenzen FACT",
         weight: 15,
         required: [152541, 152542, 152543]
     }, 152502: {
-        name: "Modulprüfung Vertiefungskompetenzen FACT",
+        name: "Vertiefungskompetenzen FACT",
         weight: 20,
         required: [152503, 152504]
     }, 152601: {
-        name: "Modulprüfung Marketing und Vertriebsrecht / Rhetorik im Vertrieb",
+        name: "Marketing und Vertriebsrecht / Rhetorik im Vertrieb",
         weight: 6,
         required: [152641, 152642]
     }, 152602: {
-        name: "Modulprüfung Marktforschung – Theorie, Methoden, Projekt",
+        name: "Marktforschung – Theorie, Methoden, Projekt",
         weight: 9,
         required: [152643]
     }, 152603: {
-        name: "Modulprüfung Digitales Marketing / Businessplanung für Neuprodukte",
+        name: "Digitales Marketing / Businessplanung für Neuprodukte",
         weight: 10,
         required: [152661, 152662]
     }, 152604: {
-        name: "Modulprüfung International Marketing",
+        name: "International Marketing",
         weight: 5,
         required: [152663]
     }, 152605: {
-        name: "Modulprüfung Marketing- und Vertriebsprojektstudie",
+        name: "Marketing- und Vertriebsprojektstudie",
         weight: 5,
         required: [152664]
     }, 152701: {
-        name: "Modulprüfung Logistik",
+        name: "Logistik",
         weight: 15,
         required: [152741, 152742, 152743]
     }, 152702: {
-        name: "Modulprüfung Strategisches Supply Chain Management",
+        name: "Strategisches Supply Chain Management",
         weight: 15,
         required: [152761, 152762, 152763]
     }, 152703: {
-        name: "Modulprüfung Produktions- und Logistikprojektstudie",
+        name: "Produktions- und Logistikprojektstudie",
         weight: 5,
         required: [152764]
     }, 152801: {
-        name: "Modulprüfung Kernprozesse des Personalmanagements",
+        name: "Kernprozesse des Personalmanagements",
         weight: 12,
         required: [152841, 152842, 152843]
     }, 152802: {
-        name: "Modulprüfung Querschnittsprozesse des Personalmanagements",
+        name: "Querschnittsprozesse des Personalmanagements",
         weight: 13,
         required: [152844, 152861, 152862]
     }, 152803: {
-        name: "Modulprüfung Führungsprozesse des Personalmanagements",
+        name: "Führungsprozesse des Personalmanagements",
         weight: 10,
         required: [152863, 152864]
     }, 152901: {
-        name: "Modulprüfung Principles of International Management",
+        name: "Principles of International Management",
         weight: 5,
         required: [152961]
     }, 152902: {
-        name: "Modulprüfung International Management (erbracht an einer Partnerhochschule)",
+        name: "International Management (erbracht an einer Partnerhochschule)",
         weight: 30,
         required: [152962, 152963, 152964]
     }
