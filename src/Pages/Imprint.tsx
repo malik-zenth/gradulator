@@ -50,6 +50,10 @@ class Imprint extends React.Component{
                     der <a href="https://docs.github.com/en/github/site-policy/github-privacy-statement" target="_blank">Datenschutzerklärung</a> von Github
                 </p>
 
+                <p>Diese Webseite verwendet zur Verarbeitung der Nutzungsstatistiken <a href="https://getinsights.io/" target="_blank">Insights</a>. Durch diese Anwendung werden keine personenbezogene Daten verarbeitet und von der Nutzung von Cookies zur Identifikation von Benutzern wird abgesehen.
+                    Weitere Informationen zum Umgang mit diesen Daten finden Sie in der <a href="https://getinsights.io/privacy" target="_blank">Datenschutzerklärung</a> von Insights.
+                </p>
+
                 </div>
                 </div>
                 <Footer/>

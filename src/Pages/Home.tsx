@@ -11,7 +11,6 @@ import { options } from "../Data";
 import { MailLink } from "../Components/const"
 import jsPDF from 'jspdf';
 import {isMobile, isTablet} from "react-device-detect"
-import { init, trackPages } from "insights-js"
 
 const ref: any = React.createRef();
 
@@ -60,9 +59,6 @@ class Home extends React.Component<IProps, IState>{
         const height: number = window.innerHeight - 60
         content.setAttribute("style", `min-height: ${height}px`)
         }
-        // Init Insights-analytics
-        init("EfuBEN79UVOU5DFy")
-        trackPages()
     }
 
     displayAverage = (gradeInput: UserInput[], selectedOption: string): void => {
