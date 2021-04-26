@@ -18,14 +18,16 @@ export interface Emphasis {
     ids: number[],
     name: string,
     weight: number,
-    emphasisid: number
+    emphasisid: number,
 }
 
 // BasicInformation about Elevtives
 export interface Electives {
     ids: number[],
     required: number,
-    emphasisid: number
+    examid: number,
+    emphasisid?: number,
+    emphasis_elevtive?: boolean
 }
 
 // all the exams the degree has
@@ -40,7 +42,7 @@ export interface Exam{
     name: string,
     packageid: number,
     emphasisid?: number,
-    ignored?: boolean
+    ignored?: boolean,
 }
 
 // all the packages of exams the exams get turned into

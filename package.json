@@ -35,7 +35,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack --mode production",
+    "build": "npm test && webpack --mode production",
     "test": "jest"
   },
   "eslintConfig": {

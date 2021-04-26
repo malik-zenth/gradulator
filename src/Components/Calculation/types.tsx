@@ -1,4 +1,4 @@
-import {Exam} from "../../Data/types";
+import {Exam, Exams} from "../../Data/types";
 
 export interface GradePackages{
     [key: string]: GradePackage[]
@@ -16,8 +16,7 @@ export interface IncompletePackages{
     completeness: number,
     gradePackageID: number,
     complete: boolean,
-    amoundMissing?:number,
-    elevative?:boolean
+    missingElevtiveGrades?: MissingElevtiveEmphasis
 }
 
 export interface GradePackageAverage{
@@ -31,11 +30,21 @@ export interface GradePackageAverage{
     completeness?:number,
     complete?:boolean,
     missing?:Exam[],
-    elevative?: boolean,
-    amoundMissing?:number
+    missingElevtiveGrades?: MissingElevtiveEmphasis
 }
 
 export interface CaseReturn{
     caseGrade: number,
     caseAverage: GradePackageAverage[]
+}
+
+// Package containing all missing elevtives that are part of an emphasis
+export interface MissingElevtivesEmphasis{
+    [key: number]: MissingElevtiveEmphasis
+}
+
+// single missing package
+export interface MissingElevtiveEmphasis{
+    exams: Exam[],
+    amoundMissing: number
 }

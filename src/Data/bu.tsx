@@ -7,6 +7,15 @@ const bu_basic_data: BasicInformation = {
     spo: 3,
     required_emphasis: 1,
     beta: true,
+    elevtive: [
+        {
+            ids: [152561,152562,152563, 152564,152565,152566,152567,152568,152569],
+            required: 4,
+            examid: 152503,
+            emphasis_elevtive: true,
+            emphasisid: 1
+        }
+    ],
     emphasis: [{
         ids: [152501, 152502],
         name: "Finance, Accounting, Controlling and Taxation",
@@ -40,6 +49,87 @@ const bu_basic_data: BasicInformation = {
 }
 
 const bu_exams: Exams = {
+    152503: {
+        semester: 6,
+        ects: 16,
+        weight: 16,
+        name: "Wahlpflichtfächer",
+        packageid: 152502,
+        emphasisid: 1,
+        ignored: true
+    },
+    152561: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "Finanzmanagement I",
+        packageid: 152503,
+        emphasisid: 1
+    },
+    152562: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "Finanzmanagement II",
+        packageid: 152503,
+        emphasisid: 1
+    },
+    152563: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "Rechnungslegung I",
+        packageid: 152503,
+        emphasisid: 1
+    },
+    152564: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "Rechnungslegung II",
+        packageid: 152503,
+        emphasisid: 1
+    },
+    152565: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "Controlling I",
+        packageid: 152503,
+        emphasisid: 1
+    },
+    152566: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "Controlling II",
+        packageid: 152503,
+        emphasisid: 1
+    },
+    152567: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "Steuerrecht I",
+        packageid: 152503,
+        emphasisid: 1
+    },
+    152568: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "Steuerrecht II",
+        packageid: 152503,
+        emphasisid: 1
+    },
+    152569: {
+        semester: 6,
+        weight: 2,
+        ects: 4,
+        name: "IT-Anwendungen",
+        packageid: 152503,
+        emphasisid: 1
+    },
     152231: {
         semester: 3,
         ects: 3,
@@ -258,15 +348,7 @@ const bu_exams: Exams = {
         weight: 5,
         name: "International Management and Business Ethics",
         packageid: 152203
-    }, 152503:
-    {
-        semester: 6,
-        ects: 16,
-        weight: 16,
-        name: "Wahlpflichtfächer",
-        packageid: 152502,
-        emphasisid: 1
-    }, 152504:
+    },152504:
     {
         semester: 6,
         ects: 4,

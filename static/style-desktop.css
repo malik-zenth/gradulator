@@ -192,6 +192,10 @@
         margin-left: 20px;
     }
 
+    .missingGrades{
+        margin-bottom: 1em;
+    }
+
     .footer{
       height: 50px;
       display: inline-flex;

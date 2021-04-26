@@ -5,12 +5,13 @@ const vb_basic_data: BasicInformation = {
     name: "Verkehrsbetriebswirtschaft und Logistik",
     weight: 120,
     ects: 0,
+    beta: true,
     required_emphasis: 1,
     emphasis: [],
     elevtive: [{
         ids: [163301,163302,163303,163304],
         required: 2,
-        emphasisid: 163300,
+        examid: 163300,
     }]
 }
 

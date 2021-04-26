@@ -16,7 +16,10 @@ import {
   faAngleDown
 } from "@fortawesome/free-solid-svg-icons";
 import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation, TooltipRemovedEmphasis, ToolTipRemovedElevtive } from "./const";
+import {MissingElevtiveEmphasis} from "../Components/Calculation/types"
+
 import {numToWord} from "num-words-de"
+import { SignalFilled } from "@ant-design/icons";
 
 interface IProps {
   inputGrades: UserInput[];
@@ -105,7 +108,7 @@ class AveragePage extends React.Component<IProps, IState> {
       );
     } else return <div></div>;
   }
-
+          //single.elevative && <p>{numToWord(single.amoundMissing, {indefinite_eine: true})} der folgenden Noten fehlt noch:</p>}
   renderIncomplete(single: GradePackageAverage): ReactFragment {
     if (single.incomplete) {
       return (
@@ -116,17 +119,42 @@ class AveragePage extends React.Component<IProps, IState> {
               Modul erst zu {single.completeness}% abgeschlossen.
             </Tooltip>
           </p>
-          {single.elevative && <p>{numToWord(single.amoundMissing, {indefinite_eine: true})} der folgenden Noten fehlt noch:</p>}
-          {!single.elevative && single.missing.length > 1 && <p>Folgende Noten fehlen noch: </p>}
-          {!single.elevative && single.missing.length == 1 && <p>Folgende Note fehlt noch: </p>}
-          {single.missing.map((missing: Exam) => {
-            return <li key={keyGenerator()}>{missing.name}</li>;
-          })}
+
+          {this.renderMissingGrades(single.missing)}
+          {this.renderMissingElevtives(single.missingElevtiveGrades)}
         </div>
       );
     } else {
       return <div></div>;
     }
+  }
+
+  renderMissingGrades(missing: Exam[]): ReactFragment {
+    if(missing){
+      return(
+        <div className="missingGrades">
+          {missing.length > 1 && <p>Folgende Noten fehlen noch: </p>}
+          {missing.length == 1 && <p>Folgende Note fehlt noch: </p>}
+          {missing.map((missing: Exam) => {
+            return <li key={keyGenerator()}>{missing.name}</li>;
+          })}
+        </div>
+      )
+    }
+    else return <div></div>
+  }
+
+  renderMissingElevtives(elevtives: MissingElevtiveEmphasis): ReactFragment {
+    if(elevtives){
+      return(
+        <div>
+        <p>{numToWord(elevtives.amoundMissing, {indefinite_eine: true})} der folgenden Wahlfachnoten fehlt noch:</p>
+          {elevtives.exams.map((missing: Exam) => {
+            return <li key={keyGenerator()}>{missing.name}</li>;
+          })}
+          </div>
+      )
+    }else return <div></div>
   }
 
   renderGrades(singleGrades: GradePackageAverage[]): ReactFragment {

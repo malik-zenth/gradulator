@@ -7,10 +7,10 @@ import { bu } from "./bu";
 import { vb_pv } from "./vb-pv"
 
 export const options: DegreeOptions = {
-    //"Verkehrsbetriebswirtschaft und Logistik": vb,
+    "Betriebswirtschaft und Unternehmensführung": bu,
+    "Verkehrsbetriebswirtschaft und Logistik": vb,
+    "Verkehrsbetriebswirtschaft und Personenverkehr": vb_pv,
     "Wirtschaftsinformatik": win,
     "Wirtschaftsinformatik - Informationsmanagement und Data Science": mid,
     "Wirtschaftsinformatik - Digitale Transformation": mwi,
-    "Betriebswirtschaft und Unternehmensführung": bu,
-    "Verkehrsbetriebswirtschaft und Personenverkehr": vb_pv
 }
