@@ -34,12 +34,12 @@ describe("test if calculation is still working", () => {
     test("if completness is correct", () => {
         const testInput: UserInput[] = [
             {examid: 282160, grade: 1, estimated: false},
-            {examid: 282161, grade: 1, estimated: false}
+            {examid: 282161, grade: 2, estimated: false}
         ]
 
         const calculationResult = calculateData(testInput, options["Wirtschaftsinformatik"])
 
-        expect(calculationResult.grade).toBe(1.3)
+        expect(calculationResult.grade).toBe(1.6)
         expect(calculationResult.observedWeight).toBe(35)
         expect(calculationResult.singleGrades).toHaveLength(1)
         expect(calculationResult.singleGrades[0].completeness).toBe(29)
@@ -57,6 +57,15 @@ describe("test if calculation is still working", () => {
     })
 
     test("if Elevtive inside of emphasis work", () => {
+        const testInput: UserInput[] = [
+            {examid: 152561, grade: 1, estimated: false},
+            {examid: 152562, grade: 2, estimated: true}
+        ]
 
+        const calculationResult = calculateData(testInput, options["Betriebswirtschaft und Unternehmensführung"])
+        expect(calculationResult.singleGrades).toHaveLength(1)
+        expect(calculationResult.singleGrades[0].missingElevtiveGrades).toBeDefined()
+        expect(calculationResult.singleGrades[0].missingElevtiveGrades.amoundMissing).toBe(2)
+        expect(calculationResult.grade).toBe(1.5)
     })
 })

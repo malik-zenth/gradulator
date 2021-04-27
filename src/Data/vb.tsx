@@ -5,9 +5,29 @@ const vb_basic_data: BasicInformation = {
     name: "Verkehrsbetriebswirtschaft und Logistik",
     weight: 120,
     ects: 0,
+    spo: 4,
     beta: true,
     required_emphasis: 1,
-    emphasis: [],
+    emphasis: [
+        {
+            ids: [],
+            name: "Vertiefung Marketing",
+            weight: 35,
+            emphasisid: 1
+        },
+        {
+            ids: [],
+            name: "Vertiefung Controlling",
+            weight: 35,
+            emphasisid: 2
+        },
+        {
+            ids: [],
+            name: "Vertiefung Führung",
+            weight: 35,
+            emphasisid: 1
+        }
+    ],
     elevtive: [{
         ids: [163301,163302,163303,163304],
         required: 2,
