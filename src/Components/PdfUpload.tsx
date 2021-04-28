@@ -4,6 +4,7 @@ import { Upload, message, Card } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
 import { UserInput } from "../Data/types";
+import {mapName} from "../Data"
 
 //Pds.js setup
 let pdfjsLib = require("pdfjs-dist/build/pdf");
@@ -146,7 +147,7 @@ class PdfUpload extends React.Component<iProps, iState> {
                 });
             }
 
-            //mainProcess will perform data preprocessing and grade extraction for each page of the pdf 
+            //mainProcess will perform data preprocessing and grade extraction for each page of the pdf
             function mainProcess(text: string) {
                 let Studiengang = extractStudiengang(text)
                 let arrayGrades = preprocessData(text);
@@ -186,7 +187,7 @@ class PdfUpload extends React.Component<iProps, iState> {
                 const firstSpoSplit: string = "Examination regulation version: ";
                 const secondSpoSplit: string = "Angestrebter Abschluss"
                 const subText: string = text.substring(
-                    text.lastIndexOf(firstSpoSplit) + firstSpoSplit.length, 
+                    text.lastIndexOf(firstSpoSplit) + firstSpoSplit.length,
                     text.lastIndexOf(secondSpoSplit)
                 );
                 const spoVersion: number = parseInt(subText)
@@ -194,19 +195,6 @@ class PdfUpload extends React.Component<iProps, iState> {
 
             }
 
-            
-            // map name to display name
-            function mapName(text: string): string{
-                if(text === "Wirtschaftsinformatik") return text
-                else if(text.includes("Wirtschaftsinformatik") && text.includes("Informationsmanagement")){
-                    return "Wirtschaftsinformatik - Informationsmanagement und Data Science"
-                }
-                else if(text.includes("Wirtschaftsinformatik") && text.includes("Digitale")){
-                    return "Wirtschaftsinformatik - Digitale Transformation"
-                }else{
-                    return text
-                }
-            }
 
             // Will preprocess the data
             function preprocessData(text: string) {
