@@ -111,7 +111,7 @@ const mid_exams: Exams = {
     285163: {
         semester: 3,
         ects: 5,
-        weight: 5,
+        weight: 20,
         name: "Master Thesis",
         packageid: 285160
     },
