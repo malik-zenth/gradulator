@@ -1,5 +1,5 @@
 import {calculateData} from "./calculation"
-import {options} from "../../Data"
+import {getDegreeByName} from "../../Data"
 import {UserInput} from "../../Data/types";
 describe("test if calculation is still working", () => {
 
@@ -10,7 +10,7 @@ describe("test if calculation is still working", () => {
         {examid: 282135, grade: 3, estimated: false},
         {examid: 282160, grade: 1, estimated: false}
     ]
-    const calculationResult = calculateData(testInput, options["Wirtschaftsinformatik"])
+    const calculationResult = calculateData(testInput, getDegreeByName("WIN").data)
     expect(calculationResult.grade).toBe(1.2)
     expect(calculationResult.singleGrades).toHaveLength(2)
     })
@@ -24,7 +24,7 @@ describe("test if calculation is still working", () => {
             {examid: 282194, grade: 1, estimated: false}
         ]
 
-        const calculationResult = calculateData(testInput, options["Wirtschaftsinformatik"])
+        const calculationResult = calculateData(testInput, getDegreeByName("WIN").data)
 
         expect(calculationResult.achivedECTS).toBe(25)
         expect(calculationResult.removedEmphasis).toBeTruthy
@@ -37,7 +37,7 @@ describe("test if calculation is still working", () => {
             {examid: 282161, grade: 2, estimated: false}
         ]
 
-        const calculationResult = calculateData(testInput, options["Wirtschaftsinformatik"])
+        const calculationResult = calculateData(testInput, getDegreeByName("WIN").data)
 
         expect(calculationResult.grade).toBe(1.6)
         expect(calculationResult.observedWeight).toBe(35)
@@ -51,7 +51,7 @@ describe("test if calculation is still working", () => {
             {examid: 163301, grade: 1, estimated: false}
         ]
 
-        const calculationResult = calculateData(testInput, options["Verkehrsbetriebswirtschaft und Logistik"])
+        const calculationResult = calculateData(testInput, getDegreeByName("Verkehrsbetriebswirtschaft und Logistik").data)
         expect(calculationResult.singleGrades).toHaveLength(1)
         expect(calculationResult.singleGrades[0].missingElevtiveGrades.amoundMissing).toBe(1)
     })
@@ -62,7 +62,7 @@ describe("test if calculation is still working", () => {
             {examid: 152562, grade: 2, estimated: true}
         ]
 
-        const calculationResult = calculateData(testInput, options["Betriebswirtschaft und Unternehmensführung"])
+        const calculationResult = calculateData(testInput, getDegreeByName("Betriebswirtschaft und Unternehmensführung").data)
         expect(calculationResult.singleGrades).toHaveLength(1)
         expect(calculationResult.singleGrades[0].missingElevtiveGrades).toBeDefined()
         expect(calculationResult.singleGrades[0].missingElevtiveGrades.amoundMissing).toBe(2)

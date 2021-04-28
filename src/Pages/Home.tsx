@@ -3,11 +3,11 @@ import PdfUpload from "../Components/PdfUpload"
 import ManualDataEntry from "../Components/ManualDataEntry"
 import CardPdf from "../Components/Card_PdfUpload"
 import { Formular, AveragePage, Footer, Header, GradeInput } from "../Components"
-import { UserInput, CalculationResult, Exam } from "../Data/types";
+import { UserInput, CalculationResult, Exam, DegreeOption } from "../Data/types";
 import {GradePackageAverage} from "../Components/Calculation/types"
 import { Row, Col, Modal, Button, message, Card, Steps } from 'antd';
 const { Step } = Steps;
-import { options } from "../Data";
+import { getDegreeByName, options, validateName } from "../Data";
 import { MailLink } from "../Components/const"
 import jsPDF from 'jspdf';
 import {isMobile, isTablet} from "react-device-detect"
@@ -205,19 +205,20 @@ class Home extends React.Component<IProps, IState>{
     }
 
     validateDegreeFromPdf = (selectedDegree: string, spo: number) => {
-        if (Object.keys(options).includes(selectedDegree)){
-            if(options[selectedDegree].basics.spo){
-                if(options[selectedDegree].basics.spo === spo){
-                    if(options[selectedDegree].basics.beta){
+        if (validateName(selectedDegree)){
+            const degree: DegreeOption = getDegreeByName(selectedDegree)
+            if(degree.data.basics.spo){
+                if(degree.data.basics.spo === spo){
+                    if(degree.data.basics.beta){
                         this.displayWarningBETAVersion()
                     }
                     return true
                 }else{
-                    this.setState({ showModal: true, selectedDegree: selectedDegree, wrongSPO: true })
+                    this.setState({ showModal: true, selectedDegree: degree.shortName, wrongSPO: true })
                     return false
                 }
             }else{
-                if(options[selectedDegree].basics.beta){
+                if(degree.data.basics.beta){
                     this.displayWarningBETAVersion()
                 }
                 return true
@@ -474,7 +475,7 @@ class Home extends React.Component<IProps, IState>{
                             {(selectedDegree && !showModal) &&
                                 <div ref={ref as React.RefObject<HTMLDivElement>} style={{ paddingTop: 50 }}>
                                     <GradeInput
-                                        options={options[selectedDegree]}
+                                        options={getDegreeByName(selectedDegree).data}
                                         inputGrades={inputValues}
                                         selectedOption={selectedDegree}
                                         displayAverage={(gradeValues: UserInput[], selectedOption: string) => this.displayAverage(gradeValues, selectedOption)}
@@ -489,7 +490,7 @@ class Home extends React.Component<IProps, IState>{
                         <div id="capture">
                             <AveragePage
                                 inputGrades={gradeInput}
-                                selectedOption={options[selectedOption]}
+                                selectedOption={getDegreeByName(selectedOption).data}
                                 editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
                                 newCalculation={() => this.newCalculation()}
                                 exportAsPdf={(input: CalculationResult) => this.exportAsPdf(input, selectedOption)}

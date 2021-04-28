@@ -1,45 +1,49 @@
 import {options} from "./index"
+import { DegreeOption } from "./types"
 
 // test if data is valid
 // note: this does not mean the data is 100% correct
 
 describe("test all available data", () => {
-   Object.keys(options).map((single: string) => {
+   options.map((single: DegreeOption) => {
       describe("test " + single, () => {
       // go through all exams and check if packageId is given
       test("if exams are valid", () => {
-         Object.keys(options[single].exams).map((examid: string) => {
-         const packageId: string = options[single].exams[examid].packageid
+         Object.keys(single.data.exams).map((examid: string) => {
+         const packageId: string = single.data.exams[examid].packageid
          // filter Elevatives and get all those that are part of an emphasis
-         const ElvativesInEmphasis: number[] = options[single].basics.elevtive ? options[single].basics.elevtive.filter(single => single.emphasis_elevtive).map(x => x.examid) : []
+         const ElvativesInEmphasis: number[] = single.data.basics.elevtive ? single.data.basics.elevtive.filter(single => single.emphasis_elevtive).map(x => x.examid) : []
          // if value is not going to ignored
-         if(!options[single].exams[examid].ignored && !(ElvativesInEmphasis.includes(parseInt(packageId)))){
-            expect(options[single].examPackages[packageId]).toBeDefined()
-            expect(options[single].examPackages[packageId].required.includes(packageId))
+         if(!single.data.exams[examid].ignored && !(ElvativesInEmphasis.includes(parseInt(packageId)))){
+            if(!single.data.examPackages[packageId]){
+               console.log(packageId, single.data.examPackages[packageId])
+            }
+            expect(single.data.examPackages[packageId]).toBeDefined()
+            expect(single.data.examPackages[packageId].required.includes(packageId))
          }
          })
       })
       test("if examPackages are valid", () => {
-         Object.keys(options[single].examPackages).map(examPackage => {
-            options[single].examPackages[examPackage].required.map((examid: string) => {
-               expect(options[single].exams[examid]).toBeDefined()
-               expect(options[single].exams[examid].packageid).toBe(parseFloat(examPackage))
+         Object.keys(single.data.examPackages).map(examPackage => {
+            single.data.examPackages[examPackage].required.map((examid: string) => {
+               expect(single.data.exams[examid]).toBeDefined()
+               expect(single.data.exams[examid].packageid).toBe(parseFloat(examPackage))
             })
          })
       })
       test("if emphasis data is valid", () => {
-         expect(options[single].basics.required_emphasis).toBeLessThanOrEqual(options[single].basics.emphasis.length)
-         options[single].basics.emphasis.map(singleEmphasis => {
+         expect(single.data.basics.required_emphasis).toBeLessThanOrEqual(single.data.basics.emphasis.length)
+         single.data.basics.emphasis.map(singleEmphasis => {
             singleEmphasis.ids.map((packageid: number) => {
-               expect(options[single].examPackages[packageid]).toBeDefined()
+               expect(single.data.examPackages[packageid]).toBeDefined()
             })
          })
       })
       test("if emphasis ids are valid", () => {
-         options[single].basics.emphasis.map(singleEmphasis => {
+         single.data.basics.emphasis.map(singleEmphasis => {
             singleEmphasis.ids.map((packageid: number) => {
-               options[single].examPackages[packageid].required.map(singleRequired => {
-                  expect(options[single].exams[singleRequired].emphasisid).toBe(singleEmphasis.emphasisid)
+               single.data.examPackages[packageid].required.map(singleRequired => {
+                  expect(single.data.exams[singleRequired].emphasisid).toBe(singleEmphasis.emphasisid)
                })
             })
          })

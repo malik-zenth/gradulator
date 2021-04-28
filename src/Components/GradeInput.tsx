@@ -6,7 +6,6 @@ import {
   Exams,
   SingleOption,
 } from "../Data/types";
-import {Link} from "react-router-dom"
 import { Form, InputNumber, Checkbox, Button, Modal, Row, Col, Divider } from "antd";
 
 interface InitialValues {

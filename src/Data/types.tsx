@@ -58,12 +58,13 @@ export interface ExamPackage{
 }
 
 // object of all options
-export interface DegreeOptions{
-    [Key: string]: SingleOption
+export interface DegreeOption{
+    data: SingleOption,
+    shortName: string,
+    longName: string
 }
 
-
-// single option
+// data for one option
 export interface SingleOption{
     basics: BasicInformation,
     exams: Exams,
@@ -78,6 +79,7 @@ export interface UserInput{
     estimated?: boolean
 }
 
+// output of the calculation
 export interface CalculationResult{
     grade: number,
     bestAverage?: number,
