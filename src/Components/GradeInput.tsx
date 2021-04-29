@@ -72,7 +72,7 @@ const GradeInput = (props: IProps) => {
   const renderInputField = (exam: SingleExam): ReactFragment => {
     return (
       <Col xl={6} xxl={6} lg={8} md={12} sm={12} xs={24} key={keyGenerator()}>
-        <div className="form-singleGrade-name">{exam.data.name}</div>
+        <div style={{minHeight: '50px'}} className="form-singleGrade-name">{exam.data.name}</div>
         <div className="form-singleGrade-items">
           <Form.Item
           name={exam.examID}
