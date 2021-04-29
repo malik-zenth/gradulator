@@ -33,8 +33,6 @@ interface IState {
   notDisplayedGradeNames: string[]
 }
 
-const numWords = require('num-words-de')
-
 const keyGenerator = (): ReactText =>
   "_" + Math.random().toString(36).substr(2, 9);
 
