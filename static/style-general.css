@@ -1,4 +1,4 @@
-/* Style for all types of screens*/ 
+/* Style for all types of screens*/
 
 @font-face {
     font-family: 'Alex Brush';
@@ -51,7 +51,20 @@
     font-family: "Alex Brush";
 }
 
-
 .modal_link{
     display: block
+}
+
+.beta-tag-dropdown{
+    color:white;
+    background-color: red;
+    margin-left: 5px;
+    border-radius: 6px;
+    padding-left: 4px;
+    padding-right: 4px;
+    height: 90%;
+}
+
+.dropdown-option-degree{
+    display: inline-flex;
 }

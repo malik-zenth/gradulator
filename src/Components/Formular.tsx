@@ -1,12 +1,12 @@
-import React from "react";
+import React, { ReactFragment } from "react";
 import { Form, Select, Modal, Button } from "antd";
-import { DegreeOptions, UserInput } from "../Data/types";
+import { DegreeOption, UserInput } from "../Data/types";
 import { Link } from "react-router-dom";
 import { FormInstance } from 'antd/lib/form';
-import { options } from "../Data";
+import { options, orderDegreesbyLongName, orderDegreesbyShortName } from "../Data";
 import { EditOutlined } from '@ant-design/icons';
 import { Upload } from 'antd';
-
+import {isMobile} from "react-device-detect"
 
 const { Dragger } = Upload;
 
@@ -17,11 +17,11 @@ interface InitialValues {
 
 interface FormOption {
   value: string;
-  label: string;
+  label: any;
 }
 
 interface IProps {
-  options: DegreeOptions;
+  options: DegreeOption[];
   selected?: string;
   inputGrades?: UserInput[];
   resetInputGradesAndUpdateSelectedDegree: Function
@@ -61,15 +61,20 @@ class Formular extends React.Component<IProps, IState> {
   // settup data
   // if an emphasis is selected, set it as default value, disable the field and show grade input
   componentDidMount() {
-    const { selected, options } = this.props;
+    const { selected } = this.props;
     this.settupData(selected)
   }
 
   settupData(selected: string): any {
-    const selectOptions = Object.keys(this.props.options).map(function (key, index) {
+    // order Degree options by alphabet in order to display them correctly
+    const sortedDegreeOptions = isMobile ? orderDegreesbyShortName(this.props.options) : orderDegreesbyLongName(this.props.options)
+
+    const selectOptions = sortedDegreeOptions.map(single =>  {
+      // if device is mobile we use the shortName as Option in our dropdown
+      const labelString: string =  isMobile ? single.shortName : single.longName
       // if option has beta flag we add a beta sign
-      const label: string = options[key].basics.beta ? options[key].basics.name + " [BETA]" : options[key].basics.name
-      return { value: key, label: label };
+      const label = this.settupDegreeOption(single)
+      return { value: single.shortName, label: label };
     });
     // if their is a selected value and it is valid add it as default label and set it as selected
     if (selected && Object.keys(options).includes(selected)) {
@@ -81,6 +86,23 @@ class Formular extends React.Component<IProps, IState> {
       return { select: { value: selected, label: selected } }
     } else {
       this.setState({ formOptions: selectOptions });
+    }
+  }
+
+  settupDegreeOption(selectedDegree: DegreeOption): ReactFragment {
+    const labelString: string =  isMobile ? selectedDegree.shortName : selectedDegree.longName
+    if(selectedDegree.data.basics.beta){
+      return(
+        <div className="dropdown-option-degree">
+          {labelString} <div className="beta-tag-dropdown">Beta</div>
+        </div>
+      )
+    }else{
+      return(
+        <div className="dropdown-option-degree">
+          {labelString}
+        </div>
+      )
     }
   }
 

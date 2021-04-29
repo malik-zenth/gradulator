@@ -18,14 +18,16 @@ export interface Emphasis {
     ids: number[],
     name: string,
     weight: number,
-    emphasisid: number
+    emphasisid: number,
 }
 
 // BasicInformation about Elevtives
 export interface Electives {
     ids: number[],
     required: number,
-    emphasisid: number
+    examid: number,
+    emphasisid?: number,
+    emphasis_elevtive?: boolean
 }
 
 // all the exams the degree has
@@ -40,7 +42,7 @@ export interface Exam{
     name: string,
     packageid: number,
     emphasisid?: number,
-    ignored?: boolean
+    ignored?: boolean,
 }
 
 // all the packages of exams the exams get turned into
@@ -56,12 +58,13 @@ export interface ExamPackage{
 }
 
 // object of all options
-export interface DegreeOptions{
-    [Key: string]: SingleOption
+export interface DegreeOption{
+    data: SingleOption,
+    shortName: string,
+    longName: string
 }
 
-
-// single option
+// data for one option
 export interface SingleOption{
     basics: BasicInformation,
     exams: Exams,
@@ -76,6 +79,7 @@ export interface UserInput{
     estimated?: boolean
 }
 
+// output of the calculation
 export interface CalculationResult{
     grade: number,
     bestAverage?: number,
