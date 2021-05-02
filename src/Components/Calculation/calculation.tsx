@@ -72,7 +72,7 @@ const removeElevtiveGrades = (gradePackages: GradePackages, elevatives: Elective
             gradePackages[single.examid] = sortedGradesElevatives.slice(0,single.required)
         }
         // if the Elevtive is part of an emphasis remove all grades and add their average
-        if(single.emphasis_elevtive){
+        if(gradePackages[single.examid] && single.emphasis_elevtive){
             const elv_average: number = calculateElevtiveAverage(gradePackages[single.examid])
             const elv_data = exams[single.examid]
             const estimated: boolean = gradePackages[single.examid].map(single => {

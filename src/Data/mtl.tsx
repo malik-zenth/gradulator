@@ -7,6 +7,7 @@ const mtl_basic_data: BasicInformation = {
     ects: 85,
     required_emphasis: 0,
     emphasis: [],
+    spo: 3,
     beta: true
 }
 

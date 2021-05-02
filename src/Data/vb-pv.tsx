@@ -80,6 +80,7 @@ const vb_pv_exams: Exams = {
         weight: 0,
         name: "Netzmanagement / Kapazitätsund Flugplanung ",
         packageid: 370075,
+        ignored: true
     }, 370072:
     {
         semester: 4,
@@ -94,6 +95,7 @@ const vb_pv_exams: Exams = {
         weight: 0,
         name: "Nahverkehrs- und Raumplanung ",
         packageid: 370070,
+        ignored: true
     }, 370092:
     {
         semester: 4,
@@ -101,6 +103,7 @@ const vb_pv_exams: Exams = {
         weight: 0,
         name: "Rechtliche Aspekte des SPNV/ÖPNV",
         packageid: 370090,
+        ignored: true
     }, 370093:
     {
         semester: 4,
@@ -108,6 +111,7 @@ const vb_pv_exams: Exams = {
         weight: 0,
         name: "Reiserecht",
         packageid: 370090,
+        ignored: true
     }, 370082:
     {
         semester: 4,
@@ -158,6 +162,7 @@ const vb_pv_exams: Exams = {
         weight: 0,
         name: "Projektmanagement",
         packageid: 370115,
+        ignored: true
     }, 370121:
     {
         semester: 6,
@@ -172,6 +177,7 @@ const vb_pv_exams: Exams = {
         weight: 0,
         name: "Verkehrsmanagement",
         packageid: 370120,
+        ignored: true
     }, 370126:
     {
         semester: 6,
@@ -186,6 +192,7 @@ const vb_pv_exams: Exams = {
         weight: 0,
         name: "Fahr- und Dienstplangestaltung",
         packageid: 370125,
+        ignored: true
     }, 370131:
     {
         semester: 7,
@@ -200,6 +207,7 @@ const vb_pv_exams: Exams = {
         weight: 0,
         name: "Projektstudien Personenverkehr",
         packageid: 370130,
+        ignored: true
     }, 370102:
     {
         semester: 7,
@@ -228,11 +236,11 @@ const vb_pv_ExamPackages: ExamPackages = {
     370070: {
         name: "Nahverkehr",
         weight: 12,
-        required: [370071, 370072, 370073]
+        required: [370071, 370072]
     }, 370075: {
         name: "Luftverkehr",
         weight: 12,
-        required: [370076, 370077, 370078]
+        required: [370076, 370077]
     }, 370080: {
         name: "Verkehrswirtschaft in der Volkswirtschaft",
         weight: 9,
@@ -244,7 +252,7 @@ const vb_pv_ExamPackages: ExamPackages = {
     }, 370090: {
         name: "Recht im Personenverkehr",
         weight: 10,
-        required: [370091, 370092, 370093]
+        required: [370091]
     }, 370095: {
         name: "Volkswirtschaftslehre",
         weight: 6,
@@ -261,19 +269,19 @@ const vb_pv_ExamPackages: ExamPackages = {
     {
         name: "Betriebliches Management II ",
         weight: 8,
-        required: [370116, 370117]
+        required: [370116]
     }, 370120: {
         name: "Ausgewählte Fragen des Personenverkehrs",
         weight: 9,
-        required: [370121, 370122]
+        required: [370121]
     }, 370125: {
         name: "Schienenverkehr",
         weight: 7,
-        required: [370126, 370127]
+        required: [370126]
     }, 370130: {
         name: "Unternehmensführung",
         weight: 11,
-        required: [370131, 370132]
+        required: [370131]
     }, 370160: {
         name: "Mündliche Bachelorprüfung",
         weight: 2,

@@ -1,5 +1,5 @@
-import {options} from "./index"
-import { DegreeOption } from "./types"
+import {options} from "../index"
+import { DegreeOption } from "../types"
 
 // test if data is valid
 // note: this does not mean the data is 100% correct
