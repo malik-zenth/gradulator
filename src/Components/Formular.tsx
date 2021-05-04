@@ -3,7 +3,7 @@ import { Form, Select, Modal, Button } from "antd";
 import { DegreeOption, UserInput } from "../Data/types";
 import { Link } from "react-router-dom";
 import { FormInstance } from 'antd/lib/form';
-import { options, orderDegreesbyLongName, orderDegreesbyShortName } from "../Data";
+import { getDegreeByName, options, orderDegreesbyLongName, orderDegreesbyShortName, validateName } from "../Data";
 import { EditOutlined } from '@ant-design/icons';
 import { Upload } from 'antd';
 import {isMobile} from "react-device-detect"
@@ -77,13 +77,14 @@ class Formular extends React.Component<IProps, IState> {
       return { value: single.shortName, label: label };
     });
     // if their is a selected value and it is valid add it as default label and set it as selected
-    if (selected && Object.keys(options).includes(selected)) {
+    if (selected && validateName(selected)) {
+      const selectedOptionString = isMobile ? selected : getDegreeByName(selected).longName
       this.setState({
-        initialValues: { select: { value: selected, label: selected } },
+        initialValues: { select: { value: selected, label: selectedOptionString } },
         selectedOption: selected,
         formOptions: selectOptions,
       });
-      return { select: { value: selected, label: selected } }
+      return { select: { value: selected, label: selectedOptionString } }
     } else {
       this.setState({ formOptions: selectOptions });
     }

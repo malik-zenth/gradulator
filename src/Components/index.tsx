@@ -5,6 +5,9 @@ import Footer from "./Footer"
 import Header from "./Header"
 import GradeInput from "./GradeInput"
 import ScrollToTop from "./ScrollToTop"
+import {exportAsPdf} from "./PdfExport"
+import CardManualEntry from "./Card_ManualEntry"
+import CardPdf from "./Card_PdfUpload"
 
 export {
     Formular,
@@ -12,5 +15,8 @@ export {
     Footer,
     Header,
     GradeInput,
-    ScrollToTop
+    ScrollToTop,
+    exportAsPdf,
+    CardManualEntry,
+    CardPdf
 }

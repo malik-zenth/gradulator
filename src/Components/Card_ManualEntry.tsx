@@ -9,7 +9,7 @@ interface IProps {
     setStateofInstruction: Function;
 }
 
-class ManualDataEntry extends React.Component<IProps> {
+class CardManualEntry extends React.Component<IProps> {
     constructor(props: IProps) {
         super(props);
       }
@@ -25,4 +25,4 @@ class ManualDataEntry extends React.Component<IProps> {
     }
 }
 
-export default ManualDataEntry
+export default CardManualEntry
