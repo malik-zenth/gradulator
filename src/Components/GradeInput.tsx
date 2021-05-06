@@ -273,8 +273,10 @@ const GradeInput = (props: IProps) => {
             Studienganges die von uns aus der Studien &amp; Prüfungsordnung ausgearbeitete Berechnung zu validieren. Dieser Schritt dient der
             Qualitätssicherung und soll sicherstellen, dass die Berechnung absolut korrekt ist.
             <br></br><br></br>
-            Ist ein Studiengang als (Beta) gekennzeichnet, so bedeutet dies, dass die Berechnung sehr wahrscheinlich korrekt ist, jedoch noch nicht
-            validiert wurde.
+            Ist ein Studiengang als (Beta) gekennzeichnet, so bedeutet dies, dass die Berechnung ausschließlich von uns im Vier-Augen-Prinzip
+            kontrolliert wurde. Besitzt ein Studiengang kein (Beta) Tag, so bedeutet dies nicht, dass entsprechende Ansprechpartner des
+            Studiengangs eine Garantie für die Korrektheit ausgesprochen haben, es bedeutet lediglich, dass die Berechnung sehr wahrscheinlich
+            korrekt ist.
           </p>
         </Modal>
       );
