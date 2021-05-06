@@ -6,7 +6,6 @@ const vb_basic_data: BasicInformation = {
     weight: 120,
     ects: 120,
     spo: 4,
-    beta: true,
     required_emphasis: 1,
     emphasis: [
         {

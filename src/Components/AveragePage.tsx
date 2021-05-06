@@ -230,6 +230,9 @@ class AveragePage extends React.Component<IProps, IState> {
                 Hilf uns ihn zu beheben
               </a>
             </div>
+            <div className="selectDegree-contact">
+              Bitte beachte, dass dies keine offizielle Berechnung deines Durchschnitts ist.
+            </div>
             </div>
           </div>
         </div>

@@ -6,7 +6,6 @@ const vb_pv_basic_data: BasicInformation = {
     ects: 120,
     spo: 1,
     required_emphasis: 0,
-    beta: true,
     emphasis: []
 }
 
