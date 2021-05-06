@@ -29,7 +29,8 @@ const vb_pv_exams: Exams = {
         ects: 4,
         weight: 0,
         name: "Verkehrsverhalten/Freizeitverkehre",
-        packageid: 370080
+        packageid: 370080,
+        ignored: true
     }, 370086:
     {
         semester: 3,
@@ -57,7 +58,8 @@ const vb_pv_exams: Exams = {
         ects: 3,
         weight: 0,
         name: "Wirtschaftspolitik",
-        packageid: 370095
+        packageid: 370095,
+        ignored: true
     }, 370097:
     {
         semester: 3,
