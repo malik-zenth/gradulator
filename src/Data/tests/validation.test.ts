@@ -28,6 +28,9 @@ describe("test all available data", () => {
             single.data.examPackages[examPackage].required.map((examid: string) => {
                expect(single.data.exams[examid]).toBeDefined()
                expect(single.data.exams[examid].packageid).toBe(parseFloat(examPackage))
+               if(!single.data.exams[examid].ignored){
+                  expect(single.data.exams[examid].weight).toBeGreaterThan(0)
+               }
             })
          })
       })
