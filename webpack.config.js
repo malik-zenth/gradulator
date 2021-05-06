@@ -7,7 +7,8 @@ const paths  = [
   "impressum",
   "kontakt",
   "erklarung",
-  "ueber-uns"
+  "ueber-uns",
+  "studiengang-erstellen"
 ]
 
 let multipleHtmlPlugins = paths.map(name => {

@@ -1,6 +1,6 @@
 import React from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
-import {Home, NotFound, ImPrint, Contact, Explanation, AboutUs} from "./Pages"
+import {Home, NotFound, ImPrint, Contact, Explanation, AboutUs, DegreeCreation} from "./Pages"
 import {ScrollToTop} from "./Components"
 import { init, trackPages } from "insights-js"
 import "../static/style-mobile.css"
@@ -13,8 +13,8 @@ class App extends React.Component {
 
     componentDidMount(){
         //Init Insights-analytics
-        init("EfuBEN79UVOU5DFy")
-        trackPages()
+        //init("EfuBEN79UVOU5DFy")
+        //trackPages()
     }
 
     render() {
@@ -45,6 +45,11 @@ class App extends React.Component {
                         <Route exact path="/ueber-uns">
                             <ScrollToTop>
                                 <AboutUs/>
+                            </ScrollToTop>
+                        </Route>
+                        <Route exact path="/studiengang-erstellen">
+                            <ScrollToTop>
+                                <DegreeCreation/>
                             </ScrollToTop>
                         </Route>
                         <Route path="*">
