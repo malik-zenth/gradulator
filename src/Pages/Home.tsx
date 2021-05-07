@@ -136,6 +136,7 @@ class Home extends React.Component<IProps, IState>{
     // Modal displayed if the detected degree is not supported
     renderModal() {
         const {selectedDegree, wrongSPO} = this.state
+        const selectedDegreeLongName = getDegreeByName(selectedDegree).longName
         return (
             <Modal
                 title="Studiengang wird nicht unterstützt"
@@ -147,12 +148,11 @@ class Home extends React.Component<IProps, IState>{
                         onClick={() => this.setState({ showModal: false, selectedDegree: null, wrongSPO: false })}>Ok
           </Button>,
                 ]}>
-                {!wrongSPO && <p>Der Studiengang {selectedDegree} wird aktuell leider nicht unterstützt.</p>}
-                {wrongSPO && <p>Der Studiengang {selectedDegree} wird in dieser SPO aktuell leider nicht unterstützt.</p>}
+                {!wrongSPO && <p>Der Studiengang {selectedDegreeLongName} wird aktuell leider nicht unterstützt.</p>}
+                {wrongSPO && <p>Der Studiengang {selectedDegreeLongName} wird in dieser SPO aktuell leider nicht unterstützt.</p>}
                 <p>
-                    Lasse uns über einen der unteren Wege wissen, dass wir
-          {selectedDegree} hinzufügen sollen und wir melden uns bei
-          dir, sollten wir ihn hinzufügen haben.
+                Lasse uns per E-Mail wissen, dass wir {selectedDegreeLongName} hinzufügen sollen und wir melden uns bei
+          dir, sobald dein Studiengang unterstützt wird.
         </p>
                 <a className="modal_link" onClick={() => (window.location.href = MailLink)}>E-Mail</a> kontakt@gradulator.de
             </Modal>
