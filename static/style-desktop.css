@@ -303,4 +303,12 @@
         margin-top: 1em
     }
 
+
+    .examComponent{
+        border: 1px solid black
+    }
+
+    .number-input-exam{
+        display: inline-flex
+    }
 }

@@ -1,5 +1,6 @@
-import ExamPackageDegreeCreation from "./ExamPackageDegreeCreation"
-
+import ExamPackageComponent from "./ExamPackageComponent"
+import ExamComponent from "./ExamComponent"
 export {
-    ExamPackageDegreeCreation
+    ExamPackageComponent,
+    ExamComponent
 }

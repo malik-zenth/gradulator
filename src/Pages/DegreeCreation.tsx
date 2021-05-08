@@ -1,6 +1,6 @@
 import React from "react"
 import { Footer, Header} from "../Components"
-import {ExamPackageDegreeCreation} from "../Components/DegreeCreation"
+import {ExamComponent, ExamPackageComponent} from "../Components/DegreeCreation"
 
 interface iProps{}
 
@@ -17,8 +17,10 @@ class DegreeCreation extends React.Component<iProps,iState>{
             <div>
                 <div className="content">
                 <Header home={false}/>
-
-                <ExamPackageDegreeCreation/>
+                <ExamPackageComponent
+                    onDelete={() => console.log("DELETE")}
+                    onSave={() => console.log("SAVE")}
+                />
                 </div>
                 <Footer />
             </div>
