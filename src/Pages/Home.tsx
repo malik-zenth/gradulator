@@ -27,6 +27,7 @@ interface IState {
     inputValues?: UserInput[],
     gradeInput?: UserInput[],
     selectedOption: string,
+    invalidDegree?: string,
     displayFormular: boolean,
     showModal: boolean,
     instructionsVisible: boolean,
@@ -44,7 +45,8 @@ class Home extends React.Component<IProps, IState>{
             selectedOption: null,
             instructionsVisible: false,
             wrongSPO: false,
-            current: 0
+            current: 0,
+            invalidDegree: null
         }
     }
 
@@ -128,15 +130,14 @@ class Home extends React.Component<IProps, IState>{
             }
         }
         else {
-            this.setState({ showModal: true, selectedDegree: selectedDegree })
+            this.setState({ showModal: true, invalidDegree: selectedDegree })
             return false
         }
     }
 
     // Modal displayed if the detected degree is not supported
     renderModal() {
-        const {selectedDegree, wrongSPO} = this.state
-        const selectedDegreeLongName = getDegreeByName(selectedDegree).longName
+        const {invalidDegree, wrongSPO} = this.state
         return (
             <Modal
                 title="Studiengang wird nicht unterstützt"
@@ -148,10 +149,10 @@ class Home extends React.Component<IProps, IState>{
                         onClick={() => this.setState({ showModal: false, selectedDegree: null, wrongSPO: false })}>Ok
           </Button>,
                 ]}>
-                {!wrongSPO && <p>Der Studiengang {selectedDegreeLongName} wird aktuell leider nicht unterstützt.</p>}
-                {wrongSPO && <p>Der Studiengang {selectedDegreeLongName} wird in dieser SPO aktuell leider nicht unterstützt.</p>}
+                {!wrongSPO && <p>Der Studiengang {invalidDegree} wird aktuell leider nicht unterstützt.</p>}
+                {wrongSPO && <p>Der Studiengang {invalidDegree} wird in dieser SPO aktuell leider nicht unterstützt.</p>}
                 <p>
-                Lasse uns per E-Mail wissen, dass wir {selectedDegreeLongName} hinzufügen sollen und wir melden uns bei
+                Lasse uns per E-Mail wissen, dass wir {invalidDegree} hinzufügen sollen und wir melden uns bei
           dir, sobald dein Studiengang unterstützt wird.
         </p>
                 <a className="modal_link" onClick={() => (window.location.href = MailLink)}>E-Mail</a> kontakt@gradulator.de
