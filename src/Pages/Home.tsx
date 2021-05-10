@@ -119,7 +119,7 @@ class Home extends React.Component<IProps, IState>{
                     }
                     return true
                 }else{
-                    this.setState({ showModal: true, selectedDegree: degree.shortName, wrongSPO: true })
+                    this.setState({ showModal: true, invalidDegree: degree.longName, wrongSPO: true })
                     return false
                 }
             }else{
