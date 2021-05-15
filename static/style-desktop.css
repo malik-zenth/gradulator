@@ -311,4 +311,41 @@
     .number-input-exam{
         display: inline-flex
     }
+
+
+    .creator_basicinformation_box_edit{
+        display: inline-flex
+    }
+
+    .creator_basicinformation_box_show{
+        display: inline-flex
+    }
+
+    .creator_heading{
+        font-size: 20px;
+        min-width: 300px;
+        margin-left: 7.5px;
+        margin-bottom: 24px;
+    }
+
+    .creator_text{
+        font-size: 20px;
+        margin-left: 30px;
+        margin-bottom: 24px;
+    }
+
+    .creator_basicInformations{
+        padding-top: .5em;
+    }
+
+    .create_degree_buttons{
+        padding: 1em;
+    }
+
+    .position_center{
+        width: 90%;
+        margin-left: 5%;
+        justify-content: center;
+        display: inline-flex;
+    }
 }
