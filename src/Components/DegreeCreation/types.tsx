@@ -5,31 +5,31 @@
 // when the ExamPackage is created
 
 export interface ExamCreationType{
-    ects: number,
-    name: string,
-    weight: number,
-    semester: number,
+    ects?: number,
+    name?: string,
+    weight?: number,
+    semester?: number,
     editMode: boolean
 }
 
 export interface ExamPackageCreationType{
-    name: string,
-    weight: number,
+    name?: string,
+    weight?: number,
     elevatives?: ElevativeCreationType[],
-    exams?: ExamCreationType[]
+    exams: ExamCreationType[]
     editMode: boolean
 }
 
 export interface ElevativeCreationType{
-    amound: number,
+    amound?: number,
     examOptions: ExamCreationType[],
-    weight: number,
+    weight?: number,
     editMode: boolean
 }
 
 export interface EmphasisCreationType{
-    name: string,
-    weight: number,
+    name?: string,
+    weight?: number,
     options: ExamPackageCreationType[],
     editMode: boolean
 }

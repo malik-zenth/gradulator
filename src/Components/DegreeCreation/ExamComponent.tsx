@@ -6,7 +6,7 @@ import { ExamCreationType } from "./types";
 interface iProps {
     onDelete: Function,
     onSave: Function,
-    inputValues?: ExamCreationType
+    defaultValues?: ExamCreationType
 }
 
 const ExamComponent = (props: iProps) => {
@@ -158,7 +158,7 @@ const ExamComponent = (props: iProps) => {
 
     const renderForm = () => {
         return (
-            <Form form={form} initialValues={props.inputValues}>
+            <Form form={form} initialValues={props.defaultValues}>
                 {nameInputField()}
                 <div className="number-input-exam">
                 {semesterField()}

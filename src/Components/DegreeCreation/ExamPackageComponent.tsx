@@ -7,7 +7,8 @@ import ExamComponent from "./ExamComponent";
 
 interface iProps {
     onDelete: Function,
-    onSave: Function
+    onSave: Function,
+    defaultValues: ExamPackageCreationType
 }
 
 const keyGenerator = (): ReactText =>
@@ -15,15 +16,7 @@ const keyGenerator = (): ReactText =>
 
 const ExamPackageComponent = (props: iProps) => {
     const [form] = Form.useForm();
-    // if an already created Exam is currently edited
-    const [editExamMode, setEditExamMode] = useState<boolean>(false)
-    // currently edited Exam
-    const [examToBeEdited, setToBeEditedExam] = useState<ExamCreationType>(null)
-    // if an new Exam is currently created
-    const [createExamMode, setCreateExamMode] = useState<boolean>(false)
-    const [inputValues, setInputValues] = useState<ExamPackageCreationType>(null)
-    // all created Exams
-    const [inputExams, setInputExams] = useState<ExamCreationType[]>([{ name: "Leadership und Entrepreneurship", weight: 10, semester: 3, ects: 5, editMode: true }])
+    const [exams, setExams] = useState<ExamCreationType[]>(props.defaultValues.exams)
 
     const nameInputField = (): ReactFragment => {
         return (
@@ -84,7 +77,7 @@ const ExamPackageComponent = (props: iProps) => {
         form
             .validateFields()
             .then((values: ExamPackageCreationType) => {
-                setInputValues(values)
+                values.editMode = false
                 props.onSave(values)
             })
             .catch((error) => {
@@ -95,8 +88,8 @@ const ExamPackageComponent = (props: iProps) => {
     const buttons = (): ReactFragment => {
         return (
             <div>
-                <Button htmlType="button" danger onClick={() => { }}>
-                    Löschen
+                <Button htmlType="button" danger onClick={() => props.onDelete()}>
+                    Modulprüfung löschen
                     </Button>
                 <Button type="primary" htmlType="submit" onClick={onSubmit}>
                     Speichern
@@ -107,7 +100,7 @@ const ExamPackageComponent = (props: iProps) => {
 
     const renderForm = () => {
         return (
-            <Form form={form} initialValues={inputValues}>
+            <Form form={form} initialValues={props.defaultValues}>
                 {nameInputField()}
                 {weightField()}
             </Form>
@@ -115,14 +108,13 @@ const ExamPackageComponent = (props: iProps) => {
     }
 
     const addExam = () => {
-        setCreateExamMode(true)
+        setExams([...exams, {editMode: true}])
     }
 
     const renderExamsHeader = (): ReactFragment => {
         return (
             <div>
                 <h3>Prüfungen</h3>
-                {!createExamMode &&
                     <Button
                         type="primary"
                         size="small"
@@ -130,42 +122,55 @@ const ExamPackageComponent = (props: iProps) => {
                         shape="round"
                         icon={<PlusOutlined />}>
                     </Button>
-                }
             </div>
         )
     }
 
-    const saveCreatedExam = (exam: ExamCreationType) => {
-        inputExams.push(exam)
-        setCreateExamMode(false)
+    // update the editMode of an Exam
+    const setEditExam = (editValue: boolean, indexToUpdate: number) => {
+        setExams(exams.map((value, index) => {
+            if(indexToUpdate === index){
+                value.editMode = editValue
+                return value
+            }
+            return value
+        }))
     }
 
-    const updateExam = (exam: ExamCreationType) => {
-        const updatedInputExams: ExamCreationType[] = inputExams.filter(single => single != examToBeEdited)
-        updatedInputExams.push(exam)
-        setInputExams(updatedInputExams)
+    // delete Exam
+    const deleteExam = (indexToDelete: number) => {
+        setExams(exams.filter((value, index) => index != indexToDelete))
     }
 
-    const editExam = (exam: ExamCreationType) => {
-        setToBeEditedExam(exam)
-        setEditExamMode(true)
+    // save Exam
+    const saveExam = (exam: ExamCreationType, indexToUpdate: number) => {
+        setExams(exams.map((value, index) => {
+            if(index === indexToUpdate) return exam
+            return value
+        }))
     }
 
-    const deleteExam = (exam: ExamCreationType) => {
-        const updatedInputExams: ExamCreationType[] = inputExams.filter(single => single != exam)
-        setInputExams(updatedInputExams)
-    }
-
-    const renderCreatedExams = (): ReactFragment => {
+    const renderCreatedExams = (exams: ExamCreationType[]): ReactFragment => {
         // parse all created Exams and display them with an create and delete option
         // if length is null return info text
-        if (inputExams.length == 0 && !createExamMode) return (
+        if (exams.length === 0) return (
             <div>
                 bisher keine Prüfungen hinzugefügt
             </div>
         )
-        return inputExams.map((value: ExamCreationType) => {
-            return (
+        return(exams.map((value: ExamCreationType, index: number) => {
+            if(value.editMode){
+                return(
+                    <div key={keyGenerator()}>
+                        <ExamComponent
+                            onDelete={() => deleteExam(index)}
+                            onSave={(examData: ExamCreationType) => saveExam(examData, index)}
+                            defaultValues={value}
+                        />
+                    </div>
+                )
+            }
+            else return (
                 <div key={keyGenerator()}>
                     <p>{value.name}</p>
                     <p>{value.semester}. Semester</p>
@@ -174,7 +179,7 @@ const ExamPackageComponent = (props: iProps) => {
 
                     <Button
                         size="small"
-                        onClick={() => editExam(value)}
+                        onClick={() => setEditExam(true, index)}
                         shape="round"
                         icon={<EditOutlined />}>
                     </Button>
@@ -182,42 +187,20 @@ const ExamPackageComponent = (props: iProps) => {
                     <Button
                         size="small"
                         danger
-                        onClick={() => deleteExam(value)}
+                        onClick={() => deleteExam(index)}
                         shape="round"
                         icon={<DeleteOutlined />}>
                     </Button>
                 </div>
             )
-        })
+        }))
     }
-
 
     return (
         <div className="examComponent">
             {renderForm()}
             {renderExamsHeader()}
-            {renderCreatedExams()}
-            {createExamMode &&
-                <ExamComponent
-                    onDelete={() => setCreateExamMode(false)}
-                    onSave={(exam: ExamCreationType) => {
-                        setCreateExamMode(false)
-                        saveCreatedExam(exam)
-                    }}
-                />}
-            {editExamMode &&
-                <ExamComponent
-                    onDelete={() => {
-                        deleteExam(examToBeEdited)
-                        setEditExamMode(false)
-                    }
-                    }
-                    onSave={(exam: ExamCreationType) => {
-                        setEditExamMode(false)
-                        updateExam(exam)
-                    }}
-                    inputValues={examToBeEdited}
-                />}
+            {renderCreatedExams(exams)}
             {buttons()}
         </div>
     )

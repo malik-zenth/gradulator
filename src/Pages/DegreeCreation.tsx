@@ -1,4 +1,4 @@
-import React, { ReactFragment } from "react"
+import React, { ReactFragment, ReactText } from "react"
 import { Footer, Header } from "../Components"
 import { Form, InputNumber, Input, Button, Divider } from "antd";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
@@ -16,6 +16,9 @@ interface iState {
 
 }
 
+const keyGenerator = (): ReactText =>
+    "_" + Math.random().toString(36).substr(2, 9);
+
 class DegreeCreation extends React.Component<iProps, iState>{
     constructor(props: iProps) {
         super(props);
@@ -27,6 +30,33 @@ class DegreeCreation extends React.Component<iProps, iState>{
         }
     }
 
+    // all add functions
+    createExamPackage = () => {
+        this.setState({createdExamPackages: [...this.state.createdExamPackages, {editMode: true, exams: []}]})
+    }
+
+    createElevative = () => {
+        this.state.createdElevative.push({editMode: true, examOptions: []})
+    }
+
+    createEmphasis = () => {
+        this.state.createdEmphasis.push({editMode: true, options: []})
+    }
+
+    // all delete functions
+    deleteExamPackage = (itemToRemove: number) => {
+        const newState: ExamPackageCreationType[] = this.state.createdExamPackages.filter((value, index) => index != itemToRemove)
+        this.setState({createdExamPackages: newState})
+    }
+
+
+    // all update functions
+    updateExamPackage = (examPackage: ExamPackageCreationType, index: number) => {
+        const newState: ExamPackageCreationType[] = this.state.createdExamPackages
+        newState[index] = examPackage
+        this.setState({createdExamPackages: newState})
+    }
+
 
     // Buttons to create new Emphasis, ExamPackage and Elevative
     createButtons = (): ReactFragment => {
@@ -35,7 +65,7 @@ class DegreeCreation extends React.Component<iProps, iState>{
                 <Button
                     type="primary"
                     style={{marginLeft: 7.5}}
-                    onClick={() => { }}
+                    onClick={() => this.createExamPackage()}
                     size="middle"
                     icon={<PlusOutlined />}>
                     Modulprüfung hinzufügen
@@ -45,14 +75,14 @@ class DegreeCreation extends React.Component<iProps, iState>{
                     type="primary"
                     size="middle"
                     style={{marginLeft: 7.5}}
-                    onClick={() => { }}
+                    onClick={() => this.createEmphasis()}
                     icon={<PlusOutlined />}>
                     Schwerpunkt hinzufügen
                 </Button>
 
                 <Button
                     type="primary"
-                    onClick={() => { }}
+                    onClick={() => this.createElevative()}
                     size="middle"
                     style={{marginLeft: 7.5}}
                     icon={<PlusOutlined />}>
@@ -62,8 +92,23 @@ class DegreeCreation extends React.Component<iProps, iState>{
         )
     }
 
+    renderExamPackages = (examPackages: ExamPackageCreationType[]): ReactFragment => {
+        return(examPackages.map((single, index) => {
+            return(
+                <div key={keyGenerator()}>
+                    <ExamPackageComponent
+                        onDelete={() => this.deleteExamPackage(index)}
+                        onSave={(values: ExamPackageCreationType) => this.updateExamPackage(values, index)}
+                        defaultValues={single}
+
+                    />
+                </div>
+            )
+        }))
+    }
+
     render() {
-        const {generalInformation} = this.state
+        const {generalInformation, createdElevative, createdEmphasis, createdExamPackages} = this.state
         return (
             <div>
                 <div className="content">
@@ -74,11 +119,7 @@ class DegreeCreation extends React.Component<iProps, iState>{
                     />
                     {this.createButtons()}
                     <Divider/>
-
-                    <ExamPackageComponent
-                        onDelete={() => console.log("DELETE")}
-                        onSave={() => console.log("SAVE")}
-                    />
+                    {this.renderExamPackages(createdExamPackages)}
                 </div>
                 <Footer />
             </div>
