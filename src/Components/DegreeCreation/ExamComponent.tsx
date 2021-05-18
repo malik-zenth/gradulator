@@ -1,6 +1,6 @@
 import React, { ReactFragment, useState } from "react"
 import { Form, InputNumber, Input, Button } from "antd";
-import { ExamCreationType } from "./types";
+import { ExamCreationType, FormUpdateType } from "./types";
 
 
 interface iProps {
@@ -16,7 +16,7 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="name"
-                style={{marginLeft: 7.5}}
+                style={{ marginLeft: 7.5 }}
                 rules={[
                     {
                         required: true,
@@ -37,7 +37,7 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="semester"
-                style={{marginLeft: 7.5}}
+                style={{ marginLeft: 7.5 }}
                 rules={[
                     {
                         required: true,
@@ -51,7 +51,7 @@ const ExamComponent = (props: iProps) => {
                     min={1}
                     max={10}
                     step={1}
-                    style={{ width: 90}}
+                    style={{ width: 90 }}
                     parser={(value) => {
                         if (value.includes(".")) {
                             return value.substring(0, value.indexOf("."))
@@ -67,7 +67,7 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="ects"
-                style={{marginLeft: 7.5}}
+                style={{ marginLeft: 7.5 }}
                 rules={[
                     {
                         required: true,
@@ -80,7 +80,7 @@ const ExamComponent = (props: iProps) => {
                     min={1}
                     max={30}
                     step={0.5}
-                    style={{ width: 80}}
+                    style={{ width: 80 }}
                     parser={(value) => {
                         value = value.replace(",", ".")
                         if (value.indexOf(".") + 2 < value.length) {
@@ -101,7 +101,7 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="weight"
-                style={{marginLeft: 7.5}}
+                style={{ marginLeft: 7.5 }}
                 rules={[
                     {
                         required: true,
@@ -114,7 +114,7 @@ const ExamComponent = (props: iProps) => {
                     min={1}
                     max={30}
                     step={0.5}
-                    style={{ width: 100}}
+                    style={{ width: 100 }}
                     parser={(value) => {
                         value = value.replace(",", ".")
                         if (value.indexOf(".") + 2 < value.length) {
@@ -140,30 +140,45 @@ const ExamComponent = (props: iProps) => {
             })
             .catch((error) => {
                 console.log(error);
-              });
+            });
     }
 
     const buttons = (): ReactFragment => {
         return (
-                <div>
-                    <Button htmlType="button" danger onClick={() => props.onDelete()}>
-                        Löschen
+            <div>
+                <Button htmlType="button" danger onClick={() => props.onDelete()}>
+                    Löschen
                     </Button>
-                    <Button type="primary" htmlType="submit" onClick={onSubmit}>
-                        Speichern
+                <Button type="primary" htmlType="submit" onClick={onSubmit}>
+                    Speichern
                     </Button>
-                </div>
-            )
+            </div>
+        )
+    }
+
+    // update values in parent component on form update
+    const updateValues = () => {
+        const name: string = form.getFieldValue("name")
+        const weight: number = form.getFieldValue("weight")
+        const semester: number = form.getFieldValue("semester")
+        const ects: number = form.getFieldValue("ects")
+        const newExam: ExamCreationType = {
+            name: name, ects: ects, semester: semester, weight: weight, editMode: props.defaultValues.editMode
+        }
+        props.onSave(newExam)
     }
 
     const renderForm = () => {
         return (
-            <Form form={form} initialValues={props.defaultValues}>
+            <Form
+                onValuesChange={() => updateValues()}
+                form={form}
+                initialValues={props.defaultValues}>
                 {nameInputField()}
                 <div className="number-input-exam">
-                {semesterField()}
-                {ectsField()}
-                {weightField()}
+                    {semesterField()}
+                    {ectsField()}
+                    {weightField()}
                 </div>
             </Form>
         )

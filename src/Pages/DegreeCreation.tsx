@@ -32,21 +32,21 @@ class DegreeCreation extends React.Component<iProps, iState>{
 
     // all add functions
     createExamPackage = () => {
-        this.setState({createdExamPackages: [...this.state.createdExamPackages, {editMode: true, exams: []}]})
+        this.setState({ createdExamPackages: [...this.state.createdExamPackages, { editMode: true, exams: [] }] })
     }
 
     createElevative = () => {
-        this.state.createdElevative.push({editMode: true, examOptions: []})
+        this.state.createdElevative.push({ editMode: true, examOptions: [] })
     }
 
     createEmphasis = () => {
-        this.state.createdEmphasis.push({editMode: true, options: []})
+        this.state.createdEmphasis.push({ editMode: true, options: [] })
     }
 
     // all delete functions
     deleteExamPackage = (itemToRemove: number) => {
         const newState: ExamPackageCreationType[] = this.state.createdExamPackages.filter((value, index) => index != itemToRemove)
-        this.setState({createdExamPackages: newState})
+        this.setState({ createdExamPackages: newState })
     }
 
 
@@ -54,71 +54,107 @@ class DegreeCreation extends React.Component<iProps, iState>{
     updateExamPackage = (examPackage: ExamPackageCreationType, index: number) => {
         const newState: ExamPackageCreationType[] = this.state.createdExamPackages
         newState[index] = examPackage
-        this.setState({createdExamPackages: newState})
+        this.setState({ createdExamPackages: newState })
     }
 
 
-    // Buttons to create new Emphasis, ExamPackage and Elevative
-    createButtons = (): ReactFragment => {
-        return (
-            <div className="create_degree_buttons position_center">
-                <Button
-                    type="primary"
-                    style={{marginLeft: 7.5}}
-                    onClick={() => this.createExamPackage()}
-                    size="middle"
-                    icon={<PlusOutlined />}>
-                    Modulprüfung hinzufügen
-                </Button>
-
-                <Button
-                    type="primary"
-                    size="middle"
-                    style={{marginLeft: 7.5}}
-                    onClick={() => this.createEmphasis()}
-                    icon={<PlusOutlined />}>
-                    Schwerpunkt hinzufügen
-                </Button>
-
-                <Button
-                    type="primary"
-                    onClick={() => this.createElevative()}
-                    size="middle"
-                    style={{marginLeft: 7.5}}
-                    icon={<PlusOutlined />}>
-                    Wahlpflichtfach hinzufügen
-                </Button>
-            </div>
-        )
+    // all set Edit Mode functions
+    setEditExamPackage = (editValue: boolean, indexToUpdate: number) => {
+        const newExamPackages: ExamPackageCreationType[] = this.state.createdExamPackages.map((value, index) => {
+            if (indexToUpdate === index) {
+                value.editMode = editValue
+                return value
+            }
+            return value
+        })
+        this.setState({createdExamPackages: newExamPackages})
     }
+
 
     renderExamPackages = (examPackages: ExamPackageCreationType[]): ReactFragment => {
-        return(examPackages.map((single, index) => {
-            return(
-                <div key={keyGenerator()}>
-                    <ExamPackageComponent
-                        onDelete={() => this.deleteExamPackage(index)}
-                        onSave={(values: ExamPackageCreationType) => this.updateExamPackage(values, index)}
-                        defaultValues={single}
+        return (examPackages.map((single, index) => {
+            if (single.editMode) {
+                return (
+                    <div key={keyGenerator()}>
+                        <ExamPackageComponent
+                            onDelete={() => this.deleteExamPackage(index)}
+                            onSave={(values: ExamPackageCreationType) => this.updateExamPackage(values, index)}
+                            defaultValues={single}
 
-                    />
+                        />
+                    </div>
+                )
+            } else return (
+                <div key={keyGenerator()}>
+                    <p>{single.name}</p>
+                    <p>Gewichtung: {single.weight}</p>
+
+                    <Button
+                        size="small"
+                        onClick={() => this.setEditExamPackage(true, index)}
+                        shape="round"
+                        icon={<EditOutlined />}>
+                    </Button>
+
+                    <Button
+                        size="small"
+                        danger
+                        onClick={() => this.deleteExamPackage(index)}
+                        shape="round"
+                        icon={<DeleteOutlined />}>
+                    </Button>
                 </div>
             )
         }))
     }
 
+        // Buttons to create new Emphasis, ExamPackage and Elevative
+        createButtons = (): ReactFragment => {
+            return (
+                <div className="create_degree_buttons position_center">
+                    <Button
+                        type="primary"
+                        style={{ marginLeft: 7.5 }}
+                        onClick={() => this.createExamPackage()}
+                        size="middle"
+                        icon={<PlusOutlined />}>
+                        Modulprüfung hinzufügen
+                    </Button>
+
+                    <Button
+                        type="primary"
+                        size="middle"
+                        style={{ marginLeft: 7.5 }}
+                        onClick={() => this.createEmphasis()}
+                        icon={<PlusOutlined />}>
+                        Schwerpunkt hinzufügen
+                    </Button>
+
+                    <Button
+                        type="primary"
+                        onClick={() => this.createElevative()}
+                        size="middle"
+                        style={{ marginLeft: 7.5 }}
+                        icon={<PlusOutlined />}>
+                        Wahlpflichtfach hinzufügen
+                    </Button>
+                </div>
+            )
+        }
+
+
     render() {
-        const {generalInformation, createdElevative, createdEmphasis, createdExamPackages} = this.state
+        const { generalInformation, createdElevative, createdEmphasis, createdExamPackages } = this.state
         return (
             <div>
                 <div className="content">
                     <Header home={false} />
                     <BasicInformations
                         defaultValues={generalInformation}
-                        onSave={(values: GeneralInformationsCreationType) => this.setState({generalInformation: values})}
+                        onSave={(values: GeneralInformationsCreationType) => this.setState({ generalInformation: values })}
                     />
                     {this.createButtons()}
-                    <Divider/>
+                    <Divider />
                     {this.renderExamPackages(createdExamPackages)}
                 </div>
                 <Footer />

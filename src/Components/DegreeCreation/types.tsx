@@ -4,6 +4,8 @@
 // e.g. the required Exams inside of an ExamPackage are not defined jet
 // when the ExamPackage is created
 
+import { NamePath } from "rc-field-form/lib/interface";
+
 export interface ExamCreationType{
     ects?: number,
     name?: string,
@@ -45,4 +47,13 @@ export interface CreationType{
     emphasis?: EmphasisCreationType[],
     elevatives?: ElevativeCreationType[],
     examPackages: ExamPackageCreationType[]
+}
+
+// type used by form on Update
+export interface FormUpdateType{
+    errors?: any[],
+    name: NamePath,
+    touched?: boolean,
+    validating?: boolean,
+    value?: any
 }

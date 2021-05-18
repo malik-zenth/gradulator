@@ -74,6 +74,12 @@ const BasicInformations = (props: iProps) => {
             <Form.Item
                 name="spo"
                 style={{ marginLeft: 7.5 }}
+                rules={[
+                    {
+                        required: true,
+                        message: "SPO fehlt!"
+                    }
+                ]}
             >
                 <InputNumber
                     placeholder="SPO"

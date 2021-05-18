@@ -1,6 +1,6 @@
-import React, { ReactFragment, ReactText, useState } from "react"
+import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button } from "antd";
-import { ExamCreationType, ExamPackageCreationType } from "./types";
+import { ExamCreationType, ExamPackageCreationType, FormUpdateType } from "./types";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import ExamComponent from "./ExamComponent";
 
@@ -18,6 +18,14 @@ const ExamPackageComponent = (props: iProps) => {
     const [form] = Form.useForm();
     const [exams, setExams] = useState<ExamCreationType[]>(props.defaultValues.exams)
 
+    useEffect(() => {
+        // if exams change, update the values inside of parent component
+        if(exams != props.defaultValues.exams){
+            console.log("UPDATE")
+            updateValues()
+        }
+    }, [exams])
+
     const nameInputField = (): ReactFragment => {
         return (
             <Form.Item
@@ -31,7 +39,7 @@ const ExamPackageComponent = (props: iProps) => {
             >
                 <Input
                     type="string"
-                    placeholder="Name der Paketes"
+                    placeholder="Name der Modulprüfung"
                     style={{ width: 300 }}
                 />
             </Form.Item>
@@ -78,6 +86,7 @@ const ExamPackageComponent = (props: iProps) => {
             .validateFields()
             .then((values: ExamPackageCreationType) => {
                 values.editMode = false
+                values.exams = exams
                 props.onSave(values)
             })
             .catch((error) => {
@@ -98,9 +107,23 @@ const ExamPackageComponent = (props: iProps) => {
         )
     }
 
-    const renderForm = () => {
+    // update values in parent component on form update
+    const updateValues = () => {
+        const name: string = form.getFieldValue("name")
+        const weight: number = form.getFieldValue("weight")
+        const newExamPackage: ExamPackageCreationType = {
+            name: name, weight: weight, exams: exams, editMode: props.defaultValues.editMode
+        }
+        props.onSave(newExamPackage)
+    }
+
+    const renderExamPackage = () => {
         return (
-            <Form form={form} initialValues={props.defaultValues}>
+            <Form
+                form={form}
+                initialValues={props.defaultValues}
+                onValuesChange={() => updateValues()}
+            >
                 {nameInputField()}
                 {weightField()}
             </Form>
@@ -108,20 +131,20 @@ const ExamPackageComponent = (props: iProps) => {
     }
 
     const addExam = () => {
-        setExams([...exams, {editMode: true}])
+        setExams([...exams, { editMode: true }])
     }
 
     const renderExamsHeader = (): ReactFragment => {
         return (
             <div>
                 <h3>Prüfungen</h3>
-                    <Button
-                        type="primary"
-                        size="small"
-                        onClick={() => addExam()}
-                        shape="round"
-                        icon={<PlusOutlined />}>
-                    </Button>
+                <Button
+                    type="primary"
+                    size="small"
+                    onClick={() => addExam()}
+                    shape="round"
+                    icon={<PlusOutlined />}>
+                </Button>
             </div>
         )
     }
@@ -129,7 +152,7 @@ const ExamPackageComponent = (props: iProps) => {
     // update the editMode of an Exam
     const setEditExam = (editValue: boolean, indexToUpdate: number) => {
         setExams(exams.map((value, index) => {
-            if(indexToUpdate === index){
+            if (indexToUpdate === index) {
                 value.editMode = editValue
                 return value
             }
@@ -145,7 +168,7 @@ const ExamPackageComponent = (props: iProps) => {
     // save Exam
     const saveExam = (exam: ExamCreationType, indexToUpdate: number) => {
         setExams(exams.map((value, index) => {
-            if(index === indexToUpdate) return exam
+            if (index === indexToUpdate) return exam
             return value
         }))
     }
@@ -158,14 +181,15 @@ const ExamPackageComponent = (props: iProps) => {
                 bisher keine Prüfungen hinzugefügt
             </div>
         )
-        return(exams.map((value: ExamCreationType, index: number) => {
-            if(value.editMode){
-                return(
+        return (exams.map((value: ExamCreationType, index: number) => {
+            if (value.editMode) {
+                return (
                     <div key={keyGenerator()}>
                         <ExamComponent
                             onDelete={() => deleteExam(index)}
                             onSave={(examData: ExamCreationType) => saveExam(examData, index)}
                             defaultValues={value}
+
                         />
                     </div>
                 )
@@ -198,7 +222,7 @@ const ExamPackageComponent = (props: iProps) => {
 
     return (
         <div className="examComponent">
-            {renderForm()}
+            {renderExamPackage()}
             {renderExamsHeader()}
             {renderCreatedExams(exams)}
             {buttons()}
