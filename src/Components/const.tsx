@@ -15,3 +15,7 @@ export const TooltipWertungspunkte: string = "Die Endnote setzt sich aus allen M
 export const TooltipECTS: string = "Nicht alle ECTS sind Durchschnittsrelevant. Folglich kann eine Abweichung zwischen den hier angezeigten und tatsächlich Abschlussrelevanten ECTS entstehen."
 export const TooltipRemovedEmphasis: string = "Der Schwerpunkt wurde entfernt, da die Anzahl an benötigten Schwerpunkten bereits erreicht und dieser gemessen an der Gewichtung am wenigsten abgeschlossen ist. Wenn du deinen Durchschnitt mit diesem Schwerpunkt berechnen möchtest, passe deine Noteneingabe entsprechend an."
 export const ToolTipRemovedElevtive: string = "Wenn die für ein Wahlpflichtfacht benötigte Anzahl an Note überschritten wird, so werden die schlechtesten der vorhandenen Noten entfernt. Sollte die Note des Wahlpflichtfachs mit anderen Noten berechnet werden, muss die Eingabe entsprechend angepasst werden."
+
+
+// Degree Creator
+export const ToolTipExamPackageNotSavable: string = "Die Modulprüfung kann nicht gespeichert werden, da einzelne Prüfungen noch in der Bearbeitung / Erstellung sind. Bitte schließe diese zuerst ab."

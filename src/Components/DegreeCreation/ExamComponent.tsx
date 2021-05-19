@@ -17,7 +17,6 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="name"
-                style={{ marginLeft: 7.5 }}
                 rules={[
                     {
                         required: true,
@@ -38,7 +37,6 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="semester"
-                style={{ marginLeft: 7.5 }}
                 rules={[
                     {
                         required: true,
@@ -146,11 +144,18 @@ const ExamComponent = (props: iProps) => {
 
     const buttons = (): ReactFragment => {
         return (
-            <div>
-                <Button htmlType="button" danger onClick={() => validateDeleteModal()}>
-                    Löschen
+            <div className="create_degree_buttons position_center">
+                <Button
+                    htmlType="button"
+                    danger
+                    onClick={() => validateDeleteModal()}>
+                    Prüfung löschen
                     </Button>
-                <Button type="primary" htmlType="submit" onClick={onSubmit}>
+                <Button
+                    style={{marginLeft: 7.5}}
+                    type="primary"
+                    htmlType="submit"
+                    onClick={onSubmit}>
                     Speichern
                     </Button>
             </div>

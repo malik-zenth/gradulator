@@ -1,10 +1,11 @@
 import React, { ReactFragment, ReactText, useEffect, useState } from "react"
-import { Form, InputNumber, Input, Button } from "antd";
+import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
 import { ExamCreationType, ExamPackageCreationType, FormUpdateType } from "./types";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import ExamComponent from "./ExamComponent";
+import { ToolTipExamPackageNotSavable } from "../../Components/const"
 import { DeleteExamModal, DeleteExamPackageModal } from "./ModalMessages";
-
+import {RenderExams} from "./RenderComponents"
 
 interface iProps {
     onDelete: Function,
@@ -24,65 +25,74 @@ const ExamPackageComponent = (props: iProps) => {
     const [examToBeDeleted, setExamToBeDeleted] = useState<number>(null)
     // if Modal to delete this ExamPackage should be displayed
     const [showDeleteExamPackageModal, setShowDeleteExamPackageModal] = useState<boolean>(false)
+    // if submit is possible
+    const [submitInvalid, setSavePossible] = useState<boolean>(exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0)
+
 
     useEffect(() => {
         // if exams change, update the values inside of parent component
-        if(exams != props.defaultValues.exams){
+        if (exams != props.defaultValues.exams) {
+            // check if their are exams in edit mode, if so disable save button
+            const submitInvalid: boolean = exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0
+            setSavePossible(submitInvalid)
             updateValues()
         }
     }, [exams])
 
     const nameInputField = (): ReactFragment => {
         return (
-            <Form.Item
-                name="name"
-                rules={[
-                    {
-                        required: true,
-                        message: "Name fehlt!"
-                    }
-                ]}
-            >
-                <Input
-                    type="string"
-                    placeholder="Name der Modulprüfung"
-                    style={{ width: 300 }}
-                />
-            </Form.Item>
+            <div className="examPackage_nameInput">
+                <Form.Item
+                    name="name"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Name fehlt!"
+                        }
+                    ]}
+                >
+                    <Input
+                        type="string"
+                        placeholder="Name der Modulprüfung"
+                        style={{ width: 300 }}
+                    />
+                </Form.Item>
+            </div>
         )
     }
 
     const weightField = (): ReactFragment => {
         return (
-            <Form.Item
-                name="weight"
-                style={{ marginLeft: 7.5 }}
-                rules={[
-                    {
-                        required: true,
-                        message: "Gewichtung fehlt!"
-                    }
-                ]}
-            >
-                <InputNumber
-                    placeholder="Gewichtung"
-                    min={1}
-                    max={30}
-                    step={0.5}
-                    style={{ width: 100 }}
-                    parser={(value) => {
-                        value = value.replace(",", ".")
-                        if (value.indexOf(".") + 2 < value.length) {
-                            value = value.substring(0, value.indexOf(".") + 2)
+            <div className="examPackage_weightInput">
+                <Form.Item
+                    name="weight"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Gewichtung fehlt!"
                         }
-                        // we only allow floats with .5as those are the only values that are possible
-                        if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
-                            value = value.substring(0, value.indexOf(".") + 1)
-                        }
-                        return value
-                    }}
-                />
-            </Form.Item>
+                    ]}
+                >
+                    <InputNumber
+                        placeholder="Gewichtung"
+                        min={1}
+                        max={30}
+                        step={0.5}
+                        style={{ width: 300 }}
+                        parser={(value) => {
+                            value = value.replace(",", ".")
+                            if (value.indexOf(".") + 2 < value.length) {
+                                value = value.substring(0, value.indexOf(".") + 2)
+                            }
+                            // we only allow floats with .5as those are the only values that are possible
+                            if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
+                                value = value.substring(0, value.indexOf(".") + 1)
+                            }
+                            return value
+                        }}
+                    />
+                </Form.Item>
+            </div>
         )
     }
 
@@ -102,13 +112,35 @@ const ExamPackageComponent = (props: iProps) => {
 
     const buttons = (): ReactFragment => {
         return (
-            <div>
-                <Button htmlType="button" danger onClick={() => validateDeleteModal()}>
+            <div className="create_degree_buttons position_center">
+                <Button
+                    htmlType="button"
+                    danger
+                    onClick={() => validateDeleteModal()}>
                     Modulprüfung löschen
                     </Button>
-                <Button type="primary" htmlType="submit" onClick={onSubmit}>
-                    Speichern
+                {/*Show Tooltip if ExamPackage cannot be saved. If it can be saved dont show it*/}
+                {submitInvalid &&
+                    <Tooltip title={ToolTipExamPackageNotSavable}>
+                        <Button
+                            type="primary"
+                            style={{ marginLeft: 7.5 }}
+                            htmlType="submit"
+                            disabled={true}
+                            onClick={onSubmit}>
+                            Speichern
                 </Button>
+                    </Tooltip>
+                }
+                {!submitInvalid &&
+                    <Button
+                        style={{ marginLeft: 7.5 }}
+                        type="primary"
+                        htmlType="submit"
+                        onClick={onSubmit}>
+                        Speichern
+                    </Button>
+                }
             </div>
         )
     }
@@ -116,9 +148,9 @@ const ExamPackageComponent = (props: iProps) => {
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
     const validateDeleteModal = () => {
-        if(!(form.getFieldValue("name") || form.getFieldValue("weight") || exams.length != 0)){
+        if (!(form.getFieldValue("name") || form.getFieldValue("weight") || exams.length != 0)) {
             props.onDelete()
-        }else{
+        } else {
             setShowDeleteExamPackageModal(true)
         }
     }
@@ -152,16 +184,18 @@ const ExamPackageComponent = (props: iProps) => {
 
     const renderExamsHeader = (): ReactFragment => {
         return (
-            <div>
-                <h3>Prüfungen</h3>
-                <Button
-                    type="primary"
-                    size="small"
-                    onClick={() => addExam()}
-                    shape="round"
-                    icon={<PlusOutlined />}>
-                </Button>
-            </div>
+            <Divider>
+                <div className="examPackages_addExams">
+                    <div className="examPackages_add_heading">Prüfungen</div>
+                    <Button
+                        type="primary"
+                        size="small"
+                        onClick={() => addExam()}
+                        shape="round"
+                        icon={<PlusOutlined />}>
+                    </Button>
+                </div>
+            </Divider>
         )
     }
 
@@ -178,7 +212,7 @@ const ExamPackageComponent = (props: iProps) => {
 
     // delete Exam
     const deleteExam = (indexToDelete: number) => {
-        setExams(exams.filter((value, index) => index != indexToDelete))
+        setExams(exams.filter((_, index) => index != indexToDelete))
     }
 
     // save Exam
@@ -186,55 +220,6 @@ const ExamPackageComponent = (props: iProps) => {
         setExams(exams.map((value, index) => {
             if (index === indexToUpdate) return exam
             return value
-        }))
-    }
-
-    const renderCreatedExams = (exams: ExamCreationType[]): ReactFragment => {
-        // parse all created Exams and display them with an create and delete option
-        // if length is null return info text
-        if (exams.length === 0) return (
-            <div>
-                bisher keine Prüfungen hinzugefügt
-            </div>
-        )
-        return (exams.map((value: ExamCreationType, index: number) => {
-            if (value.editMode) {
-                return (
-                    <div key={keyGenerator()}>
-                        <ExamComponent
-                            onDelete={() => deleteExam(index)}
-                            onSave={(examData: ExamCreationType) => saveExam(examData, index)}
-                            defaultValues={value}
-                        />
-                    </div>
-                )
-            }
-            else return (
-                <div key={keyGenerator()}>
-                    <p>{value.name}</p>
-                    <p>{value.semester}. Semester</p>
-                    <p>ECTS: {value.ects}</p>
-                    <p>Gewichtung: {value.weight}</p>
-
-                    <Button
-                        size="small"
-                        onClick={() => setEditExam(true, index)}
-                        shape="round"
-                        icon={<EditOutlined />}>
-                    </Button>
-
-                    <Button
-                        size="small"
-                        danger
-                        onClick={() => {
-                            setExamToBeDeleted(index)
-                            setShowDeleteExamModal(true)
-                        }}
-                        shape="round"
-                        icon={<DeleteOutlined />}>
-                    </Button>
-                </div>
-            )
         }))
     }
 
@@ -256,7 +241,17 @@ const ExamPackageComponent = (props: iProps) => {
 
             {renderExamPackage()}
             {renderExamsHeader()}
-            {renderCreatedExams(exams)}
+            <RenderExams
+                data={exams}
+                onDeleteEdit={(index: number) => deleteExam(index)}
+                onSaveEdit={(examData: ExamCreationType, index: number) => saveExam(examData, index)}
+                setEdit={(index: number) => setEditExam(true, index)}
+                onDeleteNotEdit={(index: number) => {
+                    setExamToBeDeleted(index)
+                    setShowDeleteExamModal(true)
+                }}
+            />
+            <Divider />
             {buttons()}
         </div>
     )
