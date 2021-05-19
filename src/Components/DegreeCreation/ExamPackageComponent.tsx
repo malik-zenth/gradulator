@@ -3,6 +3,7 @@ import { Form, InputNumber, Input, Button } from "antd";
 import { ExamCreationType, ExamPackageCreationType, FormUpdateType } from "./types";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import ExamComponent from "./ExamComponent";
+import { DeleteExamModal, DeleteExamPackageModal } from "./ModalMessages";
 
 
 interface iProps {
@@ -17,11 +18,16 @@ const keyGenerator = (): ReactText =>
 const ExamPackageComponent = (props: iProps) => {
     const [form] = Form.useForm();
     const [exams, setExams] = useState<ExamCreationType[]>(props.defaultValues.exams)
+    // if Modal to delete Exam should be displayed
+    const [showDeleteExamModal, setShowDeleteExamModal] = useState<boolean>(false)
+    // Exam that will be deleted if user accepts inside of modal
+    const [examToBeDeleted, setExamToBeDeleted] = useState<number>(null)
+    // if Modal to delete this ExamPackage should be displayed
+    const [showDeleteExamPackageModal, setShowDeleteExamPackageModal] = useState<boolean>(false)
 
     useEffect(() => {
         // if exams change, update the values inside of parent component
         if(exams != props.defaultValues.exams){
-            console.log("UPDATE")
             updateValues()
         }
     }, [exams])
@@ -97,7 +103,7 @@ const ExamPackageComponent = (props: iProps) => {
     const buttons = (): ReactFragment => {
         return (
             <div>
-                <Button htmlType="button" danger onClick={() => props.onDelete()}>
+                <Button htmlType="button" danger onClick={() => validateDeleteModal()}>
                     Modulprüfung löschen
                     </Button>
                 <Button type="primary" htmlType="submit" onClick={onSubmit}>
@@ -105,6 +111,16 @@ const ExamPackageComponent = (props: iProps) => {
                 </Button>
             </div>
         )
+    }
+
+    // check if their are changes to eighter Exams or the ExamPackage
+    // if so show Modal message
+    const validateDeleteModal = () => {
+        if(!(form.getFieldValue("name") || form.getFieldValue("weight") || exams.length != 0)){
+            props.onDelete()
+        }else{
+            setShowDeleteExamPackageModal(true)
+        }
     }
 
     // update values in parent component on form update
@@ -189,7 +205,6 @@ const ExamPackageComponent = (props: iProps) => {
                             onDelete={() => deleteExam(index)}
                             onSave={(examData: ExamCreationType) => saveExam(examData, index)}
                             defaultValues={value}
-
                         />
                     </div>
                 )
@@ -211,7 +226,10 @@ const ExamPackageComponent = (props: iProps) => {
                     <Button
                         size="small"
                         danger
-                        onClick={() => deleteExam(index)}
+                        onClick={() => {
+                            setExamToBeDeleted(index)
+                            setShowDeleteExamModal(true)
+                        }}
                         shape="round"
                         icon={<DeleteOutlined />}>
                     </Button>
@@ -222,6 +240,20 @@ const ExamPackageComponent = (props: iProps) => {
 
     return (
         <div className="examComponent">
+            {DeleteExamPackageModal(
+                showDeleteExamPackageModal,
+                () => props.onDelete(),
+                () => setShowDeleteExamPackageModal(false)
+            )}
+            {DeleteExamModal(
+                showDeleteExamModal,
+                () => deleteExam(examToBeDeleted),
+                () => {
+                    setShowDeleteExamModal(false)
+                    setExamToBeDeleted(null)
+                }
+            )}
+
             {renderExamPackage()}
             {renderExamsHeader()}
             {renderCreatedExams(exams)}

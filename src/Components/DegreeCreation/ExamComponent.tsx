@@ -1,7 +1,7 @@
-import React, { ReactFragment, useState } from "react"
+import React, { ReactFragment, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button } from "antd";
-import { ExamCreationType, FormUpdateType } from "./types";
-
+import { ExamCreationType } from "./types";
+import { DeleteExamModal } from "./ModalMessages"
 
 interface iProps {
     onDelete: Function,
@@ -11,6 +11,7 @@ interface iProps {
 
 const ExamComponent = (props: iProps) => {
     const [form] = Form.useForm();
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
     const nameInputField = (): ReactFragment => {
         return (
@@ -146,7 +147,7 @@ const ExamComponent = (props: iProps) => {
     const buttons = (): ReactFragment => {
         return (
             <div>
-                <Button htmlType="button" danger onClick={() => props.onDelete()}>
+                <Button htmlType="button" danger onClick={() => validateDeleteModal()}>
                     Löschen
                     </Button>
                 <Button type="primary" htmlType="submit" onClick={onSubmit}>
@@ -154,6 +155,18 @@ const ExamComponent = (props: iProps) => {
                     </Button>
             </div>
         )
+    }
+
+    // if their are no changes to the exam we can delete it.
+    // if their are changes show Modal
+    const validateDeleteModal = () => {
+        if (!(form.getFieldValue("name") || form.getFieldValue("weight") || form.getFieldValue("semester") || form.getFieldValue("ects"))) {
+            // if non of the fields are changed we can delete the exam
+            props.onDelete()
+        } else {
+            // if not show modal
+            setShowDeleteModal(true)
+        }
     }
 
     // update values in parent component on form update
@@ -180,6 +193,7 @@ const ExamComponent = (props: iProps) => {
                     {ectsField()}
                     {weightField()}
                 </div>
+                {buttons()}
             </Form>
         )
     }
@@ -187,7 +201,10 @@ const ExamComponent = (props: iProps) => {
     return (
         <div className="examComponent">
             {renderForm()}
-            {buttons()}
+            {DeleteExamModal(
+                showDeleteModal,
+                () => props.onDelete(),
+                () => setShowDeleteModal(false))}
         </div>
     )
 }
