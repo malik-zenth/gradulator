@@ -303,10 +303,6 @@
         margin-top: 1em
     }
 
-    .examComponent{
-        width: 80%;
-        margin-left: 10%;
-    }
 
     .number-input-exam{
         display: inline-flex
@@ -354,6 +350,8 @@
         margin-left: 5%;
         margin-right: 5%;
     }
+
+
 
     .examPackage_nameInput{
         width: 90%;
@@ -416,4 +414,19 @@
     .degreeCreator_exam_name{
         width: 65%;
     }
+
+    .degreeCreator_exampackage_text{
+        /*Mimik those from antd Form*/
+        margin-bottom: 24px;
+        padding: 4px 0px;
+        width: 80%;
+        margin-left: 10%;
+    }
+
+
+    .examComponent{
+        width: 80%;
+        margin-left: 10%;
+    }
+
 }

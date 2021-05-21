@@ -49,3 +49,51 @@ export const DeleteExamPackageModal = (visible: boolean, onDelete: Function, onR
         </Modal>
     );
 }
+
+// Modal if Elevative should be deleted
+export const DeleteElevativeModal = (visible: boolean, onDelete: Function, onReturn: Function) => {
+    return (
+        <Modal
+            title="Möchtest du die Modulprüfung wirklich löschen?"
+            visible={visible}
+            footer={[
+                <Button
+                key="return"
+                type="default"
+                onClick={() => onReturn()}>Nicht löschen
+                </Button>,
+                <Button
+                    key="submit"
+                    danger
+                    type="primary"
+                    onClick={() => onDelete()}>Löschen
+                </Button>
+            ]}>
+            <p>Dadurch werden ebenfalls alle Prüfungen innerhalb des Wahlpflichtfaches gelöscht.</p>
+        </Modal>
+    );
+}
+
+// Modal if Elevative should be deleted
+export const DeleteEmphasisModal = (visible: boolean, onDelete: Function, onReturn: Function) => {
+    return (
+        <Modal
+            title="Möchtest du die Modulprüfung wirklich löschen?"
+            visible={visible}
+            footer={[
+                <Button
+                key="return"
+                type="default"
+                onClick={() => onReturn()}>Nicht löschen
+                </Button>,
+                <Button
+                    key="submit"
+                    danger
+                    type="primary"
+                    onClick={() => onDelete()}>Löschen
+                </Button>
+            ]}>
+            <p>Dadurch werden ebenfalls alle Modulprüfungen innerhalb des Schwerpunktes gelöscht.</p>
+        </Modal>
+    );
+}

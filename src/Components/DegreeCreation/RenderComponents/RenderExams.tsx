@@ -9,10 +9,11 @@ const keyGenerator = (): ReactText =>
 
 interface iProps {
     data: ExamCreationType[],
-    onDeleteEdit: Function,
-    onSaveEdit: Function,
-    setEdit: Function,
-    onDeleteNotEdit: Function
+    showEditButtons: boolean,
+    onDeleteEdit?: Function,
+    onSaveEdit?: Function,
+    setEdit?: Function,
+    onDeleteNotEdit?: Function
 }
 
 // render already created Exams
@@ -21,11 +22,13 @@ const RenderExams = (props: iProps) => {
     // render single Exam in Edit Mode
     const renderExamEditMode = (index: number, values: ExamCreationType) => {
         return (
+            <div key={keyGenerator()}>
             <ExamComponent
                 onDelete={() => props.onDeleteEdit(index)}
                 onSave={(examData: ExamCreationType) => props.onSaveEdit(examData, index)}
                 defaultValues={values}
             />
+            </div>
         )
     }
 
@@ -47,7 +50,7 @@ const RenderExams = (props: iProps) => {
                             size="small"
                             danger
                             style={{ marginLeft: 5 }}
-                            onClick={(index) => props.onDeleteNotEdit(index)}
+                            onClick={() => props.onDeleteNotEdit(index)}
                             shape="round"
                             icon={<DeleteOutlined />}>
                         </Button>
@@ -63,9 +66,29 @@ const RenderExams = (props: iProps) => {
         )
     }
 
+    // render Exam without Buttons to Edit or Delete
+    const renderExamModeNoEditButtons = (values: ExamCreationType) => {
+        return(
+            <div key={keyGenerator()} className="degreeCreator_exam_noEdit">
+            <div className="degreeCreator displayInline">
+                <p className="bold">{values.name}</p>
+            </div>
+            <div className="degreeCreator displayInline">
+                <p className="degreeCreator_exam_value">{values.semester}. Semester</p>
+                <p className="degreeCreator_exam_value">{values.ects} ECTS</p>
+                <p className="degreeCreator_exam_value">Gewichtung: {values.weight}</p>
+            </div>
+
+        </div>
+        )
+    }
+
     // parse all created Exams and display them with an create and delete option
     const renderExams = () => {
         return (props.data.map((value: ExamCreationType, index: number) => {
+            if (!props.showEditButtons){
+                return renderExamModeNoEditButtons(value)
+            }
             if (value.editMode) {
                 return renderExamEditMode(index, value)
             }

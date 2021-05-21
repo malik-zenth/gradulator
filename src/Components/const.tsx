@@ -19,3 +19,4 @@ export const ToolTipRemovedElevtive: string = "Wenn die für ein Wahlpflichtfach
 
 // Degree Creator
 export const ToolTipExamPackageNotSavable: string = "Die Modulprüfung kann nicht gespeichert werden, da einzelne Prüfungen noch in der Bearbeitung / Erstellung sind. Bitte schließe diese zuerst ab."
+export const ToolTipEmphasisNotSavable: string = "Der Schwerpunkt kann nicht gespeichert werden, da einzelne Modulprüfungen noch in der Bearbeitung / Erstellung sind. Bitte schließe diese zuerst ab."

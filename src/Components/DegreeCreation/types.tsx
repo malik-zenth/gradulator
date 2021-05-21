@@ -14,6 +14,12 @@ export interface ExamCreationType{
     editMode: boolean
 }
 
+export interface CreatedPackages{
+    examPackage?: ExamPackageCreationType,
+    elevative?: ElevativeCreationType,
+    emphasis?: EmphasisCreationType
+}
+
 export interface ExamPackageCreationType{
     name?: string,
     weight?: number,
@@ -23,8 +29,9 @@ export interface ExamPackageCreationType{
 }
 
 export interface ElevativeCreationType{
-    amound?: number,
-    examOptions: ExamCreationType[],
+    name?: string,
+    amount?: number,
+    exams: ExamCreationType[],
     weight?: number,
     editMode: boolean
 }

@@ -3,103 +3,181 @@ import { Footer, Header } from "../Components"
 import { Form, InputNumber, Input, Button, Divider, Col, Row } from "antd";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { BasicInformations, ExamComponent, ExamPackageComponent } from "../Components/DegreeCreation"
-import { ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "../Components/DegreeCreation/types";
-import {RenderExamPackage} from "../Components/DegreeCreation/RenderComponents";
+import { CreatedPackages, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "../Components/DegreeCreation/types";
+import { RenderExamPackage, RenderElevative, RenderEmphasis } from "../Components/DegreeCreation/RenderComponents";
 
 interface iProps { }
 
 interface iState {
-    createdEmphasis: EmphasisCreationType[],
-    createdElevative: ElevativeCreationType[],
-    createdExamPackages: ExamPackageCreationType[],
+    createdData: CreatedPackages[],
     generalInformation?: GeneralInformationsCreationType,
     editMode_BasicInformation: boolean
 
 }
 
-const keyGenerator = (): ReactText =>
-    "_" + Math.random().toString(36).substr(2, 9);
-
 class DegreeCreation extends React.Component<iProps, iState>{
     constructor(props: iProps) {
         super(props);
         this.state = {
-            createdEmphasis: [],
-            createdExamPackages: [{
-                editMode: true,
-                exams: [{
-                    name: "WIN",
-                    weight: 5,
-                    semester: 3,
-                    ects: 5,
-                    editMode: false
-                }]
+            createdData: [{
+                emphasis: {
+                    editMode: true,
+                    options: [{
+                        name: "WIN",
+                        weight: 5,
+                        exams: [{
+                            name: "Einführung",
+                            weight: 10,
+                            semester: 5,
+                            ects: 5,
+                            editMode: false
+                        }],
+                        editMode: false
+                    }]
+                }
             },{
-                editMode: false,
-                name: "Leadership & Entrepreneurship",
-                exams: []
-            }],
-            createdElevative: [],
+                    examPackage: {
+                        editMode: false,
+                        exams: [
+                            {
+                                name: "Einführung",
+                                weight: 10,
+                                semester: 5,
+                                ects: 5,
+                                editMode: false
+                            }
+                        ]
+                    }
+                }
+            ],
             editMode_BasicInformation: false
         }
     }
 
     // all add functions
     createExamPackage = () => {
-        this.setState({ createdExamPackages: [...this.state.createdExamPackages, { editMode: true, exams: [] }] })
+        this.setState({ createdData: [...this.state.createdData, { examPackage: { editMode: true, exams: [] } }] })
     }
 
     createElevative = () => {
-        this.state.createdElevative.push({ editMode: true, examOptions: [] })
+        this.setState({ createdData: [...this.state.createdData, { elevative: { editMode: true, exams: [] } }] })
     }
 
     createEmphasis = () => {
-        this.state.createdEmphasis.push({ editMode: true, options: [] })
+        this.setState({ createdData: [...this.state.createdData, { emphasis: { editMode: true, options: [] } }] })
     }
 
-    // all delete functions
-    deleteExamPackage = (itemToRemove: number) => {
-        const newState: ExamPackageCreationType[] = this.state.createdExamPackages.filter((_, index) => index != itemToRemove)
-        this.setState({ createdExamPackages: newState })
+    // delete Element by ID
+    deleteElement = (itemToRemove: number) => {
+        const newState: CreatedPackages[] = this.state.createdData.filter((_, index) => index != itemToRemove)
+        this.setState({ createdData: newState })
     }
-
 
     // all update functions
     updateExamPackage = (examPackage: ExamPackageCreationType, index: number) => {
-        const newState: ExamPackageCreationType[] = this.state.createdExamPackages
-        newState[index] = examPackage
-        this.setState({ createdExamPackages: newState })
+        const newState: CreatedPackages[] = this.state.createdData
+        newState[index] = { examPackage: examPackage }
+        this.setState({ createdData: newState })
+    }
+
+    updateElevative = (elevative: ElevativeCreationType, index: number) => {
+        const newState: CreatedPackages[] = this.state.createdData
+        newState[index] = { elevative: elevative }
+        this.setState({ createdData: newState })
+    }
+
+    updateEmphasis = (elevative: EmphasisCreationType, index: number) => {
+        const newState: CreatedPackages[] = this.state.createdData
+        newState[index] = { emphasis: elevative }
+        this.setState({ createdData: newState })
     }
 
 
     // all set Edit Mode functions
     setEditExamPackage = (editValue: boolean, indexToUpdate: number) => {
-        const newExamPackages: ExamPackageCreationType[] = this.state.createdExamPackages.map((value, index) => {
+        const newState: CreatedPackages[] = this.state.createdData.map((value, index) => {
             if (indexToUpdate === index) {
-                value.editMode = editValue
+                value.examPackage.editMode = editValue
                 return value
             }
             return value
         })
-        this.setState({ createdExamPackages: newExamPackages })
+        this.setState({ createdData: newState })
     }
 
-
-    // render ExamPackages
-    renderExamPackages = (examPackages: ExamPackageCreationType[]): ReactFragment => {
-        return examPackages.map((single, index) => {
-            return(
-            <RenderExamPackage
-                data={single}
-                index={index}
-                onDeleteEdit={(index: number) => this.deleteExamPackage(index)}
-                onSaveEdit={(values: ExamPackageCreationType, index: number) => this.updateExamPackage(values, index)}
-                setEdit={(index: number) => this.setEditExamPackage(true, index)}
-                onDeleteNotEdit={(index: number) => this.deleteExamPackage(index)}
-            />
-            )})
+    setEditElevative = (editValue: boolean, indexToUpdate: number) => {
+        const newState: CreatedPackages[] = this.state.createdData.map((value, index) => {
+            if (indexToUpdate === index) {
+                value.elevative.editMode = editValue
+                return value
+            }
+            return value
+        })
+        this.setState({ createdData: newState })
     }
 
+    setEditEmphasis = (editValue: boolean, indexToUpdate: number) => {
+        const newState: CreatedPackages[] = this.state.createdData.map((value, index) => {
+            if (indexToUpdate === index) {
+                value.emphasis.editMode = editValue
+                return value
+            }
+            return value
+        })
+        this.setState({ createdData: newState })
+    }
+
+    // go through alll data and render each component
+    renderCreatedData = (createdData: CreatedPackages[]): ReactFragment => {
+        // if no Data is created, render explaination
+        if (createdData.length === 0) {
+            return (
+                <div>
+                    ERKLÄRUNG DER FUNKTIONALITÄT
+                </div>
+            )
+        }
+        // else iterate over our createed Data and render it depending on its type
+        return createdData.map((single, index) => {
+            if (single.elevative) {
+                return (
+                    <RenderElevative
+                        data={single.elevative}
+                        index={index}
+                        onDeleteEdit={(index: number) => this.deleteElement(index)}
+                        onSaveEdit={(values: ElevativeCreationType, index: number) => this.updateElevative(values, index)}
+                        setEdit={(index: number) => this.setEditElevative(true, index)}
+                        onDeleteNotEdit={(index: number) => this.deleteElement(index)}
+                    />
+                )
+            }
+            if (single.emphasis) {
+                return (
+                    <RenderEmphasis
+                        data={single.emphasis}
+                        index={index}
+                        onDeleteEdit={(index: number) => this.deleteElement(index)}
+                        onSaveEdit={(values: EmphasisCreationType, index: number) => this.updateEmphasis(values, index)}
+                        setEdit={(index: number) => this.setEditEmphasis(true, index)}
+                        onDeleteNotEdit={(index: number) => this.deleteElement(index)}
+                    />
+                )
+            }
+            if (single.examPackage) {
+                return (
+                    <RenderExamPackage
+                        data={single.examPackage}
+                        index={index}
+                        showEditButtons={true}
+                        onDeleteEdit={(index: number) => this.deleteElement(index)}
+                        onSaveEdit={(values: ExamPackageCreationType, index: number) => this.updateExamPackage(values, index)}
+                        setEdit={(index: number) => this.setEditExamPackage(true, index)}
+                        onDeleteNotEdit={(index: number) => this.deleteElement(index)}
+                    />
+                )
+            }
+        })
+    }
 
     // Buttons to create new Emphasis, ExamPackage and Elevative
     createButtons = (): ReactFragment => {
@@ -137,7 +215,7 @@ class DegreeCreation extends React.Component<iProps, iState>{
 
 
     render() {
-        const { generalInformation, createdElevative, createdEmphasis, createdExamPackages } = this.state
+        const { generalInformation, createdData } = this.state
         return (
             <div>
                 <div className="content">
@@ -149,7 +227,7 @@ class DegreeCreation extends React.Component<iProps, iState>{
                     {this.createButtons()}
                     <Divider />
                     <Row className="examPackages_degreeCreator">
-                        {this.renderExamPackages(createdExamPackages)}
+                        {this.renderCreatedData(createdData)}
                     </Row>
                 </div>
                 <Footer />

@@ -1,31 +1,29 @@
 import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
-import { ExamCreationType, ExamPackageCreationType, FormUpdateType } from "./types";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import ExamComponent from "./ExamComponent";
+import { ElevativeCreationType, ExamCreationType } from "./types";
+import { PlusOutlined } from "@ant-design/icons";
 import { ToolTipExamPackageNotSavable } from "../../Components/const"
-import { DeleteExamModal, DeleteExamPackageModal } from "./ModalMessages";
+import { DeleteElevativeModal, DeleteExamModal } from "./ModalMessages";
 import {RenderExams} from "./RenderComponents"
 
 interface iProps {
     onDelete: Function,
-    isChildComponent?: boolean,
     onSave: Function,
-    defaultValues: ExamPackageCreationType
+    defaultValues: ElevativeCreationType
 }
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
-const ExamPackageComponent = (props: iProps) => {
+const ElevativeComponent = (props: iProps) => {
     const [form] = Form.useForm();
     const [exams, setExams] = useState<ExamCreationType[]>(props.defaultValues.exams)
     // if Modal to delete Exam should be displayed
     const [showDeleteExamModal, setShowDeleteExamModal] = useState<boolean>(false)
     // Exam that will be deleted if user accepts inside of modal
     const [examToBeDeleted, setExamToBeDeleted] = useState<number>(null)
-    // if Modal to delete this ExamPackage should be displayed
-    const [showDeleteExamPackageModal, setShowDeleteExamPackageModal] = useState<boolean>(false)
+    // if Modal to delete this Elevative should be displayed
+    const [showDeleteElevativeModal, setShowDeleteElevative] = useState<boolean>(false)
     // if submit is possible
     const [submitInvalid, setSavePossible] = useState<boolean>(exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0)
 
@@ -97,11 +95,46 @@ const ExamPackageComponent = (props: iProps) => {
         )
     }
 
+    const amountField = (): ReactFragment => {
+        return (
+            <div className="examPackage_weightInput">
+                <Form.Item
+                    name="amount"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Anzahl fehlt!"
+                        }
+                    ]}
+                >
+                    <InputNumber
+                        placeholder="Benötigte Anzahl"
+                        min={1}
+                        max={30}
+                        step={0.5}
+                        style={{ width: 300 }}
+                        parser={(value) => {
+                            value = value.replace(",", ".")
+                            if (value.indexOf(".") + 2 < value.length) {
+                                value = value.substring(0, value.indexOf(".") + 2)
+                            }
+                            // we only allow floats with .5as those are the only values that are possible
+                            if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
+                                value = value.substring(0, value.indexOf(".") + 1)
+                            }
+                            return value
+                        }}
+                    />
+                </Form.Item>
+            </div>
+        )
+    }
+
     const onSubmit = (e: any) => {
         e.preventDefault()
         form
             .validateFields()
-            .then((values: ExamPackageCreationType) => {
+            .then((values: ElevativeCreationType) => {
                 values.editMode = false
                 values.exams = exams
                 props.onSave(values)
@@ -118,7 +151,7 @@ const ExamPackageComponent = (props: iProps) => {
                     htmlType="button"
                     danger
                     onClick={() => validateDeleteModal()}>
-                    Modulprüfung löschen
+                    Wahlpflichtfach löschen
                     </Button>
                 {/*Show Tooltip if ExamPackage cannot be saved. If it can be saved dont show it*/}
                 {submitInvalid &&
@@ -149,10 +182,10 @@ const ExamPackageComponent = (props: iProps) => {
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
     const validateDeleteModal = () => {
-        if (!(form.getFieldValue("name") || form.getFieldValue("weight") || exams.length != 0)) {
+        if (!(form.getFieldValue("name") || form.getFieldValue("weight") || form.getFieldValue("amount") || exams.length != 0)) {
             props.onDelete()
         } else {
-            setShowDeleteExamPackageModal(true)
+            setShowDeleteElevative(true)
         }
     }
 
@@ -160,13 +193,18 @@ const ExamPackageComponent = (props: iProps) => {
     const updateValues = () => {
         const name: string = form.getFieldValue("name")
         const weight: number = form.getFieldValue("weight")
-        const newExamPackage: ExamPackageCreationType = {
-            name: name, weight: weight, exams: exams, editMode: props.defaultValues.editMode
+        const amount: number = form.getFieldValue("amount")
+        const newExamPackage: ElevativeCreationType = {
+            name: name,
+            weight: weight,
+            amount: amount,
+            exams: exams,
+            editMode: props.defaultValues.editMode
         }
         props.onSave(newExamPackage)
     }
 
-    const renderExamPackage = () => {
+    const renderElevativePackage = () => {
         return (
             <Form
                 form={form}
@@ -175,6 +213,7 @@ const ExamPackageComponent = (props: iProps) => {
             >
                 {nameInputField()}
                 {weightField()}
+                {amountField()}
             </Form>
         )
     }
@@ -187,7 +226,7 @@ const ExamPackageComponent = (props: iProps) => {
         return (
             <Divider>
                 <div className="examPackages_addExams">
-                    <div className="examPackages_add_heading">Prüfungen</div>
+                    <div className="examPackages_add_heading">Auswahlmöglichkeiten</div>
                     <Button
                         type="primary"
                         size="small"
@@ -225,11 +264,11 @@ const ExamPackageComponent = (props: iProps) => {
     }
 
     return (
-        <div className={!props.isChildComponent ? "examComponent" : ""}>
-            {DeleteExamPackageModal(
-                showDeleteExamPackageModal,
+        <div className="examComponent">
+            {DeleteElevativeModal(
+                showDeleteElevativeModal,
                 () => props.onDelete(),
-                () => setShowDeleteExamPackageModal(false)
+                () => setShowDeleteElevative(false)
             )}
             {DeleteExamModal(
                 showDeleteExamModal,
@@ -240,7 +279,7 @@ const ExamPackageComponent = (props: iProps) => {
                 }
             )}
 
-            {renderExamPackage()}
+            {renderElevativePackage()}
             {renderExamsHeader()}
             <RenderExams
                 data={exams}
@@ -259,4 +298,4 @@ const ExamPackageComponent = (props: iProps) => {
     )
 }
 
-export default ExamPackageComponent
+export default ElevativeComponent
