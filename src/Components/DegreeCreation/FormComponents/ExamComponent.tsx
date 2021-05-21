@@ -1,7 +1,7 @@
-import React, { ReactFragment, useEffect, useState } from "react"
+import React, { ReactFragment, useState } from "react"
 import { Form, InputNumber, Input, Button } from "antd";
-import { ExamCreationType } from "./types";
-import { DeleteExamModal } from "./ModalMessages"
+import { ExamCreationType } from "../types";
+import { DeleteExamModal } from "../ModalMessages"
 
 interface iProps {
     onDelete: Function,

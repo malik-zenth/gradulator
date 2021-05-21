@@ -1,10 +1,10 @@
 import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
-import { ElevativeCreationType, ExamCreationType } from "./types";
+import { ElevativeCreationType, ExamCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
-import { ToolTipExamPackageNotSavable } from "../../Components/const"
-import { DeleteElevativeModal, DeleteExamModal } from "./ModalMessages";
-import {RenderExams} from "./RenderComponents"
+import { ToolTipExamPackageNotSavable } from "../../const"
+import { DeleteElevativeModal, DeleteExamModal } from "../ModalMessages";
+import {RenderExams} from "../RenderComponents"
 
 interface iProps {
     onDelete: Function,

@@ -1,45 +1,47 @@
 import React, { ReactFragment, ReactText, useEffect, useState } from "react"
-import { Form, InputNumber, Input, Button, Tooltip, Divider, Row } from "antd";
-import { ElevativeCreationType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType, FormUpdateType } from "./types";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { ToolTipEmphasisNotSavable } from "../../Components/const"
-import { DeleteEmphasisModal, DeleteExamModal, DeleteExamPackageModal } from "./ModalMessages";
-import { RenderExamPackage, RenderExams } from "./RenderComponents"
+import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
+import { ExamCreationType, ExamPackageCreationType } from "../types";
+import { PlusOutlined } from "@ant-design/icons";
+import { ToolTipExamPackageNotSavable } from "../../const"
+import { DeleteExamModal, DeleteExamPackageModal } from "../ModalMessages";
+import {RenderExams} from "../RenderComponents"
 
 interface iProps {
     onDelete: Function,
+    isChildComponent?: boolean,
     onSave: Function,
-    defaultValues: EmphasisCreationType
+    defaultValues: ExamPackageCreationType
 }
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
-const EmphasisComponent = (props: iProps) => {
+const ExamPackageComponent = (props: iProps) => {
     const [form] = Form.useForm();
-    const [examPackages, setExamPackages] = useState<ExamPackageCreationType[]>(props.defaultValues.options)
-    const [showDeleteEmphasis, setShowDeleteEmphasis] = useState<boolean>(false)
-    // if Modal to delete ExamPackage should be displayed
-    const [showDeleteExamPackage, setShowDeleteExamPackageModal] = useState<boolean>(false)
-    // ExamPackage that will be deleted if user accepts inside of modal
-    const [examPackageToBeDeleted, setExamPackageToBeDeleted] = useState<number>(null)
+    const [exams, setExams] = useState<ExamCreationType[]>(props.defaultValues.exams)
+    // if Modal to delete Exam should be displayed
+    const [showDeleteExamModal, setShowDeleteExamModal] = useState<boolean>(false)
+    // Exam that will be deleted if user accepts inside of modal
+    const [examToBeDeleted, setExamToBeDeleted] = useState<number>(null)
+    // if Modal to delete this ExamPackage should be displayed
+    const [showDeleteExamPackageModal, setShowDeleteExamPackageModal] = useState<boolean>(false)
     // if submit is possible
-    const [submitInvalid, setSavePossible] = useState<boolean>(examPackages.filter((x: ExamPackageCreationType) => { return x.editMode }).length != 0)
+    const [submitInvalid, setSavePossible] = useState<boolean>(exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0)
 
 
     useEffect(() => {
         // if exams change, update the values inside of parent component
-        if (examPackages != props.defaultValues.options) {
+        if (exams != props.defaultValues.exams) {
             // check if their are exams in edit mode, if so disable save button
-            const submitInvalid: boolean = examPackages.filter((x: ExamPackageCreationType) => { return x.editMode }).length != 0
+            const submitInvalid: boolean = exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0
             setSavePossible(submitInvalid)
             updateValues()
         }
-    }, [examPackages])
+    }, [exams])
 
     const nameInputField = (): ReactFragment => {
         return (
-            <div className="emphasis_name_input">
+            <div className="examPackage_nameInput">
                 <Form.Item
                     name="name"
                     rules={[
@@ -51,7 +53,7 @@ const EmphasisComponent = (props: iProps) => {
                 >
                     <Input
                         type="string"
-                        placeholder="Name des Schwerpunktes"
+                        placeholder="Name der Modulprüfung"
                         style={{ width: 300 }}
                     />
                 </Form.Item>
@@ -61,7 +63,7 @@ const EmphasisComponent = (props: iProps) => {
 
     const weightField = (): ReactFragment => {
         return (
-            <div className="emphasis_weight_input">
+            <div className="examPackage_weightInput">
                 <Form.Item
                     name="weight"
                     rules={[
@@ -98,9 +100,9 @@ const EmphasisComponent = (props: iProps) => {
         e.preventDefault()
         form
             .validateFields()
-            .then((values: EmphasisCreationType) => {
+            .then((values: ExamPackageCreationType) => {
                 values.editMode = false
-                values.options = examPackages
+                values.exams = exams
                 props.onSave(values)
             })
             .catch((error) => {
@@ -115,11 +117,11 @@ const EmphasisComponent = (props: iProps) => {
                     htmlType="button"
                     danger
                     onClick={() => validateDeleteModal()}>
-                    Schwerpunkt löschen
+                    Modulprüfung löschen
                     </Button>
                 {/*Show Tooltip if ExamPackage cannot be saved. If it can be saved dont show it*/}
                 {submitInvalid &&
-                    <Tooltip title={ToolTipEmphasisNotSavable}>
+                    <Tooltip title={ToolTipExamPackageNotSavable}>
                         <Button
                             type="primary"
                             style={{ marginLeft: 7.5 }}
@@ -146,10 +148,10 @@ const EmphasisComponent = (props: iProps) => {
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
     const validateDeleteModal = () => {
-        if (!(form.getFieldValue("name") || form.getFieldValue("weight") || examPackages.length != 0)) {
+        if (!(form.getFieldValue("name") || form.getFieldValue("weight") || exams.length != 0)) {
             props.onDelete()
         } else {
-            setShowDeleteEmphasis(true)
+            setShowDeleteExamPackageModal(true)
         }
     }
 
@@ -157,41 +159,39 @@ const EmphasisComponent = (props: iProps) => {
     const updateValues = () => {
         const name: string = form.getFieldValue("name")
         const weight: number = form.getFieldValue("weight")
-        const newEmphasis: EmphasisCreationType = {
-            name: name, weight: weight, options: examPackages, editMode: props.defaultValues.editMode
+        const newExamPackage: ExamPackageCreationType = {
+            name: name, weight: weight, exams: exams, editMode: props.defaultValues.editMode
         }
-        props.onSave(newEmphasis)
+        props.onSave(newExamPackage)
     }
 
     const renderExamPackage = () => {
         return (
             <Form
-                className="form_min_height"
                 form={form}
+                className={props.isChildComponent ? "min_height_120" : "form_min_height"}
                 initialValues={props.defaultValues}
                 onValuesChange={() => updateValues()}
             >
-                <div className="display_inline">
                 {nameInputField()}
                 {weightField()}
-                </div>
             </Form>
         )
     }
 
-    const addExamPackage = () => {
-        setExamPackages([...examPackages, { editMode: true, exams: [] }])
+    const addExam = () => {
+        setExams([...exams, { editMode: true }])
     }
 
-    const renderHeader = (): ReactFragment => {
+    const renderExamsHeader = (): ReactFragment => {
         return (
             <Divider>
                 <div className="examPackages_addExams">
-                    <div className="examPackages_add_heading">Modulprüfungen</div>
+                    <div className="examPackages_add_heading">Prüfungen</div>
                     <Button
                         type="primary"
                         size="small"
-                        onClick={() => addExamPackage()}
+                        onClick={() => addExam()}
                         shape="round"
                         icon={<PlusOutlined />}>
                     </Button>
@@ -200,9 +200,9 @@ const EmphasisComponent = (props: iProps) => {
         )
     }
 
-    // update the editMode of an ExamPackage
-    const setEditExamPackage = (editValue: boolean, indexToUpdate: number) => {
-        setExamPackages(examPackages.map((value, index) => {
+    // update the editMode of an Exam
+    const setEditExam = (editValue: boolean, indexToUpdate: number) => {
+        setExams(exams.map((value, index) => {
             if (indexToUpdate === index) {
                 value.editMode = editValue
                 return value
@@ -211,65 +211,52 @@ const EmphasisComponent = (props: iProps) => {
         }))
     }
 
-    // delete ExamPackage
-    const deleteExamPackage = (indexToDelete: number) => {
-        setExamPackages(examPackages.filter((_, index) => index != indexToDelete))
+    // delete Exam
+    const deleteExam = (indexToDelete: number) => {
+        setExams(exams.filter((_, index) => index != indexToDelete))
     }
 
-    // save ExamPackage
-    const saveExamPackage = (examPackage: ExamPackageCreationType, indexToUpdate: number) => {
-        setExamPackages(examPackages.map((value, index) => {
-            if (index === indexToUpdate) return examPackage
+    // save Exam
+    const saveExam = (exam: ExamCreationType, indexToUpdate: number) => {
+        setExams(exams.map((value, index) => {
+            if (index === indexToUpdate) return exam
             return value
         }))
     }
 
-    const renderExamPackages = () => {
-        return examPackages.map((value, index) => {
-            return (
-                    <RenderExamPackage
-                        key={keyGenerator()}
-                        data={value}
-                        isChildComponent={true}
-                        index={index}
-                        showEditButtons={true}
-                        onDeleteEdit={(index: number) => deleteExamPackage(index)}
-                        onSaveEdit={(examData: ExamPackageCreationType, index: number) => saveExamPackage(examData, index)}
-                        setEdit={(index: number) => setEditExamPackage(true, index)}
-                        onDeleteNotEdit={(index: number) => {
-                            setExamPackageToBeDeleted(index)
-                            setShowDeleteExamPackageModal(true)
-                        }}
-                    />
-            )
-        })
-    }
-
     return (
-        <div className="emphasis_component">
-            {DeleteEmphasisModal(
-                showDeleteEmphasis,
-                () => props.onDelete(),
-                () => setShowDeleteEmphasis(false)
-            )}
+        <div>
             {DeleteExamPackageModal(
-                showDeleteExamPackage,
-                () => deleteExamPackage(examPackageToBeDeleted),
+                showDeleteExamPackageModal,
+                () => props.onDelete(),
+                () => setShowDeleteExamPackageModal(false)
+            )}
+            {DeleteExamModal(
+                showDeleteExamModal,
+                () => deleteExam(examToBeDeleted),
                 () => {
-                    setShowDeleteExamPackageModal(false)
-                    setExamPackageToBeDeleted(null)
+                    setShowDeleteExamModal(false)
+                    setExamToBeDeleted(null)
                 }
             )}
 
             {renderExamPackage()}
-            {renderHeader()}
-            <Row gutter={[20, 40]}>
-                {renderExamPackages()}
-            </Row>
+            {renderExamsHeader()}
+            <RenderExams
+                data={exams}
+                showEditButtons={true}
+                onDeleteEdit={(index: number) => deleteExam(index)}
+                onSaveEdit={(examData: ExamCreationType, index: number) => saveExam(examData, index)}
+                setEdit={(index: number) => setEditExam(true, index)}
+                onDeleteNotEdit={(index: number) => {
+                    setExamToBeDeleted(index)
+                    setShowDeleteExamModal(true)
+                }}
+            />
             <Divider />
             {buttons()}
         </div>
     )
 }
 
-export default EmphasisComponent
+export default ExamPackageComponent

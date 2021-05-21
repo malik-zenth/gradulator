@@ -2,7 +2,7 @@ import React, { ReactText } from "react"
 import { Button } from "antd";
 import { ExamCreationType } from "../types";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import ExamComponent from "../ExamComponent";
+import ExamComponent from "../FormComponents/ExamComponent";
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);

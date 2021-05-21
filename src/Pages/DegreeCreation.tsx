@@ -1,8 +1,8 @@
 import React, { ReactFragment, ReactText } from "react"
 import { Footer, Header } from "../Components"
-import { Form, InputNumber, Input, Button, Divider, Col, Row } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { BasicInformations, ExamComponent, ExamPackageComponent } from "../Components/DegreeCreation"
+import { Button, Divider, Row } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { BasicInformations} from "../Components/DegreeCreation/FormComponents"
 import { CreatedPackages, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "../Components/DegreeCreation/types";
 import { RenderExamPackage, RenderElevative, RenderEmphasis } from "../Components/DegreeCreation/RenderComponents";
 
@@ -130,7 +130,7 @@ class DegreeCreation extends React.Component<iProps, iState>{
         this.setState({ createdData: newState })
     }
 
-    // go through alll data and render each component
+    // go through all data and render each component
     renderCreatedData = (createdData: CreatedPackages[]): ReactFragment => {
         // if no Data is created, render explaination
         if (createdData.length === 0) {

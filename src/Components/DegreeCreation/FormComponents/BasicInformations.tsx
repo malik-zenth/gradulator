@@ -1,6 +1,6 @@
 import React, { ReactFragment, ReactText, useState } from "react"
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { GeneralInformationsCreationType } from "./types";
+import { EditOutlined } from "@ant-design/icons";
+import { GeneralInformationsCreationType } from "../types";
 import { Form, InputNumber, Input, Button } from "antd";
 
 interface iProps {

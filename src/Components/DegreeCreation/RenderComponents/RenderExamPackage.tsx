@@ -1,7 +1,7 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Button, Divider, Col } from "antd";
 import { ExamPackageCreationType } from "../types";
-import { ExamPackageComponent } from ".."
+import { ExamPackageComponent } from "../FormComponents"
 import RenderExams from "./RenderExams";
 import { DeleteExamPackageModal } from "../ModalMessages";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -12,7 +12,9 @@ const keyGenerator = (): ReactText =>
 
 interface iProps {
     data: ExamPackageCreationType,
+    // if edit Buttons should be displayed or not
     showEditButtons: boolean,
+    // if ExamPackage is child of Emphasis change its style a little bit
     isChildComponent?: boolean,
     index?: number
     onDeleteEdit?: Function,
@@ -63,8 +65,8 @@ const RenderExamPackage = (props: iProps) => {
         return (
             <div>
                 <div className="form_min_height">
-                <p className="degreeCreator_exampackage_text bold">{values.name}</p>
-                <p className="degreeCreator_exampackage_text">Gewichtung: {values.weight}</p>
+                    <p className="degreeCreator_exampackage_text bold">{values.name}</p>
+                    <p className="degreeCreator_exampackage_text">Gewichtung: {values.weight}</p>
                 </div>
                 <Divider>
                     <div className="examPackages_addExams">
@@ -88,29 +90,29 @@ const RenderExamPackage = (props: iProps) => {
         return (
             <div>
                 <div className="min_height_120">
-                <div className="degreeCreator displayInline">
-                    <p className="degreeCreator_exam_name bold">{values.name}</p>
-                    {props.showEditButtons &&
-                        <div className="degreeCreator_exam_editButtons">
-                            <Button
-                                size="small"
-                                onClick={() => props.setEdit(index)}
-                                shape="round"
-                                icon={<EditOutlined />}>
-                            </Button>
+                    <div className="degreeCreator displayInline">
+                        <p className="degreeCreator_exam_name bold">{values.name}</p>
+                        {props.showEditButtons &&
+                            <div className="degreeCreator_exam_editButtons">
+                                <Button
+                                    size="small"
+                                    onClick={() => props.setEdit(index)}
+                                    shape="round"
+                                    icon={<EditOutlined />}>
+                                </Button>
 
-                            <Button
-                                size="small"
-                                danger
-                                style={{ marginLeft: 5 }}
-                                onClick={() => setShowDeleteModal(true)}
-                                shape="round"
-                                icon={<DeleteOutlined />}>
-                            </Button>
-                        </div>
-                    }
-                </div>
-                <p >Gewichtung: {values.weight}</p>
+                                <Button
+                                    size="small"
+                                    danger
+                                    style={{ marginLeft: 5 }}
+                                    onClick={() => setShowDeleteModal(true)}
+                                    shape="round"
+                                    icon={<DeleteOutlined />}>
+                                </Button>
+                            </div>
+                        }
+                    </div>
+                    <p >Gewichtung: {values.weight}</p>
                 </div>
                 <Divider>Prüfungen</Divider>
                 {values.exams.length === 0 &&
@@ -137,11 +139,12 @@ const RenderExamPackage = (props: iProps) => {
     if (props.isChildComponent) {
         return (
             <Col xl={12} xxl={12} lg={12} md={12} sm={12} xs={12} key={keyGenerator()}>
-                {DeleteExamPackageModal(
-                    showDeleteModal,
-                    () => props.onDeleteNotEdit(props.index),
-                    () => setShowDeleteModal(false)
-                )}
+                <DeleteExamPackageModal
+                    visible={showDeleteModal}
+                    onDelete={() => props.onDeleteNotEdit(props.index)}
+                    onReturn={() => setShowDeleteModal(false)}
+                />
+
                 <div >
                     {props.data.editMode && renderExamPackageEditMode(props.index, props.data)}
                     {!props.data.editMode && renderExamPackageNoEditModeChildOfEmphasis(props.index, props.data)}
@@ -152,11 +155,11 @@ const RenderExamPackage = (props: iProps) => {
 
     return (
         <Col xl={8} xxl={6} lg={8} md={12} sm={12} xs={24} key={keyGenerator()}>
-            {DeleteExamPackageModal(
-                showDeleteModal,
-                () => props.onDeleteNotEdit(props.index),
-                () => setShowDeleteModal(false)
-            )}
+            <DeleteExamPackageModal
+                visible={showDeleteModal}
+                onDelete={() => props.onDeleteNotEdit(props.index)}
+                onReturn={() => setShowDeleteModal(false)}
+            />
             <div className="degreeCreator_singleElement">
                 <Divider><div className="divider_large_text">Modulprüfung</div></Divider>
                 {props.data.editMode && renderExamPackageEditMode(props.index, props.data)}

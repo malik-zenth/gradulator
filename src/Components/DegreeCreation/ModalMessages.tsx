@@ -1,24 +1,30 @@
 import React from 'react';
 import { Modal, Button } from "antd"
 
+interface iProps{
+    visible: boolean,
+    onDelete: Function,
+    onReturn: Function
+}
+
 
 // Modal if Exam should be deleted
-export const DeleteExamModal = (visible: boolean, onDelete: Function, onReturn: Function) => {
+export const DeleteExamModal = (props: iProps) => {
     return (
         <Modal
             title="Möchtest du die Prüfung wirklich löschen?"
-            visible={visible}
+            visible={props.visible}
             footer={[
                 <Button
                     key="return"
                     type="default"
-                    onClick={() => onReturn()}>Nicht löschen
+                    onClick={() => props.onReturn()}>Nicht löschen
                 </Button>,
                 <Button
                     key="submit"
                     danger
                     type="primary"
-                    onClick={() => onDelete()}>Löschen
+                    onClick={() => props.onDelete()}>Löschen
                 </Button>
             ]}>
             <p>Diese Aktion kann nicht Rückgängig gemacht werden.</p>
@@ -27,22 +33,22 @@ export const DeleteExamModal = (visible: boolean, onDelete: Function, onReturn: 
 }
 
 // Modal if ExamPackage should be deleted
-export const DeleteExamPackageModal = (visible: boolean, onDelete: Function, onReturn: Function) => {
+export const DeleteExamPackageModal = (props: iProps) => {
     return (
         <Modal
             title="Möchtest du die Modulprüfung wirklich löschen?"
-            visible={visible}
+            visible={props.visible}
             footer={[
                 <Button
                 key="return"
                 type="default"
-                onClick={() => onReturn()}>Nicht löschen
+                onClick={() => props.onReturn()}>Nicht löschen
                 </Button>,
                 <Button
                     key="submit"
                     danger
                     type="primary"
-                    onClick={() => onDelete()}>Löschen
+                    onClick={() => props.onDelete()}>Löschen
                 </Button>
             ]}>
             <p>Dadurch werden ebenfalls alle Prüfungen innerhalb der Modulprüfung gelöscht.</p>
@@ -51,22 +57,22 @@ export const DeleteExamPackageModal = (visible: boolean, onDelete: Function, onR
 }
 
 // Modal if Elevative should be deleted
-export const DeleteElevativeModal = (visible: boolean, onDelete: Function, onReturn: Function) => {
+export const DeleteElevativeModal = (props: iProps) => {
     return (
         <Modal
             title="Möchtest du die Modulprüfung wirklich löschen?"
-            visible={visible}
+            visible={props.visible}
             footer={[
                 <Button
                 key="return"
                 type="default"
-                onClick={() => onReturn()}>Nicht löschen
+                onClick={() => props.onReturn()}>Nicht löschen
                 </Button>,
                 <Button
                     key="submit"
                     danger
                     type="primary"
-                    onClick={() => onDelete()}>Löschen
+                    onClick={() => props.onDelete()}>Löschen
                 </Button>
             ]}>
             <p>Dadurch werden ebenfalls alle Prüfungen innerhalb des Wahlpflichtfaches gelöscht.</p>
@@ -75,22 +81,22 @@ export const DeleteElevativeModal = (visible: boolean, onDelete: Function, onRet
 }
 
 // Modal if Elevative should be deleted
-export const DeleteEmphasisModal = (visible: boolean, onDelete: Function, onReturn: Function) => {
+export const DeleteEmphasisModal = (props: iProps) => {
     return (
         <Modal
             title="Möchtest du die Modulprüfung wirklich löschen?"
-            visible={visible}
+            visible={props.visible}
             footer={[
                 <Button
                 key="return"
                 type="default"
-                onClick={() => onReturn()}>Nicht löschen
+                onClick={() => props.onReturn()}>Nicht löschen
                 </Button>,
                 <Button
                     key="submit"
                     danger
                     type="primary"
-                    onClick={() => onDelete()}>Löschen
+                    onClick={() => props.onDelete()}>Löschen
                 </Button>
             ]}>
             <p>Dadurch werden ebenfalls alle Modulprüfungen innerhalb des Schwerpunktes gelöscht.</p>

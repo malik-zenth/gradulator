@@ -3,7 +3,7 @@ import { Button, Divider, Col } from "antd";
 import { ElevativeCreationType } from "../types";
 import RenderExams from "./RenderExams";
 import { DeleteElevativeModal } from "../ModalMessages";
-import ElevativeComponent from "../ElevativeComponent";
+import ElevativeComponent from "../FormComponents/ElevativeComponent";
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
@@ -58,9 +58,9 @@ const RenderElevative = (props: iProps) => {
         return (
             <div>
                 <div className="form_min_height">
-                <p className="degreeCreator_exampackage_text bold">{values.name}</p>
-                <p className="degreeCreator_exampackage_text ">Gewichtung: {values.weight}</p>
-                <p className="degreeCreator_exampackage_text ">Benötige Anzahl: {values.amount}</p>
+                    <p className="degreeCreator_exampackage_text bold">{values.name}</p>
+                    <p className="degreeCreator_exampackage_text ">Gewichtung: {values.weight}</p>
+                    <p className="degreeCreator_exampackage_text ">Benötige Anzahl: {values.amount}</p>
                 </div>
 
                 <Divider>
@@ -84,11 +84,12 @@ const RenderElevative = (props: iProps) => {
 
     return (
         <Col xl={8} xxl={6} lg={8} md={12} sm={12} xs={24} key={keyGenerator()}>
-            {DeleteElevativeModal(
-                showDeleteModal,
-                () => props.onDeleteNotEdit(props.index),
-                () => setShowDeleteModal(false)
-            )}
+            <DeleteElevativeModal
+                visible={showDeleteModal}
+                onDelete={() => props.onDeleteNotEdit(props.index)}
+                onReturn={() => setShowDeleteModal(false)}
+            />
+
             <div className="degreeCreator_singleElement">
                 <Divider><div className="divider_large_text">Wahlpflichtfach</div></Divider>
                 {props.data.editMode && renderelevativeEditMode(props.index, props.data)}
