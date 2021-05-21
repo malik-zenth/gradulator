@@ -207,6 +207,7 @@ const ElevativeComponent = (props: iProps) => {
     const renderElevativePackage = () => {
         return (
             <Form
+                className="form_min_height"
                 form={form}
                 initialValues={props.defaultValues}
                 onValuesChange={() => updateValues()}
@@ -264,7 +265,7 @@ const ElevativeComponent = (props: iProps) => {
     }
 
     return (
-        <div className="examComponent">
+        <div>
             {DeleteElevativeModal(
                 showDeleteElevativeModal,
                 () => props.onDelete(),

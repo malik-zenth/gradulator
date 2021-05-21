@@ -15,6 +15,9 @@ interface iState {
 
 }
 
+const keyGenerator = (): ReactText =>
+  "_" + Math.random().toString(36).substr(2, 9);
+
 class DegreeCreation extends React.Component<iProps, iState>{
     constructor(props: iProps) {
         super(props);
@@ -142,6 +145,7 @@ class DegreeCreation extends React.Component<iProps, iState>{
             if (single.elevative) {
                 return (
                     <RenderElevative
+                        key={keyGenerator()}
                         data={single.elevative}
                         index={index}
                         onDeleteEdit={(index: number) => this.deleteElement(index)}
@@ -154,6 +158,7 @@ class DegreeCreation extends React.Component<iProps, iState>{
             if (single.emphasis) {
                 return (
                     <RenderEmphasis
+                        key={keyGenerator()}
                         data={single.emphasis}
                         index={index}
                         onDeleteEdit={(index: number) => this.deleteElement(index)}
@@ -166,6 +171,7 @@ class DegreeCreation extends React.Component<iProps, iState>{
             if (single.examPackage) {
                 return (
                     <RenderExamPackage
+                        key={keyGenerator()}
                         data={single.examPackage}
                         index={index}
                         showEditButtons={true}

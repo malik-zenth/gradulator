@@ -351,18 +351,6 @@
         margin-right: 5%;
     }
 
-
-
-    .examPackage_nameInput{
-        width: 90%;
-        margin-left: 10%;
-    }
-
-    .examPackage_weightInput{
-        width: 90%;
-        margin-left: 10%;
-    }
-
     .examPackages_addExams{
         display: -webkit-box;
         display: -moz-box;
@@ -381,11 +369,9 @@
         -ms-flex-pack : center;
         margin-left: 10%;
         width: 80%;
-        padding: .5em
     }
 
     .examPackages_add_heading{
-        font-size: 1.17em;
         margin-right: 5px;
     }
 
@@ -413,6 +399,7 @@
 
     .degreeCreator_exam_name{
         width: 65%;
+        min-height: 45px;
     }
 
     .degreeCreator_exampackage_text{
@@ -423,10 +410,61 @@
         margin-left: 10%;
     }
 
+    .manuall_divider{
+        width: 100%;
+        border-top: 7px solid rgba(0, 0, 0, 0.06);
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
 
     .examComponent{
         width: 80%;
         margin-left: 10%;
+    }
+
+    .divider_large_text{
+        font-size: 20px;
+    }
+
+    .divider_medium_text{
+        font-size: 18px
+    }
+
+    .min_height_120{
+        min-height: 120px;
+        width: 100%;
+    }
+
+
+    .single_col_emphasis{
+        width: 90%;
+        margin-left: 4%;
+    }
+
+    .display_inline{
+        display: inline-flex
+    }
+
+    .emphasis_weight_input{
+        margin-left: 5%;
+    }
+
+    .emphasis_component{
+        margin-left: 5%;
+        width: 90%;
+    }
+
+    .form_min_height{
+        min-height: 150px;
+    }
+
+    .examPackage_nameInput{
+        margin-left: 10%;
+    }
+
+    .examPackage_weightInput{
+        margin-left: 10%;
+
     }
 
 }

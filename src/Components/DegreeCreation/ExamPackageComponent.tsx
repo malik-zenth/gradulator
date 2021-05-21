@@ -170,6 +170,7 @@ const ExamPackageComponent = (props: iProps) => {
         return (
             <Form
                 form={form}
+                className={props.isChildComponent ? "min_height_120" : "form_min_height"}
                 initialValues={props.defaultValues}
                 onValuesChange={() => updateValues()}
             >
@@ -225,7 +226,7 @@ const ExamPackageComponent = (props: iProps) => {
     }
 
     return (
-        <div className={!props.isChildComponent ? "examComponent" : ""}>
+        <div>
             {DeleteExamPackageModal(
                 showDeleteExamPackageModal,
                 () => props.onDelete(),

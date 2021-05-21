@@ -71,7 +71,7 @@ const RenderExams = (props: iProps) => {
         return(
             <div key={keyGenerator()} className="degreeCreator_exam_noEdit">
             <div className="degreeCreator displayInline">
-                <p className="bold">{values.name}</p>
+                <p className="degreeCreator_exam_name bold">{values.name}</p>
             </div>
             <div className="degreeCreator displayInline">
                 <p className="degreeCreator_exam_value">{values.semester}. Semester</p>

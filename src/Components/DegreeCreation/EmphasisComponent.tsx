@@ -1,8 +1,7 @@
 import React, { ReactFragment, ReactText, useEffect, useState } from "react"
-import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
+import { Form, InputNumber, Input, Button, Tooltip, Divider, Row } from "antd";
 import { ElevativeCreationType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType, FormUpdateType } from "./types";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import ExamComponent from "./ExamComponent";
 import { ToolTipEmphasisNotSavable } from "../../Components/const"
 import { DeleteEmphasisModal, DeleteExamModal, DeleteExamPackageModal } from "./ModalMessages";
 import { RenderExamPackage, RenderExams } from "./RenderComponents"
@@ -40,7 +39,7 @@ const EmphasisComponent = (props: iProps) => {
 
     const nameInputField = (): ReactFragment => {
         return (
-            <div className="examPackage_nameInput">
+            <div className="emphasis_name_input">
                 <Form.Item
                     name="name"
                     rules={[
@@ -62,7 +61,7 @@ const EmphasisComponent = (props: iProps) => {
 
     const weightField = (): ReactFragment => {
         return (
-            <div className="examPackage_weightInput">
+            <div className="emphasis_weight_input">
                 <Form.Item
                     name="weight"
                     rules={[
@@ -167,12 +166,15 @@ const EmphasisComponent = (props: iProps) => {
     const renderExamPackage = () => {
         return (
             <Form
+                className="form_min_height"
                 form={form}
                 initialValues={props.defaultValues}
                 onValuesChange={() => updateValues()}
             >
+                <div className="display_inline">
                 {nameInputField()}
                 {weightField()}
+                </div>
             </Form>
         )
     }
@@ -224,26 +226,27 @@ const EmphasisComponent = (props: iProps) => {
 
     const renderExamPackages = () => {
         return examPackages.map((value, index) => {
-            return(
-                <RenderExamPackage
-                data={value}
-                isChildComponent={true}
-                index={index}
-                showEditButtons={true}
-                onDeleteEdit={(index: number) => deleteExamPackage(index)}
-                onSaveEdit={(examData: ExamPackageCreationType, index: number) => saveExamPackage(examData, index)}
-                setEdit={(index: number) => setEditExamPackage(true, index)}
-                onDeleteNotEdit={(index: number) => {
-                    setExamPackageToBeDeleted(index)
-                    setShowDeleteExamPackageModal(true)
-                }}
-            />
+            return (
+                    <RenderExamPackage
+                        key={keyGenerator()}
+                        data={value}
+                        isChildComponent={true}
+                        index={index}
+                        showEditButtons={true}
+                        onDeleteEdit={(index: number) => deleteExamPackage(index)}
+                        onSaveEdit={(examData: ExamPackageCreationType, index: number) => saveExamPackage(examData, index)}
+                        setEdit={(index: number) => setEditExamPackage(true, index)}
+                        onDeleteNotEdit={(index: number) => {
+                            setExamPackageToBeDeleted(index)
+                            setShowDeleteExamPackageModal(true)
+                        }}
+                    />
             )
         })
     }
 
     return (
-        <div className="examComponent">
+        <div className="emphasis_component">
             {DeleteEmphasisModal(
                 showDeleteEmphasis,
                 () => props.onDelete(),
@@ -260,7 +263,9 @@ const EmphasisComponent = (props: iProps) => {
 
             {renderExamPackage()}
             {renderHeader()}
-            {renderExamPackages()}
+            <Row gutter={[20, 40]}>
+                {renderExamPackages()}
+            </Row>
             <Divider />
             {buttons()}
         </div>

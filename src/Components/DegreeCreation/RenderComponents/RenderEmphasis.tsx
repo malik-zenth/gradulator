@@ -1,5 +1,5 @@
 import React, { ReactFragment, ReactText, useState } from "react"
-import { Button, Divider, Col } from "antd";
+import { Button, Divider, Col, Row } from "antd";
 import { EmphasisCreationType } from "../types";
 import { DeleteEmphasisModal } from "../ModalMessages";
 import RenderExamPackage from "./RenderExamPackage";
@@ -54,29 +54,35 @@ const RenderEmphasis = (props: iProps) => {
     }
 
     // if single elevative is not in editMode, render the values of it
-    const renderelevativeNotEditMode = (index: number, values: EmphasisCreationType) => {
+    const renderemphasisNotEditMode = (index: number, values: EmphasisCreationType) => {
         return (
-            <div>
-                <p className="degreeCreator_elevative_text bold">{values.name}</p>
-                <p className="degreeCreator_elevative_text">Gewichtung: {values.weight}</p>
-
+            <div className="emphasis_component">
+                <div className="form_min_height">
+                <p className="degreeCreator_exampackage_text bold">{values.name}</p>
+                <p className="degreeCreator_exampackage_text">Gewichtung: {values.weight}</p>
+                </div>
                 <Divider>
                     <div className="elevatives_addExams">
                         <div className="elevatives_add_heading">Modulprüfungen</div>
                     </div>
                 </Divider>
 
+                <Row gutter={[20, 40]}>
                 {values.options.map((single, _) => {
-                    return(
-                    <RenderExamPackage
-                        data={single}
-                        isChildComponent={true}
-                        showEditButtons={false}
-                    />
+                    return (
+                            <RenderExamPackage
+                                key={keyGenerator()}
+                                data={single}
+                                isChildComponent={true}
+                                showEditButtons={false}
+                            />
                     )
                 })}
+                </Row>
 
                 <Divider />
+
+
                 {buttons(index)}
 
 
@@ -86,16 +92,16 @@ const RenderEmphasis = (props: iProps) => {
     }
 
     return (
-        <Col xl={8} xxl={6} lg={8} md={12} sm={12} xs={24} key={keyGenerator()}>
+        <Col xl={16} xxl={12} lg={16} md={12} sm={12} xs={24} key={keyGenerator()}>
             {DeleteEmphasisModal(
                 showDeleteModal,
                 () => props.onDeleteNotEdit(props.index),
                 () => setShowDeleteModal(false)
             )}
             <div className="degreeCreator_singleElement">
-                <Divider>Schwerpunkt</Divider>
+            <Divider><div className="divider_large_text">Schwerpunkt</div></Divider>
                 {props.data.editMode && renderemphasisEditMode(props.index, props.data)}
-                {!props.data.editMode && renderelevativeNotEditMode(props.index, props.data)}
+                {!props.data.editMode && renderemphasisNotEditMode(props.index, props.data)}
             </div>
         </Col>
     )

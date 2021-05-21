@@ -57,9 +57,11 @@ const RenderElevative = (props: iProps) => {
     const renderelevativeNotEditMode = (index: number, values: ElevativeCreationType) => {
         return (
             <div>
-                <p className="degreeCreator_elevative_text bold">{values.name}</p>
-                <p className="degreeCreator_elevative_text">Gewichtung: {values.weight}</p>
-                <p className="degreeCreator_elevative_text">Benötige Anzahl: {values.amount}</p>
+                <div className="form_min_height">
+                <p className="degreeCreator_exampackage_text bold">{values.name}</p>
+                <p className="degreeCreator_exampackage_text ">Gewichtung: {values.weight}</p>
+                <p className="degreeCreator_exampackage_text ">Benötige Anzahl: {values.amount}</p>
+                </div>
 
                 <Divider>
                     <div className="elevatives_addExams">
@@ -88,7 +90,7 @@ const RenderElevative = (props: iProps) => {
                 () => setShowDeleteModal(false)
             )}
             <div className="degreeCreator_singleElement">
-                <Divider>Wahlpflichtfach</Divider>
+                <Divider><div className="divider_large_text">Wahlpflichtfach</div></Divider>
                 {props.data.editMode && renderelevativeEditMode(props.index, props.data)}
                 {!props.data.editMode && renderelevativeNotEditMode(props.index, props.data)}
             </div>
