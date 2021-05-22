@@ -169,7 +169,7 @@ const EmphasisComponent = (props: iProps) => {
                 className="form_min_height"
                 form={form}
                 initialValues={props.defaultValues}
-                onValuesChange={() => updateValues()}
+                onFieldsChange={() => updateValues()}
             >
                 <div className="display_inline">
                     {nameInputField()}

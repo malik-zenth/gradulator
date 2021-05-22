@@ -266,19 +266,19 @@ const ElevativeComponent = (props: iProps) => {
 
     return (
         <div>
-            {DeleteElevativeModal(
-                showDeleteElevativeModal,
-                () => props.onDelete(),
-                () => setShowDeleteElevative(false)
-            )}
-            {DeleteExamModal(
-                showDeleteExamModal,
-                () => deleteExam(examToBeDeleted),
-                () => {
+            <DeleteElevativeModal
+                visible={showDeleteElevativeModal}
+                onDelete={() => props.onDelete()}
+                onReturn={() => setShowDeleteElevative(false)}
+            />
+            <DeleteExamModal
+                visible={showDeleteExamModal}
+                onDelete={() => deleteExam(examToBeDeleted)}
+                onReturn={() => {
                     setShowDeleteExamModal(false)
                     setExamToBeDeleted(null)
-                }
-            )}
+                }}
+            />
 
             {renderElevativePackage()}
             {renderExamsHeader()}

@@ -4,7 +4,7 @@ import { ExamCreationType, ExamPackageCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
 import { ToolTipExamPackageNotSavable } from "../../const"
 import { DeleteExamModal, DeleteExamPackageModal } from "../ModalMessages";
-import {RenderExams} from "../RenderComponents"
+import { RenderExams } from "../RenderComponents"
 
 interface iProps {
     onDelete: Function,
@@ -226,20 +226,20 @@ const ExamPackageComponent = (props: iProps) => {
 
     return (
         <div>
-            {DeleteExamPackageModal(
-                showDeleteExamPackageModal,
-                () => props.onDelete(),
-                () => setShowDeleteExamPackageModal(false)
-            )}
-            {DeleteExamModal(
-                showDeleteExamModal,
-                () => deleteExam(examToBeDeleted),
-                () => {
+            <DeleteExamPackageModal
+                visible={showDeleteExamPackageModal}
+                onDelete={() => props.onDelete()}
+                onReturn={() => setShowDeleteExamPackageModal(false)}
+            />
+
+            <DeleteExamModal
+                visible={showDeleteExamModal}
+                onDelete={() => deleteExam(examToBeDeleted)}
+                onReturn={() => {
                     setShowDeleteExamModal(false)
                     setExamToBeDeleted(null)
-                }
-            )}
-
+                }}
+            />
             {renderExamPackage()}
             {renderExamsHeader()}
             <RenderExams

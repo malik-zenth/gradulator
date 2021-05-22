@@ -152,7 +152,7 @@ const ExamComponent = (props: iProps) => {
                     Prüfung löschen
                     </Button>
                 <Button
-                    style={{marginLeft: 7.5}}
+                    style={{ marginLeft: 7.5 }}
                     type="primary"
                     htmlType="submit"
                     onClick={onSubmit}>
@@ -206,10 +206,11 @@ const ExamComponent = (props: iProps) => {
     return (
         <div className="examComponent">
             {renderForm()}
-            {DeleteExamModal(
-                showDeleteModal,
-                () => props.onDelete(),
-                () => setShowDeleteModal(false))}
+            <DeleteExamModal
+                visible={showDeleteModal}
+                onDelete={() => props.onDelete()}
+                onReturn={() => setShowDeleteModal(false)}
+            />
         </div>
     )
 }
