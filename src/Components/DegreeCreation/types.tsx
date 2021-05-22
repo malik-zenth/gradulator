@@ -44,9 +44,10 @@ export interface EmphasisCreationType{
 }
 
 export interface GeneralInformationsCreationType{
-    name: string,
-    amoundRequiredEmphasis: number,
-    spo?: number
+    name?: string,
+    amoundRequiredEmphasis?: number,
+    spo?: number,
+    editMode: boolean
 }
 
 export interface CreationType{
@@ -54,13 +55,4 @@ export interface CreationType{
     emphasis?: EmphasisCreationType[],
     elevatives?: ElevativeCreationType[],
     examPackages: ExamPackageCreationType[]
-}
-
-// type used by form on Update
-export interface FormUpdateType{
-    errors?: any[],
-    name: NamePath,
-    touched?: boolean,
-    validating?: boolean,
-    value?: any
 }

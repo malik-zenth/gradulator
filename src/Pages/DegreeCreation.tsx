@@ -1,137 +1,126 @@
-import React, { ReactFragment, ReactText } from "react"
+import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Footer, Header } from "../Components"
-import { Button, Divider, Row } from "antd";
+import { Button, Divider, Row, Form } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { BasicInformations} from "../Components/DegreeCreation/FormComponents"
+import { BasicInformations } from "../Components/DegreeCreation/FormComponents"
 import { CreatedPackages, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "../Components/DegreeCreation/types";
 import { RenderExamPackage, RenderElevative, RenderEmphasis } from "../Components/DegreeCreation/RenderComponents";
 
-interface iProps { }
-
-interface iState {
-    createdData: CreatedPackages[],
-    generalInformation?: GeneralInformationsCreationType,
-    editMode_BasicInformation: boolean
-
-}
-
 const keyGenerator = (): ReactText =>
-  "_" + Math.random().toString(36).substr(2, 9);
+    "_" + Math.random().toString(36).substr(2, 9);
 
-class DegreeCreation extends React.Component<iProps, iState>{
-    constructor(props: iProps) {
-        super(props);
-        this.state = {
-            createdData: [{
-                emphasis: {
-                    editMode: true,
-                    options: [{
-                        name: "WIN",
-                        weight: 5,
-                        exams: [{
-                            name: "Einführung",
-                            weight: 10,
-                            semester: 5,
-                            ects: 5,
-                            editMode: false
-                        }],
-                        editMode: false
-                    }]
+const DegreeCreation = () => {
+    const [form] = Form.useForm()
+    const [createdData, setCreatedData] = useState<CreatedPackages[]>([{
+        emphasis: {
+            editMode: true,
+            options: [{
+                name: "WIN",
+                weight: 5,
+                exams: [{
+                    name: "Einführung",
+                    weight: 10,
+                    semester: 5,
+                    ects: 5,
+                    editMode: false
+                }],
+                editMode: false
+            }]
+        }
+    }, {
+        examPackage: {
+            editMode: false,
+            exams: [
+                {
+                    name: "Einführung",
+                    weight: 10,
+                    semester: 5,
+                    ects: 5,
+                    editMode: false
                 }
-            },{
-                    examPackage: {
-                        editMode: false,
-                        exams: [
-                            {
-                                name: "Einführung",
-                                weight: 10,
-                                semester: 5,
-                                ects: 5,
-                                editMode: false
-                            }
-                        ]
-                    }
-                }
-            ],
-            editMode_BasicInformation: false
+            ]
         }
     }
+    ])
+    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
 
     // all add functions
-    createExamPackage = () => {
-        this.setState({ createdData: [...this.state.createdData, { examPackage: { editMode: true, exams: [] } }] })
+    const createExamPackage = () => {
+        setCreatedData([...createdData, { examPackage: { editMode: true, exams: [] } }])
     }
 
-    createElevative = () => {
-        this.setState({ createdData: [...this.state.createdData, { elevative: { editMode: true, exams: [] } }] })
+    const createElevative = () => {
+        setCreatedData([...createdData, { elevative: { editMode: true, exams: [] } }])
     }
 
-    createEmphasis = () => {
-        this.setState({ createdData: [...this.state.createdData, { emphasis: { editMode: true, options: [] } }] })
+    const createEmphasis = () => {
+        setCreatedData([...createdData, { emphasis: { editMode: true, options: [] } }])
     }
 
     // delete Element by ID
-    deleteElement = (itemToRemove: number) => {
-        const newState: CreatedPackages[] = this.state.createdData.filter((_, index) => index != itemToRemove)
-        this.setState({ createdData: newState })
+    const deleteElement = (itemToRemove: number) => {
+        setCreatedData(createdData.filter((_, index) => index != itemToRemove))
     }
 
     // all update functions
-    updateExamPackage = (examPackage: ExamPackageCreationType, index: number) => {
-        const newState: CreatedPackages[] = this.state.createdData
-        newState[index] = { examPackage: examPackage }
-        this.setState({ createdData: newState })
+    const updateExamPackage = (examPackage: ExamPackageCreationType, indexToUpdate: number) => {
+        setCreatedData(createdData.map((value, index) => {
+            if(index === indexToUpdate) return {examPackage: examPackage}
+            return value
+        }))
     }
 
-    updateElevative = (elevative: ElevativeCreationType, index: number) => {
-        const newState: CreatedPackages[] = this.state.createdData
-        newState[index] = { elevative: elevative }
-        this.setState({ createdData: newState })
+    const updateElevative = (elevative: ElevativeCreationType, indexToUpdate: number) => {
+        setCreatedData(createdData.map((value, index) => {
+            if(index === indexToUpdate) return {elevative: elevative}
+            return value
+        }))
     }
 
-    updateEmphasis = (elevative: EmphasisCreationType, index: number) => {
-        const newState: CreatedPackages[] = this.state.createdData
-        newState[index] = { emphasis: elevative }
-        this.setState({ createdData: newState })
+    const updateEmphasis = (emphasis: EmphasisCreationType, indexToUpdate: number) => {
+        setCreatedData(createdData.map((value, index) => {
+            if(index === indexToUpdate) return {emphasis: emphasis}
+            return value
+        }))
     }
 
 
     // all set Edit Mode functions
-    setEditExamPackage = (editValue: boolean, indexToUpdate: number) => {
-        const newState: CreatedPackages[] = this.state.createdData.map((value, index) => {
+    const setEditExamPackage = (editValue: boolean, indexToUpdate: number) => {
+        const newCreatedData: CreatedPackages[] = createdData.map((value, index) => {
             if (indexToUpdate === index) {
                 value.examPackage.editMode = editValue
                 return value
             }
             return value
         })
-        this.setState({ createdData: newState })
+        setCreatedData(newCreatedData)
     }
 
-    setEditElevative = (editValue: boolean, indexToUpdate: number) => {
-        const newState: CreatedPackages[] = this.state.createdData.map((value, index) => {
+    const setEditElevative = (editValue: boolean, indexToUpdate: number) => {
+        const newCreatedData: CreatedPackages[] = createdData.map((value, index) => {
             if (indexToUpdate === index) {
                 value.elevative.editMode = editValue
                 return value
             }
             return value
         })
-        this.setState({ createdData: newState })
+        setCreatedData(newCreatedData)
     }
 
-    setEditEmphasis = (editValue: boolean, indexToUpdate: number) => {
-        const newState: CreatedPackages[] = this.state.createdData.map((value, index) => {
+    const setEditEmphasis = (editValue: boolean, indexToUpdate: number) => {
+        const newCreatedData: CreatedPackages[] = createdData.map((value, index) => {
             if (indexToUpdate === index) {
                 value.emphasis.editMode = editValue
                 return value
             }
             return value
         })
-        this.setState({ createdData: newState })
+        setCreatedData(newCreatedData)
     }
 
     // go through all data and render each component
-    renderCreatedData = (createdData: CreatedPackages[]): ReactFragment => {
+    const renderCreatedData = (createdData: CreatedPackages[]): ReactFragment => {
         // if no Data is created, render explaination
         if (createdData.length === 0) {
             return (
@@ -148,10 +137,10 @@ class DegreeCreation extends React.Component<iProps, iState>{
                         key={keyGenerator()}
                         data={single.elevative}
                         index={index}
-                        onDeleteEdit={(index: number) => this.deleteElement(index)}
-                        onSaveEdit={(values: ElevativeCreationType, index: number) => this.updateElevative(values, index)}
-                        setEdit={(index: number) => this.setEditElevative(true, index)}
-                        onDeleteNotEdit={(index: number) => this.deleteElement(index)}
+                        onDeleteEdit={(index: number) => deleteElement(index)}
+                        onSaveEdit={(values: ElevativeCreationType, index: number) => updateElevative(values, index)}
+                        setEdit={(index: number) => setEditElevative(true, index)}
+                        onDeleteNotEdit={(index: number) => deleteElement(index)}
                     />
                 )
             }
@@ -161,10 +150,11 @@ class DegreeCreation extends React.Component<iProps, iState>{
                         key={keyGenerator()}
                         data={single.emphasis}
                         index={index}
-                        onDeleteEdit={(index: number) => this.deleteElement(index)}
-                        onSaveEdit={(values: EmphasisCreationType, index: number) => this.updateEmphasis(values, index)}
-                        setEdit={(index: number) => this.setEditEmphasis(true, index)}
-                        onDeleteNotEdit={(index: number) => this.deleteElement(index)}
+                        onDeleteEdit={(index: number) => deleteElement(index)}
+                        onSaveEdit={(values: EmphasisCreationType, index: number) => updateEmphasis(values, index)}
+                        setEdit={(index: number) => setEditEmphasis(true, index)}
+                        onDeleteNotEdit={(index: number) => deleteElement(index)}
+                        form={form}
                     />
                 )
             }
@@ -175,10 +165,10 @@ class DegreeCreation extends React.Component<iProps, iState>{
                         data={single.examPackage}
                         index={index}
                         showEditButtons={true}
-                        onDeleteEdit={(index: number) => this.deleteElement(index)}
-                        onSaveEdit={(values: ExamPackageCreationType, index: number) => this.updateExamPackage(values, index)}
-                        setEdit={(index: number) => this.setEditExamPackage(true, index)}
-                        onDeleteNotEdit={(index: number) => this.deleteElement(index)}
+                        onDeleteEdit={(index: number) => deleteElement(index)}
+                        onSaveEdit={(values: ExamPackageCreationType, index: number) => updateExamPackage(values, index)}
+                        setEdit={(index: number) => setEditExamPackage(true, index)}
+                        onDeleteNotEdit={(index: number) => deleteElement(index)}
                     />
                 )
             }
@@ -186,13 +176,13 @@ class DegreeCreation extends React.Component<iProps, iState>{
     }
 
     // Buttons to create new Emphasis, ExamPackage and Elevative
-    createButtons = (): ReactFragment => {
+    const createButtons = (): ReactFragment => {
         return (
             <div className="create_degree_buttons position_center">
                 <Button
                     type="primary"
                     style={{ marginLeft: 7.5 }}
-                    onClick={() => this.createExamPackage()}
+                    onClick={() => createExamPackage()}
                     size="middle"
                     icon={<PlusOutlined />}>
                     Modulprüfung hinzufügen
@@ -202,14 +192,14 @@ class DegreeCreation extends React.Component<iProps, iState>{
                     type="primary"
                     size="middle"
                     style={{ marginLeft: 7.5 }}
-                    onClick={() => this.createEmphasis()}
+                    onClick={() => createEmphasis()}
                     icon={<PlusOutlined />}>
                     Schwerpunkt hinzufügen
                     </Button>
 
                 <Button
                     type="primary"
-                    onClick={() => this.createElevative()}
+                    onClick={() => createElevative()}
                     size="middle"
                     style={{ marginLeft: 7.5 }}
                     icon={<PlusOutlined />}>
@@ -219,27 +209,25 @@ class DegreeCreation extends React.Component<iProps, iState>{
         )
     }
 
-
-    render() {
-        const { generalInformation, createdData } = this.state
-        return (
-            <div>
-                <div className="content">
-                    <Header home={false} />
-                    <BasicInformations
-                        defaultValues={generalInformation}
-                        onSave={(values: GeneralInformationsCreationType) => this.setState({ generalInformation: values })}
-                    />
-                    {this.createButtons()}
-                    <Divider />
+    return (
+        <div>
+            <div className="content">
+                <Header home={false} />
+                <BasicInformations
+                    defaultValues={basicInformations}
+                    onSave={(values: GeneralInformationsCreationType) => setBasicInformations(values)}
+                />
+                {createButtons()}
+                <Divider />
+                <Form>
                     <Row className="examPackages_degreeCreator">
-                        {this.renderCreatedData(createdData)}
+                        {renderCreatedData(createdData)}
                     </Row>
-                </div>
-                <Footer />
+                </Form>
             </div>
-        )
-    }
+            <Footer />
+        </div>
+    )
 }
 
 export default DegreeCreation
