@@ -1,4 +1,4 @@
-import React, { ReactFragment, ReactText, useEffect, useState } from "react"
+import React, { ReactFragment, ReactText, useState } from "react"
 import { Footer, Header } from "../Components"
 import { Button, Divider, Row, Form } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -11,37 +11,7 @@ const keyGenerator = (): ReactText =>
 
 const DegreeCreation = () => {
     const [form] = Form.useForm()
-    const [createdData, setCreatedData] = useState<CreatedPackages[]>([{
-        emphasis: {
-            editMode: true,
-            options: [{
-                name: "WIN",
-                weight: 5,
-                exams: [{
-                    name: "Einführung",
-                    weight: 10,
-                    semester: 5,
-                    ects: 5,
-                    editMode: false
-                }],
-                editMode: false
-            }]
-        }
-    }, {
-        examPackage: {
-            editMode: false,
-            exams: [
-                {
-                    name: "Einführung",
-                    weight: 10,
-                    semester: 5,
-                    ects: 5,
-                    editMode: false
-                }
-            ]
-        }
-    }
-    ])
+    const [createdData, setCreatedData] = useState<CreatedPackages[]>([])
     const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
 
     // all add functions

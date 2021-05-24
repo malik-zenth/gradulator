@@ -9,7 +9,8 @@ interface iProps {
     onSave: Function,
     defaultValues?: ExamCreationType,
     ownIndex: number,
-    parentIndex: number
+    parentIndex: number,
+    parentsParentsIndex?: number
 }
 
 const ExamComponent = (props: iProps) => {
@@ -50,7 +51,7 @@ const ExamComponent = (props: iProps) => {
     const nameInputField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`exam_${props.parentIndex}_${props.ownIndex}_name`}
+                name={`exam_${props.parentsParentsIndex}_${props.parentIndex}_${props.ownIndex}_name`}
                 initialValue={props.defaultValues.name}
                 label="Name"
                 {...layout}
@@ -74,7 +75,7 @@ const ExamComponent = (props: iProps) => {
     const semesterField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`exam_${props.parentIndex}_${props.ownIndex}_semester`}
+                name={`exam_${props.parentsParentsIndex}_${props.parentIndex}_${props.ownIndex}_semester`}
                 initialValue={props.defaultValues.semester}
                 label="Semester"
                 {...layout}
@@ -107,7 +108,7 @@ const ExamComponent = (props: iProps) => {
     const ectsField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`exam_${props.parentIndex}_${props.ownIndex}_ects`}
+                name={`exam_${props.parentsParentsIndex}_${props.parentIndex}_${props.ownIndex}_ects`}
                 initialValue={props.defaultValues.ects}
                 label="ECTS"
                 {...layout}
@@ -144,7 +145,7 @@ const ExamComponent = (props: iProps) => {
     const weightField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`exam_${props.parentIndex}_${props.ownIndex}_weight`}
+                name={`exam_${props.parentsParentsIndex}_${props.parentIndex}_${props.ownIndex}_weight`}
                 initialValue={props.defaultValues.weight}
                 label="Gewichtung"
                 {...layout}

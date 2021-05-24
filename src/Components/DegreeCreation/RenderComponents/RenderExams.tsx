@@ -14,7 +14,8 @@ interface iProps {
     onSaveEdit?: Function,
     setEdit?: Function,
     onDeleteNotEdit?: Function,
-    parentIndex: number
+    parentIndex: number,
+    parentsParentsIndex?: number
 }
 
 // render already created Exams
@@ -30,6 +31,7 @@ const RenderExams = (props: iProps) => {
                 defaultValues={values}
                 ownIndex={index}
                 parentIndex={props.parentIndex}
+                parentsParentsIndex={props.parentsParentsIndex}
             />
             </div>
         )

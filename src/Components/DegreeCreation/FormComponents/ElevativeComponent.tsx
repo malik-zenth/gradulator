@@ -11,7 +11,8 @@ interface iProps {
     onSave: Function,
     defaultValues: ElevativeCreationType,
     index: number,
-    isChildComponent: boolean
+    isChildComponent: boolean,
+    parentsIndex?: number
 }
 
 const ElevativeComponent = (props: iProps) => {
@@ -346,6 +347,7 @@ const ElevativeComponent = (props: iProps) => {
                     setExamToBeDeleted(index)
                     setShowDeleteExamModal(true)
                 }}
+                parentsParentsIndex={props.parentsIndex}
             />
             <Divider />
             {buttons()}

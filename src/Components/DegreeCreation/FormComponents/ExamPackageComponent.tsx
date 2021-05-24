@@ -11,7 +11,8 @@ interface iProps {
     isChildComponent?: boolean,
     onSave: Function,
     defaultValues: ExamPackageCreationType,
-    index: number
+    index: number,
+    parentsIndex?: number
 }
 
 const ExamPackageComponent = (props: iProps) => {
@@ -35,7 +36,7 @@ const ExamPackageComponent = (props: iProps) => {
             // check if their are exams in edit mode, if so disable save button
             const submitInvalid: boolean = exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0
             setExamInEdit(submitInvalid)
-            //updateValues()
+            updateValues()
         }
     }, [exams])
 
@@ -287,6 +288,7 @@ const ExamPackageComponent = (props: iProps) => {
                     setShowDeleteExamModal(true)
                 }}
                 parentIndex={props.index}
+                parentsParentsIndex={props.parentsIndex}
             />
             <Divider />
             {buttons()}

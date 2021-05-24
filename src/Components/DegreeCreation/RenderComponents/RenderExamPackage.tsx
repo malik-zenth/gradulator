@@ -20,7 +20,8 @@ interface iProps {
     onDeleteEdit?: Function,
     onSaveEdit?: Function,
     setEdit?: Function,
-    onDeleteNotEdit?: Function
+    onDeleteNotEdit?: Function,
+    parentsIndex?: number
 }
 
 // render single ExamPackage
@@ -37,6 +38,7 @@ const RenderExamPackage = (props: iProps) => {
                     onSave={(values: ExamPackageCreationType) => props.onSaveEdit(values, index)}
                     defaultValues={values}
                     index={index}
+                    parentsIndex={props.parentsIndex}
                 />
             </div>
         )

@@ -36,7 +36,7 @@ const EmphasisComponent = (props: iProps) => {
             // check if their are exams in edit mode, if so disable save button
             const submitInvalid: boolean = examPackages.filter((x: ExamPackageCreationType) => { return x.editMode }).length != 0
             setSubmitOpen(submitInvalid)
-            //updateValues()
+            updateValues()
         }
     }, [examPackages])
 
@@ -273,6 +273,7 @@ const EmphasisComponent = (props: iProps) => {
                         setExamPackageToBeDeleted(index)
                         setShowDeleteExamPackageModal(true)
                     }}
+                    parentsIndex={props.index}
                 />
             )
         })
