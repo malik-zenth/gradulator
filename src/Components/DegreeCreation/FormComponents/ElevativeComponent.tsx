@@ -2,21 +2,19 @@ import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
 import { ElevativeCreationType, ExamCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
-import { ToolTipExamPackageNotSavable } from "../../const"
+import { ToolTipElevativeAmountToHigh, ToolTipNameOrWeightMissingElevative, ToolTipElevativeNotSavable } from "../../const"
 import { DeleteElevativeModal, DeleteExamModal } from "../ModalMessages";
-import {RenderExams} from "../RenderComponents"
+import { RenderExams } from "../RenderComponents"
 
 interface iProps {
     onDelete: Function,
     onSave: Function,
-    defaultValues: ElevativeCreationType
+    defaultValues: ElevativeCreationType,
+    index: number,
+    isChildComponent: boolean
 }
 
-const keyGenerator = (): ReactText =>
-    "_" + Math.random().toString(36).substr(2, 9);
-
 const ElevativeComponent = (props: iProps) => {
-    const [form] = Form.useForm();
     const [exams, setExams] = useState<ExamCreationType[]>(props.defaultValues.exams)
     // if Modal to delete Exam should be displayed
     const [showDeleteExamModal, setShowDeleteExamModal] = useState<boolean>(false)
@@ -25,24 +23,50 @@ const ElevativeComponent = (props: iProps) => {
     // if Modal to delete this Elevative should be displayed
     const [showDeleteElevativeModal, setShowDeleteElevative] = useState<boolean>(false)
     // if submit is possible
-    const [submitInvalid, setSavePossible] = useState<boolean>(exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0)
+    const [submitInvalidExamsOpen, setExamsOpen] = useState<boolean>(exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0)
+    const [submitInvalidValuesMissing, setMissingValues] = useState<boolean>(!(props.defaultValues.name || props.defaultValues.weight || props.defaultValues.amount))
+    // form values
+    const [name, setName] = useState<string>(props.defaultValues.name)
+    const [weight, setWeight] = useState<number>(props.defaultValues.weight)
+    const [amount, setAmount] = useState<number>(props.defaultValues.amount)
 
+    const layout = {
+        labelCol: { span: 9 },
+        wrapperCol: { span: 15 },
+    };
 
     useEffect(() => {
         // if exams change, update the values inside of parent component
         if (exams != props.defaultValues.exams) {
             // check if their are exams in edit mode, if so disable save button
             const submitInvalid: boolean = exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0
-            setSavePossible(submitInvalid)
+            setExamsOpen(submitInvalid)
             updateValues()
         }
     }, [exams])
 
+    useEffect(() => {
+        setMissingValues(!name || !weight || !amount)
+    }, [name, weight, amount])
+
+    const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value)
+    }
+
+    const onWeightChange = (e: number) => {
+        setWeight(e)
+    }
+
+    const onAmountChange = (e:number) => {
+        setAmount(e)
+    }
+
     const nameInputField = (): ReactFragment => {
         return (
-            <div className="examPackage_nameInput">
                 <Form.Item
-                    name="name"
+                    name={`examPackage_${props.index}_${props.isChildComponent}_weight`}
+                    label="Name"
+                    {...layout}
                     rules={[
                         {
                             required: true,
@@ -52,19 +76,20 @@ const ElevativeComponent = (props: iProps) => {
                 >
                     <Input
                         type="string"
+                        onChange={onNameChange}
                         placeholder="Name der Modulprüfung"
-                        style={{ width: 300 }}
+                        style={{ minWidth: "100%" }}
                     />
                 </Form.Item>
-            </div>
         )
     }
 
     const weightField = (): ReactFragment => {
         return (
-            <div className="examPackage_weightInput">
                 <Form.Item
-                    name="weight"
+                    name={`examPackage_${props.index}_${props.isChildComponent}_weight`}
+                    label="Gewichtung"
+                    {...layout}
                     rules={[
                         {
                             required: true,
@@ -77,7 +102,8 @@ const ElevativeComponent = (props: iProps) => {
                         min={1}
                         max={30}
                         step={0.5}
-                        style={{ width: 300 }}
+                        onChange={(e: number) => onWeightChange(e)}
+                        style={{ minWidth: "100%" }}
                         parser={(value) => {
                             value = value.replace(",", ".")
                             if (value.indexOf(".") + 2 < value.length) {
@@ -91,15 +117,15 @@ const ElevativeComponent = (props: iProps) => {
                         }}
                     />
                 </Form.Item>
-            </div>
         )
     }
 
     const amountField = (): ReactFragment => {
         return (
-            <div className="examPackage_weightInput">
                 <Form.Item
-                    name="amount"
+                    name={`examPackage_${props.index}_${props.isChildComponent}_amount`}
+                    label="Anzahl"
+                    {...layout}
                     rules={[
                         {
                             required: true,
@@ -112,7 +138,8 @@ const ElevativeComponent = (props: iProps) => {
                         min={1}
                         max={30}
                         step={0.5}
-                        style={{ width: 300 }}
+                        onChange={(e: number) => onAmountChange(e)}
+                        style={{ minWidth: "100%" }}
                         parser={(value) => {
                             value = value.replace(",", ".")
                             if (value.indexOf(".") + 2 < value.length) {
@@ -126,22 +153,18 @@ const ElevativeComponent = (props: iProps) => {
                         }}
                     />
                 </Form.Item>
-            </div>
         )
     }
 
-    const onSubmit = (e: any) => {
-        e.preventDefault()
-        form
-            .validateFields()
-            .then((values: ElevativeCreationType) => {
-                values.editMode = false
-                values.exams = exams
-                props.onSave(values)
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const onSubmit = () => {
+        const newValues: ElevativeCreationType = {
+            name: name,
+            weight: weight,
+            amount: amount,
+            exams: exams,
+            editMode: false
+        }
+        props.onSave(newValues)
     }
 
     const buttons = (): ReactFragment => {
@@ -153,36 +176,72 @@ const ElevativeComponent = (props: iProps) => {
                     onClick={() => validateDeleteModal()}>
                     Wahlpflichtfach löschen
                     </Button>
-                {/*Show Tooltip if ExamPackage cannot be saved. If it can be saved dont show it*/}
-                {submitInvalid &&
-                    <Tooltip title={ToolTipExamPackageNotSavable}>
-                        <Button
-                            type="primary"
-                            style={{ marginLeft: 7.5 }}
-                            htmlType="submit"
-                            disabled={true}
-                            onClick={onSubmit}>
-                            Speichern
-                </Button>
-                    </Tooltip>
-                }
-                {!submitInvalid &&
-                    <Button
-                        style={{ marginLeft: 7.5 }}
-                        type="primary"
-                        htmlType="submit"
-                        onClick={onSubmit}>
-                        Speichern
-                    </Button>
-                }
+                {renderButtonsWithTooltip()}
             </div>
         )
+    }
+
+    const renderButtonsWithTooltip = (): ReactFragment => {
+        // if name or weight are missing return with Tooltip regarding those
+        if (submitInvalidValuesMissing) {
+            return (
+                <Tooltip title={ToolTipNameOrWeightMissingElevative}>
+                    <Button
+                        type="primary"
+                        style={{ marginLeft: 7.5 }}
+                        htmlType="submit"
+                        disabled={true}
+                        onClick={onSubmit}>
+                        Speichern
+                </Button>
+                </Tooltip>
+            )
+            // if exams are open return with tooltip regarding those
+        } else if (submitInvalidExamsOpen) {
+            return (
+                <Tooltip title={ToolTipElevativeNotSavable}>
+                    <Button
+                        type="primary"
+                        style={{ marginLeft: 7.5 }}
+                        htmlType="submit"
+                        disabled={true}
+                        onClick={onSubmit}>
+                        Speichern
+                </Button>
+                </Tooltip>
+            )
+        // if their are less exams than required
+        } else if(amount > exams.length){
+            return(
+                <Tooltip title={ToolTipElevativeAmountToHigh}>
+                <Button
+                    type="primary"
+                    style={{ marginLeft: 7.5 }}
+                    htmlType="submit"
+                    disabled={true}
+                    onClick={onSubmit}>
+                    Speichern
+            </Button>
+            </Tooltip>
+            )
+            // Save is possible
+        } else {
+            return (
+                <Button
+                    style={{ marginLeft: 7.5 }}
+                    type="primary"
+                    htmlType="submit"
+                    onClick={onSubmit}>
+                    Speichern
+                </Button>
+            )
+        }
     }
 
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
     const validateDeleteModal = () => {
-        if (!(form.getFieldValue("name") || form.getFieldValue("weight") || form.getFieldValue("amount") || exams.length != 0)) {
+        if (!(name || weight || amount || exams.length != 0)) {
             props.onDelete()
         } else {
             setShowDeleteElevative(true)
@@ -191,9 +250,6 @@ const ElevativeComponent = (props: iProps) => {
 
     // update values in parent component on form update
     const updateValues = () => {
-        const name: string = form.getFieldValue("name")
-        const weight: number = form.getFieldValue("weight")
-        const amount: number = form.getFieldValue("amount")
         const newExamPackage: ElevativeCreationType = {
             name: name,
             weight: weight,
@@ -206,16 +262,13 @@ const ElevativeComponent = (props: iProps) => {
 
     const renderElevativePackage = () => {
         return (
-            <Form
+            <div
                 className="form_min_height"
-                form={form}
-                initialValues={props.defaultValues}
-                onValuesChange={() => updateValues()}
             >
                 {nameInputField()}
                 {weightField()}
                 {amountField()}
-            </Form>
+            </div>
         )
     }
 
@@ -285,6 +338,7 @@ const ElevativeComponent = (props: iProps) => {
             <RenderExams
                 data={exams}
                 showEditButtons={true}
+                parentIndex={props.index}
                 onDeleteEdit={(index: number) => deleteExam(index)}
                 onSaveEdit={(examData: ExamCreationType, index: number) => saveExam(examData, index)}
                 setEdit={(index: number) => setEditExam(true, index)}

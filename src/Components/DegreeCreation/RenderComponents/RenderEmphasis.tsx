@@ -1,5 +1,5 @@
 import React, { ReactFragment, ReactText, useState } from "react"
-import { Button, Divider, Col, Row } from "antd";
+import { Button, Divider, Col, Row, FormInstance } from "antd";
 import { EmphasisCreationType } from "../types";
 import { DeleteEmphasisModal } from "../ModalMessages";
 import RenderExamPackage from "./RenderExamPackage";
@@ -14,7 +14,8 @@ interface iProps {
     onDeleteEdit: Function,
     onSaveEdit: Function,
     setEdit: Function,
-    onDeleteNotEdit: Function
+    onDeleteNotEdit: Function,
+    form: FormInstance
 }
 
 // render single Elevative
@@ -28,6 +29,7 @@ const RenderEmphasis = (props: iProps) => {
                 onDelete={() => props.onDeleteEdit(index)}
                 onSave={(values: EmphasisCreationType) => props.onSaveEdit(values, index)}
                 defaultValues={values}
+                index={index}
             />
         )
     }

@@ -18,5 +18,11 @@ export const ToolTipRemovedElevtive: string = "Wenn die für ein Wahlpflichtfach
 
 
 // Degree Creator
+export const ToolTipNameOrWeightMissingEmphasis: string = "Bitte gebe erst einen Name und eine Gewichtung für den Schwerpunkt an."
+export const ToolTipNameOrWeightMissingExamPackage: string = "Bitte gebe erst einen Name und eine Gewichtung für die Modulprüfung an."
+export const ToolTipNameOrWeightMissingElevative: string = "Bitte gebe erst Name, Gewichtung und die benötigte Anzahl an."
+export const ToolTipExamValuesMissing: string = "Bitte gebe erst Name, Gewichtung, ECTS und Semester an."
 export const ToolTipExamPackageNotSavable: string = "Die Modulprüfung kann nicht gespeichert werden, da einzelne Prüfungen noch in der Bearbeitung / Erstellung sind. Bitte schließe diese zuerst ab."
 export const ToolTipEmphasisNotSavable: string = "Der Schwerpunkt kann nicht gespeichert werden, da einzelne Modulprüfungen noch in der Bearbeitung / Erstellung sind. Bitte schließe diese zuerst ab."
+export const ToolTipElevativeNotSavable: string = "Das Wahlpflichtfach kann nicht gespeichert werden, da einzelne Prüfungen noch in der Bearbeitung / Erstellung sind. Bitte schließe diese zuerst ab."
+export const ToolTipElevativeAmountToHigh: string = "Die geforderte Anzahl an Prüfungen überschreitet die Auswahl an Prüfungen. Bitte passe deine Eingaben entsprechend an oder füge weitere Prüfungen hinzu."

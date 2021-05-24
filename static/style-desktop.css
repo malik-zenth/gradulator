@@ -464,7 +464,10 @@
 
     .examPackage_weightInput{
         margin-left: 10%;
+    }
 
+    .form_item_basic_information{
+        min-width: 20%
     }
 
 }

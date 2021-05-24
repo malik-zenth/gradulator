@@ -13,7 +13,8 @@ interface iProps {
     onDeleteEdit?: Function,
     onSaveEdit?: Function,
     setEdit?: Function,
-    onDeleteNotEdit?: Function
+    onDeleteNotEdit?: Function,
+    parentIndex: number
 }
 
 // render already created Exams
@@ -27,6 +28,8 @@ const RenderExams = (props: iProps) => {
                 onDelete={() => props.onDeleteEdit(index)}
                 onSave={(examData: ExamCreationType) => props.onSaveEdit(examData, index)}
                 defaultValues={values}
+                ownIndex={index}
+                parentIndex={props.parentIndex}
             />
             </div>
         )

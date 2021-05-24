@@ -29,6 +29,8 @@ const RenderElevative = (props: iProps) => {
                     onDelete={() => props.onDeleteEdit(index)}
                     onSave={(values: ElevativeCreationType) => props.onSaveEdit(values, index)}
                     defaultValues={values}
+                    index={index}
+                    isChildComponent={false}
                 />
             </div>
         )
@@ -72,6 +74,7 @@ const RenderElevative = (props: iProps) => {
                 <RenderExams
                     data={values.exams}
                     showEditButtons={false}
+                    parentIndex={props.index}
                 />
                 <Divider />
                 {buttons(index)}

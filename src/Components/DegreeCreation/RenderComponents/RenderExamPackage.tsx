@@ -36,6 +36,7 @@ const RenderExamPackage = (props: iProps) => {
                     isChildComponent={props.isChildComponent}
                     onSave={(values: ExamPackageCreationType) => props.onSaveEdit(values, index)}
                     defaultValues={values}
+                    index={index}
                 />
             </div>
         )
@@ -77,6 +78,7 @@ const RenderExamPackage = (props: iProps) => {
                 <RenderExams
                     data={values.exams}
                     showEditButtons={false}
+                    parentIndex={props.index}
                 />
                 <Divider />
                 {props.showEditButtons && buttons(index)}

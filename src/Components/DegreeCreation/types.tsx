@@ -45,7 +45,9 @@ export interface EmphasisCreationType{
 
 export interface GeneralInformationsCreationType{
     name?: string,
+    shortName?: string,
     amoundRequiredEmphasis?: number,
+    amoundRequiredElevative?:number,
     spo?: number,
     editMode: boolean
 }
