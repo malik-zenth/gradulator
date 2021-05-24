@@ -1,6 +1,6 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Button, Divider, Col } from "antd";
-import { ExamPackageCreationType } from "../types";
+import { EmphasisOptionsType, ExamPackageCreationType } from "../types";
 import { ExamPackageComponent } from "../FormComponents"
 import RenderExams from "./RenderExams";
 import { DeleteExamPackageModal } from "../ModalMessages";

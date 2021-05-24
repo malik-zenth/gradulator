@@ -11,10 +11,9 @@ const keyGenerator = (): ReactText =>
 interface iProps {
     data: ElevativeCreationType,
     index: number
-    onDeleteEdit: Function,
+    onDelete: Function,
     onSaveEdit: Function,
     setEdit: Function,
-    onDeleteNotEdit: Function
 }
 
 // render single Elevative
@@ -26,7 +25,7 @@ const RenderElevative = (props: iProps) => {
         return (
             <div>
                 <ElevativeComponent
-                    onDelete={() => props.onDeleteEdit(index)}
+                    onDelete={() => props.onDelete(index)}
                     onSave={(values: ElevativeCreationType) => props.onSaveEdit(values, index)}
                     defaultValues={values}
                     index={index}
@@ -89,7 +88,7 @@ const RenderElevative = (props: iProps) => {
         <Col xl={8} xxl={6} lg={8} md={12} sm={12} xs={24} key={keyGenerator()}>
             <DeleteElevativeModal
                 visible={showDeleteModal}
-                onDelete={() => props.onDeleteNotEdit(props.index)}
+                onDelete={() => props.onDelete(props.index)}
                 onReturn={() => setShowDeleteModal(false)}
             />
 

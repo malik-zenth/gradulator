@@ -4,6 +4,7 @@ import { EmphasisCreationType } from "../types";
 import { DeleteEmphasisModal } from "../ModalMessages";
 import RenderExamPackage from "./RenderExamPackage";
 import EmphasisComponent from "../FormComponents/EmphasisComponent";
+import RenderElevative from "./RenderElevative";
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
@@ -69,14 +70,20 @@ const RenderEmphasis = (props: iProps) => {
 
                 <Row gutter={[20, 40]}>
                     {values.options.map((single, _) => {
+                        if(single.examPackage){
                         return (
                             <RenderExamPackage
                                 key={keyGenerator()}
-                                data={single}
+                                data={single.examPackage}
                                 isChildComponent={true}
                                 showEditButtons={false}
                             />
                         )
+                        }else if(single.elevative){
+                            return(
+                                <div></div>
+                                )
+                        }
                     })}
                 </Row>
                 <Divider />

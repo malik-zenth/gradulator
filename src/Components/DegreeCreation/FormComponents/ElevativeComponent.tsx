@@ -281,7 +281,7 @@ const ElevativeComponent = (props: iProps) => {
         return (
             <Divider>
                 <div className="examPackages_addExams">
-                    <div className="examPackages_add_heading">Auswahlmöglichkeiten</div>
+                    <div className="examPackages_add_heading">Prüfungen</div>
                     <Button
                         type="primary"
                         size="small"

@@ -3,9 +3,6 @@
 // are not defined jet when creating them
 // e.g. the required Exams inside of an ExamPackage are not defined jet
 // when the ExamPackage is created
-
-import { NamePath } from "rc-field-form/lib/interface";
-
 export interface ExamCreationType{
     ects?: number,
     name?: string,
@@ -39,8 +36,13 @@ export interface ElevativeCreationType{
 export interface EmphasisCreationType{
     name?: string,
     weight?: number,
-    options: ExamPackageCreationType[],
+    options: EmphasisOptionsType[],
     editMode: boolean
+}
+
+export interface EmphasisOptionsType{
+    examPackage?: ExamPackageCreationType,
+    elevative?: ElevativeCreationType
 }
 
 export interface GeneralInformationsCreationType{

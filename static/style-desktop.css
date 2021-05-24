@@ -470,4 +470,9 @@
         min-width: 20%
     }
 
+    .seperator{
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
 }
