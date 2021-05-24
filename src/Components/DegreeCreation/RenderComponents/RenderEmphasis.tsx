@@ -69,11 +69,12 @@ const RenderEmphasis = (props: iProps) => {
                 </Divider>
 
                 <Row gutter={[20, 40]}>
-                    {values.options.map((single, _) => {
+                    {values.options.map((single, index) => {
                         if(single.examPackage){
                         return (
                             <RenderExamPackage
                                 key={keyGenerator()}
+                                index={index}
                                 data={single.examPackage}
                                 isChildComponent={true}
                                 showEditButtons={false}
@@ -81,7 +82,13 @@ const RenderEmphasis = (props: iProps) => {
                         )
                         }else if(single.elevative){
                             return(
-                                <div></div>
+                                <RenderElevative
+                                    key={keyGenerator()}
+                                    index={index}
+                                    data={single.elevative}
+                                    isChildComponent={true}
+                                    showEditButtons={false}
+                                />
                                 )
                         }
                     })}

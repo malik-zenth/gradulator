@@ -220,7 +220,7 @@ const EmphasisComponent = (props: iProps) => {
     }
 
     const addElevative = () => {
-        setCreatedOptions([...createdOptions, { elevative: { editMode: true, options: [] } }])
+        setCreatedOptions([...createdOptions, { elevative: { editMode: true, exams: [] } }])
     }
 
     const renderHeader = (): ReactFragment => {
@@ -317,6 +317,8 @@ const EmphasisComponent = (props: iProps) => {
                         key={keyGenerator()}
                         data={value.elevative}
                         index={index}
+                        isChildComponent={true}
+                        showEditButtons={true}
                         onDelete={(index: number) => deleteData(index)}
                         onSaveEdit={(elevative: ElevativeCreationType, index: number) => saveElevative(elevative, index)}
                         setEdit={(index: number) => setEditElevative(true, index)}

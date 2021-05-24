@@ -11,9 +11,11 @@ const keyGenerator = (): ReactText =>
 interface iProps {
     data: ElevativeCreationType,
     index: number
-    onDelete: Function,
-    onSaveEdit: Function,
-    setEdit: Function,
+    onDelete?: Function,
+    onSaveEdit?: Function,
+    setEdit?: Function,
+    isChildComponent?: boolean,
+    showEditButtons: boolean
 }
 
 // render single Elevative
@@ -29,7 +31,7 @@ const RenderElevative = (props: iProps) => {
                     onSave={(values: ElevativeCreationType) => props.onSaveEdit(values, index)}
                     defaultValues={values}
                     index={index}
-                    isChildComponent={false}
+                    isChildComponent={props.isChildComponent}
                 />
             </div>
         )
@@ -82,6 +84,23 @@ const RenderElevative = (props: iProps) => {
             </div>
         )
 
+    }
+
+    if(props.isChildComponent){
+        return(
+            <Col xl={12} xxl={12} lg={12} md={12} sm={12} xs={12} key={keyGenerator()}>
+            <DeleteElevativeModal
+                visible={showDeleteModal}
+                onDelete={() => props.onDelete(props.index)}
+                onReturn={() => setShowDeleteModal(false)}
+            />
+
+            <div className="degreeCreator_singleElement">
+                {props.data.editMode && renderelevativeEditMode(props.index, props.data)}
+                {!props.data.editMode && renderelevativeNotEditMode(props.index, props.data)}
+            </div>
+        </Col>
+        )
     }
 
     return (

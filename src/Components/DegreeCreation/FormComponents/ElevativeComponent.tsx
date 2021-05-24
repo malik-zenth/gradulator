@@ -65,7 +65,7 @@ const ElevativeComponent = (props: iProps) => {
     const nameInputField = (): ReactFragment => {
         return (
                 <Form.Item
-                    name={`examPackage_${props.index}_${props.isChildComponent}_weight`}
+                    name={`examPackage_${props.index}_${props.isChildComponent}_name`}
                     label="Name"
                     {...layout}
                     rules={[
@@ -138,7 +138,6 @@ const ElevativeComponent = (props: iProps) => {
                         placeholder="Benötigte Anzahl"
                         min={1}
                         max={30}
-                        step={0.5}
                         onChange={(e: number) => onAmountChange(e)}
                         style={{ minWidth: "100%" }}
                         parser={(value) => {
@@ -264,7 +263,7 @@ const ElevativeComponent = (props: iProps) => {
     const renderElevativePackage = () => {
         return (
             <div
-                className="form_min_height"
+                className={props.isChildComponent ? "min_height_120" : "form_min_height"}
             >
                 {nameInputField()}
                 {weightField()}

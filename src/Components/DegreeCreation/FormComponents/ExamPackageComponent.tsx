@@ -1,4 +1,4 @@
-import React, { ReactFragment, ReactText, useEffect, useState } from "react"
+import React, { ReactFragment, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
 import { ExamCreationType, ExamPackageCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";

@@ -107,10 +107,10 @@ const DegreeCreation = () => {
                         key={keyGenerator()}
                         data={single.elevative}
                         index={index}
-                        onDeleteEdit={(index: number) => deleteElement(index)}
+                        showEditButtons={true}
+                        onDelete={(index: number) => deleteElement(index)}
                         onSaveEdit={(values: ElevativeCreationType, index: number) => updateElevative(values, index)}
                         setEdit={(index: number) => setEditElevative(true, index)}
-                        onDeleteNotEdit={(index: number) => deleteElement(index)}
                     />
                 )
             }
