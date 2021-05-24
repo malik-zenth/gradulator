@@ -26,3 +26,6 @@ export const ToolTipExamPackageNotSavable: string = "Die Modulprüfung kann nich
 export const ToolTipEmphasisNotSavable: string = "Der Schwerpunkt kann nicht gespeichert werden, da einzelne Modulprüfungen noch in der Bearbeitung / Erstellung sind. Bitte schließe diese zuerst ab."
 export const ToolTipElevativeNotSavable: string = "Das Wahlpflichtfach kann nicht gespeichert werden, da einzelne Prüfungen noch in der Bearbeitung / Erstellung sind. Bitte schließe diese zuerst ab."
 export const ToolTipElevativeAmountToHigh: string = "Die geforderte Anzahl an Prüfungen überschreitet die Auswahl an Prüfungen. Bitte passe deine Eingaben entsprechend an oder füge weitere Prüfungen hinzu."
+
+export const ToolTipSaveDegreeCreator:string = "Die bisherigen Eingaben in einer lokalen Datei speichern, um zu einem anderen Zeitpunkt daran weiterzuarbeiten"
+export const ToolTipUploadDegreeCreator: string = "Datei hochladen um an an einem Zwischengespeicherten Studiengang weiterzuarbeiten"

@@ -58,7 +58,7 @@ const RenderExamPackage = (props: iProps) => {
                     htmlType="submit"
                     onClick={() => props.setEdit(index)}>
                     Bearbeiten
-                    </Button>
+                </Button>
             </div>
         )
     }

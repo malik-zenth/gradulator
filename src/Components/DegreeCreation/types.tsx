@@ -2,6 +2,9 @@
 // they are subtypes, because some party of the final object
 // are not defined jet when creating them
 // e.g. the required Exams inside of an ExamPackage are not defined jet
+
+import { BasicInformation } from "../../Data/types";
+
 // when the ExamPackage is created
 export interface ExamCreationType{
     ects?: number,
@@ -59,4 +62,9 @@ export interface CreationType{
     emphasis?: EmphasisCreationType[],
     elevatives?: ElevativeCreationType[],
     examPackages: ExamPackageCreationType[]
+}
+
+export interface SavingType{
+    basics: GeneralInformationsCreationType,
+    data: CreatedPackages[]
 }
