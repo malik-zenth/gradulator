@@ -21,6 +21,7 @@ interface IProps {
   inputGrades?: UserInput[];
   displayAverage: Function;
   selectedOption: string,
+  notDisplayedEmphasis: number[],
   resetInputGrades: Function;
 }
 
@@ -42,7 +43,7 @@ const checkboxMark: string = "_checkbox";
 const GradeInput = (props: IProps) => {
   const [form] = Form.useForm();
   // this hook will handle all emphasis points which are not displayed
-  const [notDisplayedEmphasis, setEmphasis] = useState([]);
+  const [notDisplayedEmphasis, setEmphasis] = useState(props.notDisplayedEmphasis);
   // show BETA-Version Modal
   const [showBETAModal, setBETAModal] = useState(false);
   // if Modal Error Message no Input detected is displayed
@@ -298,7 +299,7 @@ const GradeInput = (props: IProps) => {
           if (values[key] == undefined) delete values[key];
         });
         if (Object.keys(values).length > 0 && Object.keys(values).filter(x => !x.includes(checkboxMark)).length > 0) {
-          props.displayAverage(settupGrades(values), props.selectedOption);
+          props.displayAverage(settupGrades(values), props.selectedOption, notDisplayedEmphasis);
         } else {
           setShowModal(true);
         }
@@ -329,6 +330,7 @@ const GradeInput = (props: IProps) => {
       setPrevInitialValues(initialValues)
       form.resetFields()
       form.setFieldsValue(initialValues)
+      console.log(initialValues)
     }
   }, [initialValues])
 

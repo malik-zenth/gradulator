@@ -32,6 +32,7 @@ interface IState {
     showModal: boolean,
     instructionsVisible: boolean,
     current: number,
+    notDisplayedEmphasis: number[],
     wrongSPO: boolean
 }
 
@@ -46,6 +47,7 @@ class Home extends React.Component<IProps, IState>{
             instructionsVisible: false,
             wrongSPO: false,
             current: 0,
+            notDisplayedEmphasis: [],
             invalidDegree: null
         }
     }
@@ -58,11 +60,12 @@ class Home extends React.Component<IProps, IState>{
         }
     }
 
-    displayAverage = (gradeInput: UserInput[], selectedOption: string): void => {
+    displayAverage = (gradeInput: UserInput[], selectedOption: string, notDisplayedEmphasis: number[]): void => {
         this.setState({
             gradeInput: gradeInput,
             displayFormular: false,
             selectedOption: selectedOption,
+            notDisplayedEmphasis: notDisplayedEmphasis
         })
     }
 
@@ -315,7 +318,7 @@ class Home extends React.Component<IProps, IState>{
     }
 
     render() {
-        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal } = this.state
+        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal, notDisplayedEmphasis} = this.state
 
         return (
             <div>
@@ -382,7 +385,11 @@ class Home extends React.Component<IProps, IState>{
                                         options={getDegreeByName(selectedDegree).data}
                                         inputGrades={inputValues}
                                         selectedOption={selectedDegree}
-                                        displayAverage={(gradeValues: UserInput[], selectedOption: string) => this.displayAverage(gradeValues, selectedOption)}
+                                        notDisplayedEmphasis={notDisplayedEmphasis}
+                                        displayAverage={(
+                                            gradeValues: UserInput[], 
+                                            selectedOption: string, 
+                                            notDisplayedEmphasis: number[]) => this.displayAverage(gradeValues, selectedOption, notDisplayedEmphasis)}
                                         resetInputGrades={() => this.resetInputGrades()}
                                     />
                                 </div>

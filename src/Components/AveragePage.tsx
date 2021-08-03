@@ -17,9 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation, TooltipRemovedEmphasis, ToolTipRemovedElevtive } from "./const";
 import {MissingElevtiveEmphasis} from "../Components/Calculation/types"
-
 import {numToWord} from "num-words-de"
-import { SignalFilled } from "@ant-design/icons";
 
 interface IProps {
   inputGrades: UserInput[];

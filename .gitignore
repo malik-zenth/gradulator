@@ -2,7 +2,8 @@
 /node_modules
 /.pnp
 .pnp.js
-
+.scannerwork
+.vscode
 # testing
 /coverage
 config.js
