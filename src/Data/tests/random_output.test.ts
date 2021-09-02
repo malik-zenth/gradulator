@@ -22,8 +22,8 @@ var randomProperty = function (obj: Exams): RandomPropery {
 
 
 describe("test if we get an result", () => {
-    // we run 10 to 20 tests
-    const amoundRandomRuns: number = Math.floor(Math.random() * 11) +10;
+    // we run 20 to 30 tests
+    const amoundRandomRuns: number = Math.floor(Math.random() * 11) +20;
     const lenOptions: number = options.length
 
     for(var i: number= 1; i < amoundRandomRuns; i++){

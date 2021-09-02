@@ -33,6 +33,11 @@ export interface GradePackageAverage{
     missingElevtiveGrades?: MissingElevtiveEmphasis
 }
 
+// interface for elevative inside of elevative
+export interface ElevativeInsideOfElevative{
+
+}
+
 export interface CaseReturn{
     caseGrade: number,
     caseAverage: GradePackageAverage[]

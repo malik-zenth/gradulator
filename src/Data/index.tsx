@@ -7,6 +7,7 @@ import { bu } from "./bu";
 import { vb_pv } from "./vb-pv"
 import {mu} from "./mu"
 import {mtl} from "./mtl"
+import {tmb} from "./tmb"
 
 export const options: DegreeOption[] = [
     {
@@ -33,6 +34,11 @@ export const options: DegreeOption[] = [
         data: mtl,
         shortName: "MTL",
         longName: "Master in Transport und Logistik Management"
+    },
+    {
+        data: tmb,
+        shortName: "TMB",
+        longName: "Tourismusmanagement"
     },
     {
         data: win,

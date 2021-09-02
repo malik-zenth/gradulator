@@ -9,8 +9,14 @@ export interface BasicInformation {
     weight: number,
     required_emphasis: number,
     emphasis: Emphasis[] | null,
+    semesterChoices?: Object,
     elevtive?: Electives[]
 
+}
+
+export interface iElevativeSettupType{
+    id: number,
+    multiOption: boolean
 }
 
 // used in BasicInformation - information about Emphasis
@@ -21,13 +27,29 @@ export interface Emphasis {
     emphasisid: number,
 }
 
+// Elevtives Object including the Options for each
+export interface ElectivesWithOptions {
+    ids: number[],
+    required: number,
+    examid: number,
+    emphasisid?: number,
+    emphasis_elevtive?: boolean,
+    elevative_elevative?: boolean,
+    multiOption?: boolean,
+    choiseID?: number,
+    inputGrades: UserInput[]
+}
+
 // BasicInformation about Elevtives
 export interface Electives {
     ids: number[],
     required: number,
     examid: number,
     emphasisid?: number,
-    emphasis_elevtive?: boolean
+    emphasis_elevtive?: boolean,
+    elevative_elevative?: boolean,
+    multiOption?: boolean,
+    choiseID?: number
 }
 
 // all the exams the degree has
@@ -36,12 +58,14 @@ export interface Exams{
 }
 
 export interface Exam{
-    semester: number,
+    semester?: number,
     ects: number,
     weight: number,
     name: string,
-    packageid: number,
+    packageid?: number,
     emphasisid?: number,
+    semester_choise?: number,
+    packageOptions?: number[],
     ignored?: boolean,
 }
 
