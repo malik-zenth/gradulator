@@ -22,14 +22,13 @@ var randomProperty = function (obj: Exams): RandomPropery {
 
 
 describe("test if we get an result", () => {
-    // we run 20 to 30 tests
-    const amoundRandomRuns: number = Math.floor(Math.random() * 11) +20;
+    // we run between 100 and 200 tests
+    const amoundRandomRuns: number = Math.floor(Math.random() * 1100) +1000;
     const lenOptions: number = options.length
 
     for(var i: number= 1; i < amoundRandomRuns; i++){
         // get a random option from the list
         const randomOption = options[Math.floor(Math.random() * lenOptions)]
-
         test("if " + randomOption.longName + " is working the way it should", () => {
             // get amound if random values we select
             const amoundRandomValues = Object.keys(randomOption.data.exams).length

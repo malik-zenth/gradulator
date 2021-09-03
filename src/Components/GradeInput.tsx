@@ -5,8 +5,9 @@ import {
   Exam,
   Exams,
   SingleOption,
+  DetailsModalType
 } from "../Data/types";
-import { Form, InputNumber, Checkbox, Button, Modal, Row, Col, Divider } from "antd";
+import { Form, InputNumber, Checkbox, Button, Modal, Row, Col, Divider, Radio } from "antd";
 
 interface InitialValues {
   [key: string]: any;
@@ -53,7 +54,9 @@ const GradeInput = (props: IProps) => {
   const [showBETAModal, setBETAModal] = useState(false);
   // if Modal Error Message no Input detected is displayed
   const [showModal, setShowModal] = useState(false);
+  const [detailsModal, setShowDetailsModal] = useState(false)
   const [prevInitialValues, setPrevInitialValues] = useState({})
+  const [formValues, setFormValues] = useState({})
 
   // render all input fields. Data comes in type orderedExams ordered by semester
   const renderInputOptions = (exams: OrderedExams): ReactFragment => {
@@ -298,6 +301,7 @@ const GradeInput = (props: IProps) => {
       <Modal
         title="BETA-Studiengang"
         visible={showBETAModal}
+        onCancel={() => setBETAModal(false)}
         footer={[
           <Button
             key="submit"
@@ -321,6 +325,77 @@ const GradeInput = (props: IProps) => {
     );
   };
 
+  const onCloseDetailsModal = () => {
+    setShowDetailsModal(false)
+    setFormValues({})
+
+  }
+
+  const renderDetailsForm = () => {
+    const relevantInputGrades = Object.keys(formValues).filter(single => !single.includes("_checkbox") && props.options.exams[single].packageOptions && props.options.exams[single].packageOptions.length > 1)
+    const relevantInputGradesWithOptions: DetailsModalType[] = []
+    Object.keys(props.options.exams).map(examID => {
+      if (relevantInputGrades.includes(examID.toString())) {
+        relevantInputGradesWithOptions.push({
+          examID: examID,
+          options: props.options.exams[examID].packageOptions
+        })
+      }
+    })
+    return relevantInputGradesWithOptions.map(singleOption => {
+      return (
+        <Form.Item 
+          key={keyGenerator()}>
+          <p className="detailsInputLabel">{props.options.exams[singleOption.examID].name}</p>
+          <Radio.Group style={{display: "grid"}}>
+            {singleOption.options.map(option => {
+              return (
+                <Radio key={keyGenerator()} value={option}>
+                  {props.options.examPackages[option].name}
+                </Radio>
+              )
+
+            })}
+          </Radio.Group>
+        </Form.Item>
+      )
+    })
+  }
+
+  const submitDetailsModal = () => {
+    setShowDetailsModal(false)
+    setFormValues({})
+  }
+
+  // Modal displayed if Additional Information is required
+  const renderDetailsModal = (): ReactFragment => {
+
+    return (
+      <Modal
+        title="Mehrmals verwendbare Prüfungsleistungen"
+        visible={detailsModal}
+        onCancel={() => onCloseDetailsModal()}
+        footer={[
+          <Button
+            key="submit"
+            type="primary"
+            onClick={() => submitDetailsModal()}
+          >
+            Schnitt berechnen
+          </Button>,
+        ]}
+      >
+        <p>Einzelne der von dir eingegebenen Noten können mehreren Modulprüfungen zugeordnet werden.
+          Du hast die Möglichkeit die Noten manuell zuzuordnen, solltest du wissen,
+          für welche Modulprüfung du die Kurse besucht hast.<br></br> <br></br>
+          Wenn du dies nicht machst wird versucht die Noten bestmöglichst den Modulprüfungen zuzuordnen. In der Regel sollte dies keinen Einfluss auf deinen
+          finalen Schnitt haben. Beachte jedoch, dass doppelte oder dem Durchschnitt schadende Zuordnungen nicht korrigiert werden.
+        </p>
+        {renderDetailsForm()}
+      </Modal>
+    );
+  };
+
   // remove the checkbox tag from the value of the input Object
   const removeCheckboxTag = (examID: string): string => {
     if (examID.indexOf(checkboxMark) === -1) return examID;
@@ -337,7 +412,13 @@ const GradeInput = (props: IProps) => {
           if (values[key] == undefined) delete values[key];
         });
         if (Object.keys(values).length > 0 && Object.keys(values).filter(x => !x.includes(checkboxMark)).length > 0) {
-          props.displayAverage(settupGrades(values), props.selectedOption, notDisplayedEmphasis);
+          if (checkForExamOptions(values)) {
+            setFormValues(values)
+            setShowDetailsModal(true)
+          }
+          else {
+            props.displayAverage(settupGrades(values), props.selectedOption, notDisplayedEmphasis);
+          }
         } else {
           setShowModal(true);
         }
@@ -347,6 +428,9 @@ const GradeInput = (props: IProps) => {
       });
   };
 
+  const checkForExamOptions = (inputGrades: any): boolean => {
+    return Object.keys(inputGrades).some(single => props.options.exams[single].packageOptions)
+  }
 
   const { options, inputGrades } = props;
   const { basics, exams } = options;
@@ -401,6 +485,7 @@ const GradeInput = (props: IProps) => {
         <div className="form-grades">{renderInputOptions(sortedExams.singleSemester)}</div>
         <div className="form-grades">{renderChoiseExams(sortedExams.multipleSemester, basics.semesterChoices)}</div>
         {renderButtons()}
+        {renderDetailsModal()}
       </Form>
     </div>
   );

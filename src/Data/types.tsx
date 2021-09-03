@@ -49,7 +49,24 @@ export interface Electives {
     emphasis_elevtive?: boolean,
     elevative_elevative?: boolean,
     multiOption?: boolean,
+    alternatives?: AlternativeElectives[]
     choiseID?: number
+}
+
+export interface AlternativeElectives{
+    required: number,
+    ids: number[]
+}
+
+export interface DetailsModalType{
+    examID: string,
+    options: string[]
+}
+
+// key is packageId, number is required Exams
+export interface NotCompletedElectives{
+    required: number,
+    packageID: number
 }
 
 // all the exams the degree has
