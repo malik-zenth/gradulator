@@ -25,6 +25,7 @@ describe("test all available data", () => {
                         }
 
                         if (single.data.exams[examid].packageOptions) {
+                            expect(single.data.exams[examid].packageid).not.toBeDefined()
                             single.data.exams[examid].packageOptions.forEach((option: number) => {
                                 expect(single.data.examPackages[option]).toBeDefined()
                                 expect(single.data.examPackages[option].required.includes(option))
@@ -86,6 +87,10 @@ describe("test all available data", () => {
                                 elev.ids.forEach(id => {
                                     expect(single.data.exams[id]).toBeDefined()
                                 })
+                                if(elev.optionId){
+                                    const otherElevsWithThisOptionID = singleElevative.options.filter(x => x.optionId === elev.optionId)
+                                    expect(otherElevsWithThisOptionID.length).toBeGreaterThan(1)
+                                }
                             })
                         }
                     } else {

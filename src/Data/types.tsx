@@ -37,7 +37,8 @@ export interface ElectivesWithOptions {
     elevative_elevative?: boolean,
     multiOption?: boolean,
     choiseID?: number,
-    inputGrades: UserInput[]
+    inputGrades: UserInput[],
+    options?: AlternativeElectives[]
 }
 
 // BasicInformation about Elevtives
@@ -55,7 +56,8 @@ export interface Electives {
 
 export interface AlternativeElectives{
     required: number,
-    ids: number[]
+    ids: number[],
+    optionId?: number
 }
 
 export interface DetailsModalType{

@@ -24,6 +24,7 @@ interface IProps {
   selectedOption: string,
   notDisplayedEmphasis: number[],
   resetInputGrades: Function;
+  defaultAdjustedExams: Exams
 }
 
 interface OrderedExams {
@@ -244,6 +245,16 @@ const GradeInput = (props: IProps) => {
     return initalValues;
   };
 
+  // settup default Values for the form if given
+  const settupDetailsDefaultValues = (adjustedExams: Exams): InitialValues => {
+    const initalValues: InitialValues = {};
+    adjustedExams &&
+    Object.keys(adjustedExams).map(x => {
+      initalValues[x] = adjustedExams[x].packageid
+    })
+    return initalValues;
+  };
+
   // settup grades in a way the calculations can handle it
   const settupGrades = (inputValues: FormInput): UserInput[] => {
     const gradeData: UserInput[] = [];
@@ -374,13 +385,13 @@ const GradeInput = (props: IProps) => {
       .validateFields()
       .then((values) => {
         // add input values as examPackages
-        const {exams} = props.options
+        const { exams } = props.options
         Object.keys(values).forEach((key) => {
           if (values[key] == undefined) delete values[key];
         });
         Object.keys(values).map((key) => {
           Object.keys(exams).map((singleExam) => {
-            if(singleExam === key){
+            if (singleExam === key) {
               exams[singleExam].packageid = values[key]
             }
           })
@@ -394,7 +405,7 @@ const GradeInput = (props: IProps) => {
 
   // Modal displayed if Additional Information is required
   const renderDetailsModal = (): ReactFragment => {
-
+    const detailsInitialValues = settupDetailsDefaultValues(props.defaultAdjustedExams)
     return (
       <Modal
         title="Mehrmals verwendbare Prüfungsleistungen"
@@ -416,7 +427,7 @@ const GradeInput = (props: IProps) => {
           Wenn du dies nicht machst wird versucht die Noten bestmöglichst den Modulprüfungen zuzuordnen. In der Regel sollte dies keinen Einfluss auf deinen
           finalen Schnitt haben. Beachte jedoch, dass doppelte oder dem Durchschnitt schadende Zuordnungen nicht korrigiert werden.
         </p>
-        <Form form={multiOptionForm}>
+        <Form form={multiOptionForm} initialValues={detailsInitialValues}>
           {renderDetailsForm()}
         </Form>
       </Modal>
@@ -456,10 +467,10 @@ const GradeInput = (props: IProps) => {
   };
 
   const checkForExamOptions = (inputGrades: any): boolean => {
-    return Object.keys(inputGrades).some(single => !single.includes(checkboxMark) && props.options.exams[single].packageOptions)
+    return Object.keys(inputGrades).some(single => !single.includes(checkboxMark) && props.options.exams[single].packageOptions && props.options.exams[single].packageOptions.length > 1)
   }
 
-  const { options, inputGrades } = props;
+  const { options, inputGrades, defaultAdjustedExams } = props;
   const { basics, exams } = options;
   const sortedExams = settupExamData(exams);
   const initialValues = settupDefaultValues(inputGrades)

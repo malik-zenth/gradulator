@@ -22,8 +22,7 @@ var randomProperty = function (obj: Exams): RandomPropery {
 
 
 describe("test if we get an result", () => {
-    // we run between 100 and 200 tests
-    const amoundRandomRuns: number = Math.floor(Math.random() * 1100) +1000;
+    const amoundRandomRuns: number = 1000
     const lenOptions: number = options.length
 
     for(var i: number= 1; i < amoundRandomRuns; i++){
@@ -53,6 +52,9 @@ describe("test if we get an result", () => {
             expect(calculationResult.achivedECTS).toBeDefined()
             expect(calculationResult.observedWeight).toBeDefined()
             expect(calculationResult.singleGrades).toBeDefined()
+            calculationResult.singleGrades.forEach(grade => {
+                expect(grade.grade).not.toBeNaN()
+            })
         })
     }
 })

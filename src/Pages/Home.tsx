@@ -76,7 +76,8 @@ class Home extends React.Component<IProps, IState>{
         this.setState({
             displayFormular: true,
             inputValues: [],
-            selectedDegree: null
+            selectedDegree: null,
+            adjustedExams: []
         })
     }
 
@@ -89,7 +90,8 @@ class Home extends React.Component<IProps, IState>{
 
     resetInputGrades = () => {
         this.setState({
-            inputValues: []
+            inputValues: [],
+            adjustedExams: []
         })
     }
 
@@ -397,6 +399,7 @@ class Home extends React.Component<IProps, IState>{
                                         inputGrades={inputValues}
                                         selectedOption={selectedDegree}
                                         notDisplayedEmphasis={notDisplayedEmphasis}
+                                        defaultAdjustedExams={adjustedExams}
                                         displayAverage={(
                                             gradeValues: UserInput[], 
                                             selectedOption: string, 
