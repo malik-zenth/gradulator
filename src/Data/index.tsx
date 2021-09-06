@@ -109,3 +109,4 @@ export function validateName(name: string): Boolean{
     if(degreeOption.length) return true
     else return false
 }
+

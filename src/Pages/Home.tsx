@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PdfUpload from "../Components/PdfUpload"
 import { Formular, AveragePage, Footer, Header, GradeInput, exportAsPdf, CardManualEntry, CardPdf } from "../Components"
-import { UserInput, CalculationResult, Exam, DegreeOption } from "../Data/types";
+import { UserInput, CalculationResult, Exam, DegreeOption, ExamPackages, SingleOption, Exams } from "../Data/types";
 import { Row, Col, Modal, Button, message, Card, Steps } from 'antd';
 import { getDegreeByName, options, validateName } from "../Data";
 import { MailLink } from "../Components/const"
@@ -33,7 +33,8 @@ interface IState {
     instructionsVisible: boolean,
     current: number,
     notDisplayedEmphasis: number[],
-    wrongSPO: boolean
+    wrongSPO: boolean,
+    adjustedExams: Exams
 }
 
 // Home Page
@@ -48,7 +49,8 @@ class Home extends React.Component<IProps, IState>{
             wrongSPO: false,
             current: 0,
             notDisplayedEmphasis: [],
-            invalidDegree: null
+            invalidDegree: null,
+            adjustedExams: null
         }
     }
 
@@ -60,12 +62,13 @@ class Home extends React.Component<IProps, IState>{
         }
     }
 
-    displayAverage = (gradeInput: UserInput[], selectedOption: string, notDisplayedEmphasis: number[]): void => {
+    displayAverage = (gradeInput: UserInput[], selectedOption: string, notDisplayedEmphasis: number[], adjustedExams?: Exams): void => {
         this.setState({
             gradeInput: gradeInput,
             displayFormular: false,
             selectedOption: selectedOption,
-            notDisplayedEmphasis: notDisplayedEmphasis
+            notDisplayedEmphasis: notDisplayedEmphasis,
+            adjustedExams: adjustedExams
         })
     }
 
@@ -317,8 +320,16 @@ class Home extends React.Component<IProps, IState>{
         )
     }
 
+    addAdjustedExamPackages(singleOption: SingleOption): SingleOption{
+        if(!this.state.adjustedExams) return singleOption
+        else{
+            singleOption.exams = this.state.adjustedExams
+            return singleOption
+        }
+    }
+
     render() {
-        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal, notDisplayedEmphasis} = this.state
+        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal, notDisplayedEmphasis, adjustedExams} = this.state
 
         return (
             <div>
@@ -389,7 +400,8 @@ class Home extends React.Component<IProps, IState>{
                                         displayAverage={(
                                             gradeValues: UserInput[], 
                                             selectedOption: string, 
-                                            notDisplayedEmphasis: number[]) => this.displayAverage(gradeValues, selectedOption, notDisplayedEmphasis)}
+                                            notDisplayedEmphasis: number[],
+                                            adjustedExams?: Exams) => this.displayAverage(gradeValues, selectedOption, notDisplayedEmphasis, adjustedExams)}
                                         resetInputGrades={() => this.resetInputGrades()}
                                     />
                                 </div>
@@ -401,7 +413,7 @@ class Home extends React.Component<IProps, IState>{
                         <div id="capture">
                             <AveragePage
                                 inputGrades={gradeInput}
-                                selectedOption={getDegreeByName(selectedOption).data}
+                                selectedOption={this.addAdjustedExamPackages(getDegreeByName(selectedOption).data)}
                                 editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
                                 newCalculation={() => this.newCalculation()}
                                 exportAsPdf={(input: CalculationResult) => exportAsPdf(input, getDegreeByName(selectedOption).longName)}

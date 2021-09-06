@@ -75,15 +75,24 @@ describe("test all available data", () => {
                     expect(singleElevative.examid).toBeDefined()
                     if (!singleElevative.emphasis_elevtive) {
                         expect(single.data.examPackages[singleElevative.examid]).toBeDefined()
-                        singleElevative.ids.map((examID: number) => {
-                            expect(single.data.exams[examID]).toBeDefined()
-                            expect(single.data.examPackages[singleElevative.examid].required).toContain(examID)
-                        })
+                        if (!singleElevative.options) {
+                            singleElevative.ids.map((examID: number) => {
+                                expect(single.data.exams[examID]).toBeDefined()
+                                expect(single.data.examPackages[singleElevative.examid].required).toContain(examID)
+                            })
+                        }
+                        else{
+                            singleElevative.options.map((elev) => {
+                                elev.ids.forEach(id => {
+                                    expect(single.data.exams[id]).toBeDefined()
+                                })
+                            })
+                        }
                     } else {
                         expect(single.data.exams[singleElevative.examid]).toBeDefined()
                     }
-                    if (singleElevative.alternatives) {
-                        singleElevative.alternatives.map(alternative => {
+                    if (singleElevative.options) {
+                        singleElevative.options.map(alternative => {
                             alternative.ids.forEach(id => {
                                 expect(single.data.exams[id]).toBeDefined()
                             })

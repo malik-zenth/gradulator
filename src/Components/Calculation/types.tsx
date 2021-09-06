@@ -33,9 +33,9 @@ export interface GradePackageAverage{
     missingElevtiveGrades?: MissingElevtiveEmphasis
 }
 
-// interface for elevative inside of elevative
-export interface ElevativeInsideOfElevative{
-
+export interface ElectiveOptionReturnType{
+    electiveToBeRemoved: GradePackage[],
+    newGradePackage: GradePackage[]
 }
 
 export interface CaseReturn{

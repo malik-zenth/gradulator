@@ -48,6 +48,7 @@ const checkboxMark: string = "_checkbox";
 // form to input all grades
 const GradeInput = (props: IProps) => {
   const [form] = Form.useForm();
+  const [multiOptionForm] = Form.useForm();
   // this hook will handle all emphasis points which are not displayed
   const [notDisplayedEmphasis, setEmphasis] = useState(props.notDisplayedEmphasis);
   // show BETA-Version Modal
@@ -332,7 +333,7 @@ const GradeInput = (props: IProps) => {
   }
 
   const renderDetailsForm = () => {
-    const relevantInputGrades = Object.keys(formValues).filter(single => !single.includes("_checkbox") && props.options.exams[single].packageOptions && props.options.exams[single].packageOptions.length > 1)
+    const relevantInputGrades = Object.keys(formValues).filter(single => !single.includes(checkboxMark) && props.options.exams[single].packageOptions && props.options.exams[single].packageOptions.length > 1)
     const relevantInputGradesWithOptions: DetailsModalType[] = []
     Object.keys(props.options.exams).map(examID => {
       if (relevantInputGrades.includes(examID.toString())) {
@@ -344,20 +345,23 @@ const GradeInput = (props: IProps) => {
     })
     return relevantInputGradesWithOptions.map(singleOption => {
       return (
-        <Form.Item 
-          key={keyGenerator()}>
+        <div key={keyGenerator()}>
           <p className="detailsInputLabel">{props.options.exams[singleOption.examID].name}</p>
-          <Radio.Group style={{display: "grid"}}>
-            {singleOption.options.map(option => {
-              return (
-                <Radio key={keyGenerator()} value={option}>
-                  {props.options.examPackages[option].name}
-                </Radio>
-              )
+          <Form.Item
+            name={singleOption.examID}
+          >
+            <Radio.Group style={{ display: "grid" }}>
+              {singleOption.options.map(option => {
+                return (
+                  <Radio key={keyGenerator()} value={option}>
+                    {props.options.examPackages[option].name}
+                  </Radio>
+                )
 
-            })}
-          </Radio.Group>
-        </Form.Item>
+              })}
+            </Radio.Group>
+          </Form.Item>
+        </div>
       )
     })
   }
@@ -365,6 +369,27 @@ const GradeInput = (props: IProps) => {
   const submitDetailsModal = () => {
     setShowDetailsModal(false)
     setFormValues({})
+
+    multiOptionForm
+      .validateFields()
+      .then((values) => {
+        // add input values as examPackages
+        const {exams} = props.options
+        Object.keys(values).forEach((key) => {
+          if (values[key] == undefined) delete values[key];
+        });
+        Object.keys(values).map((key) => {
+          Object.keys(exams).map((singleExam) => {
+            if(singleExam === key){
+              exams[singleExam].packageid = values[key]
+            }
+          })
+        })
+        props.displayAverage(settupGrades(formValues), props.selectedOption, notDisplayedEmphasis, exams);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   // Modal displayed if Additional Information is required
@@ -391,7 +416,9 @@ const GradeInput = (props: IProps) => {
           Wenn du dies nicht machst wird versucht die Noten bestmöglichst den Modulprüfungen zuzuordnen. In der Regel sollte dies keinen Einfluss auf deinen
           finalen Schnitt haben. Beachte jedoch, dass doppelte oder dem Durchschnitt schadende Zuordnungen nicht korrigiert werden.
         </p>
-        {renderDetailsForm()}
+        <Form form={multiOptionForm}>
+          {renderDetailsForm()}
+        </Form>
       </Modal>
     );
   };
@@ -429,7 +456,7 @@ const GradeInput = (props: IProps) => {
   };
 
   const checkForExamOptions = (inputGrades: any): boolean => {
-    return Object.keys(inputGrades).some(single => props.options.exams[single].packageOptions)
+    return Object.keys(inputGrades).some(single => !single.includes(checkboxMark) && props.options.exams[single].packageOptions)
   }
 
   const { options, inputGrades } = props;

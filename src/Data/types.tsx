@@ -29,8 +29,8 @@ export interface Emphasis {
 
 // Elevtives Object including the Options for each
 export interface ElectivesWithOptions {
-    ids: number[],
-    required: number,
+    ids?: number[],
+    required?: number,
     examid: number,
     emphasisid?: number,
     emphasis_elevtive?: boolean,
@@ -42,14 +42,14 @@ export interface ElectivesWithOptions {
 
 // BasicInformation about Elevtives
 export interface Electives {
-    ids: number[],
-    required: number,
+    ids?: number[],
+    required?: number,
     examid: number,
     emphasisid?: number,
     emphasis_elevtive?: boolean,
     elevative_elevative?: boolean,
     multiOption?: boolean,
-    alternatives?: AlternativeElectives[]
+    options?: AlternativeElectives[]
     choiseID?: number
 }
 

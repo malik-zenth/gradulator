@@ -4,6 +4,7 @@ import {
   UserInput,
   SingleOption,
   Exam,
+  ExamPackages,
 } from "../Data/types";
 import { calculateData } from "./Calculation/calculation";
 import { GradePackageAverage } from "./Calculation/types";
@@ -24,7 +25,7 @@ interface IProps {
   selectedOption: SingleOption;
   newCalculation: Function;
   editCalculation: Function;
-  exportAsPdf: Function;
+  exportAsPdf: Function
 }
 
 interface IState {

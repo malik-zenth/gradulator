@@ -47,8 +47,11 @@ const tmb_basic_data: BasicInformation = {
         },
         {
             // I2
-            ids: [186541, 186542, 186543],
-            alternatives: [
+            options: [
+                {
+                    ids: [186541, 186542, 186543],
+                    required: 1
+                },
                 {
                     ids: [186312,186314,186315,186316,186317,186318,186319],
                     required: 3,
@@ -70,7 +73,6 @@ const tmb_basic_data: BasicInformation = {
                     required: 3
                 }
             ],
-            required: 1,
             examid: 186540,
         },
         {
