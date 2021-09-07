@@ -22,7 +22,7 @@ var randomProperty = function (obj: Exams): RandomPropery {
 
 
 describe("test if we get an result", () => {
-    const amoundRandomRuns: number = 1000
+    const amoundRandomRuns: number = 2000
     const lenOptions: number = options.length
 
     for(var i: number= 1; i < amoundRandomRuns; i++){

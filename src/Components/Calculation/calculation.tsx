@@ -267,6 +267,9 @@ const calculateAverages = (userGrades: GradePackages, gradePackages: ExamPackage
             points += userGrades[single][index].weight
             grade += userGrades[single][index].weight * userGrades[single][index].grade
         }
+        //if(gradePackages[single].name = "Internationale Spezialisierung 2" && !cutGrade(grade/points)){
+            //console.log(grade, points, userGrades)
+        //}
         averages.push({
             name: gradePackages[single].name,
             weight: gradePackages[single].weight,

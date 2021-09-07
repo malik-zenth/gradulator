@@ -317,7 +317,9 @@ const checkElevitveAlternative = (gradePackages: GradePackages, elective: Electi
             const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptions[0].ids.includes(single.examID))
             relevantExamIDs = examsForCompleted.slice(0, completedOptions[0].required).map(x => x.examID)
             removedElevtive.push(...examsForCompleted.slice(completedOptions[0].required, examsForCompleted.length))
-
+        }else{
+            const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptions[0].ids.includes(single.examID))
+            relevantExamIDs = examsForCompleted.map(x => x.examID)
         }
     }
     // Option two -> None is completed (we take the one with the most %)
@@ -391,6 +393,10 @@ const checkElevitveAlternative = (gradePackages: GradePackages, elective: Electi
                 const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptionsWithGrade[0].ids.includes(single.examID))
                 relevantExamIDs = examsForCompleted.slice(0, completedOptionsWithGrade[0].required).map(x => x.examID)
                 removedElevtive.push(...examsForCompleted.slice(completedOptionsWithGrade[0].required, examsForCompleted.length))
+            }
+            else{
+                const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptionsWithGrade[0].ids.includes(single.examID))
+                relevantExamIDs = examsForCompleted.map(x => x.examID)
             }
         }
     }

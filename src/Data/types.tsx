@@ -101,7 +101,14 @@ export interface ExamPackage{
 export interface DegreeOption{
     data: SingleOption,
     shortName: string,
-    longName: string
+    longName: string,
+    facultyId: number
+}
+
+export interface FacultyOptions{
+    shortName: string,
+    longName: string,
+    facultyId: number
 }
 
 // data for one option

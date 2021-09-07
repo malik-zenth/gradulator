@@ -3,7 +3,7 @@ import PdfUpload from "../Components/PdfUpload"
 import { Formular, AveragePage, Footer, Header, GradeInput, exportAsPdf, CardManualEntry, CardPdf } from "../Components"
 import { UserInput, CalculationResult, Exam, DegreeOption, ExamPackages, SingleOption, Exams } from "../Data/types";
 import { Row, Col, Modal, Button, message, Card, Steps } from 'antd';
-import { getDegreeByName, options, validateName } from "../Data";
+import { getDegreeByName, options, faculties, validateName } from "../Data";
 import { MailLink } from "../Components/const"
 import {isMobile, isTablet} from "react-device-detect"
 const { Step } = Steps;
@@ -366,6 +366,7 @@ class Home extends React.Component<IProps, IState>{
                                 <Col xs={20} sm={20} md={20} lg={0} xl={0}>
                                     <Formular
                                         options={options}
+                                        facultyOptions={faculties}
                                         selected={selectedDegree}
                                         inputGrades={inputValues}
                                         resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
@@ -384,6 +385,7 @@ class Home extends React.Component<IProps, IState>{
                                 <Col xs={0} sm={0} md={0} lg={9} xl={9}>
                                     <Formular
                                         options={options}
+                                        facultyOptions={faculties}
                                         selected={selectedDegree}
                                         inputGrades={inputValues}
                                         resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}

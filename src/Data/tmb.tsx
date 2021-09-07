@@ -3,6 +3,7 @@ import { BasicInformation, ExamPackages, Exams, SingleOption } from "./types";
 const tmb_basic_data: BasicInformation = {
     name: "Tourismusmanagement",
     weight: 120,
+    beta: true,
     ects: 117,
     spo: 6,
     required_emphasis: 0,

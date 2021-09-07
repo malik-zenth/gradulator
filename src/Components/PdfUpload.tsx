@@ -263,7 +263,7 @@ class PdfUpload extends React.Component<iProps, iState> {
         return (
             <div>
                 {/* @ts-ignore: Unreachable code error */}
-                <Dragger customRequest={dummyRequest} onChange={this.handleChange} showUploadList={false} style={{minHeight: '217px'}}>
+                <Dragger customRequest={dummyRequest} onChange={this.handleChange} showUploadList={false} style={{minHeight: '270px'}}>
                     <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                     </p>
