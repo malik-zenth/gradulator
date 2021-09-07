@@ -41,7 +41,7 @@ const tmb_basic_data: BasicInformation = {
             options: [
                 {
                     ids: [186531, 186532, 186533, 186534, 186535, 186536],
-                    required: 1,
+                    required: 2,
                 },
                 {
                     ids: [186431, 186461, 186631, 186661, 186731, 186761, 186831, 186861],
