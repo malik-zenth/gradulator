@@ -227,56 +227,56 @@ const tmb_exams: Exams = {
         semester_choise: 2,
         ects: 5,
         weight: 5,
-        name: "VWL I",
+        name: "VWL I (5 ECTS)",
         packageOptions: [186550, 186580]
     },
     186552: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
-        name: "Recht I",
+        name: "Recht I (5 ECTS)",
         packageOptions: [186550, 186580]
     },
     186553: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
-        name: "Methoden I",
+        name: "Methoden I (5 ECTS)",
         packageOptions: [186550, 186580]
     },
     186554: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
-        name: "Studium Generale I",
+        name: "Studium Generale I (5 ECTS)",
         packageOptions: [186550, 186580]
     },
     186581: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
-        name: "VWL II",
+        name: "VWL II (5 ECTS)",
         packageOptions: [186580]
     },
     186582: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
-        name: "Recht II",
+        name: "Recht II (5 ECTS)",
         packageOptions: [186580]
     },
     186583: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
-        name: "Methoden II",
+        name: "Methoden II (5 ECTS)",
         packageOptions: [186580]
     },
     186584: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
-        name: "Studium Generale II",
+        name: "Studium Generale II (5 ECTS)",
         packageOptions: [186580]
     },
     186585: {
@@ -444,56 +444,56 @@ const tmb_exams: Exams = {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
-        name: "VWL I",
+        name: "VWL I (2.5 ECTS)",
         packageOptions: [186570]
     },
     186572: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
-        name: "Recht I",
+        name: "Recht I (2.5 ECTS)",
         packageOptions: [186570]
     },
     186573: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
-        name: "Methoden I",
+        name: "Methoden I (2.5 ECTS)",
         packageOptions: [186570]
     },
     186574: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
-        name: "Studium Generale I",
+        name: "Studium Generale I (2.5 ECTS)",
         packageOptions: [186570]
     },
     186575: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
-        name: "VWL II",
+        name: "VWL II (2.5 ECTS)",
         packageOptions: [186570]
     },
     186576: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
-        name: "Recht II",
+        name: "Recht II (2.5 ECTS)",
         packageOptions: [186570]
     },
     186577: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
-        name: "Methoden II",
+        name: "Methoden II (2.5 ECTS)",
         packageOptions: [186570]
     },
     186578: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
-        name: "Studium Generale II",
+        name: "Studium Generale II (2.5 ECTS)",
         packageOptions: [186570]
     },
     186441: {
