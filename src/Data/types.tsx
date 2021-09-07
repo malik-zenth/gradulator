@@ -11,7 +11,6 @@ export interface BasicInformation {
     emphasis: Emphasis[] | null,
     semesterChoices?: Object,
     elevtive?: Electives[]
-
 }
 
 export interface iElevativeSettupType{
@@ -34,7 +33,6 @@ export interface ElectivesWithOptions {
     examid: number,
     emphasisid?: number,
     emphasis_elevtive?: boolean,
-    elevative_elevative?: boolean,
     multiOption?: boolean,
     choiseID?: number,
     inputGrades: UserInput[],
@@ -48,7 +46,6 @@ export interface Electives {
     examid: number,
     emphasisid?: number,
     emphasis_elevtive?: boolean,
-    elevative_elevative?: boolean,
     multiOption?: boolean,
     options?: AlternativeElectives[]
     choiseID?: number
