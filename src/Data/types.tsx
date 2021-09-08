@@ -43,6 +43,7 @@ export interface ElectivesWithOptions {
 export interface Electives {
     ids?: number[],
     required?: number,
+    requiredEcts?: number,
     examid: number,
     emphasisid?: number,
     emphasis_elevtive?: boolean,

@@ -75,6 +75,13 @@ describe("test all available data", () => {
             test("if elevative data is valid", () => {
                 single.data.basics.elevtive && single.data.basics.elevtive.map(singleElevative => {
                     expect(singleElevative.examid).toBeDefined()
+                    if (singleElevative.requiredEcts){
+                        expect(singleElevative.multiOption).not.toBeDefined()
+                        expect(singleElevative.required).not.toBeDefined()
+                    }
+                    if (singleElevative.required){
+                        expect(singleElevative.requiredEcts).not.toBeDefined()
+                    }
                     if (!singleElevative.emphasis_elevtive) {
                         expect(single.data.examPackages[singleElevative.examid]).toBeDefined()
                         if (!singleElevative.options) {

@@ -51,5 +51,6 @@ export interface MissingElevtivesEmphasis{
 // single missing package
 export interface MissingElevtiveEmphasis{
     exams: Exam[],
-    amoundMissing: number
+    amoundMissing: number,
+    missingECTS?: boolean
 }

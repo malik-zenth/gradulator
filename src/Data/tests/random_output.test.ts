@@ -25,7 +25,7 @@ describe("test if we get an result", () => {
     const amoundRandomRuns: number = 2000
     const lenOptions: number = options.length
 
-    for(var i: number= 1; i < amoundRandomRuns; i++){
+    for(var i: number= 0; i < amoundRandomRuns; i++){
         // get a random option from the list
         const randomOption = options[Math.floor(Math.random() * lenOptions)]
         test("if " + randomOption.longName + " is working the way it should", () => {

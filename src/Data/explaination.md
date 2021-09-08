@@ -67,6 +67,7 @@ Hierfür wird an der einzelnen Prüfung die ID angegeben und dieser ID ein Name 
 ```
     ids?: number[],
     required?: number,
+    requiredEcts?: number,
     examid: number,
     emphasisid?: number,
     emphasis_elevtive?: boolean,
@@ -79,6 +80,10 @@ Hierfür wird an der einzelnen Prüfung die ID angegeben und dieser ID ein Name 
 **ids** -> Alle Prüfungsnummern (Nicht Modulprüfungsnummern), welche für das Wahlfach benötigt werden
 
 **required** -> Anzahl an benötigten Prüfungen für das Wahlfach 
+
+**requiredEcts** -> In einigen Fällen wird nicht eine Anzahl an Prüfungen, sondern eine gewisse Anzahl an ECTS benötigt. Ist dies der Fall hierfür einfach die ECTS eintragen und 
+für required nichts eintragen.
+Wichtig: Aktuell wird die Kombination requiredECTS und multiOption nicht unterstützt. Wenn dies benötigt wird muss dies erst noch hinzugefügt werden. ChoiseID wird hingegen unterstützt.
 
 **examid** -> Nummer der Modulprüfung für dieses Wahlfach (Das Wahlfach muss im Gegensatz zum Schwerpunkt ebenfalls als Modulprüfung angelegt werden)
 

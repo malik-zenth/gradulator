@@ -16,7 +16,7 @@ export const calculateData = (inputGrades: UserInput[], selectedOption: SingleOp
     // bevor calculating the averages remove not required elevative grades
     if (selectedOption.basics.elevtive) {
         var { removedElevtive, missingElevtiveGradesEmphasis } = removeElevtiveGrades(
-            gradePackages, selectedOption.basics.elevtive, selectedOption.exams, inputGrades)
+            gradePackages, selectedOption.basics.elevtive, selectedOption.exams)
     }
     // check which packages are incomplete
     const incompletePackages: IncompletePackages[] = checkIncompletePackes(gradePackages, selectedOption.examPackages, selectedOption.exams, selectedOption.basics.elevtive, inputGrades)
@@ -151,75 +151,30 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
                 const elevative_package: Electives[] = elevative.filter(x => x.examid == parseInt(singlePackage))
                 // if elevative has multiple options use special logic to detect if something is missing
                 if (elevative_package[0].options) {
-                    let takenOption: AlternativeElectives
-                    // find out which alternative is selected
-                    const completedExams: number[] = inputPackages[singlePackage].map(x => x.examID)
-                    elevative_package[0].options.forEach(option => {
-                        if (option.ids.some(id => completedExams.includes(id))) takenOption = option
-                    })
-                    const completedFromTakenOption = inputPackages[singlePackage].filter((input) => takenOption.ids.includes(input.examID))
-                    // if is is an option item apply special logic
-                    if (takenOption && takenOption.optionId) {
-                        const optionsWithSameOptionID = elevative_package[0].options.filter(x => x.optionId === takenOption.optionId).map(x => {
-                            return ({
-                                ...x,
-                                leftRequired: x.required
-                            })
-                        })
-                        completedExams.map(examID => {
-                            optionsWithSameOptionID.forEach(option => {
-                                if(option.leftRequired != 0 && option.ids.includes(examID)){
-                                    option.leftRequired -=1
-                                }
-                            })
-                        })
-                        const notCompletedIds = optionsWithSameOptionID.filter(x => x.leftRequired != 0)
-                        if(notCompletedIds.length != 0){
-                            var achived_weight: number = 0
-                            const completedWithSameOptionID = optionsWithSameOptionID.filter(x => x.leftRequired === 0)
-                            const completedWeight = inputPackages[singlePackage].filter((input) => completedWithSameOptionID.some(x => x.ids.includes(input.examID))) 
-                            completedWeight.map(x => {
-                                achived_weight += x.weight
-                            })
-                            const missingIds: number[] = []
-                            notCompletedIds.forEach(x => missingIds.push(...x.ids))
-                            incompletePackages.push({
-                                missingElevtiveGrades: {
-                                    amoundMissing: notCompletedIds.map(x => x.leftRequired).reduce((a, b) => a+b, 0),
-                                    exams: missingIds.map(x => examData[x])
-                                },
-                                missing: [],
-                                complete: false,
-                                completeness: Math.round((achived_weight / gradePackages[elevative_package[0].examid].weight) * 100),
-                                gradePackageID: parseInt(singlePackage)
-                            })
-                        }
-                    }
-                    else if (takenOption && completedFromTakenOption.length < takenOption.required) {
-                        const notCompletedFromTakenOption = takenOption.ids.filter(id => !inputPackages[singlePackage].some((x) => x.examID === id))
-                        var achived_weight: number = 0
-                        completedFromTakenOption.map(x => {
-                            achived_weight += x.weight
-                        })
-                        const missingGradesElevative: Exam[] = []
-                        Object.keys(examData).forEach((key) => notCompletedFromTakenOption.includes(parseInt(key)) && missingGradesElevative.push(examData[key]))
+                    const incompletePackagesToBeAdded = checkIncompleteElectiveOption(inputPackages, singlePackage, elevative_package, examData, gradePackages)
+                    incompletePackages.push(...incompletePackagesToBeAdded)
+                }
+                else if (elevative_package[0].requiredEcts){
+                    const achivedECTS = inputPackages[singlePackage].map(x => examData[x.examID].ects).reduce((a, b) => a+b, 0)
+                    // if their are less ects achived than required add it to incomplete
+                    if(achivedECTS < elevative_package[0].requiredEcts){
                         incompletePackages.push({
                             missingElevtiveGrades: {
-                                amoundMissing: takenOption.required - completedFromTakenOption.length,
-                                exams: missingGradesElevative
+                                amoundMissing: elevative_package[0].requiredEcts - achivedECTS,
+                                // if this param is true an different text will be displayed for missing grades
+                                missingECTS: true,
+                                exams: missingGrades.filter(single => !inputGrades.some(grade => grade.examid === single.examid))
                             },
                             missing: [],
                             complete: false,
-                            completeness: Math.round((achived_weight / gradePackages[elevative_package[0].examid].weight) * 100),
+                            completeness: Math.round((achivedECTS / elevative_package[0].requiredEcts) * 100),
                             gradePackageID: parseInt(singlePackage)
                         })
                     }
-
                 }
-
                 // if their are missing packages, but the amound of required once is reached do nothing
                 // if not, add this to incomplete onces
-                else if (inputPackages[singlePackage].length < elevative_package[0].required) {
+                else if (inputPackages[singlePackage].length < elevative_package[0].required && !elevative_package[0].requiredEcts) {
                     var achived_weight: number = 0
                     inputPackages[singlePackage].map(x => {
                         achived_weight += x.weight
@@ -241,6 +196,55 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
         }
 
     })
+    return incompletePackages
+}
+
+const checkIncompleteElectiveOption = (inputPackages: GradePackages, singlePackage: string, elevative_package: Electives[], examData: Exams, gradePackages: ExamPackages): IncompletePackages[] => {
+    const incompletePackages: IncompletePackages[] = []
+    let takenOption: AlternativeElectives
+    // find out which alternative is selected
+    const completedExams: number[] = inputPackages[singlePackage].map(x => x.examID)
+    elevative_package[0].options.forEach(option => {
+        if (option.ids.some(id => completedExams.includes(id))) takenOption = option
+    })
+    const completedFromTakenOption = inputPackages[singlePackage].filter((input) => takenOption.ids.includes(input.examID))
+    // if is is an option item apply special logic
+    if (takenOption && takenOption.optionId) {
+        const optionsWithSameOptionID = elevative_package[0].options.filter(x => x.optionId === takenOption.optionId).map(x => {
+            return ({
+                ...x,
+                leftRequired: x.required
+            })
+        })
+        completedExams.map(examID => {
+            optionsWithSameOptionID.forEach(option => {
+                if (option.leftRequired != 0 && option.ids.includes(examID)) {
+                    option.leftRequired -= 1
+                }
+            })
+        })
+        const notCompletedIds = optionsWithSameOptionID.filter(x => x.leftRequired != 0)
+        if (notCompletedIds.length != 0) {
+            var achived_weight: number = 0
+            const completedWithSameOptionID = optionsWithSameOptionID.filter(x => x.leftRequired === 0)
+            const completedWeight = inputPackages[singlePackage].filter((input) => completedWithSameOptionID.some(x => x.ids.includes(input.examID)))
+            completedWeight.map(x => {
+                achived_weight += x.weight
+            })
+            const missingIds: number[] = []
+            notCompletedIds.forEach(x => missingIds.push(...x.ids))
+            incompletePackages.push({
+                missingElevtiveGrades: {
+                    amoundMissing: notCompletedIds.map(x => x.leftRequired).reduce((a, b) => a + b, 0),
+                    exams: missingIds.map(x => examData[x])
+                },
+                missing: [],
+                complete: false,
+                completeness: Math.round((achived_weight / gradePackages[elevative_package[0].examid].weight) * 100),
+                gradePackageID: parseInt(singlePackage)
+            })
+        }
+    }
     return incompletePackages
 }
 

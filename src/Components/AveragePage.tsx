@@ -145,7 +145,8 @@ class AveragePage extends React.Component<IProps, IState> {
     if(elevtives){
       return(
         <div>
-        <p>{numToWord(elevtives.amoundMissing, {indefinite_eine: true})} der folgenden Wahlfachnoten fehlt noch:</p>
+        {!elevtives.missingECTS && <p>{numToWord(elevtives.amoundMissing, {indefinite_eine: true})} der folgenden Wahlfachnoten fehlt noch:</p>}
+        {elevtives.missingECTS && <p>{elevtives.amoundMissing} ECTS aus folgenden Wahlfächern fehlen noch:</p>}
           {elevtives.exams.map((missing: Exam) => {
             return <li key={keyGenerator()}>{missing.name}</li>;
           })}
