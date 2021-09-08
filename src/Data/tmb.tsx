@@ -503,14 +503,14 @@ const tmb_exams: Exams = {
         weight: 5,
         name: "Arabisch im Alltag, A1.2",
         packageOptions: [186400, 186580],
-        semester_choise: 2
+        semester_choise: 5
     },
     186471: {
         ects: 5,
         weight: 5,
         name: "Wirtschaftskommunikation Arabisch I, B1",
         packageOptions: [186400, 186580],
-        semester_choise: 2
+        semester_choise: 5
     },
     186641: {
         ects: 5,

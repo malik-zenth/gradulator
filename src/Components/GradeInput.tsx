@@ -422,10 +422,11 @@ const GradeInput = (props: IProps) => {
         ]}
       >
         <p>Einzelne der von dir eingegebenen Noten können mehreren Modulprüfungen zugeordnet werden.
-          Du hast die Möglichkeit die Noten manuell zuzuordnen, solltest du wissen,
-          für welche Modulprüfung du die Kurse besucht hast.<br></br> <br></br>
-          Wenn du dies nicht machst wird versucht die Noten bestmöglichst den Modulprüfungen zuzuordnen. In der Regel sollte dies keinen Einfluss auf deinen
-          finalen Schnitt haben. Beachte jedoch, dass doppelte oder dem Durchschnitt schadende Zuordnungen nicht korrigiert werden.
+          Du hast die Möglichkeit diese Noten manuell einer Modulprüfung zuzuordnen, solltest du wissen,
+          für welche du die Kurse besucht hast.<br></br> <br></br>
+          Du kannst auch nur einzelne oder keine Noten einzelnen Modulprüfungen zuordnen. Wenn du dies nicht machst wird versucht die Noten bestmöglichst den Modulprüfungen 
+          zuzuordnen. In der Regel sollte dies keinen Einfluss auf deinen finalen Schnitt haben. Beachte jedoch, 
+          dass doppelte oder dem Durchschnitt schadende Zuordnungen nicht korrigiert werden.
         </p>
         <Form form={multiOptionForm} initialValues={detailsInitialValues}>
           {renderDetailsForm()}
