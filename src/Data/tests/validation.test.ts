@@ -41,12 +41,13 @@ describe("test all available data", () => {
                             console.log(examid)
                         }
                         expect(single.data.exams[examid]).toBeDefined()
-                        if (!single.data.exams[examid].semester_choise) {
-                            expect(single.data.exams[examid].packageid).toBe(parseFloat(examPackage))
-                        }
-                        else {
+                        if(!single.data.exams[examid].packageid){
                             expect(single.data.exams[examid].packageOptions).toBeDefined()
                             expect(single.data.exams[examid].packageOptions).toContain(parseFloat(examPackage))
+                        }
+                        else{
+                            expect(single.data.exams[examid].packageid).toBeDefined()
+                            expect(single.data.exams[examid].packageid).toBe(parseFloat(examPackage))
                         }
                         if (!single.data.exams[examid].ignored) {
                             expect(single.data.exams[examid].weight).toBeGreaterThan(0)

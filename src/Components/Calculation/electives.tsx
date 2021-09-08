@@ -1,4 +1,4 @@
-import { Exams, UserInput, SingleOption, Electives, Exam, iElevativeSettupType, ElectivesWithOptions, NotCompletedElectives, AlternativeElectives } from "../../Data/types";
+import { Exams, UserInput, SingleOption, Electives, Exam, iElevativeSettupType, ElectivesWithOptions, NotCompletedElectives, AlternativeElectives, AlternativeElectivesWithLeftRequired } from "../../Data/types";
 import { GradePackage, GradePackages, MissingElevtivesEmphasis, ElectiveOptionReturnType } from "./types"
 import { sortGradePackageByGrade, cutGrade, sortUserInputByGrade } from "./helper";
 
@@ -18,7 +18,7 @@ const setupElevativeChoices = (inputGrades: UserInput[], selectedOption: SingleO
     // check if their are multiOptions, if so check if a grade for one of them is given
     if (checkIfELevativeChoiceGradesAreGiven(inputGrades, selectedOption)) {
         // do this for each choiseID
-        const multiOptionElevatives = selectedOption.basics.elevtive.filter(single => single.choiseID)
+        const multiOptionElevatives: Electives[] = selectedOption.basics.elevtive.filter(single => single.choiseID)
         const choiseIds: iElevativeSettupType[] = multiOptionElevatives.map(single => {
             return { id: single.choiseID, multiOption: single.multiOption }
         })
@@ -284,8 +284,7 @@ const checkElevitveAlternative = (gradePackages: GradePackages, elective: Electi
 
     const removedElevtive: GradePackage[] = []
     const sortedGradesElevatives: GradePackage[] = sortGradePackageByGrade(gradePackages[elective.examid])
-    // we deep copy this in order to compare later and not edit default object
-    let alternatives = elective.options.map(single => {
+    let alternatives: AlternativeElectivesWithLeftRequired[] = elective.options.map(single => {
         return ({
             ...single,
             // we add param left required, so we can check later for % of completness
@@ -308,104 +307,134 @@ const checkElevitveAlternative = (gradePackages: GradePackages, elective: Electi
     })
     // Option one -> only one is completed
     if (completedOptions.length === 1 && !completedOptions[0].optionId) {
-        sortedGradesElevatives.forEach(gradePackage => {
-            if (!completedOptions[0].ids.includes(gradePackage.examID)) {
-                removedElevtive.push(gradePackage)
-            }
-        })
-        if (completedOptions[0].ids.length > completedOptions[0].required) {
-            const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptions[0].ids.includes(single.examID))
-            relevantExamIDs = examsForCompleted.slice(0, completedOptions[0].required).map(x => x.examID)
-            removedElevtive.push(...examsForCompleted.slice(completedOptions[0].required, examsForCompleted.length))
-        }else{
-            const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptions[0].ids.includes(single.examID))
-            relevantExamIDs = examsForCompleted.map(x => x.examID)
-        }
+        const returnValues =  electiveAlternativeOneCompleted(sortedGradesElevatives, completedOptions, relevantExamIDs)
+        relevantExamIDs = returnValues.relevantExamIDs
+        removedElevtive.push(...returnValues.removedElevtive)
     }
     // Option two -> None is completed (we take the one with the most %)
     else if (completedOptions.length === 0) {
-        const sortedOptionsWithCompletness = alternatives.map(single => {
-            return ({
-                ...single,
-                missing: single.leftRequired / single.required
-            })
-        }).sort((a, b) => a.missing < b.missing ? -1 : a.missing > b.missing ? 1 : 0)
-        sortedGradesElevatives.forEach(gradePackage => {
-            if (!sortedOptionsWithCompletness[0].ids.includes(gradePackage.examID)) {
-                removedElevtive.push(gradePackage)
-            }
-        })
-        sortedOptionsWithCompletness.forEach(x => {
-            const gradesForThisPackage = sortedGradesElevatives.filter(grade => x.ids.includes(grade.examID))
-            if (gradesForThisPackage.length > x.required) {
-                removedElevtive.push(...gradesForThisPackage.slice(x.required, gradesForThisPackage.length))
-            }
-        })
-        relevantExamIDs = sortedOptionsWithCompletness[0].ids
+        const returnValues = electiveAlternativeNonCompleted(alternatives, sortedGradesElevatives, relevantExamIDs)
+        relevantExamIDs = returnValues.relevantExamIDs
+        removedElevtive.push(...returnValues.removedElevtive)
     }
     // Option three -> Multiple are completed (we take the one with the best grade)
     else if (completedOptions.length > 1) {
-        const completedOptionsWithGrade = completedOptions.map((option) => {
-            return ({
-                ...option,
-                grade: 0,
-                weight: 0,
-                leftRequired: option.required,
-                relevantIds: []
-            }
-            )
-        })
-        sortedGradesElevatives.forEach(gradePackage => {
-            completedOptionsWithGrade.forEach((option) => {
-                if (option.ids.includes(gradePackage.examID) && option.leftRequired != 0) {
-                    option.grade += gradePackage.weight * gradePackage.grade,
-                        option.weight += gradePackage.weight,
-                        option.leftRequired -= 1,
-                        option.relevantIds.push(gradePackage.examID)
-                }
-            })
-        })
-        completedOptionsWithGrade.sort((a, b) => a.grade / a.weight < b.grade / b.weight ? -1 : a.grade / a.weight > b.grade / b.weight ? 1 : 0)
-        // if best grade is one where multiple are required apply special logic
-        if (completedOptionsWithGrade[0].optionId) {
-            const optionID: number = completedOptionsWithGrade[0].optionId
-            const completedOptionsWithOptionID = completedOptionsWithGrade.filter(x => x.optionId === optionID)
-            sortedGradesElevatives.forEach(gradePackage => {
-                if (!completedOptionsWithOptionID.some(x => x.ids.includes(gradePackage.examID))) {
-                    removedElevtive.push(gradePackage)
-                }
-            })
-            completedOptionsWithOptionID.forEach(x => {
-                if (x.ids.length > x.required) {
-                    const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => x.ids.includes(single.examID))
-                    relevantExamIDs.push(...examsForCompleted.slice(0, x.required).map(x => x.examID))
-                    removedElevtive.push(...examsForCompleted.slice(x.required, examsForCompleted.length))
-                }
-            })
-        }
-        else {
-            sortedGradesElevatives.forEach(gradePackage => {
-                if (!completedOptionsWithGrade[0].ids.includes(gradePackage.examID)) {
-                    removedElevtive.push(gradePackage)
-                }
-            })
-            if (completedOptionsWithGrade[0].ids.length > completedOptionsWithGrade[0].required) {
-                const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptionsWithGrade[0].ids.includes(single.examID))
-                relevantExamIDs = examsForCompleted.slice(0, completedOptionsWithGrade[0].required).map(x => x.examID)
-                removedElevtive.push(...examsForCompleted.slice(completedOptionsWithGrade[0].required, examsForCompleted.length))
-            }
-            else{
-                const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptionsWithGrade[0].ids.includes(single.examID))
-                relevantExamIDs = examsForCompleted.map(x => x.examID)
-            }
-        }
+        const returnValues = electiveAlternativeMultipleCompleted(sortedGradesElevatives, completedOptions, relevantExamIDs)
+        relevantExamIDs = returnValues.relevantExamIDs
+        removedElevtive.push(...returnValues.removedElective)
     }
-
     const newGradePackage = sortedGradesElevatives.filter(single => relevantExamIDs.includes(single.examID) && !removedElevtive.some(x => x.examID === single.examID))
     return {
         electiveToBeRemoved: removedElevtive,
         newGradePackage: newGradePackage
     }
+}
+
+const electiveAlternativeNonCompleted = (alternatives: AlternativeElectivesWithLeftRequired[], sortedGradesElevatives: GradePackage[], relevantExamIDs: number[]) => {
+    const removedElevtive: GradePackage[] = []
+    const sortedOptionsWithCompletness = alternatives.map(single => {
+        return ({
+            ...single,
+            missing: single.leftRequired / single.required
+        })
+    }).sort((a, b) => a.missing < b.missing ? -1 : a.missing > b.missing ? 1 : 0)
+    sortedGradesElevatives.forEach(gradePackage => {
+        if (!sortedOptionsWithCompletness[0].ids.includes(gradePackage.examID)) {
+            removedElevtive.push(gradePackage)
+        }
+    })
+    sortedOptionsWithCompletness.forEach(x => {
+        const gradesForThisPackage = sortedGradesElevatives.filter(grade => x.ids.includes(grade.examID))
+        if (gradesForThisPackage.length > x.required) {
+            removedElevtive.push(...gradesForThisPackage.slice(x.required, gradesForThisPackage.length))
+        }
+    })
+    relevantExamIDs = sortedOptionsWithCompletness[0].ids
+    return({
+        removedElevtive, relevantExamIDs
+    })
+}
+
+const electiveAlternativeOneCompleted = (sortedGradesElevatives: GradePackage[], completedOptions: AlternativeElectives[], relevantExamIDs: number[]) => {
+    const removedElevtive: GradePackage[] = []
+    sortedGradesElevatives.forEach(gradePackage => {
+        if (!completedOptions[0].ids.includes(gradePackage.examID)) {
+            removedElevtive.push(gradePackage)
+        }
+    })
+    if (completedOptions[0].ids.length > completedOptions[0].required) {
+        const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptions[0].ids.includes(single.examID))
+        relevantExamIDs = examsForCompleted.slice(0, completedOptions[0].required).map(x => x.examID)
+        removedElevtive.push(...examsForCompleted.slice(completedOptions[0].required, examsForCompleted.length))
+    }else{
+        const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptions[0].ids.includes(single.examID))
+        relevantExamIDs = examsForCompleted.map(x => x.examID)
+    }
+    return({
+        relevantExamIDs, removedElevtive
+    })
+}
+
+const electiveAlternativeMultipleCompleted = (sortedGradesElevatives: GradePackage[], completedOptions: AlternativeElectives[], relevantExamIDs: number[]) => {
+    const removedElective: GradePackage[] = []
+    const completedOptionsWithGrade = completedOptions.map((option) => {
+        return ({
+            ...option,
+            grade: 0,
+            weight: 0,
+            leftRequired: option.required,
+            relevantIds: []
+        }
+        )
+    })
+    sortedGradesElevatives.forEach(gradePackage => {
+        completedOptionsWithGrade.forEach((option) => {
+            if (option.ids.includes(gradePackage.examID) && option.leftRequired != 0) {
+                option.grade += gradePackage.weight * gradePackage.grade,
+                    option.weight += gradePackage.weight,
+                    option.leftRequired -= 1,
+                    option.relevantIds.push(gradePackage.examID)
+            }
+        })
+    })
+    completedOptionsWithGrade.sort((a, b) => a.grade / a.weight < b.grade / b.weight ? -1 : a.grade / a.weight > b.grade / b.weight ? 1 : 0)
+    // if best grade is one where multiple are required apply special logic
+    if (completedOptionsWithGrade[0].optionId) {
+        const optionID: number = completedOptionsWithGrade[0].optionId
+        const completedOptionsWithOptionID = completedOptionsWithGrade.filter(x => x.optionId === optionID)
+        sortedGradesElevatives.forEach(gradePackage => {
+            if (!completedOptionsWithOptionID.some(x => x.ids.includes(gradePackage.examID))) {
+                removedElective.push(gradePackage)
+            }
+        })
+        completedOptionsWithOptionID.forEach(x => {
+            if (x.ids.length > x.required) {
+                const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => x.ids.includes(single.examID))
+                relevantExamIDs.push(...examsForCompleted.slice(0, x.required).map(x => x.examID))
+                removedElective.push(...examsForCompleted.slice(x.required, examsForCompleted.length))
+            }
+        })
+    }
+    else {
+        sortedGradesElevatives.forEach(gradePackage => {
+            if (!completedOptionsWithGrade[0].ids.includes(gradePackage.examID)) {
+                removedElective.push(gradePackage)
+            }
+        })
+        if (completedOptionsWithGrade[0].ids.length > completedOptionsWithGrade[0].required) {
+            const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptionsWithGrade[0].ids.includes(single.examID))
+            relevantExamIDs = examsForCompleted.slice(0, completedOptionsWithGrade[0].required).map(x => x.examID)
+            removedElective.push(...examsForCompleted.slice(completedOptionsWithGrade[0].required, examsForCompleted.length))
+        }
+        else{
+            const examsForCompleted: GradePackage[] = sortedGradesElevatives.filter(single => completedOptionsWithGrade[0].ids.includes(single.examID))
+            relevantExamIDs = examsForCompleted.map(x => x.examID)
+        }
+    }
+    return({
+        removedElective, relevantExamIDs
+    }
+    )
 }
 
 const removeElevtiveGrades = (gradePackages: GradePackages, elevatives: Electives[], exams: Exams, inputGrades: UserInput[]) => {

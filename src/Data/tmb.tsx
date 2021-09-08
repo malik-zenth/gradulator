@@ -9,9 +9,11 @@ const tmb_basic_data: BasicInformation = {
     required_emphasis: 0,
     emphasis: [],
     semesterChoices: {
-        1: "Tourismus-Schwerpunkte",
+        1: "Wahlfach Tourismusmanagement",
         2: "Wahlfach Auslandssemester",
-        3: "BWL-Spezialisierungen II. Teil"
+        5: "Wahlfach Englisch und Sprachen",
+        4: "BWL-Spezialisierungen II. Teil",
+        3: "BWL-Spezialisierungen I. Teil",
     },
     elevtive: [
         {
@@ -91,7 +93,7 @@ const tmb_basic_data: BasicInformation = {
         },
         {
             // I3
-            ids: [186531, 186532, 186533, 186534, 186535, 186536, 186551, 186552, 186553, 186554, 186441, 186471, 186641, 186671, 186741, 186771, 186841, 186871],
+            ids: [186531, 186532, 186533, 186534, 186535, 186536, 186551, 186552, 186553, 186554, 186432,186462,186632,186662,186732,186762,186832,186862],
             required: 1,
             examid: 186550,
             multiOption: true,
@@ -406,35 +408,35 @@ const tmb_exams: Exams = {
         packageid: 186540
     },
     186311: {
-        semester_choise: 2,
+        semester_choise: 3,
         ects: 5,
         weight: 5,
         name: "International Financial & Management Accounting",
         packageOptions: [186560, 186400]
     },
     186321: {
-        semester_choise: 2,
+        semester_choise: 3,
         ects: 5,
         weight: 5,
         name: "International Finance",
         packageOptions: [186560, 186400]
     },
     186331: {
-        semester_choise: 2,
+        semester_choise: 3,
         ects: 5,
         weight: 5,
         name: "International Human Resource Management",
         packageOptions: [186560, 186400]
     },
     186341: {
-        semester_choise: 2,
+        semester_choise: 3,
         ects: 5,
         weight: 5,
         name: "International Management",
         packageOptions: [186560, 186400]
     },
     186351: {
-        semester_choise: 2,
+        semester_choise: 3,
         ects: 5,
         weight: 5,
         name: "International Marketing",
@@ -500,57 +502,57 @@ const tmb_exams: Exams = {
         ects: 5,
         weight: 5,
         name: "Arabisch im Alltag, A1.2",
-        packageOptions: [186400, 186580, 186550],
+        packageOptions: [186400, 186580],
         semester_choise: 2
     },
     186471: {
         ects: 5,
         weight: 5,
         name: "Wirtschaftskommunikation Arabisch I, B1",
-        packageOptions: [186400, 186580, 186550],
+        packageOptions: [186400, 186580],
         semester_choise: 2
     },
     186641: {
         ects: 5,
         weight: 5,
         name: "Russisch im Alltag A1.2",
-        packageOptions: [186400, 186580, 186550],
-        semester_choise: 2
+        packageOptions: [186400, 186580],
+        semester_choise: 5
     },
     186671: {
         ects: 5,
         weight: 5,
         name: "Wirtschaftskommunikation Russisch I, B1",
-        packageOptions: [186400, 186580, 186550],
-        semester_choise: 2
+        packageOptions: [186400, 186580],
+        semester_choise: 5
     },
     186741: {
         ects: 5,
         weight: 5,
         name: "Français professionnel II, B1",
-        packageOptions: [186400, 186580, 186550],
-        semester_choise: 2
+        packageOptions: [186400, 186580],
+        semester_choise: 5
     },
     186771: {
         ects: 5,
         weight: 5,
         name: "Langue et civilisation II, B2",
-        packageOptions: [186400, 186580, 186550],
-        semester_choise: 2
+        packageOptions: [186400, 186580],
+        semester_choise: 5
     },
     186841: {
         ects: 5,
         weight: 5,
         name: "El Español de la Empresa III, A2",
-        packageOptions: [186400, 186580, 186550],
-        semester_choise: 2
+        packageOptions: [186400, 186580],
+        semester_choise: 5
     },
     186871: {
         ects: 5,
         weight: 5,
         name: "El Español de los Negocios I, B2",
-        packageOptions: [186400, 186580, 186550],
-        semester_choise: 2
+        packageOptions: [186400, 186580],
+        semester_choise: 5
     },
     186131: {
         ects: 5,
@@ -616,291 +618,347 @@ const tmb_exams: Exams = {
         packageid: 186520
     },
     186901: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Business English I, B1",
         packageOptions: [186570, 186530]
     },
     186902: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Business English II, B1",
         packageOptions: [186570, 186530]
     },
     186911: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Business English I, B2",
         packageOptions: [186570, 186530]
     },
     186912: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Business English II, B2",
         packageOptions: [186570, 186530]
     },
     186921: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Business Communication I, B1/B2",
         packageOptions: [186570, 186530]
     },
     186922: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Business Communication II, B1/B2",
         packageOptions: [186570, 186530]
     },
     186931: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Business Communication I, B2/C1",
         packageOptions: [186570, 186530]
     },
     186932: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Business Communication II, B2/C1",
         packageOptions: [186570, 186530]
     },
     186951: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "English Language and Culture I, C1",
         packageOptions: [186570, 186530]
     },
     186952: {
-        semester_choise: 2,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "English Language and Culture II, C1",
         packageOptions: [186570, 186530]
     },
     186312: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Consolidated Financial Statements",
         packageid: 186540
     },
     186314: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Taxes",
         packageid: 186540
     },
     186315: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Management Accounting for Services",
         packageid: 186540
     },
     186316: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Strategic Management Accounting",
         packageid: 186540
     },
     186317: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Functional Management Accounting",
         packageid: 186540
     },
     186318: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "IT-Tools",
         packageid: 186540
     },
     186319: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Mergers and Acquisitions",
         packageid: 186540
     },
     186322: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Derivatives",
         packageid: 186540
     },
     186323: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Corporate Finance",
         packageid: 186540
     },
     186324: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Financial Risk Management",
         packageid: 186540
     },
     186325: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Specific Issues in Finance",
         packageid: 186540
     },
     186332: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Specific Issues in International Human Resource Management",
         packageid: 186540
     },
     186333: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Employment Law",
         packageid: 186540
     },
     186334: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "International Human Resource Management Case Studies",
         packageid: 186540
     },
     186342: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Change Management",
         packageid: 186540
     },
     186343: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Specific Issues in International Management",
         packageid: 186540
     },
     186344: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Global Leadership",
         packageid: 186540
     },
     186352: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "B2C-Marketing",
         packageid: 186540
     },
     186353: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "B2B-Marketing",
         packageid: 186540
     },
     186354: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Service Marketing",
         packageid: 186540
     },
     186355: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "E-Marketing",
         packageid: 186540
     },
     186356: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Market Research",
         packageid: 186540
     },
     186357: {
-        semester_choise: 3,
+        semester_choise: 4,
         ects: 2.5,
         weight: 2.5,
         name: "Specific Isuses in International Marketing",
         packageid: 186540
     },
     186431: {
-        semester: 3,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Arabische Sprache I A1.1",
         packageid: 186530
     },
     186461: {
-        semester: 3,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Allgemeine Sprache und Wirtschaftsarabisch I, B1",
         packageid: 186530
     },
     186631: {
-        semester: 3,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Russische Sprache I, A1.1",
         packageid: 186530
     },
     186661: {
-        semester: 3,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Allgemeine Sprache und Wirtschaftsrussisch I, B1",
         packageid: 186530
     },
     186731: {
-        semester: 3,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Français de l'entreprise, A2",
         packageid: 186530
     },
     186761: {
-        semester: 3,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "Français professionnel II, B1",
         packageid: 186530
     },
     186831: {
-        semester: 3,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "El Español de la Empresa I, A1",
         packageid: 186530
     },
     186861: {
-        semester: 3,
+        semester_choise: 5,
         ects: 2.5,
         weight: 2.5,
         name: "El Español Profesional I, B1",
         packageid: 186530
+    },
+    186432: {
+        semester_choise: 5,
+        ects: 5,
+        weight: 5,
+        name: "Arabische Sprache II, A1.2",
+        packageid: 186550
+    },
+    186462: {
+        semester_choise: 5,
+        ects: 5,
+        weight: 5,
+        name: "Allgemeine Sprache und Wirtschaftsarabisch II, B1",
+        packageid: 186550
+    },
+    186632: {
+        semester_choise: 5,
+        ects: 5,
+        weight: 5,
+        name: "Russische Sprache II, A1.2",
+        packageid: 186550
+    },
+    186662: {
+        semester_choise: 5,
+        ects: 5,
+        weight: 5,
+        name: "Allgemeine Sprache und Wirtschaftsrussisch II, B1",
+        packageid: 186550
+    },
+    186732: {
+        semester_choise: 5,
+        ects: 5,
+        weight: 5,
+        name: "Français professionnel I, A2/B1",
+        packageid: 186550
+    },
+    186762: {
+        semester_choise: 5,
+        ects: 5,
+        weight: 5,
+        name: "Langue et civilisation I, B1/B2",
+        packageid: 186550
+    },
+    186832: {
+        semester_choise: 5,
+        ects: 5,
+        weight: 5,
+        name: "El Español de la Empresa II, A1/A2",
+        packageid: 186550
+    },
+    186862: {
+        semester_choise: 5,
+        ects: 5,
+        weight: 5,
+        name: "El Español Profesional II, B1/B2",
+        packageid: 186550
     },
 }
 
@@ -939,7 +997,7 @@ const tmb_ExamPackages: ExamPackages = {
     186550: {
         name: "Internationale Spezialisierung 3",
         weight: 5,
-        required: [186531, 186532, 186533, 186534, 186535, 186536, 186551, 186552, 186553, 186554, 186441, 186471, 186641, 186671, 186741, 186771, 186841, 186871]
+        required: [186531, 186532, 186533, 186534, 186535, 186536, 186551, 186552, 186553, 186554, 186432,186462,186632,186662,186732,186762,186832,186862]
     },
     186560: {
         name: "Internationale Spezialisierung 4",

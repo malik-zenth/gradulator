@@ -57,6 +57,14 @@ export interface AlternativeElectives{
     optionId?: number
 }
 
+export interface AlternativeElectivesWithLeftRequired{
+    required: number,
+    ids: number[],
+    optionId?: number,
+    leftRequired: number
+}
+
+
 export interface DetailsModalType{
     examID: string,
     options: string[]

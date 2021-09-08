@@ -1,6 +1,6 @@
 // calculate the average for given grades
-import { ExamPackages, Exams, UserInput, SingleOption, Exam, Emphasis, BasicInformation, CalculationResult, Electives, iElevativeSettupType, ElectivesWithOptions, NotCompletedElectives, AlternativeElectives } from "../../Data/types";
-import { GradePackage, GradePackages, IncompletePackages, GradePackageAverage, CaseReturn, MissingElevtiveEmphasis, MissingElevtivesEmphasis, ElectiveOptionReturnType } from "./types"
+import { ExamPackages, Exams, UserInput, SingleOption, Exam, Emphasis, BasicInformation, CalculationResult, Electives, NotCompletedElectives, AlternativeElectives } from "../../Data/types";
+import { GradePackage, GradePackages, IncompletePackages, GradePackageAverage, CaseReturn, MissingElevtiveEmphasis, MissingElevtivesEmphasis } from "./types"
 import { get_missing, cutGrade, compareArray } from "./helper";
 import { setupElevativeChoices, removeElevtiveGrades } from "./electives";
 
@@ -267,9 +267,6 @@ const calculateAverages = (userGrades: GradePackages, gradePackages: ExamPackage
             points += userGrades[single][index].weight
             grade += userGrades[single][index].weight * userGrades[single][index].grade
         }
-        //if(gradePackages[single].name = "Internationale Spezialisierung 2" && !cutGrade(grade/points)){
-            //console.log(grade, points, userGrades)
-        //}
         averages.push({
             name: gradePackages[single].name,
             weight: gradePackages[single].weight,
@@ -342,8 +339,6 @@ const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: 
             if (missingElevtives && missingElevtives[emphasisOptions[index].emphasisid]) {
                 missingElevtiveGrades = missingElevtives[emphasisOptions[index].emphasisid]
             }
-
-
             emphasis.push({
                 name: "Vertiefung " + emphasisOptions[index].name,
                 weight: emphasisOptions[index].weight,

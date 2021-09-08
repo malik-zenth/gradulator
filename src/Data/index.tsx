@@ -100,6 +100,9 @@ export function mapName(text: string): string {
     else if (text.includes("Verkehrsbetriebswirtschaft und L")) {
         return "VB"
     }
+    else if (text.includes("Tourismus")){
+        return "TMB"
+    }
     else {
         return text
     }
