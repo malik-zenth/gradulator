@@ -8,6 +8,7 @@ import { vb_pv } from "./vb-pv"
 import { mu } from "./mu"
 import { mtl } from "./mtl"
 import { tmb } from "./tmb"
+import { hm } from "./hm";
 
 export const faculties: FacultyOptions[] =  [
     {
@@ -76,6 +77,12 @@ export const options: DegreeOption[] = [
         shortName: "MWI",
         longName: "Wirtschaftsinformatik - Digitale Transformation",
         facultyId: 1
+    },
+    {
+        data: hm,
+        shortName: "HM-B",
+        longName: "Hotel- und Restaurantmanagement",
+        facultyId: 2
     }
 ]
 
@@ -102,6 +109,9 @@ export function mapName(text: string): string {
     }
     else if (text.includes("Tourismus")){
         return "TMB"
+    }
+    else if (text.includes("Hotel-")){
+        return "HM-B"
     }
     else {
         return text

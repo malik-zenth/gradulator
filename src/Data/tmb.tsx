@@ -258,49 +258,49 @@ const tmb_exams: Exams = {
         ects: 5,
         weight: 5,
         name: "VWL II (5 ECTS)",
-        packageOptions: [186580]
+        packageid: 186580
     },
     186582: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
         name: "Recht II (5 ECTS)",
-        packageOptions: [186580]
+        packageid: 186580
     },
     186583: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
         name: "Methoden II (5 ECTS)",
-        packageOptions: [186580]
+        packageid: 186580
     },
     186584: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
         name: "Studium Generale II (5 ECTS)",
-        packageOptions: [186580]
+        packageid: 186580
     },
     186585: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
         name: "Englisch",
-        packageOptions: [186580]
+        packageid: 186580
     },
     186586: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
         name: "Französisch",
-        packageOptions: [186580]
+        packageid: 186580
     },
     186587: {
         semester_choise: 2,
         ects: 5,
         weight: 5,
         name: "Spanisch",
-        packageOptions: [186580]
+        packageid: 186580
     },
     186561: {
         semester_choise: 2,
@@ -447,56 +447,56 @@ const tmb_exams: Exams = {
         ects: 2.5,
         weight: 2.5,
         name: "VWL I (2.5 ECTS)",
-        packageOptions: [186570]
+        packageid: 186570
     },
     186572: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
         name: "Recht I (2.5 ECTS)",
-        packageOptions: [186570]
+        packageid: 186570
     },
     186573: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
         name: "Methoden I (2.5 ECTS)",
-        packageOptions: [186570]
+        packageid: 186570
     },
     186574: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
         name: "Studium Generale I (2.5 ECTS)",
-        packageOptions: [186570]
+        packageid: 186570
     },
     186575: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
         name: "VWL II (2.5 ECTS)",
-        packageOptions: [186570]
+        packageid: 186570
     },
     186576: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
         name: "Recht II (2.5 ECTS)",
-        packageOptions: [186570]
+        packageid: 186570
     },
     186577: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
         name: "Methoden II (2.5 ECTS)",
-        packageOptions: [186570]
+        packageid: 186570
     },
     186578: {
         semester_choise: 2,
         ects: 2.5,
         weight: 2.5,
         name: "Studium Generale II (2.5 ECTS)",
-        packageOptions: [186570]
+        packageid: 186570
     },
     186441: {
         ects: 5,
@@ -987,12 +987,14 @@ const tmb_ExamPackages: ExamPackages = {
     186530: {
         name: "Internationale Spezialisierung 1",
         weight: 5,
-        required: [186531, 186532, 186533, 186534, 186535, 186536]
+        required: [186531, 186532, 186533, 186534, 186535, 186536, 186431, 
+            186461, 186631, 186661, 186731, 186761, 186831, 186861, 186901,186902,186911,186921,186922,186931,186932,186951,186952]
     },
     186540: {
         name: "Internationale Spezialisierung 2",
         weight: 7.5,
-        required: [186541, 186542, 186543]
+        required: [186541, 186542, 186543, 186312,186314,186315,186316,186317,186318,186319, 186322,186323,186324,
+            186325,186332,186333,186334,186342,186343,186344,186352,186353,186354,186355,186356,186357]
     },
     186550: {
         name: "Internationale Spezialisierung 3",

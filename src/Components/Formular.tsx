@@ -37,6 +37,8 @@ interface IState {
   selectedFaculty?: string,
   formOptions: FormOption[];
   facultyOptions: FormOption[]
+  // all FormOptions contains all possible Options, while the formOptions contain the currently displayed
+  // formOptions is the filtered version of allFormOptions, depending on sleected Faculty
   allFormOptions: FormOption[]
   initialValues?: InitialValues;
 }
@@ -90,12 +92,13 @@ class Formular extends React.Component<IProps, IState> {
     // if their is a selected value and it is valid add it as default label and set it as selected
     if (selected && validateName(selected)) {
       const selectedOptionString = isMobile ? selected : getDegreeByName(selected).longName
-      const faculty = this.props.facultyOptions.filter(x => x.facultyId === getDegreeByName(selected).facultyId)[0]
+      const faculty = this.props.facultyOptions.filter(x => x.facultyId === getDegreeByName(selected).facultyId).shift()
+      const filteredFormOptions = this.state.allFormOptions.filter(x => getDegreeByName(x.value).facultyId === faculty.facultyId)
       this.setState({
         initialValues: { select: { value: selected, label: selectedOptionString }, faculty: { value: faculty.facultyId.toString(), label: faculty.longName} },
         selectedOption: selected,
         allFormOptions: selectOptions,
-        formOptions: selectOptions,
+        formOptions: filteredFormOptions,
       });
       return { select: { value: selected, label: selectedOptionString }, faculty: { value: faculty.facultyId.toString(), label: faculty.longName} }
     } else {
@@ -126,12 +129,13 @@ class Formular extends React.Component<IProps, IState> {
       formOptions,
       facultyOptions,
       initialValues,
+      selectedFaculty
     } = this.state;
     // settup all option so antd Form can handle them
     const handleChange = (value: any) => {
       this.setState({ selectedOption: value.value })
       // on change of selectedDegree also reset the current InputGrades
-      this.props.resetInputGradesAndUpdateSelectedDegree(value.value)
+      this.props.resetInputGradesAndUpdateSelectedDegree(value.value, selectedFaculty)
     };
 
     const handleChangeFaculty = (value: any) => {

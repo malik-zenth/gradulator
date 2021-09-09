@@ -245,6 +245,25 @@ const checkIncompleteElectiveOption = (inputPackages: GradePackages, singlePacka
             })
         }
     }
+    // if it is only this one to be completed and no optionId apply normal logic
+    else if(takenOption){
+        const completedExamsForThisOption = completedExams.filter((examID: number) => takenOption.ids.includes(examID))
+        const amountCompletedExams = completedExamsForThisOption.length
+        if(amountCompletedExams < takenOption.required){
+            const achivedWeight: number = completedExamsForThisOption.map(x => examData[x].ects).reduce((a, b) => a + b, 0)
+            const missingExams: Exam[] = takenOption.ids.filter(x => !completedExamsForThisOption.includes(x)).map(x => examData[x])
+            incompletePackages.push({
+                missingElevtiveGrades: {
+                    amoundMissing: takenOption.required - amountCompletedExams,
+                    exams: missingExams
+                },
+                missing: [],
+                complete: false,
+                completeness: Math.round((achivedWeight / gradePackages[elevative_package[0].examid].weight) * 100),
+                gradePackageID: parseInt(singlePackage)
+            })
+        }
+    }
     return incompletePackages
 }
 

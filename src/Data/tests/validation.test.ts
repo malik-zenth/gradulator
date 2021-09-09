@@ -17,19 +17,28 @@ describe("test all available data", () => {
                     if (!single.data.exams[examid].ignored && !(ElvativesInEmphasis.includes(parseInt(packageId)))) {
                         if (!single.data.exams[examid].semester_choise) {
                             expect(single.data.exams[examid].semester).toBeDefined()
-                            expect(single.data.examPackages[packageId]).toBeDefined()
-                            expect(single.data.examPackages[packageId].required.includes(packageId))
                         }
                         else {
                             expect(single.data.basics.semesterChoices[single.data.exams[examid].semester_choise]).toBeDefined()
                         }
-
                         if (single.data.exams[examid].packageOptions) {
                             expect(single.data.exams[examid].packageid).not.toBeDefined()
+                            const elevativeWithThisExam = single.data.basics.elevtive.filter(x => {
+                                if(x.ids && x.ids.includes(parseInt(examid))) return true
+                                if(x.options && x.options.some(x => x.ids.includes(parseInt(examid)))) return true
+                                return false
+                            })
+                            elevativeWithThisExam.forEach(elev => {
+                                expect(elev.multiOption || elev.choiseID).toBeDefined()
+                            })
                             single.data.exams[examid].packageOptions.forEach((option: number) => {
                                 expect(single.data.examPackages[option]).toBeDefined()
                                 expect(single.data.examPackages[option].required.includes(option))
                             })
+                        }
+                        else{
+                            expect(single.data.examPackages[packageId]).toBeDefined()
+                            expect(single.data.examPackages[packageId].required).toContain(parseInt(examid))
                         }
                     }
                 })
@@ -43,6 +52,7 @@ describe("test all available data", () => {
                         expect(single.data.exams[examid]).toBeDefined()
                         if(!single.data.exams[examid].packageid){
                             expect(single.data.exams[examid].packageOptions).toBeDefined()
+                            expect(single.data.exams[examid].packageOptions.length).toBeGreaterThan(1)
                             expect(single.data.exams[examid].packageOptions).toContain(parseFloat(examPackage))
                         }
                         else{
@@ -75,6 +85,9 @@ describe("test all available data", () => {
             test("if elevative data is valid", () => {
                 single.data.basics.elevtive && single.data.basics.elevtive.map(singleElevative => {
                     expect(singleElevative.examid).toBeDefined()
+                    if (singleElevative.multiOption){
+                        expect(singleElevative.choiseID).toBeDefined()
+                    }
                     if (singleElevative.requiredEcts){
                         expect(singleElevative.multiOption).not.toBeDefined()
                         expect(singleElevative.required).not.toBeDefined()

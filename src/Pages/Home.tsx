@@ -23,7 +23,7 @@ interface IProps { }
 // displayFormular -> If Grade Input Formular should be displayed
 // selectedOption -> Selected Degree from GradeInput Formular
 interface IState {
-    selectedDegree?: string
+    selectedDegree?: string,
     inputValues?: UserInput[],
     gradeInput?: UserInput[],
     selectedOption: string,
@@ -369,7 +369,8 @@ class Home extends React.Component<IProps, IState>{
                                         facultyOptions={faculties}
                                         selected={selectedDegree}
                                         inputGrades={inputValues}
-                                        resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
+                                        resetInputGradesAndUpdateSelectedDegree={
+                                            (selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
                                     />
                                 </Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
@@ -388,7 +389,8 @@ class Home extends React.Component<IProps, IState>{
                                         facultyOptions={faculties}
                                         selected={selectedDegree}
                                         inputGrades={inputValues}
-                                        resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
+                                        resetInputGradesAndUpdateSelectedDegree={
+                                            (selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
                                     />
                                 </Col>
                                 <Col xs={0} sm={0} md={0} lg={2} xl={2}></Col>
