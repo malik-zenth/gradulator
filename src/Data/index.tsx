@@ -9,6 +9,7 @@ import { mu } from "./mu"
 import { mtl } from "./mtl"
 import { tmb } from "./tmb"
 import { hm } from "./hm";
+import { mibim } from "./mibim";
 
 export const faculties: FacultyOptions[] =  [
     {
@@ -83,6 +84,12 @@ export const options: DegreeOption[] = [
         shortName: "HM-B",
         longName: "Hotel- und Restaurantmanagement",
         facultyId: 2
+    },
+    {
+        data: mibim,
+        shortName: "MIBIM",
+        longName: "International Business & Intercultural Management",
+        facultyId: 2
     }
 ]
 
@@ -112,6 +119,9 @@ export function mapName(text: string): string {
     }
     else if (text.includes("Hotel-")){
         return "HM-B"
+    }
+    else if (text.includes("International Bu")){
+        return "MIBIM"
     }
     else {
         return text
