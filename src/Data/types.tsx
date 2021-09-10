@@ -147,7 +147,7 @@ export interface CalculationResult{
     requiredEmphasis?: number,
     completedEmphasis?: number,
     removedEmphasis?: boolean,
-    removedEmphasisName?: string,
+    removedEmphasisNames?: string[],
     observedWeight: number,
     overallWeight: number,
     removedElevtive?: GradePackage[]

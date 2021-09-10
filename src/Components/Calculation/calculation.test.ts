@@ -28,7 +28,7 @@ describe("test if calculation is still working", () => {
 
         expect(calculationResult.achivedECTS).toBe(25)
         expect(calculationResult.removedEmphasis).toBeTruthy
-        expect(calculationResult.removedEmphasisName).toBe("Vertiefung Social Media Management")
+        expect(calculationResult.removedEmphasisNames).toContain("Vertiefung Social Media Management")
     })
 
     test("if completness is correct", () => {

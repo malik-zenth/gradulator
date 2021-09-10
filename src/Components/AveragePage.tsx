@@ -190,7 +190,9 @@ class AveragePage extends React.Component<IProps, IState> {
             {averageData.removedEmphasis && (
               <p>
                 <Tooltip title={TooltipRemovedEmphasis}>
-                Noten des Schwerpunktes {averageData.removedEmphasisName} wurden entfernt
+                Noten folgender Schwerpunkte wurden ignoriert: {averageData.removedEmphasisNames.map(x => {
+                    return <li className="key_removed_elevtive" key={keyGenerator()}>{x}</li>})
+                  }
                 </Tooltip>
               </p>
             )}

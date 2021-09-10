@@ -27,8 +27,10 @@ export interface GradePackageAverage{
     bestPossibleGrade?:number,
     worstPossibleGrade?:number,
     incomplete?:boolean,
+    ids?: number[],
     completeness?:number,
     complete?:boolean,
+    multiGrade?: boolean,
     missing?:Exam[],
     missingElevtiveGrades?: MissingElevtiveEmphasis
 }

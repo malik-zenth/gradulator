@@ -64,9 +64,10 @@ const ibisb_basicData: BasicInformation = {
                     required: 2
                 }
             ],
-            examid: 255400
+            examid: 255410
         },
         {
+            // Multiple Languages Emphasis Orient & Arabic
             options: [
                 {
                     ids: [255441, 255442, 255461],
@@ -79,8 +80,7 @@ const ibisb_basicData: BasicInformation = {
             ],
             emphasis_elevtive: true,
             emphasisid: 1,
-            examid: 888888,
-
+            examid: 999999,
         }
     ]
 }
@@ -150,7 +150,7 @@ const ibisb_exams: Exams = {
         packageid: 255920
     },
     255931: {
-        name: "Business Communication I B2/c1",
+        name: "Business Communication I B2/C1",
         weight: 2.5,
         semester: 3,
         ects: 2.5,
@@ -217,28 +217,28 @@ const ibisb_exams: Exams = {
         semester: 3,
         weight: 2.5,
         ects: 2.5,
-        packageid: 255400
+        packageid: 255440
     },
     255721: {
         name: "Intercultural Communication and Management in Francophone Countries",
         semester: 6,
         weight: 5,
         ects: 5,
-        packageid: 255400
+        packageid: 255440
     },
     255811: {
         name: "Economic Studies: Hispanic Countries",
         semester: 3,
         weight: 2.5,
         ects: 2.5,
-        packageid: 255400
+        packageid: 255440
     },
     255821: {
         name: "Intercultural Communication and Management: Hispanic Countries",
         semester: 6,
         weight: 5,
         ects: 5,
-        packageid: 255400
+        packageid: 255440
     },
     255411: {
         name: "Economic Studies: Orient",
@@ -262,7 +262,7 @@ const ibisb_exams: Exams = {
         weight: 5,
         ects: 5,
         emphasisid: 1,
-        packageid: 888888
+        packageid: 999999
     },
     255442: {
         name: "Wirtschaftsarabisch I, A2.1",
@@ -270,7 +270,7 @@ const ibisb_exams: Exams = {
         weight: 5,
         ects: 5,
         emphasisid: 1,
-        packageid: 888888
+        packageid: 999999
     },
     255461: {
         name: "Wirtschaftsarabisch II, A2.2",
@@ -278,7 +278,7 @@ const ibisb_exams: Exams = {
         weight: 2.5,
         ects: 2.5,
         emphasisid: 1,
-        packageid: 888888
+        packageid: 999999
     },
     255471: {
         name: "Wirtschaftskommunikation Arabisch I, B1",
@@ -286,7 +286,7 @@ const ibisb_exams: Exams = {
         weight: 5,
         ects: 5,
         emphasisid: 1,
-        packageid: 888888
+        packageid: 999999
     },
     255472: {
         name: "Wirtschaftskommunikation Arabisch II, B1",
@@ -294,7 +294,7 @@ const ibisb_exams: Exams = {
         weight: 5,
         ects: 5,
         emphasisid: 1,
-        packageid: 888888
+        packageid: 999999
     },
     255481: {
         name: "Verhandeln auf Arabisch, 82",
@@ -302,7 +302,7 @@ const ibisb_exams: Exams = {
         weight: 2.5,
         ects: 2.5,
         emphasisid: 1,
-        packageid: 888888
+        packageid: 999999
     },
     255611: {
         name: "Economic Studies: Eastern Europe",
@@ -344,14 +344,28 @@ const ibisb_exams: Exams = {
         emphasisid: 2,
         packageid: 255640
     },
-    888888: {
+    999999: {
         name: "Language Area Studies",
         weight: 12.5,
         ects: 12.5,
         packageid: 255440,
         emphasisid: 1,
         ignored: true
-    }
+    },
+    255922: {
+        name: "Business Communication II, B1/B2",
+        weight: 2.5,
+        semester: 4,
+        ects: 2.5,
+        packageid: 255920
+    },
+    255932: {
+        name: "Business Communication II B2/C1",
+        weight: 2.5,
+        semester: 4,
+        ects: 2.5,
+        packageid: 255920
+    },
 
 
 }
@@ -366,7 +380,7 @@ const ibisb_examPackages: ExamPackages = {
     255130: {
         name: "Corporate Social Responsibility",
         weight: 5,
-        required: [255131, 255132]
+        required: [255133]
     },
     255140: {
         name: "Research Methods",

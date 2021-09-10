@@ -37,6 +37,9 @@ describe("test all available data", () => {
                             })
                         }
                         else{
+                            if(!single.data.examPackages[packageId]){
+                                console.log(packageId)
+                            }
                             expect(single.data.examPackages[packageId]).toBeDefined()
                             expect(single.data.examPackages[packageId].required).toContain(parseInt(examid))
                         }
