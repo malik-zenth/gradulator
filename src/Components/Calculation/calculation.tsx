@@ -141,53 +141,61 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
             })
             // if their are elevative grades check if current package is part of them, if so use other logik to detect completness
             if (!elevative || !elevative.map(x => x.examid).includes(parseInt(singlePackage))) {
-                incompletePackages.push({
-                    missing: missingGrades,
-                    complete: false,
-                    completeness: Math.round((1 - overallMissing / overallWeight) * 100),
-                    gradePackageID: parseInt(singlePackage)
-                })
-            } else {
-                const elevative_package: Electives[] = elevative.filter(x => x.examid == parseInt(singlePackage))
-                // if elevative has multiple options use special logic to detect if something is missing
-                if (elevative_package[0].options) {
+                const elevative_package: Electives = elevative.filter(x => x.examid === 255440).shift()
+                if (elevative_package && elevative_package.options) {
                     const incompletePackagesToBeAdded = checkIncompleteElectiveOption(inputPackages, singlePackage, elevative_package, examData, gradePackages)
                     incompletePackages.push(...incompletePackagesToBeAdded)
                 }
-                else if (elevative_package[0].requiredEcts){
-                    const achivedECTS = inputPackages[singlePackage].map(x => examData[x.examID].ects).reduce((a, b) => a+b, 0)
+                else {
+                    incompletePackages.push({
+                        missing: missingGrades,
+                        complete: false,
+                        completeness: Math.round((1 - overallMissing / overallWeight) * 100),
+                        gradePackageID: parseInt(singlePackage)
+                    })
+                }
+
+            } else {
+                const elevative_package: Electives = elevative.filter(x => x.examid == parseInt(singlePackage)).shift()
+                // if elevative has multiple options use special logic to detect if something is missing
+                if (elevative_package.options) {
+                    const incompletePackagesToBeAdded = checkIncompleteElectiveOption(inputPackages, singlePackage, elevative_package, examData, gradePackages)
+                    incompletePackages.push(...incompletePackagesToBeAdded)
+                }
+                else if (elevative_package.requiredEcts) {
+                    const achivedECTS = inputPackages[singlePackage].map(x => examData[x.examID].ects).reduce((a, b) => a + b, 0)
                     // if their are less ects achived than required add it to incomplete
-                    if(achivedECTS < elevative_package[0].requiredEcts){
+                    if (achivedECTS < elevative_package.requiredEcts) {
                         incompletePackages.push({
                             missingElevtiveGrades: {
-                                amoundMissing: elevative_package[0].requiredEcts - achivedECTS,
+                                amoundMissing: elevative_package.requiredEcts - achivedECTS,
                                 // if this param is true an different text will be displayed for missing grades
                                 missingECTS: true,
                                 exams: missingGrades.filter(single => !inputGrades.some(grade => grade.examid === single.examid))
                             },
                             missing: [],
                             complete: false,
-                            completeness: Math.round((achivedECTS / elevative_package[0].requiredEcts) * 100),
+                            completeness: Math.round((achivedECTS / elevative_package.requiredEcts) * 100),
                             gradePackageID: parseInt(singlePackage)
                         })
                     }
                 }
                 // if their are missing packages, but the amound of required once is reached do nothing
                 // if not, add this to incomplete onces
-                else if (inputPackages[singlePackage].length < elevative_package[0].required && !elevative_package[0].requiredEcts) {
+                else if (inputPackages[singlePackage].length < elevative_package.required && !elevative_package.requiredEcts) {
                     var achived_weight: number = 0
                     inputPackages[singlePackage].map(x => {
                         achived_weight += x.weight
                     })
                     incompletePackages.push({
                         missingElevtiveGrades: {
-                            amoundMissing: elevative_package[0].required - inputPackages[singlePackage].length,
+                            amoundMissing: elevative_package.required - inputPackages[singlePackage].length,
                             // filter out all already completed Grades
                             exams: missingGrades.filter(single => !inputGrades.some(grade => grade.examid === single.examid))
                         },
                         missing: [],
                         complete: false,
-                        completeness: Math.round((achived_weight / gradePackages[elevative_package[0].examid].weight) * 100),
+                        completeness: Math.round((achived_weight / gradePackages[elevative_package.examid].weight) * 100),
                         gradePackageID: parseInt(singlePackage)
                     })
                 }
@@ -199,18 +207,18 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
     return incompletePackages
 }
 
-const checkIncompleteElectiveOption = (inputPackages: GradePackages, singlePackage: string, elevative_package: Electives[], examData: Exams, gradePackages: ExamPackages): IncompletePackages[] => {
+const checkIncompleteElectiveOption = (inputPackages: GradePackages, singlePackage: string, elevative_package: Electives, examData: Exams, gradePackages: ExamPackages): IncompletePackages[] => {
     const incompletePackages: IncompletePackages[] = []
     let takenOption: AlternativeElectives
     // find out which alternative is selected
     const completedExams: number[] = inputPackages[singlePackage].map(x => x.examID)
-    elevative_package[0].options.forEach(option => {
+    elevative_package.options.forEach(option => {
         if (option.ids.some(id => completedExams.includes(id))) takenOption = option
     })
     const completedFromTakenOption = inputPackages[singlePackage].filter((input) => takenOption.ids.includes(input.examID))
     // if is is an option item apply special logic
     if (takenOption && takenOption.optionId) {
-        const optionsWithSameOptionID = elevative_package[0].options.filter(x => x.optionId === takenOption.optionId).map(x => {
+        const optionsWithSameOptionID = elevative_package.options.filter(x => x.optionId === takenOption.optionId).map(x => {
             return ({
                 ...x,
                 leftRequired: x.required
@@ -240,16 +248,16 @@ const checkIncompleteElectiveOption = (inputPackages: GradePackages, singlePacka
                 },
                 missing: [],
                 complete: false,
-                completeness: Math.round((achived_weight / gradePackages[elevative_package[0].examid].weight) * 100),
+                completeness: Math.round((achived_weight / gradePackages[elevative_package.examid].weight) * 100),
                 gradePackageID: parseInt(singlePackage)
             })
         }
     }
     // if it is only this one to be completed and no optionId apply normal logic
-    else if(takenOption){
+    else if (takenOption) {
         const completedExamsForThisOption = completedExams.filter((examID: number) => takenOption.ids.includes(examID))
         const amountCompletedExams = completedExamsForThisOption.length
-        if(amountCompletedExams < takenOption.required){
+        if (amountCompletedExams < takenOption.required) {
             const achivedWeight: number = completedExamsForThisOption.map(x => examData[x].ects).reduce((a, b) => a + b, 0)
             const missingExams: Exam[] = takenOption.ids.filter(x => !completedExamsForThisOption.includes(x)).map(x => examData[x])
             incompletePackages.push({
@@ -259,7 +267,7 @@ const checkIncompleteElectiveOption = (inputPackages: GradePackages, singlePacka
                 },
                 missing: [],
                 complete: false,
-                completeness: Math.round((achivedWeight / gradePackages[elevative_package[0].examid].weight) * 100),
+                completeness: Math.round((achivedWeight / gradePackages[elevative_package.examid].weight) * 100),
                 gradePackageID: parseInt(singlePackage)
             })
         }
@@ -322,72 +330,82 @@ const removeEmphasisGrades = (averages: GradePackageAverage[], emphasisOptions: 
     var removedEmphasisName: string
     const emphasis: GradePackageAverage[] = []
     for (var index = 0; index < emphasisOptions.length; index++) {
-        var grade: number = 0
-        var weight: number = 0
-        var completedWeight: number = 0
-        var complete: boolean = true
-        var completlyMissing: string[] = []
-        const missing: Exam[] = []
-        emphasisOptions[index].ids.map((x: number) => idsToRemove.push(x))
-        const examPackagesWithEmphasis: GradePackageAverage[] = averages.filter(x => emphasisOptions[index].ids.includes(x.gradePackageID))
-        examPackagesWithEmphasis.map((x: GradePackageAverage) => {
-            if (!x.completeness && x.complete != false) {
-                completedWeight += x.weight
-            } else {
-                completedWeight += x.weight * (x.completeness / 100)
-            }
-        })
-        const emphasisExams: Emphasis = emphasisOptions[index]
-        if (emphasisExams.ids.length != examPackagesWithEmphasis.length) {
-            const ExamPackagesWithEmphasisIds: number[] = examPackagesWithEmphasis.map(x => x.gradePackageID)
-            completlyMissing = get_missing(emphasisExams.ids, ExamPackagesWithEmphasisIds)
-        }
-        for (var indextwo = 0; indextwo < examPackagesWithEmphasis.length; indextwo++) {
-            weight += examPackagesWithEmphasis[indextwo].weight
-            grade += examPackagesWithEmphasis[indextwo].weight * examPackagesWithEmphasis[indextwo].grade
-            if (examPackagesWithEmphasis[indextwo].incomplete) {
-                complete = false
-                examPackagesWithEmphasis[indextwo].missing.map((x: Exam) => missing.push(x))
+        if (emphasisOptions[index].multipleGrades) {
+            return {
+                average: averages.filter(x => !idsToRemove.includes(x.gradePackageID)),
+                completedEmphasis,
+                removedEmphasis,
+                removedEmphasisName
             }
         }
-        if (complete && completlyMissing.length === 0) completedEmphasis += 1
-        if (completlyMissing.length != emphasisExams.ids.length) {
+        else {
+            var grade: number = 0
+            var weight: number = 0
+            var completedWeight: number = 0
+            var complete: boolean = true
+            var completlyMissing: string[] = []
+            const missing: Exam[] = []
+            emphasisOptions[index].ids.map((x: number) => idsToRemove.push(x))
+            const examPackagesWithEmphasis: GradePackageAverage[] = averages.filter(x => emphasisOptions[index].ids.includes(x.gradePackageID))
+            examPackagesWithEmphasis.map((x: GradePackageAverage) => {
+                if (!x.completeness && x.complete != false) {
+                    completedWeight += x.weight
+                } else {
+                    completedWeight += x.weight * (x.completeness / 100)
+                }
+            })
+            const emphasisExams: Emphasis = emphasisOptions[index]
+            if (emphasisExams.ids.length != examPackagesWithEmphasis.length) {
+                const ExamPackagesWithEmphasisIds: number[] = examPackagesWithEmphasis.map(x => x.gradePackageID)
+                completlyMissing = get_missing(emphasisExams.ids, ExamPackagesWithEmphasisIds)
+            }
+            for (var indextwo = 0; indextwo < examPackagesWithEmphasis.length; indextwo++) {
+                weight += examPackagesWithEmphasis[indextwo].weight
+                grade += examPackagesWithEmphasis[indextwo].weight * examPackagesWithEmphasis[indextwo].grade
+                if (examPackagesWithEmphasis[indextwo].incomplete) {
+                    complete = false
+                    examPackagesWithEmphasis[indextwo].missing.map((x: Exam) => missing.push(x))
+                }
+            }
+            if (complete && completlyMissing.length === 0) completedEmphasis += 1
+            if (completlyMissing.length != emphasisExams.ids.length) {
 
-            completlyMissing.map((single: string) => {
-                examPackages[single].required.map((examId: string) => {
-                    missing.push(exams[examId])
+                completlyMissing.map((single: string) => {
+                    examPackages[single].required.map((examId: string) => {
+                        missing.push(exams[examId])
+                    })
                 })
-            })
-            var missingElevtiveGrades: MissingElevtiveEmphasis
-            if (missingElevtives && missingElevtives[emphasisOptions[index].emphasisid]) {
-                missingElevtiveGrades = missingElevtives[emphasisOptions[index].emphasisid]
+                var missingElevtiveGrades: MissingElevtiveEmphasis
+                if (missingElevtives && missingElevtives[emphasisOptions[index].emphasisid]) {
+                    missingElevtiveGrades = missingElevtives[emphasisOptions[index].emphasisid]
+                }
+                emphasis.push({
+                    name: "Vertiefung " + emphasisOptions[index].name,
+                    weight: emphasisOptions[index].weight,
+                    grade: cutGrade(grade / weight),
+                    complete: complete,
+                    missing: missing,
+                    completeness: Math.round((completedWeight / emphasisOptions[index].weight) * 100),
+                    incomplete: (missing.length != 0 || completlyMissing.length != 0) ? true : false,
+                    missingElevtiveGrades: missingElevtiveGrades
+                })
             }
-            emphasis.push({
-                name: "Vertiefung " + emphasisOptions[index].name,
-                weight: emphasisOptions[index].weight,
-                grade: cutGrade(grade / weight),
-                complete: complete,
-                missing: missing,
-                completeness: Math.round((completedWeight / emphasisOptions[index].weight) * 100),
-                incomplete: (missing.length != 0 || completlyMissing.length != 0) ? true : false,
-                missingElevtiveGrades: missingElevtiveGrades
-            })
         }
-    }
-    if (emphasis.length > required) {
-        emphasis.sort((a: GradePackageAverage, b: GradePackageAverage) => (a.completeness < b.completeness) ? 1 : ((b.completeness < a.completeness) ? -1 : 0))
-        removedEmphasisName = emphasis.pop().name
-        removedEmphasis = true
-    }
-    emphasis.map((single: GradePackageAverage) => [
-        averages.push(single)
-    ])
+        if (emphasis.length > required) {
+            emphasis.sort((a: GradePackageAverage, b: GradePackageAverage) => (a.completeness < b.completeness) ? 1 : ((b.completeness < a.completeness) ? -1 : 0))
+            removedEmphasisName = emphasis.pop().name
+            removedEmphasis = true
+        }
+        emphasis.map((single: GradePackageAverage) => [
+            averages.push(single)
+        ])
 
-    return {
-        average: averages.filter(x => !idsToRemove.includes(x.gradePackageID)),
-        completedEmphasis,
-        removedEmphasis,
-        removedEmphasisName
+        return {
+            average: averages.filter(x => !idsToRemove.includes(x.gradePackageID)),
+            completedEmphasis,
+            removedEmphasis,
+            removedEmphasisName
+        }
     }
 }
 

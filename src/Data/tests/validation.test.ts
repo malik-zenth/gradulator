@@ -70,7 +70,17 @@ describe("test all available data", () => {
                 single.data.basics.emphasis.map(singleEmphasis => {
                     singleEmphasis.ids.map((packageid: number) => {
                         expect(single.data.examPackages[packageid]).toBeDefined()
+                        single.data.examPackages[packageid].required.forEach(id => {
+                            expect(single.data.exams[id].emphasisid).toBe(singleEmphasis.emphasisid)
+                        })
                     })
+                    if(singleEmphasis.multipleGrades){
+                        expect(singleEmphasis.weight).not.toBeDefined()
+                    }
+                    else{
+                        expect(singleEmphasis.weight).toBeDefined()
+                    } 
+
                 })
             })
             test("if emphasis ids are valid", () => {

@@ -22,7 +22,8 @@ export interface iElevativeSettupType{
 export interface Emphasis {
     ids: number[],
     name: string,
-    weight: number,
+    multipleGrades?: boolean,
+    weight?: number,
     emphasisid: number,
 }
 

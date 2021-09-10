@@ -550,10 +550,17 @@ const removeElevtiveGrades = (gradePackages: GradePackages, elevatives: Elective
                 single.estimated
             }).length > 0
             // get amound of missing grades
-            const amound_missing: number = gradePackages[single.examid].length < single.required ? single.required - gradePackages[single.examid].length : 0
-            const exam_options_ids = single.ids.filter(id => {
-                if (gradePackages[single.examid].filter(single => single.examID == id).length == 0) return id
-            })
+            let amound_missing: number = 0 
+            const exam_options_ids: number[] = []
+            if (single.ids) {
+                amound_missing = gradePackages[single.examid].length < single.required ? single.required - gradePackages[single.examid].length : 0
+                exam_options_ids.push(...single.ids.filter(id => !gradePackages[single.examid].some(single => single.examID == id)))
+            }
+            else{
+                const relevantOption = single.options.filter(sgl => gradePackages[single.examid].some(gradePackage => sgl.ids.includes(gradePackage.examID))).shift()
+                amound_missing = relevantOption.required - gradePackages[single.examid].length
+                exam_options_ids.push(...relevantOption.ids.filter(id => !gradePackages[single.examid].some(single => single.examID == id)))
+            }
             const exams_options: Exam[] = exam_options_ids.map(single => exams[single])
             if (amound_missing > 0) {
                 missingElevtiveGradesEmphasis[single.emphasisid] = {

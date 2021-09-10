@@ -49,13 +49,17 @@ Hierfür wird an der einzelnen Prüfung die ID angegeben und dieser ID ein Name 
 ```
     ids: number[],
     name: string,
-    weight: number,
+    multipleGrades?: boolean,
+    weight?: number,
     emphasisid: number,
 ```
 
 **ids** -> Alle Modulprüfungen (Nicht einzelne Prüfungen), welche für den Schwerpunkt benötigt werden
 
 **name** -> Name des Schwerpunkts
+
+**multipleGrades** -> Bei Studiengängen wie WIN ist es so, dass die Noten eines Schwerpunkts zu einer Note für den gesammten Schwerpunkt zusammengefasst werden.
+Soll dies nicht erfolgen und die Noten der einzelnen Modulprüfungen angezeigt werden muss dieser Parameter auf true gesetzt werden. Eine Weight wird dann nicht benötigt.
 
 **weight** -> Gewichtung des Schwerpunkts
 
