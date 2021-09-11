@@ -93,11 +93,12 @@ class Formular extends React.Component<IProps, IState> {
     if (selected && validateName(selected)) {
       const selectedOptionString = isMobile ? selected : getDegreeByName(selected).longName
       const faculty = this.props.facultyOptions.filter(x => x.facultyId === getDegreeByName(selected).facultyId).shift()
-      const filteredFormOptions = this.state.allFormOptions.filter(x => getDegreeByName(x.value).facultyId === faculty.facultyId)
+      const filteredFormOptions = selectOptions.filter(x => getDegreeByName(x.value).facultyId === faculty.facultyId)
       this.setState({
         initialValues: { select: { value: selected, label: selectedOptionString }, faculty: { value: faculty.facultyId.toString(), label: faculty.longName} },
         selectedOption: selected,
         allFormOptions: selectOptions,
+        facultyOptions: facultyOptions,
         formOptions: filteredFormOptions,
       });
       return { select: { value: selected, label: selectedOptionString }, faculty: { value: faculty.facultyId.toString(), label: faculty.longName} }

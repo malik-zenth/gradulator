@@ -36,10 +36,21 @@ const sortUserInputByGrade = (inputGrades: UserInput[]): UserInput[] => {
     });
 }
 
+const calculateElevtiveAverage = (inputGrades: GradePackage[]) => {
+    let grade = 0
+    let weight = 0
+    inputGrades.map(single => {
+        grade += single.grade * single.weight
+        weight += single.weight
+    })
+    return cutGrade(grade / weight)
+}
+
 export {
     sortGradePackageByGrade,
     sortUserInputByGrade,
     cutGrade,
     get_missing,
-    compareArray
+    compareArray,
+    calculateElevtiveAverage
 }

@@ -21,7 +21,6 @@ describe("test if elevative calculation is still working", () => {
             {examid: 186461, grade: 3, estimated: false}
         ]
         const calculationResult = calculateData(testInput, getDegreeByName("TMB").data)
-        const relevantResult = calculationResult.singleGrades[0]
         expect(calculationResult.removedElevtive.length).toBe(1)
     })
 

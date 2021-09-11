@@ -23,7 +23,7 @@ export interface Emphasis {
     ids: number[],
     name: string,
     multipleGrades?: boolean,
-    weight?: number,
+    weight: number,
     emphasisid: number,
 }
 
@@ -54,13 +54,15 @@ export interface Electives {
 }
 
 export interface AlternativeElectives{
-    required: number,
+    required?: number,
     ids: number[],
+    requiredECTS?:number,
     optionId?: number
 }
 
 export interface AlternativeElectivesWithLeftRequired{
-    required: number,
+    required?: number,
+    requiredECTS?: number,
     ids: number[],
     optionId?: number,
     leftRequired: number

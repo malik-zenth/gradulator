@@ -22,7 +22,7 @@ var randomProperty = function (obj: Exams): RandomPropery {
 
 
 describe("test if we get an result", () => {
-    const amoundRandomRuns: number = 2
+    const amoundRandomRuns: number = 20
     const lenOptions: number = options.length
 
     for(var i: number= 0; i < amoundRandomRuns; i++){
@@ -53,6 +53,9 @@ describe("test if we get an result", () => {
             expect(calculationResult.observedWeight).toBeDefined()
             expect(calculationResult.singleGrades).toBeDefined()
             calculationResult.singleGrades.forEach(grade => {
+                if(!grade.grade){
+                    console.log(randomInputValues, grade)
+                }
                 expect(grade.grade).not.toBeNaN()
             })
         })

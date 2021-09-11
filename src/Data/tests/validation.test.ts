@@ -24,8 +24,8 @@ describe("test all available data", () => {
                         if (single.data.exams[examid].packageOptions) {
                             expect(single.data.exams[examid].packageid).not.toBeDefined()
                             const elevativeWithThisExam = single.data.basics.elevtive.filter(x => {
-                                if(x.ids && x.ids.includes(parseInt(examid))) return true
-                                if(x.options && x.options.some(x => x.ids.includes(parseInt(examid)))) return true
+                                if (x.ids && x.ids.includes(parseInt(examid))) return true
+                                if (x.options && x.options.some(x => x.ids.includes(parseInt(examid)))) return true
                                 return false
                             })
                             elevativeWithThisExam.forEach(elev => {
@@ -36,8 +36,8 @@ describe("test all available data", () => {
                                 expect(single.data.examPackages[option].required.includes(option))
                             })
                         }
-                        else{
-                            if(!single.data.examPackages[packageId]){
+                        else {
+                            if (!single.data.examPackages[packageId]) {
                                 console.log(packageId)
                             }
                             expect(single.data.examPackages[packageId]).toBeDefined()
@@ -53,12 +53,12 @@ describe("test all available data", () => {
                             console.log(examid)
                         }
                         expect(single.data.exams[examid]).toBeDefined()
-                        if(!single.data.exams[examid].packageid){
+                        if (!single.data.exams[examid].packageid) {
                             expect(single.data.exams[examid].packageOptions).toBeDefined()
                             expect(single.data.exams[examid].packageOptions.length).toBeGreaterThan(1)
                             expect(single.data.exams[examid].packageOptions).toContain(parseFloat(examPackage))
                         }
-                        else{
+                        else {
                             expect(single.data.exams[examid].packageid).toBeDefined()
                             expect(single.data.exams[examid].packageid).toBe(parseFloat(examPackage))
                         }
@@ -74,15 +74,14 @@ describe("test all available data", () => {
                     singleEmphasis.ids.map((packageid: number) => {
                         expect(single.data.examPackages[packageid]).toBeDefined()
                         single.data.examPackages[packageid].required.forEach(id => {
+                            if(!single.data.exams[id].emphasisid){
+                                console.log(id)
+                            }
                             expect(single.data.exams[id].emphasisid).toBe(singleEmphasis.emphasisid)
                         })
                     })
-                    if(singleEmphasis.multipleGrades){
-                        expect(singleEmphasis.weight).not.toBeDefined()
-                    }
-                    else{
-                        expect(singleEmphasis.weight).toBeDefined()
-                    } 
+
+                    expect(singleEmphasis.weight).toBeDefined()
 
                 })
             })
@@ -98,14 +97,14 @@ describe("test all available data", () => {
             test("if elevative data is valid", () => {
                 single.data.basics.elevtive && single.data.basics.elevtive.map(singleElevative => {
                     expect(singleElevative.examid).toBeDefined()
-                    if (singleElevative.multiOption){
+                    if (singleElevative.multiOption) {
                         expect(singleElevative.choiseID).toBeDefined()
                     }
-                    if (singleElevative.requiredEcts){
+                    if (singleElevative.requiredEcts) {
                         expect(singleElevative.multiOption).not.toBeDefined()
                         expect(singleElevative.required).not.toBeDefined()
                     }
-                    if (singleElevative.required){
+                    if (singleElevative.required) {
                         expect(singleElevative.requiredEcts).not.toBeDefined()
                     }
                     if (!singleElevative.emphasis_elevtive) {
@@ -116,12 +115,12 @@ describe("test all available data", () => {
                                 expect(single.data.examPackages[singleElevative.examid].required).toContain(examID)
                             })
                         }
-                        else{
+                        else {
                             singleElevative.options.map((elev) => {
                                 elev.ids.forEach(id => {
                                     expect(single.data.exams[id]).toBeDefined()
                                 })
-                                if(elev.optionId){
+                                if (elev.optionId) {
                                     const otherElevsWithThisOptionID = singleElevative.options.filter(x => x.optionId === elev.optionId)
                                     expect(otherElevsWithThisOptionID.length).toBeGreaterThan(1)
                                 }
