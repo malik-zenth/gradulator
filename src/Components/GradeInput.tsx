@@ -471,7 +471,7 @@ const GradeInput = (props: IProps) => {
     return Object.keys(inputGrades).some(single => !single.includes(checkboxMark) && props.options.exams[single].packageOptions && props.options.exams[single].packageOptions.length > 1)
   }
 
-  const { options, inputGrades, defaultAdjustedExams } = props;
+  const { options, inputGrades } = props;
   const { basics, exams } = options;
   const sortedExams = settupExamData(exams);
   const initialValues = settupDefaultValues(inputGrades)
@@ -481,6 +481,8 @@ const GradeInput = (props: IProps) => {
     props.resetInputGrades()
     // setFieldValues to null and undefined
     // form does also come with form.resetFields() but this does not reset initalValues
+    // if we want to reset both initialValues and current values we need to call both
+    form.resetFields()
     form.setFieldsValue(settupDefaultValues(inputGrades, true))
   }
 
