@@ -13,8 +13,8 @@ class App extends React.Component {
 
     componentDidMount(){
         //Init Insights-analytics
-        //init("EfuBEN79UVOU5DFy")
-        //trackPages()
+        init("EfuBEN79UVOU5DFy")
+        trackPages()
     }
 
     render() {
