@@ -1,105 +1,167 @@
-import { DegreeOption } from "./types";
-import {win} from "./win"
-import {mid} from "./mid"
-import {mwi} from "./mwi"
+import { DegreeOption, FacultyOptions } from "./types";
+import { win } from "./win"
+import { mid } from "./mid"
+import { mwi } from "./mwi"
 import { vb } from "./vb";
 import { bu } from "./bu";
 import { vb_pv } from "./vb-pv"
-import {mu} from "./mu"
-import {mtl} from "./mtl"
+import { mu } from "./mu"
+import { mtl } from "./mtl"
+import { tmb } from "./tmb"
+import { hm } from "./hm";
+import { mibim } from "./mibim";
+import { ibisb } from "./ibisb";
+
+export const faculties: FacultyOptions[] =  [
+    {
+        longName: "Wirtschaft und Verkehr",
+        shortName: "WV",
+        facultyId: 1
+    },
+    {
+        longName: "International Business",
+        shortName: "IB",
+        facultyId: 2
+    }
+]
 
 export const options: DegreeOption[] = [
     {
         data: bu,
         shortName: "BU",
-        longName: "Betriebswirtschaft und Unternehmensführung"
+        longName: "Betriebswirtschaft und Unternehmensführung",
+        facultyId: 1
     },
     {
         data: mu,
         shortName: "MU",
-        longName: "Master in Unternehmensführung"
+        longName: "Master in Unternehmensführung",
+        facultyId: 1
     },
     {
         data: vb,
         shortName: "VB",
-        longName: "Verkehrsbetriebswirtschaft und Logistik"
+        longName: "Verkehrsbetriebswirtschaft und Logistik",
+        facultyId: 1
     },
     {
         data: vb_pv,
         shortName: "VB-PV",
-        longName: "Verkehrsbetriebswirtschaft und Personenverkehr"
+        longName: "Verkehrsbetriebswirtschaft und Personenverkehr",
+        facultyId: 1
     },
     {
         data: mtl,
         shortName: "MTL",
-        longName: "Master in Transport und Logistik Management"
+        longName: "Master in Transport und Logistik Management",
+        facultyId: 1
+    },
+    {
+        data: tmb,
+        shortName: "TMB",
+        longName: "Tourismusmanagement",
+        facultyId: 2
     },
     {
         data: win,
         shortName: "WIN",
-        longName: "Wirtschaftsinformatik"
+        longName: "Wirtschaftsinformatik",
+        facultyId: 1
     },
     {
         data: mid,
         shortName: "MID",
-        longName: "Wirtschaftsinformatik - Informationsmanagement und Data Science"
+        longName: "Wirtschaftsinformatik - Informationsmanagement und Data Science",
+        facultyId: 1
     },
     {
         data: mwi,
         shortName: "MWI",
-        longName: "Wirtschaftsinformatik - Digitale Transformation"
+        longName: "Wirtschaftsinformatik - Digitale Transformation",
+        facultyId: 1
+    },
+    {
+        data: hm,
+        shortName: "HM-B",
+        longName: "Hotel- und Restaurantmanagement",
+        facultyId: 2
+    },
+    {
+        data: mibim,
+        shortName: "MIBIM",
+        longName: "International Business & Intercultural Management",
+        facultyId: 2
+    },
+    {
+        data: ibisb,
+        shortName: "IBIS-B",
+        longName: "Internationale Betriebswirtschaft - Interkulturelle Studien",
+        facultyId: 2
     }
 ]
 
 // map name to display name
-export function mapName(text: string): string{
-    if(text === "Wirtschaftsinformatik") return "WIN"
-    else if(text.includes("Wirtschaftsinformatik") && text.includes("Informationsmanagement")){
+export function mapName(text: string): string {
+    if (text === "Wirtschaftsinformatik") return "WIN"
+    else if (text.includes("Wirtschaftsinformatik") && text.includes("Informationsmanagement")) {
         return "MID"
     }
-    else if(text.includes("Wirtschaftsinformatik") && text.includes("Digitale")){
+    else if (text.includes("Wirtschaftsinformatik") && text.includes("Digitale")) {
         return "MWI"
     }
-    else if(text.includes("Master in Transport")){
+    else if (text.includes("Master in Transport")) {
         return "MTL"
     }
-    else if(text.includes("Betriebswirtschaft und Unter")){
+    else if (text.includes("Betriebswirtschaft und Unter")) {
         return "BU"
     }
-    else if(text.includes("Verkehrsbetriebswirtschaft und P")){
+    else if (text.includes("Verkehrsbetriebswirtschaft und P")) {
         return "VB-PV"
     }
-    else if(text.includes("Verkehrsbetriebswirtschaft und L")){
+    else if (text.includes("Verkehrsbetriebswirtschaft und L")) {
         return "VB"
     }
-    else{
+    else if (text.includes("Tourismus")){
+        return "TMB"
+    }
+    else if (text.includes("Hotel-")){
+        return "HM-B"
+    }
+    else if (text.includes("International Bu")){
+        return "MIBIM"
+    }
+    else if (text.includes("International Bet")){
+        return "IBIS-B"
+    }
+    else {
         return text
-        }
+    }
 }
 
 // order options by ShortName
-export function orderDegreesbyShortName(degreeOptions: DegreeOption[]): DegreeOption[]{
-    return degreeOptions.sort((a,b) => (a.shortName > b.shortName) ? 1 : ((b.shortName > a.shortName) ? -1 : 0))
+export function orderDegreesbyShortName(degreeOptions: DegreeOption[]): DegreeOption[] {
+    return degreeOptions.sort((a, b) => (a.shortName > b.shortName) ? 1 : ((b.shortName > a.shortName) ? -1 : 0))
 }
 
 // order options by LongName
-export function orderDegreesbyLongName(degreeOptions: DegreeOption[]): DegreeOption[]{
-    return degreeOptions.sort((a,b) => (a.longName > b.longName) ? 1 : ((b.longName > a.longName) ? -1 : 0))
+export function orderDegreesbyLongName(degreeOptions: DegreeOption[]): DegreeOption[] {
+    return degreeOptions.sort((a, b) => (a.longName > b.longName) ? 1 : ((b.longName > a.longName) ? -1 : 0))
 }
 
 // get Data by longName or shortName
-export function getDegreeByName(name: string): DegreeOption{
+export function getDegreeByName(name: string): DegreeOption {
     const degreeOption: DegreeOption[] = options.filter(single => single.longName == name || single.shortName == name)
-    try{
+    try {
         return degreeOption[0]
-    }catch{
+    } catch {
         console.warn("Cannot find DegreeOption for Input")
     }
 }
 
 // validate long Name
-export function validateName(name: string): Boolean{
+export function validateName(name: string): Boolean {
     const degreeOption: DegreeOption[] = options.filter(single => single.longName == name || single.shortName == name)
-    if(degreeOption.length) return true
+    if (degreeOption.length) return true
     else return false
 }
+

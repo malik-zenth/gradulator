@@ -799,6 +799,10 @@
 .dropdown-option-degree{
     display: inline-flex;
 }
+
+.detailsInputLabel{
+    font-weight: bold;
+}
 /*!
  * 
  * antd v4.11.2

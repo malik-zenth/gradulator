@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PdfUpload from "../Components/PdfUpload"
 import { Formular, AveragePage, Footer, Header, GradeInput, exportAsPdf, CardManualEntry, CardPdf } from "../Components"
-import { UserInput, CalculationResult, Exam, DegreeOption } from "../Data/types";
+import { UserInput, CalculationResult, Exam, DegreeOption, ExamPackages, SingleOption, Exams } from "../Data/types";
 import { Row, Col, Modal, Button, message, Card, Steps } from 'antd';
-import { getDegreeByName, options, validateName } from "../Data";
+import { getDegreeByName, options, faculties, validateName } from "../Data";
 import { MailLink } from "../Components/const"
 import {isMobile, isTablet} from "react-device-detect"
 const { Step } = Steps;
@@ -23,7 +23,7 @@ interface IProps { }
 // displayFormular -> If Grade Input Formular should be displayed
 // selectedOption -> Selected Degree from GradeInput Formular
 interface IState {
-    selectedDegree?: string
+    selectedDegree?: string,
     inputValues?: UserInput[],
     gradeInput?: UserInput[],
     selectedOption: string,
@@ -33,7 +33,8 @@ interface IState {
     instructionsVisible: boolean,
     current: number,
     notDisplayedEmphasis: number[],
-    wrongSPO: boolean
+    wrongSPO: boolean,
+    adjustedExams: Exams
 }
 
 // Home Page
@@ -48,7 +49,8 @@ class Home extends React.Component<IProps, IState>{
             wrongSPO: false,
             current: 0,
             notDisplayedEmphasis: [],
-            invalidDegree: null
+            invalidDegree: null,
+            adjustedExams: null
         }
     }
 
@@ -60,12 +62,13 @@ class Home extends React.Component<IProps, IState>{
         }
     }
 
-    displayAverage = (gradeInput: UserInput[], selectedOption: string, notDisplayedEmphasis: number[]): void => {
+    displayAverage = (gradeInput: UserInput[], selectedOption: string, notDisplayedEmphasis: number[], adjustedExams?: Exams): void => {
         this.setState({
             gradeInput: gradeInput,
             displayFormular: false,
             selectedOption: selectedOption,
-            notDisplayedEmphasis: notDisplayedEmphasis
+            notDisplayedEmphasis: notDisplayedEmphasis,
+            adjustedExams: adjustedExams
         })
     }
 
@@ -73,7 +76,8 @@ class Home extends React.Component<IProps, IState>{
         this.setState({
             displayFormular: true,
             inputValues: [],
-            selectedDegree: null
+            selectedDegree: null,
+            adjustedExams: []
         })
     }
 
@@ -86,7 +90,8 @@ class Home extends React.Component<IProps, IState>{
 
     resetInputGrades = () => {
         this.setState({
-            inputValues: []
+            inputValues: [],
+            adjustedExams: []
         })
     }
 
@@ -317,8 +322,16 @@ class Home extends React.Component<IProps, IState>{
         )
     }
 
+    addAdjustedExamPackages(singleOption: SingleOption): SingleOption{
+        if(!this.state.adjustedExams) return singleOption
+        else{
+            singleOption.exams = this.state.adjustedExams
+            return singleOption
+        }
+    }
+
     render() {
-        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal, notDisplayedEmphasis} = this.state
+        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal, notDisplayedEmphasis, adjustedExams} = this.state
 
         return (
             <div>
@@ -353,9 +366,11 @@ class Home extends React.Component<IProps, IState>{
                                 <Col xs={20} sm={20} md={20} lg={0} xl={0}>
                                     <Formular
                                         options={options}
+                                        facultyOptions={faculties}
                                         selected={selectedDegree}
                                         inputGrades={inputValues}
-                                        resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
+                                        resetInputGradesAndUpdateSelectedDegree={
+                                            (selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
                                     />
                                 </Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
@@ -371,9 +386,11 @@ class Home extends React.Component<IProps, IState>{
                                 <Col xs={0} sm={0} md={0} lg={9} xl={9}>
                                     <Formular
                                         options={options}
+                                        facultyOptions={faculties}
                                         selected={selectedDegree}
                                         inputGrades={inputValues}
-                                        resetInputGradesAndUpdateSelectedDegree={(selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
+                                        resetInputGradesAndUpdateSelectedDegree={
+                                            (selectedDegree: string) => this.resetInputGradesAndUpdateSelectedDegree(selectedDegree)}
                                     />
                                 </Col>
                                 <Col xs={0} sm={0} md={0} lg={2} xl={2}></Col>
@@ -386,10 +403,12 @@ class Home extends React.Component<IProps, IState>{
                                         inputGrades={inputValues}
                                         selectedOption={selectedDegree}
                                         notDisplayedEmphasis={notDisplayedEmphasis}
+                                        defaultAdjustedExams={adjustedExams}
                                         displayAverage={(
                                             gradeValues: UserInput[], 
                                             selectedOption: string, 
-                                            notDisplayedEmphasis: number[]) => this.displayAverage(gradeValues, selectedOption, notDisplayedEmphasis)}
+                                            notDisplayedEmphasis: number[],
+                                            adjustedExams?: Exams) => this.displayAverage(gradeValues, selectedOption, notDisplayedEmphasis, adjustedExams)}
                                         resetInputGrades={() => this.resetInputGrades()}
                                     />
                                 </div>
@@ -401,7 +420,7 @@ class Home extends React.Component<IProps, IState>{
                         <div id="capture">
                             <AveragePage
                                 inputGrades={gradeInput}
-                                selectedOption={getDegreeByName(selectedOption).data}
+                                selectedOption={this.addAdjustedExamPackages(getDegreeByName(selectedOption).data)}
                                 editCalculation={(grades: UserInput[]) => this.editGrades(grades)}
                                 newCalculation={() => this.newCalculation()}
                                 exportAsPdf={(input: CalculationResult) => exportAsPdf(input, getDegreeByName(selectedOption).longName)}

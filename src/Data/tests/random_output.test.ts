@@ -22,14 +22,12 @@ var randomProperty = function (obj: Exams): RandomPropery {
 
 
 describe("test if we get an result", () => {
-    // we run 10 to 20 tests
-    const amoundRandomRuns: number = Math.floor(Math.random() * 11) +10;
+    const amoundRandomRuns: number = 20000
     const lenOptions: number = options.length
 
-    for(var i: number= 1; i < amoundRandomRuns; i++){
+    for(var i: number= 0; i < amoundRandomRuns; i++){
         // get a random option from the list
         const randomOption = options[Math.floor(Math.random() * lenOptions)]
-
         test("if " + randomOption.longName + " is working the way it should", () => {
             // get amound if random values we select
             const amoundRandomValues = Object.keys(randomOption.data.exams).length
@@ -54,6 +52,12 @@ describe("test if we get an result", () => {
             expect(calculationResult.achivedECTS).toBeDefined()
             expect(calculationResult.observedWeight).toBeDefined()
             expect(calculationResult.singleGrades).toBeDefined()
+            calculationResult.singleGrades.forEach(grade => {
+                if(!grade.grade){
+                    console.log(randomInputValues, grade)
+                }
+                expect(grade.grade).not.toBeNaN()
+            })
         })
     }
 })

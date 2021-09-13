@@ -4,6 +4,7 @@ import {
   UserInput,
   SingleOption,
   Exam,
+  ExamPackages,
 } from "../Data/types";
 import { calculateData } from "./Calculation/calculation";
 import { GradePackageAverage } from "./Calculation/types";
@@ -24,7 +25,7 @@ interface IProps {
   selectedOption: SingleOption;
   newCalculation: Function;
   editCalculation: Function;
-  exportAsPdf: Function;
+  exportAsPdf: Function
 }
 
 interface IState {
@@ -144,7 +145,8 @@ class AveragePage extends React.Component<IProps, IState> {
     if(elevtives){
       return(
         <div>
-        <p>{numToWord(elevtives.amoundMissing, {indefinite_eine: true})} der folgenden Wahlfachnoten fehlt noch:</p>
+        {!elevtives.missingECTS && <p>{numToWord(elevtives.amoundMissing, {indefinite_eine: true})} der folgenden Wahlfachnoten fehlt noch:</p>}
+        {elevtives.missingECTS && <p>{elevtives.amoundMissing} ECTS aus folgenden Wahlfächern fehlen noch:</p>}
           {elevtives.exams.map((missing: Exam) => {
             return <li key={keyGenerator()}>{missing.name}</li>;
           })}
@@ -188,7 +190,9 @@ class AveragePage extends React.Component<IProps, IState> {
             {averageData.removedEmphasis && (
               <p>
                 <Tooltip title={TooltipRemovedEmphasis}>
-                Noten des Schwerpunktes {averageData.removedEmphasisName} wurden entfernt
+                Noten folgender Schwerpunkte wurden ignoriert: {averageData.removedEmphasisNames.map(x => {
+                    return <li className="key_removed_elevtive" key={keyGenerator()}>{x}</li>})
+                  }
                 </Tooltip>
               </p>
             )}

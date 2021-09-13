@@ -27,10 +27,17 @@ export interface GradePackageAverage{
     bestPossibleGrade?:number,
     worstPossibleGrade?:number,
     incomplete?:boolean,
+    ids?: number[],
     completeness?:number,
     complete?:boolean,
+    multiGrade?: boolean,
     missing?:Exam[],
     missingElevtiveGrades?: MissingElevtiveEmphasis
+}
+
+export interface ElectiveOptionReturnType{
+    electiveToBeRemoved: GradePackage[],
+    newGradePackage: GradePackage[]
 }
 
 export interface CaseReturn{
@@ -46,5 +53,6 @@ export interface MissingElevtivesEmphasis{
 // single missing package
 export interface MissingElevtiveEmphasis{
     exams: Exam[],
-    amoundMissing: number
+    amoundMissing: number,
+    missingECTS?: boolean
 }

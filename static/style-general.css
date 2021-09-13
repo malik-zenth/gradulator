@@ -68,3 +68,7 @@
 .dropdown-option-degree{
     display: inline-flex;
 }
+
+.detailsInputLabel{
+    font-weight: bold;
+}
