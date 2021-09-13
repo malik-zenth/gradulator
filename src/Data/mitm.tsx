@@ -89,38 +89,17 @@ const mitm_exams: Exams = {
         packageid: 182250
     },
     182261: {
-        name: "Destination Marketing",
-        semester: 2,
-        ects: 2.5,
-        weight: 2.5,
-        packageid: 182260
-    },
-    182262: {
-        name: "Hospitality Marketing",
-        semester: 2,
-        ects: 2.5,
-        weight: 2.5,
-        packageid: 182260
-    },
-    182263: {
-        name: "Tour Operator Marketing",
-        semester: 2,
-        ects: 2.5,
-        weight: 2.5,
-        packageid: 182260
-    },
-    182271: {
-        name: "Leading International Projects",
-        semester: 2,
-        ects: 2.5,
-        weight: 2.5,
-        packageid: 182270
-    },
-    182272: {
-        name: "Integrated Tourism Projects",
+        name: "Marketing in International Tourism",
         semester: 2,
         ects: 7.5,
         weight: 7.5,
+        packageid: 182260
+    },
+    182271: {
+        name: "Integrated Tourism Projects",
+        semester: 2,
+        ects: 10,
+        weight: 10,
         packageid: 182270
     },
     182281: {
@@ -168,12 +147,12 @@ const mitm_ExamPackages: ExamPackages = {
     182260: {
         name: "Marketing in International Tourism",
         weight: 7.5,
-        required: [182261,182262,182263]
+        required: [182261]
     },
     182270: {
         name: "Integrated Tourism Project",
         weight: 10,
-        required: [182271,182272]
+        required: [182271]
     },
     182280: {
         name: "Advanced Research Methods",
