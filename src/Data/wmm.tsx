@@ -696,28 +696,28 @@ const wmm_exams: Exams = {
         semester_choise: 1,
         ects: 5,
         weight: 5,
-        name: "VWL I",
+        name: "VWL I (5 ECTS)",
         packageOptions: [204550, 204580]
     },
     204552: {
         semester_choise: 1,
         ects: 5,
         weight: 5,
-        name: "Recht I",
+        name: "Recht I (5 ECTS)",
         packageOptions: [204550, 204580]
     },
     204553: {
         semester_choise: 1,
         ects: 5,
         weight: 5,
-        name: "Methoden I",
+        name: "Methoden I (5 ECTS)",
         packageOptions: [204550, 204580]
     },
     204554: {
         semester_choise: 1,
         ects: 5,
         weight: 5,
-        name: "Studium Generale I",
+        name: "Studium Generale I (5 ECTS)",
         packageOptions: [204550, 204580]
     },
     204561: {
@@ -745,81 +745,81 @@ const wmm_exams: Exams = {
         semester_choise: 1,
         ects: 2.5,
         weight: 2.5,
-        name: "VWL I",
+        name: "VWL I (2.5 ECTS)",
         packageid: 204570
     },
     204572: {
         semester_choise: 1,
         ects: 2.5,
         weight: 2.5,
-        name: "Recht I",
+        name: "Recht I (2.5 ECTS)",
         packageid: 204570
     },
     204573: {
         semester_choise: 1,
         ects: 2.5,
         weight: 2.5,
-        name: "Methoden I",
+        name: "Methoden I (2.5 ECTS)",
         packageid: 204570
     },
     204574: {
         semester_choise: 1,
         ects: 2.5,
         weight: 2.5,
-        name: "Studium Generale I",
+        name: "Studium Generale I (2.5 ECTS)",
         packageid: 204570
     },
     204575: {
         semester_choise: 1,
         ects: 2.5,
         weight: 2.5,
-        name: "VWL II",
+        name: "VWL II (2.5 ECTS)",
         packageid: 204570
     },
     204576: {
         semester_choise: 1,
         ects: 2.5,
         weight: 2.5,
-        name: "Recht II",
+        name: "Recht II (2.5 ECTS)",
         packageid: 204570
     },
     204577: {
         semester_choise: 1,
         ects: 2.5,
         weight: 2.5,
-        name: "Methoden II",
+        name: "Methoden II (2.5 ECTS)",
         packageid: 204570
     },
     204578: {
         semester_choise: 1,
         ects: 2.5,
         weight: 2.5,
-        name: "Studium Generale II",
+        name: "Studium Generale II (2.5 ECTS)",
         packageid: 204570
     },
     204581: {
-        name: "VWL II",
+        name: "VWL II (5 ECTS)",
         ects: 5,
         weight: 5,
         packageid: 204580,
         semester_choise: 1
     },
     204582: {
-        name: "Recht II",
+        name: "Recht II (5 ECTS)",
         ects: 5,
         weight: 5,
         packageid: 204580,
         semester_choise: 1
     },
     204583: {
-        name: "Methoden II",
+        name: "Methoden II (5 ECTS)",
         ects: 5,
         weight: 5,
         packageid: 204580,
         semester_choise: 1
     },
     204584: {
-        name: "Studium Generale II",
+        name: "Studium Generale II (5 ECTS)",
         ects: 5,
         weight: 5,
         packageid: 204580,
