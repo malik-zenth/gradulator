@@ -11,6 +11,7 @@ import { tmb } from "./tmb"
 import { hm } from "./hm";
 import { mibim } from "./mibim";
 import { ibisb } from "./ibisb";
+import {wmm} from "./wmm"
 
 export const faculties: FacultyOptions[] =  [
     {
@@ -97,6 +98,12 @@ export const options: DegreeOption[] = [
         shortName: "IBIS-B",
         longName: "Internationale Betriebswirtschaft - Interkulturelle Studien",
         facultyId: 2
+    },
+    {
+        data: wmm,
+        shortName: "WMM",
+        longName: "Weinmarketing und Management",
+        facultyId: 2
     }
 ]
 
@@ -132,6 +139,9 @@ export function mapName(text: string): string {
     }
     else if (text.includes("International Bet")){
         return "IBIS-B"
+    }
+    else if (text.includes("Weinmarketing")){
+        return "WMM"
     }
     else {
         return text
