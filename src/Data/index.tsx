@@ -12,6 +12,8 @@ import { hm } from "./hm";
 import { mibim } from "./mibim";
 import { ibisb } from "./ibisb";
 import {wmm} from "./wmm"
+import { mitm } from "./mitm";
+import { nte } from "./nte";
 
 export const faculties: FacultyOptions[] =  [
     {
@@ -104,6 +106,18 @@ export const options: DegreeOption[] = [
         shortName: "WMM",
         longName: "Weinmarketing und Management",
         facultyId: 2
+    },
+    {
+        data: mitm,
+        shortName: "MITM",
+        longName: "International Tourim Management",
+        facultyId: 2
+    },
+    {
+        data: nte,
+        shortName: "NTE",
+        longName: "Nachhaltige Tourismusentwicklung",
+        facultyId: 2
     }
 ]
 
@@ -142,6 +156,12 @@ export function mapName(text: string): string {
     }
     else if (text.includes("Weinmarketing")){
         return "WMM"
+    }
+    else if (text.includes("International Tou")){
+        return "MITM"
+    }
+    else if (text.includes("Nachhaltige Tou")){
+        return "NTE"
     }
     else {
         return text
