@@ -11,6 +11,7 @@ import { tmb } from "./tmb"
 import { hm } from "./hm";
 import { mibim } from "./mibim";
 import { ibisb } from "./ibisb";
+import { se } from "./se";
 
 export const faculties: FacultyOptions[] =  [
     {
@@ -22,6 +23,11 @@ export const faculties: FacultyOptions[] =  [
         longName: "International Business",
         shortName: "IB",
         facultyId: 2
+    },
+    {
+        longName: "Informatik",
+        shortName: "IT",
+        facultyId: 3
     }
 ]
 
@@ -97,6 +103,12 @@ export const options: DegreeOption[] = [
         shortName: "IBIS-B",
         longName: "Internationale Betriebswirtschaft - Interkulturelle Studien",
         facultyId: 2
+    },
+    {
+        data: se,
+        shortName: "SE",
+        longName: "Software Engineering",
+        facultyId: 3
     }
 ]
 
@@ -132,6 +144,9 @@ export function mapName(text: string): string {
     }
     else if (text.includes("International Bet")){
         return "IBIS-B"
+    }
+    else if (text.includes("Software Engineering")){
+        return "SE"
     }
     else {
         return text

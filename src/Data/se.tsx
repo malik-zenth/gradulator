@@ -23,7 +23,19 @@ const se_basic_data: BasicInformation = {
         name: "Systems Enginerring",
         weight: 18,
         emphasisid: 3
-    }]
+    }],
+    elevtive: [
+        {
+            ids: [262072, 262073, 262164, 262074, 262026, 262144, 262180, 262179, 262196, 262064, 262198, 262107, 262199, 262197, 262181, 262182, 262183, 262184],
+            requiredEcts: 12,
+            examid: 262100
+        },
+        {
+            ids: [262072, 262073, 262164, 262074, 262026, 262144, 262180, 262179, 262196, 262064, 262198, 262107, 262199, 262197, 262181, 262182, 262183, 262184],
+            requiredEcts: 12,
+            examid: 262900
+        },
+    ]
 }
 
 const se_exams: Exams = {
@@ -204,7 +216,151 @@ const se_exams: Exams = {
         name: "Studium Generale",
         packageid: 262170,
         ignored: true
-    }
+    },
+    262072:
+    {
+        semester: 6,
+        ects: 4,
+        weight: 4,
+        name: "Management im Software Engineering",
+        packageid: 262100,
+    },
+    262073:
+    {
+        semester: 6,
+        ects: 4,
+        weight: 4,
+        name: "Moderation und Gesprächsführung in der IT",
+        packageid: 262100,
+    },
+    262164:
+    {
+        semester: 6,
+        ects: 6,
+        weight: 6,
+        name: "Ausgewählte Kapitel des Software Engineering",
+        packageid: 262100,
+    },
+    262074:
+    {
+        semester: 6,
+        ects: 2,
+        weight: 2,
+        name: "Recht in der IT",
+        packageid: 262100,
+    },
+    262026:
+    {
+        semester: 6,
+        ects: 4,
+        weight: 4,
+        name: "Weiterführende Programmiersprachen",
+        packageid: 262100,
+    },
+    262144:
+    {
+        semester: 6,
+        ects: 3,
+        weight: 3,
+        name: "Virtual Realizy",
+        packageid: 262100,
+    },
+    262180:
+    {
+        semester: 6,
+        ects: 3,
+        weight: 3,
+        name: "Datenbanken 2",
+        packageid: 262100,
+    },
+    262179:
+    {
+        semester: 6,
+        ects: 3,
+        weight: 3,
+        name: "Datenbanken 3",
+        packageid: 262100,
+    },
+    262196:
+    {
+        semester: 6,
+        ects: 6,
+        weight: 6,
+        name: "Matematische Modellierung",
+        packageid: 262100,
+    },
+    262064:
+    {
+        semester: 6,
+        ects: 6,
+        weight: 6,
+        name: "Simulation",
+        packageid: 262100,
+    },
+    262198:
+    {
+        semester: 6,
+        ects: 3,
+        weight: 3,
+        name: "Maschinelles Lernen und Mustererkennung",
+        packageid: 262100,
+    },
+    262107:
+    {
+        semester: 6,
+        ects: 6,
+        weight: 6,
+        name: "Ausgewählte Kapitel des Games Engineering",
+        packageid: 262100,
+    },
+    262199:
+    {
+        semester: 6,
+        ects: 3,
+        weight: 3,
+        name: "Anwendungsprojekte",
+        packageid: 262100,
+    },
+    262197:
+    {
+        semester: 6,
+        ects: 2,
+        weight: 2,
+        name: "Funktionale Sicherheit",
+        packageid: 262100,
+    },
+    262181:
+    {
+        semester: 6,
+        ects: 4,
+        weight: 4,
+        name: "Web Application Development",
+        packageid: 262100,
+    },
+    262182:
+    {
+        semester: 6,
+        ects: 6,
+        weight: 6,
+        name: "Ausgewählte Kapitel der Digitalen Transformation",
+        packageid: 262100,
+    },
+    262183:
+    {
+        semester: 6,
+        ects: 6,
+        weight: 6,
+        name: "Innovation Lab",
+        packageid: 262100,
+    },
+    262184:
+    {
+        semester: 6,
+        ects: 6,
+        weight: 6,
+        name: "Ausgewählte Projekte in Forschung und Entwicklung",
+        packageid: 262100,
+    },
 }
 
 const se_ExamPackages: ExamPackages = {
@@ -268,6 +424,16 @@ const se_ExamPackages: ExamPackages = {
         weight: 0,
         required: [262135],
         ignored: true
+    }, 262100:
+    {
+        name: "Erweiterung Anwendung",
+        weight: 12,
+        required: [262072, 262073, 262164, 262074, 262026, 262144, 262180, 262179, 262196, 262064, 262198, 262107, 262199, 262197, 262181, 262182, 262183, 262184]
+    }, 262900:
+    {
+        name: "Vertiefung Softwaretechnik",
+        weight: 12,
+        required: [262072, 262073, 262164, 262074, 262026, 262144, 262180, 262179, 262196, 262064, 262198, 262107, 262199, 262197, 262181, 262182, 262183, 262184]
     }
 }
 
