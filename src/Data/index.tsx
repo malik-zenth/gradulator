@@ -14,6 +14,7 @@ import { ibisb } from "./ibisb";
 import {wmm} from "./wmm"
 import { mitm } from "./mitm";
 import { nte } from "./nte";
+import {mbb} from "./mbb"
 
 export const faculties: FacultyOptions[] =  [
     {
@@ -25,6 +26,11 @@ export const faculties: FacultyOptions[] =  [
         longName: "International Business",
         shortName: "IB",
         facultyId: 2
+    },
+    {
+        longName: "Mechanik und Elektronik",
+        shortName: "T1",
+        facultyId: 3
     }
 ]
 
@@ -118,6 +124,12 @@ export const options: DegreeOption[] = [
         shortName: "NTE",
         longName: "Nachhaltige Tourismusentwicklung",
         facultyId: 2
+    },
+    {
+        data: mbb,
+        shortName: "MB-B",
+        longName: "Bachelorstudiengang Maschinenbau",
+        facultyId: 3
     }
 ]
 
@@ -162,6 +174,9 @@ export function mapName(text: string): string {
     }
     else if (text.includes("Nachhaltige Tou")){
         return "NTE"
+    }
+    else if (text.includes("Maschinenbau")){
+        return "MB-B"
     }
     else {
         return text

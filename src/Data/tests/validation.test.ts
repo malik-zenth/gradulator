@@ -101,7 +101,6 @@ describe("test all available data", () => {
                         expect(singleElevative.choiseID).toBeDefined()
                     }
                     if (singleElevative.requiredEcts) {
-                        expect(singleElevative.multiOption).not.toBeDefined()
                         expect(singleElevative.required).not.toBeDefined()
                     }
                     if (singleElevative.required) {
