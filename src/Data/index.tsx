@@ -124,12 +124,6 @@ export const options: DegreeOption[] = [
         shortName: "NTE",
         longName: "Nachhaltige Tourismusentwicklung",
         facultyId: 2
-    },
-    {
-        data: mbb,
-        shortName: "MB-B",
-        longName: "Bachelorstudiengang Maschinenbau",
-        facultyId: 3
     }
 ]
 
