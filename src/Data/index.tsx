@@ -27,11 +27,11 @@ export const faculties: FacultyOptions[] =  [
         shortName: "IB",
         facultyId: 2
     },
-    {
-        longName: "Mechanik und Elektronik",
-        shortName: "T1",
-        facultyId: 3
-    }
+//    {
+//        longName: "Mechanik und Elektronik",
+//        shortName: "T1",
+//        facultyId: 3
+//    }
 ]
 
 export const options: DegreeOption[] = [
