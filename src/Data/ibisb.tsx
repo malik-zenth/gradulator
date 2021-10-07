@@ -3,7 +3,6 @@ import { BasicInformation, ExamPackages, Exams, SingleOption } from "./types";
 const ibisb_basicData: BasicInformation = {
     name: "Internationale Betriebswirtschaft - Interkulturelle Studien",
     spo: 5,
-    beta: true,
     ects: 117,
     weight: 120,
     semesterChoices: {
@@ -68,7 +67,7 @@ const ibisb_basicData: BasicInformation = {
             // Multiple Languages Emphasis Orient & Arabic
             options: [
                 {
-                    ids: [255441, 255442, 255461],
+                    ids: [255441, 255442, 255451],
                     required: 3
                 },
                 {
@@ -128,24 +127,54 @@ const ibisb_basicData: BasicInformation = {
             // Major
             options: [
                 {
-                    ids: [255311, 255312, 255313, 255314, 255315, 255316, 255317, 255318, 255319, 255220],
-                    requiredECTS: 20
+                    ids: [255311, 255220],
+                    required: 2,
+                    optionId: 1
                 },
                 {
-                    ids: [255321, 255322, 255323, 255324, 255325, 255326],
-                    requiredECTS: 20
+                    ids: [255312, 255313, 255314, 255315, 255316, 255317, 255318, 255319],
+                    required: 3,
+                    optionId: 1
                 },
                 {
-                    ids: [255331, 255332, 255333, 255334, 255335],
-                    requiredECTS: 20
+                    ids: [255321, 255326],
+                    required: 2,
+                    optionId: 2
                 },
                 {
-                    ids: [255341, 255342, 255343, 255344, 255345],
-                    requiredECTS: 20
+                    ids: [255322, 255323, 255324, 255325],
+                    required: 3,
+                    optionId: 2
                 },
                 {
-                    ids: [255351, 255352, 255353, 255354, 255355, 255356, 255357, 255358],
-                    requiredECTS: 20
+                    ids: [255331, 255335],
+                    required: 2,
+                    optionId: 3
+                },
+                {
+                    ids: [255332, 255333, 255334],
+                    required: 3,
+                    optionId: 3
+                },
+                {
+                    ids: [255341, 255345],
+                    required: 2,
+                    optionId: 4
+                },
+                {
+                    ids: [255342, 255343, 255344],
+                    required: 3,
+                    optionId: 4
+                },
+                {
+                    ids: [255351, 255358],
+                    required: 2,
+                    optionId: 5
+                },
+                {
+                    ids: [255352, 255353, 255354, 255355, 255356, 255357],
+                    required: 3,
+                    optionId: 5
                 }
             ],
             multiOption: true,
@@ -156,24 +185,54 @@ const ibisb_basicData: BasicInformation = {
             // Minor
             options: [
                 {
-                    ids: [255311, 255312, 255313, 255314, 255315, 255316, 255317, 255318, 255319, 255220],
-                    requiredECTS: 10
+                    ids: [255311],
+                    required: 1,
+                    optionId: 1
                 },
                 {
-                    ids: [255321, 255322, 255323, 255324, 255325, 255326],
-                    requiredECTS: 10
+                    ids: [255312, 255313, 255314, 255315, 255316, 255317, 255318, 255319],
+                    required: 2,
+                    optionId: 1
                 },
                 {
-                    ids: [255331, 255332, 255333, 255334, 255335],
-                    requiredECTS: 10
+                    ids: [255321],
+                    required: 1,
+                    optionId: 2
                 },
                 {
-                    ids: [255341, 255342, 255343, 255344, 255345],
-                    requiredECTS: 10
+                    ids: [255322, 255323, 255324, 255325],
+                    required: 2,
+                    optionId: 2
                 },
                 {
-                    ids: [255351, 255352, 255353, 255354, 255355, 255356, 255357, 255358],
-                    requiredECTS: 10
+                    ids: [255331],
+                    required: 1,
+                    optionId: 3
+                },
+                {
+                    ids: [255332, 255333, 255334],
+                    required: 2,
+                    optionId: 3
+                },
+                {
+                    ids: [255341],
+                    required: 1,
+                    optionId: 4
+                },
+                {
+                    ids: [255342, 255343, 255344],
+                    required: 2,
+                    optionId: 4
+                },
+                {
+                    ids: [255351],
+                    required: 1,
+                    optionId: 5
+                },
+                {
+                    ids: [255352, 255353, 255354, 255355, 255356, 255357],
+                    required: 2,
+                    optionId: 5
                 }
             ],
             multiOption: true,
@@ -374,7 +433,7 @@ const ibisb_exams: Exams = {
         emphasisid: 1,
         packageid: 255440
     },
-    255461: {
+    255451: {
         name: "Wirtschaftsarabisch II, A2.2",
         semester: 6,
         weight: 2.5,
@@ -648,7 +707,7 @@ const ibisb_exams: Exams = {
         weight: 7.5,
         ects: 7.5,
         semester_choise: 1,
-        packageOptions: [888888, 999999]
+        packageid: 999999
     },
     255321: {
         name: "International Finance",
@@ -690,7 +749,7 @@ const ibisb_exams: Exams = {
         weight: 7.5,
         ects: 7.5,
         semester_choise: 1,
-        packageOptions: [888888, 999999]
+        packageid: 999999
     },
     255331: {
         name: "International Human Resource Management",
@@ -725,7 +784,7 @@ const ibisb_exams: Exams = {
         weight: 7.5,
         ects: 7.5,
         semester_choise: 1,
-        packageOptions: [888888, 999999]
+        packageid: 999999
     },
     255341: {
         name: "International Management",
@@ -760,7 +819,7 @@ const ibisb_exams: Exams = {
         weight: 7.5,
         ects: 7.5,
         semester_choise: 1,
-        packageOptions: [888888, 999999]
+        packageid: 999999
     },
     255351: {
         name: "International Marketing",
@@ -816,7 +875,7 @@ const ibisb_exams: Exams = {
         weight: 7.5,
         ects: 7.5,
         semester_choise: 1,
-        packageOptions: [888888, 999999]
+        packageid: 999999
     }
 
 
@@ -898,7 +957,7 @@ const ibisb_examPackages: ExamPackages = {
     255440: {
         name: "Language Area Studies",
         weight: 12.5,
-        required: [255441, 255442, 255461, 255471, 255472, 255481]
+        required: [255441, 255442, 255451, 255471, 255472, 255481]
     },
     255640: {
         name: "Language Area Studies",
@@ -918,9 +977,9 @@ const ibisb_examPackages: ExamPackages = {
     888888: {
         name: "Minor",
         weight: 10,
-        required: [255311, 255312, 255313, 255314, 255315, 255316, 255317, 255341, 255342, 255343, 255344, 255345,
-            255318, 255319, 255220, 255321, 255322, 255323, 255324, 255325, 255326,255331, 255332, 255333, 255334, 
-            255335, 255351, 255352, 255353, 255354, 255355, 255356, 255357, 255358]
+        required: [255311, 255312, 255313, 255314, 255315, 255316, 255317, 255341, 255342, 255343, 255344,
+            255318, 255319, 255321, 255322, 255323, 255324, 255325,255331, 255332, 255333, 255334, 
+            255351, 255352, 255353, 255354, 255355, 255356, 255357]
     },
     999999: {
         name: "Major",

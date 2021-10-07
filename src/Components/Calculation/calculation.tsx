@@ -156,7 +156,6 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
                             inputPackages, singlePackage, elevative_package, examData, gradePackages)
                         incompletePackages.push(...incompletePackagesToBeAdded)
                     }else{
-
                         const incompletePackagesToBeAdded = checkIncompleteElectiveOptionDefault(
                             inputPackages, singlePackage, elevative_package, examData, gradePackages)
                         incompletePackages.push(...incompletePackagesToBeAdded)
@@ -233,13 +232,18 @@ const checkIncompleteElectiveOptionDefault = (inputPackages: GradePackages, sing
         const notCompletedIds = optionsWithSameOptionID.filter(x => x.leftRequired != 0)
         if (notCompletedIds.length != 0) {
             var achived_weight: number = 0
-            const completedWithSameOptionID = optionsWithSameOptionID.filter(x => x.leftRequired === 0)
-            const completedWeight = inputPackages[singlePackage].filter((input) => completedWithSameOptionID.some(x => x.ids.includes(input.examID)))
+            const completedWeight = inputPackages[singlePackage].filter((input) => optionsWithSameOptionID.some(x => x.ids.includes(input.examID)))
             completedWeight.map(x => {
                 achived_weight += x.weight
             })
             const missingIds: number[] = []
-            notCompletedIds.forEach(x => missingIds.push(...x.ids))
+            notCompletedIds.forEach(x => {
+                x.ids.forEach(id => {
+                    if(!completedWeight.some(completedId => completedId.examID === id)){
+                        missingIds.push(id)
+                    }
+                })
+            })
             incompletePackages.push({
                 missingElevtiveGrades: {
                     amoundMissing: notCompletedIds.map(x => x.leftRequired).reduce((a, b) => a + b, 0),

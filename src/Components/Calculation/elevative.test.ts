@@ -98,7 +98,7 @@ describe("test if elevative calculation is still working", () => {
             { examid: 255211, grade: 3, estimated: false },
             { examid: 255922, grade: 5, estimated: false },
             { examid: 255941, grade: 2, estimated: false },
-            { examid: 255461, grade: 2, estimated: true },
+            { examid: 255451, grade: 2, estimated: true },
             { examid: 255342, grade: 5, estimated: false },
             { examid: 255672, grade: 3, estimated: true },
             { examid: 255345, grade: 4, estimated: true },
