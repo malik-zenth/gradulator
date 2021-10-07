@@ -8,7 +8,7 @@ import {
 } from "../Data/types";
 import { calculateData } from "./Calculation/calculation";
 import { GradePackageAverage } from "./Calculation/types";
-import { Button, Divider, Tooltip } from "antd";
+import { Button, Divider, Tooltip, message } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationCircle,
@@ -45,6 +45,7 @@ class AveragePage extends React.Component<IProps, IState> {
 
   componentDidMount(){
     window.scrollTo(0,0)
+    message.info('Bitte beachte, dass dies keine offizielle Berechnung deines Durchschnitts ist.');
   }
 
   changeCollabStatus(name: string){
