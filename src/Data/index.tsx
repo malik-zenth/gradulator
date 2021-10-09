@@ -11,12 +11,12 @@ import { tmb } from "./tmb"
 import { hm } from "./hm";
 import { mibim } from "./mibim";
 import { ibisb } from "./ibisb";
-import {wmm} from "./wmm"
+import { wmm } from "./wmm"
 import { mitm } from "./mitm";
 import { nte } from "./nte";
-import {mbb} from "./mbb"
+import { mbb } from "./mbb"
 
-export const faculties: FacultyOptions[] =  [
+export const faculties: FacultyOptions[] = [
     {
         longName: "Wirtschaft und Verkehr",
         shortName: "WV",
@@ -27,11 +27,11 @@ export const faculties: FacultyOptions[] =  [
         shortName: "IB",
         facultyId: 2
     },
-//    {
-//        longName: "Mechanik und Elektronik",
-//        shortName: "T1",
-//        facultyId: 3
-//    }
+    {
+        longName: "Mechanik und Elektronik",
+        shortName: "T1",
+        facultyId: 3
+    }
 ]
 
 export const options: DegreeOption[] = [
@@ -124,6 +124,12 @@ export const options: DegreeOption[] = [
         shortName: "NTE",
         longName: "Nachhaltige Tourismusentwicklung",
         facultyId: 2
+    },
+    {
+        data: mbb,
+        shortName: "MB-B",
+        longName: "Bachelorstudiengang Maschinenbau",
+        facultyId: 3
     }
 ]
 
@@ -148,28 +154,28 @@ export function mapName(text: string): string {
     else if (text.includes("Verkehrsbetriebswirtschaft und L")) {
         return "VB"
     }
-    else if (text.includes("Tourismus")){
+    else if (text.includes("Tourismus")) {
         return "TMB"
     }
-    else if (text.includes("Hotel-")){
+    else if (text.includes("Hotel-")) {
         return "HM-B"
     }
-    else if (text.includes("International Bu")){
+    else if (text.includes("International Bu")) {
         return "MIBIM"
     }
-    else if (text.includes("International Bet")){
+    else if (text.includes("International Bet")) {
         return "IBIS-B"
     }
-    else if (text.includes("Weinmarketing")){
+    else if (text.includes("Weinmarketing")) {
         return "WMM"
     }
-    else if (text.includes("International Tou")){
+    else if (text.includes("International Tou")) {
         return "MITM"
     }
-    else if (text.includes("Nachhaltige Tou")){
+    else if (text.includes("Nachhaltige Tou")) {
         return "NTE"
     }
-    else if (text.includes("Maschinenbau")){
+    else if (text.includes("Maschinenbau")) {
         return "MB-B"
     }
     else {
