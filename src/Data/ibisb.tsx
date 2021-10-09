@@ -399,7 +399,7 @@ const ibisb_exams: Exams = {
         packageid: 255440
     },
     255481: {
-        name: "Verhandeln auf Arabisch, 82",
+        name: "Verhandeln auf Arabisch, B2",
         semester: 6,
         weight: 2.5,
         ects: 2.5,
