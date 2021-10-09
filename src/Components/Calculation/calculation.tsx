@@ -139,6 +139,7 @@ const checkIncompletePackes = (inputPackages: GradePackages, gradePackages: Exam
             missingGrades.map((x: Exam) => {
                 overallMissing += x.weight
             })
+            
             // if their are elevative grades check if current package is part of them, if so use other logik to detect completness
             if (!elevative || !elevative.map(x => x.examid).includes(parseInt(singlePackage))) {
                 incompletePackages.push({
@@ -380,6 +381,8 @@ const calculateAverages = (userGrades: GradePackages, gradePackages: ExamPackage
             weight: gradePackages[single].weight,
             gradePackageID: parseInt(single),
             grade: cutGrade(grade / points),
+            missing: [],
+            complete: true
         })
     })
 

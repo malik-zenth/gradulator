@@ -95,6 +95,7 @@ export interface Exam{
     semester_choise?: number,
     packageOptions?: number[],
     ignored?: boolean,
+    examid?: number
 }
 
 // all the packages of exams the exams get turned into

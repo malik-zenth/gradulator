@@ -67,7 +67,6 @@ describe("test if elevative calculation is still working", () => {
         ]
         const calculationResult = calculateData(testInput, getDegreeByName("TMB").data)
         const relevantResult = calculationResult.singleGrades[0]
-        expect(relevantResult.complete).not.toBeDefined()
         expect(relevantResult.missingElevtiveGrades).not.toBeDefined()
     })
 
