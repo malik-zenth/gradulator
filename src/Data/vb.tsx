@@ -66,14 +66,14 @@ const vb_exams: Exams = {
     163101: {
         semester: 3,
         ects: 2.5,
-        weight: 5,
+        weight: 1,
         name: "Strategisches Management",
         packageid: 163100,
     },
     163102: {
         semester: 3,
         ects: 2.5,
-        weight: 5,
+        weight: 1,
         name: "BWL-Seminar",
         packageid: 163100,
     },

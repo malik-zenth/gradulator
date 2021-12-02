@@ -15,7 +15,9 @@ function get_missing(complete_array: any, incomplete_array: any): any[] {
 }
 
 function cutGrade(grade: number): number {
-    return parseFloat(grade.toString().substring(0, grade.toString().indexOf(".") + 2))
+    // Round Grade to two decimal points in order to prevent some JS magic with 1.5 + 1.5 = 2.999999 :) 
+    const cuttedGrade: string = grade.toFixed(2)
+    return parseFloat(cuttedGrade.substring(0, cuttedGrade.indexOf(".") + 2))
 }
 
 // order Grade Package by Grade in order to remove those grades that are the worst
