@@ -241,7 +241,7 @@ const bu_exams: Exams = {
     {
         semester: 4,
         ects: 1,
-        weight: 1,
+        weight: 5,
         name: "Rhetorik im Vertrieb",
         packageid: 152601,
         emphasisid: 2

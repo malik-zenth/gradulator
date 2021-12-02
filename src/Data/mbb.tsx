@@ -108,7 +108,7 @@ const mbb_exams: Exams = {
     114131: {
         name: "Signale und Systeme",
         ects: 2,
-        weight: 1,
+        weight: 5,
         packageid: 114130,
         semester: 3
     },
@@ -122,7 +122,7 @@ const mbb_exams: Exams = {
     114151: {
         name: "Konstruieren mit CAD",
         ects: 3,
-        weight: 1,
+        weight: 5,
         packageid: 114150,
         semester: 3
     },
@@ -143,7 +143,7 @@ const mbb_exams: Exams = {
     114133: {
         name: "Labor Messtechnik",
         ects: 3,
-        weight: 1,
+        weight: 5,
         packageid: 114130,
         semester: 4
     },
@@ -171,49 +171,49 @@ const mbb_exams: Exams = {
     114181: {
         name: "Fluidtechnik",
         ects: 2.5,
-        weight: 1,
+        weight: 5,
         packageid: 114180,
         semester: 6
     },
     114192: {
         name: "Rhetorik",
         ects: 2,
-        weight: 1,
+        weight: 5,
         packageid: 114190,
         semester: 6
     },
     114193: {
         name: "Recht für Ingenieure",
         ects: 2.5,
-        weight: 1,
+        weight: 5,
         packageid: 114190,
         semester: 6
     },
     114201: {
         name: "Projektlabor",
         ects: 2.5,
-        weight: 1,
+        weight: 5,
         packageid: 114200,
         semester: 6
     },
     114194: {
         name: "Einführung in die Betriebswirtschaftslehre",
         ects: 2.5,
-        weight: 1,
+        weight: 5,
         packageid: 114190,
         semester: 7
     },
     114202: {
         name: "Projektplanung",
         ects: 3,
-        weight: 1,
+        weight: 5,
         packageid: 114200,
         semester: 7
     },
     114203: {
         name: "MB-Kolloquium",
         ects: 2.5,
-        weight: 1,
+        weight: 5,
         packageid: 114200,
         semester: 7
     },
