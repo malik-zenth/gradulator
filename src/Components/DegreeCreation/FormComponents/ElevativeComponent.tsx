@@ -4,7 +4,6 @@ import { ElevativeCreationType, ExamCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
 import { ToolTipElevativeAmountToHigh, ToolTipNameOrWeightMissingElevative, ToolTipElevativeNotSavable } from "../../const"
 import { DeleteElevativeModal, DeleteExamModal } from "../ModalMessages";
-import { RenderExams } from "../RenderComponents"
 
 interface iProps {
     onDelete: Function,
@@ -273,7 +272,7 @@ const ElevativeComponent = (props: iProps) => {
     }
 
     const addExam = () => {
-        setExams([...exams, { editMode: true }])
+        //setExams([...exams, { editMode: true }])
     }
 
     const renderExamsHeader = (): ReactFragment => {
@@ -335,19 +334,6 @@ const ElevativeComponent = (props: iProps) => {
 
             {renderElevativePackage()}
             {renderExamsHeader()}
-            <RenderExams
-                data={exams}
-                showEditButtons={true}
-                parentIndex={props.index}
-                onDeleteEdit={(index: number) => deleteExam(index)}
-                onSaveEdit={(examData: ExamCreationType, index: number) => saveExam(examData, index)}
-                setEdit={(index: number) => setEditExam(true, index)}
-                onDeleteNotEdit={(index: number) => {
-                    setExamToBeDeleted(index)
-                    setShowDeleteExamModal(true)
-                }}
-                parentsParentsIndex={props.parentsIndex}
-            />
             <Divider />
             {buttons()}
         </div>

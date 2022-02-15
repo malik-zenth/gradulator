@@ -206,6 +206,11 @@
         min-height: calc(100vh - 60px);
     }
 
+    .degreeCreator{
+        width: 95%;
+        margin-left: 2.5%;
+    }
+
     .footer-link{
         float: right;
         padding: 1em
@@ -371,6 +376,14 @@
         width: 80%;
     }
 
+    .singleStepDegreeCreator{
+        margin-top: 2%
+    }
+
+    .buttonTextAddExam{        
+        overflow-wrap: normal;        
+    }
+
     .examPackages_add_heading{
         margin-right: 5px;
     }
@@ -393,13 +406,19 @@
         font-weight: bold;
     }
 
-    .degreeCreator_exam_noEdit{
-        margin-left: 10%;
+    .createExamForm{
+        min-height: 150px;
     }
 
-    .degreeCreator_exam_name{
-        width: 65%;
-        min-height: 45px;
+    .degreeCreator_exam_noEdit{
+        margin-left: 10%;
+        min-height: 250px;
+    }
+
+    .degreeCreator_examText{
+        font-size: 14px;
+        height: 33px;
+        margin-bottom: 24px; 
     }
 
     .degreeCreator_exampackage_text{
@@ -420,6 +439,15 @@
     .examComponent{
         width: 80%;
         margin-left: 10%;
+    }
+
+    .minHeight250{
+        min-height: 250px !important;
+    }
+
+    .addExamButton{
+        width: 100%;
+        border-style: dashed !important;
     }
 
     .divider_large_text{

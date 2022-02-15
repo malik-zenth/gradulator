@@ -4,7 +4,6 @@ import { ExamCreationType, ExamPackageCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
 import { ToolTipExamPackageNotSavable, ToolTipNameOrWeightMissingExamPackage } from "../../const"
 import { DeleteExamModal, DeleteExamPackageModal } from "../ModalMessages";
-import { RenderExams } from "../RenderComponents"
 
 interface iProps {
     onDelete: Function,
@@ -215,7 +214,7 @@ const ExamPackageComponent = (props: iProps) => {
     }
 
     const addExam = () => {
-        setExams([...exams, { editMode: true }])
+        //setExams([...exams, { editMode: true }])
     }
 
     const renderExamsHeader = (): ReactFragment => {
@@ -277,19 +276,6 @@ const ExamPackageComponent = (props: iProps) => {
             />
             {renderExamPackage()}
             {renderExamsHeader()}
-            <RenderExams
-                data={exams}
-                showEditButtons={true}
-                onDeleteEdit={(index: number) => deleteExam(index)}
-                onSaveEdit={(examData: ExamCreationType, index: number) => saveExam(examData, index)}
-                setEdit={(index: number) => setEditExam(true, index)}
-                onDeleteNotEdit={(index: number) => {
-                    setExamToBeDeleted(index)
-                    setShowDeleteExamModal(true)
-                }}
-                parentIndex={props.index}
-                parentsParentsIndex={props.parentsIndex}
-            />
             <Divider />
             {buttons()}
         </div>

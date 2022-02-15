@@ -1,7 +1,7 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Button, Divider, Col } from "antd";
 import { ElevativeCreationType } from "../types";
-import RenderExams from "./RenderExams";
+import RenderExams from "./RenderExam";
 import { DeleteElevativeModal } from "../ModalMessages";
 import ElevativeComponent from "../FormComponents/ElevativeComponent";
 
@@ -71,12 +71,12 @@ const RenderElevative = (props: iProps) => {
                         <div className="elevatives_add_heading">Auswahlmöglichkeiten</div>
                     </div>
                 </Divider>
-
+{/*
                 <RenderExams
                     data={values.exams}
                     showEditButtons={false}
-                    parentIndex={props.index}
                 />
+*/}
                 <Divider />
                 {buttons(index)}
 

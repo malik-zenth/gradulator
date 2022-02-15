@@ -2,7 +2,7 @@ import React, { ReactFragment, ReactText, useState } from "react"
 import { Button, Divider, Col } from "antd";
 import { ExamPackageCreationType } from "../types";
 import { ExamPackageComponent } from "../FormComponents"
-import RenderExams from "./RenderExams";
+import RenderExams from "./RenderExam";
 import { DeleteExamPackageModal } from "../ModalMessages";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
@@ -76,12 +76,12 @@ const RenderExamPackage = (props: iProps) => {
                         <div className="examPackages_add_heading">Prüfungen</div>
                     </div>
                 </Divider>
-
+{/*
                 <RenderExams
                     data={values.exams}
                     showEditButtons={false}
-                    parentIndex={props.index}
                 />
+*/}
                 <Divider />
                 {props.showEditButtons && buttons(index)}
 

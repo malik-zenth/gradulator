@@ -1,10 +1,10 @@
 import React from "react"
-import { CreatedPackages, GeneralInformationsCreationType } from "./types"
+import { CreatedData, GeneralInformationsCreationType } from "./types"
 
 
 interface iProps{
     basicInformations: GeneralInformationsCreationType
-    data: CreatedPackages[],
+    data: CreatedData,
     onReturn: Function
 }
 

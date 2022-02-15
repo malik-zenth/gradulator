@@ -11,13 +11,16 @@ export interface ExamCreationType{
     name?: string,
     weight?: number,
     semester?: number,
-    editMode: boolean
+    editMode: boolean,
+    key: string
 }
 
-export interface CreatedPackages{
-    examPackage?: ExamPackageCreationType,
-    elevative?: ElevativeCreationType,
-    emphasis?: EmphasisCreationType
+export interface CreatedData{
+    basicInformation?: GeneralInformationsCreationType,
+    exams?: ExamCreationType[],
+    examPackages?: ExamPackageCreationType[],
+    elevatives?: ElevativeCreationType[],
+    emphasis?: EmphasisCreationType[]
 }
 
 export interface ExamPackageCreationType{
@@ -62,9 +65,4 @@ export interface CreationType{
     emphasis?: EmphasisCreationType[],
     elevatives?: ElevativeCreationType[],
     examPackages: ExamPackageCreationType[]
-}
-
-export interface SavingType{
-    basics: GeneralInformationsCreationType,
-    data: CreatedPackages[]
 }

@@ -1,10 +1,10 @@
-import RenderExams from "./RenderExams"
+import RenderExam from "./RenderExam"
 import RenderExamPackage from "./RenderExamPackage"
 import RenderElevative from "./RenderElevative"
 import RenderEmphasis from "./RenderEmphasis"
 
 export {
-    RenderExams,
+    RenderExam,
     RenderExamPackage,
     RenderElevative,
     RenderEmphasis

@@ -174,7 +174,7 @@ class Home extends React.Component<IProps, IState>{
                     <Row>
                         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
                             <div>
-                                <h2>Rufe das Studentenportal auf und melde dich an</h2>
+                                <h2>das Studentenportal auf und melde dich an</h2>
                                 <p>Hinweis: Das Studentenportal erreichts du unter <a target="_blank" rel="noopener noreferrer" href="https://stud.zv.hs-heilbronn.de/">https://stud.zv.hs-heilbronn.de/</a></p>
                                 <img src="static/login_portal.jpg"></img>
                             </div>

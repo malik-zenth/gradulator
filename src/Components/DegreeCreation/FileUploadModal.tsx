@@ -3,7 +3,7 @@ import { Upload,Button, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import Modal from 'antd/lib/modal/Modal';
 import { UploadChangeParam } from 'antd/lib/upload';
-import { SavingType } from './types';
+import { CreatedData } from './types';
 const { Dragger } = Upload;
 
 interface iProps{
@@ -30,7 +30,7 @@ export const FileUploadModal = (props: iProps) => {
             const fileReader = new FileReader()
             fileReader.readAsText(file)
             fileReader.onload = (e: any) => {
-                const data: SavingType = JSON.parse(e.target.result)
+                const data: CreatedData = JSON.parse(e.target.result)
                 message.success("Datei wurde erfolgreich eingelesen")
                 props.returnData(data)
             }
@@ -57,6 +57,7 @@ export const FileUploadModal = (props: iProps) => {
         <Modal
             title="Datei einlesen"
             visible={props.visible}
+            onCancel={() => props.onReturn()}
             footer={[
                 <Button
                     key="return"

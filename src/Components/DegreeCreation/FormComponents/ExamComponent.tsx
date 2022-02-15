@@ -1,4 +1,4 @@
-import React, { ReactFragment, useEffect, useState } from "react"
+import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip } from "antd";
 import { ExamCreationType } from "../types";
 import { DeleteExamModal } from "../ModalMessages"
@@ -8,15 +8,11 @@ interface iProps {
     onDelete: Function,
     onSave: Function,
     defaultValues?: ExamCreationType,
-    ownIndex: number,
-    parentIndex: number,
-    parentsParentsIndex?: number
 }
 
 const ExamComponent = (props: iProps) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [name, setName] = useState<string>(props.defaultValues.name)
-    const [weight, setWeight] = useState<number>(props.defaultValues.weight)
     const [semester, setSemester] = useState<number>(props.defaultValues.semester)
     const [ects, setEcts] = useState<number>(props.defaultValues.ects)
 
@@ -24,15 +20,11 @@ const ExamComponent = (props: iProps) => {
         !(props.defaultValues.name || props.defaultValues.weight || props.defaultValues.semester || props.defaultValues.ects))
 
     useEffect(() => {
-        setMissingValues(!name || !weight || !semester || !ects)
-    }, [name, weight, semester, ects])
+        setMissingValues(!name || !semester || !ects)
+    }, [name, semester, ects])
 
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
-    }
-
-    const onWeightChange = (e: number) => {
-        setWeight(e)
     }
 
     const onSemesterChange = (e: number) => {
@@ -44,23 +36,17 @@ const ExamComponent = (props: iProps) => {
     }
 
     const layout = {
-        labelCol: { span: 9 },
+        labelCol: { span: 5 },
         wrapperCol: { span: 15 },
     };
 
     const nameInputField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`exam_${props.parentsParentsIndex}_${props.parentIndex}_${props.ownIndex}_name`}
-                initialValue={props.defaultValues.name}
+                name="name"
+                initialValue={name}
                 label="Name"
                 {...layout}
-                rules={[
-                    {
-                        required: true,
-                        message: "Name fehlt!"
-                    }
-                ]}
             >
                 <Input
                     type="string"
@@ -75,16 +61,10 @@ const ExamComponent = (props: iProps) => {
     const semesterField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`exam_${props.parentsParentsIndex}_${props.parentIndex}_${props.ownIndex}_semester`}
-                initialValue={props.defaultValues.semester}
+                name="semester"
+                initialValue={semester}
                 label="Semester"
                 {...layout}
-                rules={[
-                    {
-                        required: true,
-                        message: "Semester fehlt!"
-                    }
-                ]}
             >
                 <InputNumber
                     type="string"
@@ -108,16 +88,10 @@ const ExamComponent = (props: iProps) => {
     const ectsField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`exam_${props.parentsParentsIndex}_${props.parentIndex}_${props.ownIndex}_ects`}
-                initialValue={props.defaultValues.ects}
+                name="ects"
+                initialValue={ects}
                 label="ECTS"
                 {...layout}
-                rules={[
-                    {
-                        required: true,
-                        message: "ECTS fehlen!"
-                    }
-                ]}
             >
                 <InputNumber
                     placeholder="ECTS"
@@ -142,50 +116,13 @@ const ExamComponent = (props: iProps) => {
         )
     }
 
-    const weightField = (): ReactFragment => {
-        return (
-            <Form.Item
-                name={`exam_${props.parentsParentsIndex}_${props.parentIndex}_${props.ownIndex}_weight`}
-                initialValue={props.defaultValues.weight}
-                label="Gewichtung"
-                {...layout}
-                rules={[
-                    {
-                        required: true,
-                        message: "Gewichtung fehlt!"
-                    }
-                ]}
-            >
-                <InputNumber
-                    onChange={(e: number) => onWeightChange(e)}
-                    placeholder="Gewichtung"
-                    min={1}
-                    max={30}
-                    step={0.5}
-                    style={{ minWidth: "100%" }}
-                    parser={(value) => {
-                        value = value.replace(",", ".")
-                        if (value.includes(".") && value.indexOf(".") + 2 < value.length) {
-                            value = value.substring(0, value.indexOf(".") + 2)
-                        }
-                        // we only allow floats with .5as those are the only values that are possible
-                        if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
-                            value = value.substring(0, value.indexOf(".") + 1)
-                        }
-                        return value
-                    }}
-                />
-            </Form.Item>
-        )
-    }
-
     const onSubmit = () => {
         const newValues: ExamCreationType = {
             name: name,
             ects: ects,
-            weight: weight,
             semester: semester,
-            editMode: false
+            editMode: false,
+            key: props.defaultValues.key
         }
         props.onSave(newValues)
 
@@ -193,13 +130,13 @@ const ExamComponent = (props: iProps) => {
 
     const buttons = (): ReactFragment => {
         return (
-            <div className="create_degree_buttons position_center">
+            <div className="create_degree_buttons">
                 <Button
                     htmlType="button"
                     danger
                     onClick={() => validateDeleteModal()}>
                     Prüfung löschen
-                    </Button>
+                </Button>
                 {renderSaveButton()}
             </div>
         )
@@ -235,33 +172,30 @@ const ExamComponent = (props: iProps) => {
     // if their are no changes to the exam we can delete it.
     // if their are changes show Modal
     const validateDeleteModal = () => {
-        if (!(name || weight || semester || ects)) {
+        if (!(name || semester || ects)) {
             // if non of the fields are changed we can delete the exam
-            props.onDelete()
+            props.onDelete(props.defaultValues.key)
         } else {
             // if not show modal
             setShowDeleteModal(true)
         }
     }
 
-    const renderForm = () => {
-        return (
-            <div>
-                {nameInputField()}
+    return (
+        <div className="examComponent minHeight250">
+            <Form initialValues={props.defaultValues}>
+                <div>
+                    <div className="createExamForm">
+                    {nameInputField()}
                     {semesterField()}
                     {ectsField()}
-                    {weightField()}
-                {buttons()}
-            </div>
-        )
-    }
-
-    return (
-        <div className="examComponent">
-            {renderForm()}
+                    </div>
+                    {buttons()}
+                </div>
+            </Form>
             <DeleteExamModal
                 visible={showDeleteModal}
-                onDelete={() => props.onDelete()}
+                onDelete={() => props.onDelete(props.defaultValues.key)}
                 onReturn={() => setShowDeleteModal(false)}
             />
         </div>
