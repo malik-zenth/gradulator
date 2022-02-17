@@ -10,6 +10,7 @@ export interface ExamCreationType{
     ects?: number,
     name?: string,
     weight?: number,
+    examid?: number,
     semester?: number,
     editMode: boolean,
     key: string
@@ -26,8 +27,8 @@ export interface CreatedData{
 export interface ExamPackageCreationType{
     name?: string,
     weight?: number,
-    elevatives?: ElevativeCreationType[],
-    exams: ExamCreationType[]
+    examPackageID?: number,
+    required: number[]
     editMode: boolean
 }
 

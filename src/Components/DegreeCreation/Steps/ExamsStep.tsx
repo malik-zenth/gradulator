@@ -18,20 +18,19 @@ const keyGenerator = (): ReactText =>
 
 const ExamsStep = (props: iProps) => {
 
-
     const addExamButton = (): ReactFragment => {
-        const textAddMore = "Weitere Prüfung hinzufügen"
-        const textAddFirst = "Füge im ersten Schritt alle einzelnen Prüfungen des Studiengangs hinzu. Klicke hier, um deine erste Prüfung hinzuzufügen."
-        const text: string = props.defaultValues.length > 0 ? textAddMore : textAddFirst
+        const textAddMore = <p>Weitere Prüfung hinzufügen</p>
+        const textAddFirst = <p>Füge im ersten Schritt alle einzelnen Prüfungen des Studiengangs hinzu. <br></br> Klicke hier, um deine erste Prüfung hinzuzufügen.</p>
+        const text: ReactFragment = props.defaultValues.length > 0 ? textAddMore : textAddFirst
         return (
             <Col span={6}>
                     <Button
                         style={{whiteSpace: "normal"}}
                         htmlType="submit"
-                        className="minHeight250 addExamButton"
+                        className="minHeight300 addExamButton"
                         onClick={() => props.addExam()}
                     >
-                    <p className="buttonTextAddExam">{text}</p>
+                    <div className="buttonTextAddExam">{text}</div>
 
                     </Button>
             </Col>

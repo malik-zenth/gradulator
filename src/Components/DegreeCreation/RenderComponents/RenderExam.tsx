@@ -21,6 +21,7 @@ const RenderExam = (props: iProps) => {
             <div className="degreeCreator_exam_noEdit">
                 <div className="createExamForm">
                     <p className="degreeCreator_examText bold">{values.name}</p>
+                    <p className="degreeCreator_examText">Prüfungsnummer: {values.examid}</p>
                     <p className="degreeCreator_examText">{values.semester}. Semester</p>
                     <p className="degreeCreator_examText">{values.ects} ECTS</p>
                 </div>
@@ -43,7 +44,7 @@ const RenderExam = (props: iProps) => {
     }
 
     return (
-        <div className="minHeight250">
+        <div className="minHeight300 dashedBorder">
             {renderExam(props.data)}
             <DeleteExamModal
                 visible={showDeleteModal}

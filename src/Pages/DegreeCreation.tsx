@@ -7,7 +7,7 @@ import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCr
 import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator } from "../Components/const";
 import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
-import { ExamsStep } from "../Components/DegreeCreation/Steps"
+import { ExamsStep, ExamPackagesStep } from "../Components/DegreeCreation/Steps"
 
 
 const { Step } = Steps
@@ -18,14 +18,27 @@ const keyGenerator = (): ReactText =>
 const keyGeneratorString = (): string =>
     "_" + Math.random().toString(36).substr(2, 9);
 
-
+const defaultExams: ExamCreationType[] = [
+    {
+        name: "Test",
+        examid: 302010,
+        key: keyGeneratorString(),
+        editMode: true
+    },
+    {
+        name: "Einführung in die WIN",
+        examid: 203040,
+        key: keyGeneratorString(),
+        editMode: true
+    }
+]
 
 const DegreeCreation = () => {
     const [form] = Form.useForm()
     // created Data
     const [createdData, setCreatedData] = useState<CreatedData>()
     // created Exams
-    const [createdExams, setCreatedExams] = useState<ExamCreationType[]>([])
+    const [createdExams, setCreatedExams] = useState<ExamCreationType[]>(defaultExams)
     // basic Informations
     const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
     // if Page is shown to visualize all input
@@ -33,7 +46,7 @@ const DegreeCreation = () => {
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(0)
+    const [currentStep, setCurrentStep] = useState(1)
 
     const nextStep = () => {
         setCurrentStep(currentStep + 1)
@@ -134,7 +147,13 @@ const DegreeCreation = () => {
         },
         {
             title: "Modulprüfungen",
-            content: <div>2</div>
+            content: <ExamPackagesStep
+                onDelete={() => { }}
+                onUpdate={() => { }}
+                addExamPackage={() => { }}
+                setEdit={() => { }}
+                exams={createdExams}
+            />
         },
         {
             title: "Wahlfächer",

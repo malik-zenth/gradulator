@@ -410,11 +410,6 @@
         min-height: 150px;
     }
 
-    .degreeCreator_exam_noEdit{
-        margin-left: 10%;
-        min-height: 250px;
-    }
-
     .degreeCreator_examText{
         font-size: 14px;
         height: 33px;
@@ -436,13 +431,40 @@
         margin-bottom: 15px;
     }
 
-    .examComponent{
-        width: 80%;
-        margin-left: 10%;
+    .dashedBorder{
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+        border-radius: 2px;
+        padding-left: 5%;
+        padding-top: 5%         
     }
 
-    .minHeight250{
-        min-height: 250px !important;
+    .dashedBorder:hover{
+        border-color: #1890ff;
+    }
+
+    .minHeight300{
+        min-height: 300px !important;
+        max-height: 300px;
+    }
+
+    .examsDroppable{
+        width: 30%;
+        min-height: 70vh;
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+        border-radius: 2px;
+        padding: 2em
+    }
+
+    .singleExamText{
+        text-align: center;
+    }
+
+    .singleExamDraggable{
+        background-color: #d9d9d9;
+        border-radius: 5%;
+        padding: 5px
     }
 
     .addExamButton{

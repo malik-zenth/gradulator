@@ -15,7 +15,7 @@ interface iProps {
 }
 
 const ExamPackageComponent = (props: iProps) => {
-    const [exams, setExams] = useState<ExamCreationType[]>(props.defaultValues.exams)
+    const [exams, setExams] = useState<number[]>(props.defaultValues.required)
     // if Modal to delete Exam should be displayed
     const [showDeleteExamModal, setShowDeleteExamModal] = useState<boolean>(false)
     // Exam that will be deleted if user accepts inside of modal
@@ -23,21 +23,11 @@ const ExamPackageComponent = (props: iProps) => {
     // if Modal to delete this ExamPackage should be displayed
     const [showDeleteExamPackageModal, setShowDeleteExamPackageModal] = useState<boolean>(false)
     // if submit is possible
-    const [submitInvalidExamsOpen, setExamInEdit] = useState<boolean>(exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0)
+    //const [submitInvalidExamsOpen, setExamInEdit] = useState<boolean>(exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0)
     const [submitInvalidValuesMissing, setMissingValues] = useState<boolean>(!(props.defaultValues.name || props.defaultValues.weight))
     // form values
     const [name, setName] = useState<string>(props.defaultValues.name)
     const [weight, setWeight] = useState<number>(props.defaultValues.weight)
-
-    useEffect(() => {
-        // if exams change, update the values inside of parent component
-        if (exams != props.defaultValues.exams) {
-            // check if their are exams in edit mode, if so disable save button
-            const submitInvalid: boolean = exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0
-            setExamInEdit(submitInvalid)
-            updateValues()
-        }
-    }, [exams])
 
     useEffect(() => {
         setMissingValues(!name || !weight)
@@ -117,16 +107,6 @@ const ExamPackageComponent = (props: iProps) => {
         )
     }
 
-    const onSubmit = (e: any) => {
-        const submitValues: ExamPackageCreationType = {
-            name: name,
-            weight: weight,
-            editMode: false,
-            exams: exams
-        }
-        props.onSave(submitValues)
-    }
-
     const buttons = (): ReactFragment => {
         return (
             <div className="create_degree_buttons position_center">
@@ -136,53 +116,10 @@ const ExamPackageComponent = (props: iProps) => {
                     onClick={() => validateDeleteModal()}>
                     Modulprüfung löschen
                     </Button>
-                {renderButtonsWithTooltip()}
             </div>
         )
     }
 
-    const renderButtonsWithTooltip = (): ReactFragment => {
-        // if name or weight are missing return with Tooltip regarding those
-        if (submitInvalidValuesMissing) {
-            return (
-                <Tooltip title={ToolTipNameOrWeightMissingExamPackage}>
-                    <Button
-                        type="primary"
-                        style={{ marginLeft: 7.5 }}
-                        htmlType="submit"
-                        disabled={true}
-                        onClick={onSubmit}>
-                        Speichern
-                </Button>
-                </Tooltip>
-            )
-            // if exams are open return with tooltip regarding those
-        } else if (submitInvalidExamsOpen) {
-            return (
-                <Tooltip title={ToolTipExamPackageNotSavable}>
-                    <Button
-                        type="primary"
-                        style={{ marginLeft: 7.5 }}
-                        htmlType="submit"
-                        disabled={true}
-                        onClick={onSubmit}>
-                        Speichern
-                </Button>
-                </Tooltip>
-            )
-            // Save is possible
-        } else {
-            return (
-                <Button
-                    style={{ marginLeft: 7.5 }}
-                    type="primary"
-                    htmlType="submit"
-                    onClick={onSubmit}>
-                    Speichern
-                </Button>
-            )
-        }
-    }
 
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
@@ -197,7 +134,7 @@ const ExamPackageComponent = (props: iProps) => {
     // update values in parent component on form update
     const updateValues = () => {
         const newExamPackage: ExamPackageCreationType = {
-            name: name, weight: weight, exams: exams, editMode: props.defaultValues.editMode
+            name: name, weight: weight, required: exams, editMode: props.defaultValues.editMode
         }
         props.onSave(newExamPackage)
     }
@@ -234,29 +171,11 @@ const ExamPackageComponent = (props: iProps) => {
         )
     }
 
-    // update the editMode of an Exam
-    const setEditExam = (editValue: boolean, indexToUpdate: number) => {
-        setExams(exams.map((value, index) => {
-            if (indexToUpdate === index) {
-                value.editMode = editValue
-                return value
-            }
-            return value
-        }))
-    }
-
     // delete Exam
     const deleteExam = (indexToDelete: number) => {
         setExams(exams.filter((_, index) => index != indexToDelete))
     }
 
-    // save Exam
-    const saveExam = (exam: ExamCreationType, indexToUpdate: number) => {
-        setExams(exams.map((value, index) => {
-            if (index === indexToUpdate) return exam
-            return value
-        }))
-    }
 
     return (
         <div>

@@ -119,10 +119,7 @@ const RenderExamPackage = (props: iProps) => {
                     <p >Gewichtung: {values.weight}</p>
                 </div>
                 <Divider>Prüfungen</Divider>
-                {values.exams.length === 0 &&
-                    <div className="examPackages_noExams">
-                        keine Prüfungen hinzugefügt
-                    </div>}
+                {/*
                 {values.exams.map((single, _) => {
                     return (
                         <div key={keyGenerator()}>
@@ -135,6 +132,7 @@ const RenderExamPackage = (props: iProps) => {
                         </div>
                     )
                 })}
+            */}
             </div>
         )
     }

@@ -216,7 +216,7 @@ const EmphasisComponent = (props: iProps) => {
     }
 
     const addExamPackage = () => {
-        setCreatedOptions([...createdOptions, { examPackage: { editMode: true, exams: [] } }])
+        setCreatedOptions([...createdOptions, { examPackage: { editMode: true, required: [] } }])
     }
 
     const addElevative = () => {
