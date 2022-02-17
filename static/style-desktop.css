@@ -459,12 +459,63 @@
 
     .singleExamText{
         text-align: center;
+        min-height: 45px;
+    }
+
+    .saveWeightButton{
+        margin-left: 5px;
+        margin-top: 3px
+    }
+
+    .setEditIconShort{
+        margin-left: 5px;
+    }
+
+    .center{
+        text-align: center;
+    }
+
+    .width70{
+        min-width: 70%;
+    }
+
+    .weightFieldInline{
+        display: inline-flex;
+        width: 100%;
+        min-height: 35px;
     }
 
     .singleExamDraggable{
         background-color: #d9d9d9;
         border-radius: 5%;
         padding: 5px
+    }
+
+    .inlineflex{
+        display: inline-flex;
+        width: 100%;
+    }
+
+    .headingStepTwo{
+        text-align: center;
+        font-weight: bold;
+        width: 67%;
+        margin-left: 3%;
+    }
+
+    .headingStepTwo:first-of-type{
+        width: 30%;
+        margin-left: 0%;
+    }
+
+    .examPackagesBox{
+        width: 67%;
+        margin-left: 3%;
+        min-height: 70vh;
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+        border-radius: 2px;
+        padding: 2em
     }
 
     .addExamButton{

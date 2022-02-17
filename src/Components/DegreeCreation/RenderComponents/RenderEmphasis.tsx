@@ -76,8 +76,6 @@ const RenderEmphasis = (props: iProps) => {
                                 key={keyGenerator()}
                                 index={index}
                                 data={single.examPackage}
-                                isChildComponent={true}
-                                showEditButtons={false}
                             />
                         )
                         }else if(single.elevative){

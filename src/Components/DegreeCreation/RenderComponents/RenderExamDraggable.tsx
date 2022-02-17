@@ -2,9 +2,12 @@ import React, { useState, ReactFragment, ReactText } from "react"
 import { Row, Col, Button, Form, InputNumber } from "antd"
 import { ExamCreationType, ExamPackageCreationType } from "../types"
 import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult, ResponderProvided } from "react-beautiful-dnd"
+import { CheckOutlined, EditOutlined, QuestionOutlined } from "@ant-design/icons";
 
 interface iProps {
     singleExam: ExamCreationType,
+    onSave: Function,
+    setEdit: Function,
     index: number
 }
 
@@ -15,54 +18,79 @@ const RenderSingleExamDraggable = (props: iProps) => {
         setWeight(e)
     }
 
-    const weightField = (): ReactFragment => {
-        return (
-            <Form initialValues={props.singleExam}>
-                <Form.Item
-                    name="weight"
-                    initialValue={weight}
-                    label="Gewichtung:"
-                    style={{ minHeight: "33px" }}
-                >
-                    <InputNumber
-                        type="string"
-                        onChange={(e: number) => onWeightChange(e)}
-                        placeholder="Gewichtung"
-                        min={1}
-                        max={50}
-                        step={1}
-                        style={{ minWidth: "100%" }}
-                        parser={(value) => {
-                            if (value.includes(".")) {
-                                return value.substring(0, value.indexOf("."))
-                            }
-                            return value
-                        }}
-                    />
-                </Form.Item>
-                </Form>
-                )
+    const saveWeight = () => {
+        props.onSave(weight)
     }
 
-                return (
-                <Draggable draggableId={props.singleExam.key} index={props.index}>
-                    {(provided, snapshot) => (
-                        <div
-                            className="singleExamDraggable"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                        >
-                            <p className="bold singleExamText">{props.singleExam.name}</p>
-                            <p className="singleExamText">{props.singleExam.examid} - {props.singleExam.semester}. Semester</p>
-                            {!props.singleExam.editMode && <p className="singleExamText">Gewichtung: {props.singleExam.weight}</p>}
-                            {props.singleExam.editMode &&
-                                weightField()
-                            }
+    const weightField = (): ReactFragment => {
+        return (
+            <Form>
+                <Form.Item
+                    name="weight"
+                    style={{ minHeight: "33px", marginBottom: "0px" }}
+                >
+                    <div className="weightFieldInline">
+                        <InputNumber
+                            type="string"
+                            defaultValue={weight}
+                            onChange={(e: number) => onWeightChange(e)}
+                            placeholder="Gewichtung"
+                            min={1}
+                            max={50}
+                            step={1}
+                            style={{ minWidth: "70%" }}
+                            parser={(value) => {
+                                if (value.includes(".")) {
+                                    return value.substring(0, value.indexOf("."))
+                                }
+                                return value
+                            }}
+
+                        />
+                        <Button
+                            size="small"
+                            type="primary"
+                            disabled = {weight ? false: true}
+                            className="saveWeightButton"
+                            onClick={() => saveWeight()}
+                            shape="round"
+                            icon={<CheckOutlined />}>
+                        </Button>
+                    </div>
+                </Form.Item>
+            </Form>
+        )
+    }
+
+    return (
+        <Draggable draggableId={props.singleExam.key} index={props.index}>
+            {(provided, snapshot) => (
+                <div
+                    className="singleExamDraggable"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                >
+                    <p className="bold singleExamText">{props.singleExam.examid} - {props.singleExam.name}</p>
+                    {!props.singleExam.editMode &&
+                        <div className="weightFieldInline">
+                            <div className="center width70">Gewichtung: {props.singleExam.weight}</div>
+                            <Button
+                                size="small"
+                                className="saveWeightButton"
+                                onClick={() => props.setEdit()}
+                                shape="round"
+                                icon={<EditOutlined />}>
+                            </Button>
                         </div>
-                    )}
-                </Draggable>
-                )
+                    }
+                    {props.singleExam.editMode &&
+                        weightField()
+                    }
+                </div>
+            )}
+        </Draggable>
+    )
 }
 
-                export default RenderSingleExamDraggable
+export default RenderSingleExamDraggable

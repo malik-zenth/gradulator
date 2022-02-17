@@ -23,7 +23,7 @@ const defaultExams: ExamCreationType[] = [
         name: "Test",
         examid: 302010,
         key: keyGeneratorString(),
-        editMode: true
+        editMode: false
     },
     {
         name: "Einführung in die WIN",
@@ -68,6 +68,17 @@ const DegreeCreation = () => {
 
     const updateExam = (newExam: ExamCreationType) => {
         setCreatedExams(createdExams.map(single => single.key == newExam.key ? newExam : single))
+    }
+
+    const setExamWeight = (weight: number, key: string) => {
+        const newExams = createdExams.map(single => {
+            if (single.key === key) {
+                single.weight = weight
+                single.editMode = false
+            }
+            return single
+        })
+        setCreatedExams(newExams)
     }
 
     const setEditExam = (key: string) => {
@@ -151,7 +162,10 @@ const DegreeCreation = () => {
                 onDelete={() => { }}
                 onUpdate={() => { }}
                 addExamPackage={() => { }}
+                setExamWeight={(weight: number, key: string) => setExamWeight(weight, key)}
+                setExamEdit={(key: string) => setEditExam(key)}
                 setEdit={() => { }}
+                defaultValues={[]}
                 exams={createdExams}
             />
         },
