@@ -4,11 +4,15 @@ import { Button, Divider, Row, Form, Tooltip, Steps, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { BasicInformations } from "../Components/DegreeCreation/FormComponents"
 import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType } from "../Components/DegreeCreation/types";
-import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator } from "../Components/const";
+import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep } from "../Components/const";
 import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
 import { ExamsStep, ExamPackagesStep } from "../Components/DegreeCreation/Steps"
 
+interface iNextStepButton {
+    enabled: boolean,
+    tooltip?: string
+}
 
 const { Step } = Steps
 
@@ -39,6 +43,8 @@ const DegreeCreation = () => {
     const [createdData, setCreatedData] = useState<CreatedData>()
     // created Exams
     const [createdExams, setCreatedExams] = useState<ExamCreationType[]>(defaultExams)
+    // created ExamPackages
+    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>([])
     // basic Informations
     const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
     // if Page is shown to visualize all input
@@ -54,6 +60,12 @@ const DegreeCreation = () => {
 
     const prevStep = () => {
         setCurrentStep(currentStep - 1)
+    }
+
+    // all Functions for ExamPackages
+
+    const addExamPackage = () => {
+        setCreatedExamPackages([...createdExamPackages, {editMode: true, key: keyGeneratorString(), required: []}])
     }
 
     // all Functions for Examns
@@ -131,18 +143,77 @@ const DegreeCreation = () => {
                             Zwischenspeichern
                         </Button>
                     </Tooltip>
-                    <Button
-                        style={{ marginLeft: 7.5, width: 220 }}
-                        htmlType="submit"
-                        type="primary"
-                        disabled={currentStep == steps.length - 1}
-                        onClick={() => nextStep()}
-                    >
-                        Nächster Schritt
-                    </Button>
+                    {nextStepButton()}
                 </div>
             </div>
         )
+    }
+
+    const nextStepButton = () => {
+        if (currentStep == steps.length - 1) {
+            return (
+                <Button
+                    style={{ marginLeft: 7.5, width: 220 }}
+                    htmlType="submit"
+                    type="primary"
+                    disabled={true}
+                    onClick={() => nextStep()}
+                >
+                    Nächster Schritt
+                </Button>
+            )
+        }
+        const buttonInformation: iNextStepButton = checkIfNextStepButtonDisabled()
+        if (buttonInformation.enabled) {
+            return (
+                <Button
+                    style={{ marginLeft: 7.5, width: 220 }}
+                    htmlType="submit"
+                    type="primary"
+                    onClick={() => nextStep()}
+                >
+                    Nächster Schritt
+                </Button>
+            )
+        } else {
+            return (
+                <Tooltip title={buttonInformation.tooltip}>
+                <Button
+                    style={{ marginLeft: 7.5, width: 220 }}
+                    htmlType="submit"
+                    type="primary"
+                    disabled={true}
+                    onClick={() => nextStep()}
+                >
+                    Nächster Schritt
+                </Button>
+                </Tooltip>
+            )
+        }
+    }
+
+    const checkIfNextStepButtonDisabled = () => {
+        if (currentStep == 0) {
+            const editModeExams: number = createdExams.filter(x => x.editMode).length
+            if (editModeExams > 0) {
+                return ({
+                    enabled: false,
+                    tooltip: ToolTipFirstStep
+                })
+            }
+        }
+        if (currentStep == 1){
+            const editModeExamPackages: number = createdExamPackages.filter(x => x.editMode).length
+            if (editModeExamPackages > 0) {
+                return ({
+                    enabled: false,
+                    tooltip: ToolTipSecondStep
+                })
+            }
+        }
+        return ({
+            enabled: true
+        })
     }
 
     const steps = [
@@ -161,11 +232,11 @@ const DegreeCreation = () => {
             content: <ExamPackagesStep
                 onDelete={() => { }}
                 onUpdate={() => { }}
-                addExamPackage={() => { }}
+                addExamPackage={() => addExamPackage()}
                 setExamWeight={(weight: number, key: string) => setExamWeight(weight, key)}
                 setExamEdit={(key: string) => setEditExam(key)}
                 setEdit={() => { }}
-                defaultValues={[]}
+                defaultValues={createdExamPackages}
                 exams={createdExams}
             />
         },

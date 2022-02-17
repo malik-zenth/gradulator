@@ -131,14 +131,6 @@ const ExamPackageComponent = (props: iProps) => {
         }
     }
 
-    // update values in parent component on form update
-    const updateValues = () => {
-        const newExamPackage: ExamPackageCreationType = {
-            name: name, weight: weight, required: exams, editMode: props.defaultValues.editMode
-        }
-        props.onSave(newExamPackage)
-    }
-
     const renderExamPackage = () => {
         return (
             <div

@@ -3,8 +3,6 @@
 // are not defined jet when creating them
 // e.g. the required Exams inside of an ExamPackage are not defined jet
 
-import { BasicInformation } from "../../Data/types";
-
 // when the ExamPackage is created
 export interface ExamCreationType{
     ects?: number,
@@ -28,8 +26,9 @@ export interface ExamPackageCreationType{
     name?: string,
     weight?: number,
     examPackageID?: number,
-    required: number[]
-    editMode: boolean
+    required: number[],
+    editMode: boolean,
+    key: string
 }
 
 export interface ElevativeCreationType{

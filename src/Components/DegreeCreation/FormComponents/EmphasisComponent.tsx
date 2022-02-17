@@ -215,10 +215,6 @@ const EmphasisComponent = (props: iProps) => {
         )
     }
 
-    const addExamPackage = () => {
-        setCreatedOptions([...createdOptions, { examPackage: { editMode: true, required: [] } }])
-    }
-
     const addElevative = () => {
         setCreatedOptions([...createdOptions, { elevative: { editMode: true, exams: [] } }])
     }
@@ -231,7 +227,7 @@ const EmphasisComponent = (props: iProps) => {
                     <Button
                         type="primary"
                         size="small"
-                        onClick={() => addExamPackage()}
+                        onClick={() => {}}
                         shape="round"
                         icon={<PlusOutlined />}>
                     </Button>
@@ -297,17 +293,10 @@ const EmphasisComponent = (props: iProps) => {
                     <RenderExamPackage
                         key={keyGenerator()}
                         data={value.examPackage}
-                        isChildComponent={true}
                         index={index}
-                        showEditButtons={true}
-                        onDeleteEdit={(index: number) => deleteData(index)}
+                        onDelete={(index: number) => deleteData(index)}
                         onSaveEdit={(examData: ExamPackageCreationType, index: number) => saveExamPackage(examData, index)}
                         setEdit={(index: number) => setEditExamPackage(true, index)}
-                        onDeleteNotEdit={(index: number) => {
-                            setExamPackageToBeDeleted(index)
-                            setShowDeleteExamPackageModal(true)
-                        }}
-                        parentsIndex={props.index}
                     />
                 )
             }

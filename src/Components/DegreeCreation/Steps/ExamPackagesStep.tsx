@@ -40,7 +40,7 @@ const ExamPackagesStep = (props: iProps) => {
     }
 
     const renderExamsDroppable = () => {
-        return (
+        return ( 
             <Droppable
                 droppableId="exams"
                 type="1">
@@ -80,7 +80,6 @@ const ExamPackagesStep = (props: iProps) => {
     const renderExamPackages = () => {
         return(
             <Row gutter={[8,8]}>
-
                 {addExamPackagesButton()}
             </Row>
         )   

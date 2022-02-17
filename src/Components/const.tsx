@@ -29,3 +29,6 @@ export const ToolTipElevativeAmountToHigh: string = "Die geforderte Anzahl an Pr
 
 export const ToolTipSaveDegreeCreator:string = "Die bisherigen Eingaben in einer lokalen Datei speichern, um zu einem anderen Zeitpunkt daran weiterzuarbeiten"
 export const ToolTipUploadDegreeCreator: string = "Datei hochladen um an an einem Zwischengespeicherten Studiengang weiterzuarbeiten"
+
+export const ToolTipFirstStep: string ="Bitte speichere erst alle erstellten Prüfungen."
+export const ToolTipSecondStep: string= "Bitte speichere erst alle erstellten Modulprüfungen"
