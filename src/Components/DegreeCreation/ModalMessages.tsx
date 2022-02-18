@@ -13,6 +13,7 @@ export const DeleteExamModal = (props: iProps) => {
     return (
         <Modal
             title="Möchtest du die Prüfung wirklich löschen?"
+            onCancel={() => props.onReturn()}
             visible={props.visible}
             footer={[
                 <Button
@@ -37,6 +38,7 @@ export const DeleteExamPackageModal = (props: iProps) => {
     return (
         <Modal
             title="Möchtest du die Modulprüfung wirklich löschen?"
+            onCancel={() => props.onReturn()}
             visible={props.visible}
             footer={[
                 <Button
@@ -61,6 +63,7 @@ export const DeleteElevativeModal = (props: iProps) => {
     return (
         <Modal
             title="Möchtest du die Modulprüfung wirklich löschen?"
+            onCancel={() => props.onReturn()}
             visible={props.visible}
             footer={[
                 <Button
@@ -85,6 +88,7 @@ export const DeleteEmphasisModal = (props: iProps) => {
     return (
         <Modal
             title="Möchtest du die Modulprüfung wirklich löschen?"
+            onCancel={() => props.onReturn()}
             visible={props.visible}
             footer={[
                 <Button

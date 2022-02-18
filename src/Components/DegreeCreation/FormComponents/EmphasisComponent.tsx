@@ -2,7 +2,7 @@ import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider, Row } from "antd";
 import { ElevativeCreationType, EmphasisCreationType, EmphasisOptionsType, ExamPackageCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
-import { ToolTipEmphasisNotSavable, ToolTipNameOrWeightMissingElevative } from "../../const"
+import { ToolTipNameOrWeightMissingElevative } from "../../const"
 import { DeleteEmphasisModal, DeleteExamPackageModal } from "../ModalMessages";
 import { RenderElevative, RenderExamPackage } from "../RenderComponents"
 
@@ -163,7 +163,7 @@ const EmphasisComponent = (props: iProps) => {
             // if exams are open return with tooltip regarding those
         } else if (submitInvalidExamsOpen) {
             return (
-                <Tooltip title={ToolTipEmphasisNotSavable}>
+                <Tooltip title={"ToolTipEmphasisNotSavable"}>
                     <Button
                         type="primary"
                         style={{ marginLeft: 7.5 }}
@@ -290,14 +290,7 @@ const EmphasisComponent = (props: iProps) => {
         return createdOptions.map((value, index) => {
             if (value.examPackage) {
                 return (
-                    <RenderExamPackage
-                        key={keyGenerator()}
-                        data={value.examPackage}
-                        index={index}
-                        onDelete={(index: number) => deleteData(index)}
-                        onSaveEdit={(examData: ExamPackageCreationType, index: number) => saveExamPackage(examData, index)}
-                        setEdit={(index: number) => setEditExamPackage(true, index)}
-                    />
+                    <div></div>
                 )
             }
             else if (value.elevative) {

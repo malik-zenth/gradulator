@@ -11,7 +11,8 @@ export interface ExamCreationType{
     examid?: number,
     semester?: number,
     editMode: boolean,
-    key: string
+    key: string,
+    index: number
 }
 
 export interface CreatedData{
@@ -26,7 +27,7 @@ export interface ExamPackageCreationType{
     name?: string,
     weight?: number,
     examPackageID?: number,
-    required: number[],
+    required: string[],
     editMode: boolean,
     key: string
 }

@@ -72,11 +72,7 @@ const RenderEmphasis = (props: iProps) => {
                     {values.options.map((single, index) => {
                         if(single.examPackage){
                         return (
-                            <RenderExamPackage
-                                key={keyGenerator()}
-                                index={index}
-                                data={single.examPackage}
-                            />
+                            <div></div>
                         )
                         }else if(single.elevative){
                             return(

@@ -8,6 +8,7 @@ import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep,
 import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
 import { ExamsStep, ExamPackagesStep } from "../Components/DegreeCreation/Steps"
+import { DropResult } from "react-beautiful-dnd";
 
 interface iNextStepButton {
     enabled: boolean,
@@ -26,14 +27,33 @@ const defaultExams: ExamCreationType[] = [
     {
         name: "Test",
         examid: 302010,
-        key: keyGeneratorString(),
-        editMode: false
+        key: "123",
+        editMode: false,
+        index: 0
     },
     {
         name: "Einführung in die WIN",
         examid: 203040,
+        key: "456",
+        editMode: true,
+        index: 1
+    }
+]
+
+const defaultExamPackages: ExamPackageCreationType[] = [
+    {
+        name: "Test",
+        weight: 10,
         key: keyGeneratorString(),
-        editMode: true
+        editMode: true,
+        required: []
+    },
+    {
+        name: "Modulprüfung",
+        weight: 10,
+        key: keyGeneratorString(),
+        editMode: false,
+        required: ["456", "123"]
     }
 ]
 
@@ -44,7 +64,7 @@ const DegreeCreation = () => {
     // created Exams
     const [createdExams, setCreatedExams] = useState<ExamCreationType[]>(defaultExams)
     // created ExamPackages
-    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>([])
+    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>(defaultExamPackages)
     // basic Informations
     const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
     // if Page is shown to visualize all input
@@ -65,17 +85,78 @@ const DegreeCreation = () => {
     // all Functions for ExamPackages
 
     const addExamPackage = () => {
-        setCreatedExamPackages([...createdExamPackages, {editMode: true, key: keyGeneratorString(), required: []}])
+        setCreatedExamPackages([...createdExamPackages, { editMode: true, key: keyGeneratorString(), required: [] }])
+    }
+
+    const updateExamPackage = (newExamPackage: ExamPackageCreationType) => {
+        setCreatedExamPackages(createdExamPackages.map(single => single.key == newExamPackage.key ? newExamPackage : single))
+    }
+
+    const deleteExamPackage = (key: string) => {
+        setCreatedExamPackages(createdExamPackages.filter(exam => exam.key != key))
+    }
+
+    const setEditExamPackage = (key: string) => {
+        const newExamPackages: ExamPackageCreationType[] = createdExamPackages.map(single => {
+            if (single.key === key) {
+                single.editMode = true
+            }
+            return single
+        })
+        setCreatedExamPackages(newExamPackages)
+    }
+
+    const updateRequiredExamPackage = (key: string, required: string[]) => {
+        const newExamPackages: ExamPackageCreationType[] = createdExamPackages.map(single => {
+            if (single.key === key) {
+                single.required = required
+            }
+            return single
+        })
+        setCreatedExamPackages(newExamPackages)
+    }
+
+    const onDragEndExamPackages = (result: DropResult) => {
+        // ignore the drag it there is no destination
+        if (result.destination) {
+            const droppedExam: ExamCreationType = createdExams.filter(x => x.key === result.draggableId).shift()
+            // update the index of the moved element
+            updateIndexExam(droppedExam.key, result.destination.index)
+            if (result.destination.droppableId != result.source.droppableId) {
+                if (result.source.droppableId != "exams") {
+                    const oldExamPackage: ExamPackageCreationType = createdExamPackages.filter(x => x.key === result.source.droppableId).shift()
+                    // remove the required from the old destination
+                    const newRequiredFromSource = oldExamPackage.required.filter(x => x != droppedExam.key)
+                    updateRequiredExamPackage(oldExamPackage.key, newRequiredFromSource)
+                }
+            }
+            // update the required from the restination - if it is exams we dont need to do anything
+            if (result.destination.droppableId != "exams") {
+                const newExamPackage: ExamPackageCreationType = createdExamPackages.filter(x => x.key === result.destination.droppableId).shift()
+                const newRequiredFromDestination: string[] = ([...newExamPackage.required, droppedExam.key])
+                updateRequiredExamPackage(newExamPackage.key, newRequiredFromDestination)
+            }
+        }
     }
 
     // all Functions for Examns
 
     const addExam = () => {
-        setCreatedExams([...createdExams, { editMode: true, key: keyGeneratorString() }])
+        setCreatedExams([...createdExams, { editMode: true, key: keyGeneratorString(), index: createdExams.length }])
     }
 
     const deleteExam = (key: string) => {
         setCreatedExams(createdExams.filter(exam => exam.key != key))
+    }
+
+    const updateIndexExam = (key: string, index: number) => {
+        const newExams: ExamCreationType[] = createdExams.map(single => {
+            if (single.key === key) {
+                single.index = index
+            }
+            return single
+        })
+        setCreatedExams(newExams)
     }
 
     const updateExam = (newExam: ExamCreationType) => {
@@ -83,7 +164,7 @@ const DegreeCreation = () => {
     }
 
     const setExamWeight = (weight: number, key: string) => {
-        const newExams = createdExams.map(single => {
+        const newExams: ExamCreationType[] = createdExams.map(single => {
             if (single.key === key) {
                 single.weight = weight
                 single.editMode = false
@@ -178,15 +259,15 @@ const DegreeCreation = () => {
         } else {
             return (
                 <Tooltip title={buttonInformation.tooltip}>
-                <Button
-                    style={{ marginLeft: 7.5, width: 220 }}
-                    htmlType="submit"
-                    type="primary"
-                    disabled={true}
-                    onClick={() => nextStep()}
-                >
-                    Nächster Schritt
-                </Button>
+                    <Button
+                        style={{ marginLeft: 7.5, width: 220 }}
+                        htmlType="submit"
+                        type="primary"
+                        disabled={true}
+                        onClick={() => nextStep()}
+                    >
+                        Nächster Schritt
+                    </Button>
                 </Tooltip>
             )
         }
@@ -202,7 +283,7 @@ const DegreeCreation = () => {
                 })
             }
         }
-        if (currentStep == 1){
+        if (currentStep == 1) {
             const editModeExamPackages: number = createdExamPackages.filter(x => x.editMode).length
             if (editModeExamPackages > 0) {
                 return ({
@@ -230,14 +311,15 @@ const DegreeCreation = () => {
         {
             title: "Modulprüfungen",
             content: <ExamPackagesStep
-                onDelete={() => { }}
-                onUpdate={() => { }}
+                onDeleteExamPackage={(key: string) => deleteExamPackage(key)}
                 addExamPackage={() => addExamPackage()}
+                setEditExamPackage={(key: string) => setEditExamPackage(key)}
+                saveExamPackage={(examPackage: ExamPackageCreationType) => updateExamPackage(examPackage)}
                 setExamWeight={(weight: number, key: string) => setExamWeight(weight, key)}
                 setExamEdit={(key: string) => setEditExam(key)}
-                setEdit={() => { }}
                 defaultValues={createdExamPackages}
                 exams={createdExams}
+                onDragEnd={(result: DropResult) => onDragEndExamPackages(result)}
             />
         },
         {

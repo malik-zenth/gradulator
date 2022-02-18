@@ -1,8 +1,8 @@
 import React, { useState, ReactFragment, ReactText } from "react"
-import { Row, Col, Button, Form, InputNumber } from "antd"
-import { ExamCreationType, ExamPackageCreationType } from "../types"
-import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult, ResponderProvided } from "react-beautiful-dnd"
-import { CheckOutlined, EditOutlined, QuestionOutlined } from "@ant-design/icons";
+import {Button, Form, InputNumber } from "antd"
+import { ExamCreationType } from "../types"
+import { Draggable } from "react-beautiful-dnd"
+import { CheckOutlined, EditOutlined } from "@ant-design/icons";
 
 interface iProps {
     singleExam: ExamCreationType,

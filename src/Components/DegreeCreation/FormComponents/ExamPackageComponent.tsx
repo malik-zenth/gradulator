@@ -1,37 +1,30 @@
-import React, { ReactFragment, useEffect, useState } from "react"
-import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
+import React, { ReactFragment, ReactText, useEffect, useState } from "react"
+import { Form, InputNumber, Input, Button, Tooltip, Divider, Row, Col } from "antd";
 import { ExamCreationType, ExamPackageCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
-import { ToolTipExamPackageNotSavable, ToolTipNameOrWeightMissingExamPackage } from "../../const"
+import { ToolTipExamPackageValuesMissing } from "../../const"
 import { DeleteExamModal, DeleteExamPackageModal } from "../ModalMessages";
+import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult, ResponderProvided } from "react-beautiful-dnd"
+import { RenderExamDraggable } from "../RenderComponents";
 
 interface iProps {
     onDelete: Function,
-    isChildComponent?: boolean,
     onSave: Function,
     defaultValues: ExamPackageCreationType,
-    index: number,
-    parentsIndex?: number
+    exams: ExamCreationType[],
+    onSaveExam: Function,
+    setEditExam: Function
 }
 
+const keyGenerator = (): ReactText =>
+    "_" + Math.random().toString(36).substr(2, 9);
+
 const ExamPackageComponent = (props: iProps) => {
-    const [exams, setExams] = useState<number[]>(props.defaultValues.required)
-    // if Modal to delete Exam should be displayed
-    const [showDeleteExamModal, setShowDeleteExamModal] = useState<boolean>(false)
-    // Exam that will be deleted if user accepts inside of modal
-    const [examToBeDeleted, setExamToBeDeleted] = useState<number>(null)
     // if Modal to delete this ExamPackage should be displayed
     const [showDeleteExamPackageModal, setShowDeleteExamPackageModal] = useState<boolean>(false)
-    // if submit is possible
-    //const [submitInvalidExamsOpen, setExamInEdit] = useState<boolean>(exams.filter((x: ExamCreationType) => { return x.editMode }).length != 0)
-    const [submitInvalidValuesMissing, setMissingValues] = useState<boolean>(!(props.defaultValues.name || props.defaultValues.weight))
     // form values
     const [name, setName] = useState<string>(props.defaultValues.name)
     const [weight, setWeight] = useState<number>(props.defaultValues.weight)
-
-    useEffect(() => {
-        setMissingValues(!name || !weight)
-    }, [name, weight])
 
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -41,69 +34,66 @@ const ExamPackageComponent = (props: iProps) => {
         setWeight(e)
     }
 
+    const onSave = () => {
+        const newExamPackage: ExamPackageCreationType = {
+            name: name,
+            weight: weight,
+            key: props.defaultValues.key,
+            editMode: false,
+            required: props.defaultValues.required,
+        }
+        props.onSave(newExamPackage)
+    }
+
     const layout = {
-        labelCol: { span: 9 },
+        labelCol: { span: 6 },
         wrapperCol: { span: 15 },
     };
 
     const nameInputField = (): ReactFragment => {
         return (
-                <Form.Item
-                    name={`examPackage_${props.index}_${props.isChildComponent}_name`}
-                    initialValue={props.defaultValues.name}
-                    label="Name"
-                    {...layout}
-                    rules={[
-                        {
-                            required: true,
-                            message: "Name fehlt!"
-                        }
-                    ]}
-                >
-                    <Input
-                        style={{minWidth: "100%"}}
-                        type="string"
-                        onChange={onNameChange}
-                        placeholder="Name der Modulprüfung"
-                    />
-                </Form.Item>
+            <Form.Item
+                name="name"
+                label="Name"
+                {...layout}
+            >
+                <Input
+                    style={{ minWidth: "100%", minHeight: "33px" }}
+                    type="string"
+                    onChange={onNameChange}
+                    placeholder="Name der Modulprüfung"
+                />
+            </Form.Item>
         )
     }
 
     const weightField = (): ReactFragment => {
         return (
-                <Form.Item
-                    name={`examPackage_${props.index}_${props.isChildComponent}_weight`}
-                    initialValue={props.defaultValues.weight}
-                    label="Gewichtung"
-                    {...layout}
-                    rules={[
-                        {
-                            required: true,
-                            message: "Gewichtung fehlt!"
+            <Form.Item
+                name="weight"
+                label="Gewichtung"
+                {...layout}
+            >
+                <InputNumber
+                    placeholder="Gewichtung"
+                    style={{ minWidth: "100%", minHeight: "33px" }}
+                    min={1}
+                    max={30}
+                    step={0.5}
+                    onChange={(e: number) => onWeightChange(e)}
+                    parser={(value) => {
+                        value = value.replace(",", ".")
+                        if (value.includes(".") && value.indexOf(".") + 2 < value.length) {
+                            value = value.substring(0, value.indexOf(".") + 2)
                         }
-                    ]}
-                >
-                    <InputNumber
-                        placeholder="Gewichtung"
-                        style={{minWidth: "100%"}}
-                        min={1}
-                        max={30}
-                        step={0.5}
-                        onChange={(e: number) => onWeightChange(e)}
-                        parser={(value) => {
-                            value = value.replace(",", ".")
-                            if (value.includes(".") && value.indexOf(".") + 2 < value.length) {
-                                value = value.substring(0, value.indexOf(".") + 2)
-                            }
-                            // we only allow floats with .5as those are the only values that are possible
-                            if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
-                                value = value.substring(0, value.indexOf(".") + 1)
-                            }
-                            return value
-                        }}
-                    />
-                </Form.Item>
+                        // we only allow floats with .5as those are the only values that are possible
+                        if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
+                            value = value.substring(0, value.indexOf(".") + 1)
+                        }
+                        return value
+                    }}
+                />
+            </Form.Item>
         )
     }
 
@@ -115,7 +105,28 @@ const ExamPackageComponent = (props: iProps) => {
                     danger
                     onClick={() => validateDeleteModal()}>
                     Modulprüfung löschen
+                </Button>
+                {(!name || !weight) &&
+                    <Tooltip title={ToolTipExamPackageValuesMissing}>
+                        <Button
+                            htmlType="button"
+                            style={{ marginLeft: 7.5 }}
+                            type="primary"
+                            disabled
+                            onClick={() => onSave()}>
+                            Speichern
+                        </Button>
+                    </Tooltip>
+                }
+                {(name && weight) &&
+                    <Button
+                        htmlType="button"
+                        style={{ marginLeft: 7.5 }}
+                        type="primary"
+                        onClick={() => onSave()}>
+                        Speichern
                     </Button>
+                }
             </div>
         )
     }
@@ -124,8 +135,8 @@ const ExamPackageComponent = (props: iProps) => {
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
     const validateDeleteModal = () => {
-        if (!(name || weight || exams.length != 0)) {
-            props.onDelete()
+        if (!(name || weight)) {
+            props.onDelete(props.defaultValues.key)
         } else {
             setShowDeleteExamPackageModal(true)
         }
@@ -133,61 +144,65 @@ const ExamPackageComponent = (props: iProps) => {
 
     const renderExamPackage = () => {
         return (
-            <div
-                className={props.isChildComponent ? "min_height_120" : "form_min_height"}
-            >
+            <Form initialValues={props.defaultValues}>
                 {nameInputField()}
                 {weightField()}
-            </div>
+            </Form>
         )
     }
 
-    const addExam = () => {
-        //setExams([...exams, { editMode: true }])
-    }
-
-    const renderExamsHeader = (): ReactFragment => {
+    const examsDroppable = (): ReactFragment => {
         return (
-            <Divider>
-                <div className="examPackages_addExams">
-                    <div className="examPackages_add_heading">Prüfungen</div>
-                    <Button
-                        type="primary"
-                        size="small"
-                        onClick={() => addExam()}
-                        shape="round"
-                        icon={<PlusOutlined />}>
-                    </Button>
-                </div>
-            </Divider>
+            <Droppable
+                droppableId={props.defaultValues.key}
+                type="1">
+                {(provided, snapshot) => (
+                    <Row gutter={[0, 8]} justify="space-around"
+                        className="examPackageDroppable"
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                    >
+                        {renderExams()}
+                        {provided.placeholder}
+                    </Row>
+                )}
+
+            </Droppable>
         )
     }
 
-    // delete Exam
-    const deleteExam = (indexToDelete: number) => {
-        setExams(exams.filter((_, index) => index != indexToDelete))
+    const renderExams = (): ReactFragment => {
+        if(props.defaultValues.required.length === 0){
+            return(
+                <div className="addExamsDragAndDropText">Hier Prüfungen per Drag-and-Drop hinzufügen</div>
+            )
+        }
+        const examData: ExamCreationType[] = props.defaultValues.required.map(id => props.exams.filter(x => x.key === id).shift())
+        const orderedExamData: ExamCreationType[] = examData.sort((a,b) => (a.index > b.index) ? 1 : ((b.index > a.index) ? -1 : 0))
+        return orderedExamData.map(singleExam => {
+            return (
+                <Col span={16} key={keyGenerator()}>
+                    <RenderExamDraggable
+                        singleExam={singleExam}
+                        onSave={(weight: number) => props.onSaveExam(weight,singleExam.key)}
+                        setEdit={() => props.setEditExam(singleExam.key)}
+                        index={singleExam.index}
+                    />
+                </Col>
+            )
+        })
     }
-
 
     return (
-        <div>
+        <div className="minHeight300 examPackageElement">
             <DeleteExamPackageModal
                 visible={showDeleteExamPackageModal}
-                onDelete={() => props.onDelete()}
+                onDelete={() => props.onDelete(props.defaultValues.key)}
                 onReturn={() => setShowDeleteExamPackageModal(false)}
             />
-
-            <DeleteExamModal
-                visible={showDeleteExamModal}
-                onDelete={() => deleteExam(examToBeDeleted)}
-                onReturn={() => {
-                    setShowDeleteExamModal(false)
-                    setExamToBeDeleted(null)
-                }}
-            />
             {renderExamPackage()}
-            {renderExamsHeader()}
-            <Divider />
+            <Divider>Prüfungen</Divider>
+            {examsDroppable()}
             {buttons()}
         </div>
     )

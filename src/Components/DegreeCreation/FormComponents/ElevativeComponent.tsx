@@ -2,7 +2,7 @@ import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider } from "antd";
 import { ElevativeCreationType, ExamCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
-import { ToolTipElevativeAmountToHigh, ToolTipNameOrWeightMissingElevative, ToolTipElevativeNotSavable } from "../../const"
+import {ToolTipNameOrWeightMissingElevative } from "../../const"
 import { DeleteElevativeModal, DeleteExamModal } from "../ModalMessages";
 
 interface iProps {
@@ -198,7 +198,7 @@ const ElevativeComponent = (props: iProps) => {
             // if exams are open return with tooltip regarding those
         } else if (submitInvalidExamsOpen) {
             return (
-                <Tooltip title={ToolTipElevativeNotSavable}>
+                <Tooltip title={"ToolTipElevativeNotSavable"}>
                     <Button
                         type="primary"
                         style={{ marginLeft: 7.5 }}
@@ -212,7 +212,7 @@ const ElevativeComponent = (props: iProps) => {
         // if their are less exams than required
         } else if(amount > exams.length){
             return(
-                <Tooltip title={ToolTipElevativeAmountToHigh}>
+                <Tooltip title={"ToolTipElevativeAmountToHigh"}>
                 <Button
                     type="primary"
                     style={{ marginLeft: 7.5 }}

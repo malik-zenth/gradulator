@@ -160,7 +160,8 @@ const ExamComponent = (props: iProps) => {
             examid: examid,
             semester: semester,
             editMode: false,
-            key: props.defaultValues.key
+            key: props.defaultValues.key,
+            index: props.defaultValues.index
         }
         props.onSave(newValues)
 

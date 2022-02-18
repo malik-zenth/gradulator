@@ -2,17 +2,19 @@ import React, { useState, ReactFragment, ReactText } from "react"
 import { Row, Col, Button, Form } from "antd"
 import { ExamCreationType, ExamPackageCreationType } from "../types"
 import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult, ResponderProvided } from "react-beautiful-dnd"
-import { RenderExamDraggable, RenderExamPackage} from "../RenderComponents"
+import { RenderExamDraggable, RenderExamPackage } from "../RenderComponents"
+import { ExamPackageComponent } from "../FormComponents"
 
 interface iProps {
-    onUpdate: Function,
-    onDelete: Function,
+    onDeleteExamPackage: Function,
     addExamPackage: Function,
-    setEdit: Function,
+    saveExamPackage: Function,
+    setEditExamPackage: Function,
     setExamWeight: Function,
     setExamEdit: Function,
     exams: ExamCreationType[],
-    defaultValues: ExamPackageCreationType[]
+    defaultValues: ExamPackageCreationType[],
+    onDragEnd: Function
 }
 
 const keyGenerator = (): ReactText =>
@@ -22,11 +24,14 @@ const keyGenerator = (): ReactText =>
 const ExamPackagesStep = (props: iProps) => {
 
     const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
-        console.log(result, provided)
+        props.onDragEnd(result)
     }
 
     const renderExams = () => {
-        return props.exams.map((singleExam: ExamCreationType, index: number) => {
+        // Filter out all exams that are used for any ExamPackage
+        const notUsedExams: ExamCreationType[] = props.exams.filter(singleExam => props.defaultValues.filter(singleExamPackage => singleExamPackage.required.includes(singleExam.key)).length == 0)
+        const orderedNotUsedExams: ExamCreationType[] = notUsedExams.sort((a,b) => (a.index > b.index) ? 1 : ((b.index > a.index) ? -1 : 0))
+        return orderedNotUsedExams.map((singleExam: ExamCreationType, index: number) => {
             return (
                 <Col span={12} key={keyGenerator()}>
                     <RenderExamDraggable
@@ -40,12 +45,13 @@ const ExamPackagesStep = (props: iProps) => {
     }
 
     const renderExamsDroppable = () => {
-        return ( 
+        return (
             <Droppable
                 droppableId="exams"
                 type="1">
                 {(provided, snapshot) => (
                     <Row gutter={[8, 8]}
+                    style={{height: "100%"}}
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
@@ -64,25 +70,59 @@ const ExamPackagesStep = (props: iProps) => {
         const text: ReactFragment = props.defaultValues.length > 0 ? textAddMore : textAddFirst
         return (
             <Col span={8}>
-                    <Button
-                        style={{whiteSpace: "normal"}}
-                        htmlType="submit"
-                        className="minHeight300 addExamButton"
-                        onClick={() => props.addExamPackage()}
-                    >
+                <Button
+                    style={{ whiteSpace: "normal", height: "100%" }}
+                    htmlType="submit"
+                    className="minHeight300 addExamButton"
+                    onClick={() => props.addExamPackage()}
+                >
                     <div className="buttonTextAddExam">{text}</div>
 
-                    </Button>
+                </Button>
             </Col>
         )
     }
 
+    const examPackages = (): ReactFragment => {
+        return props.defaultValues.map(single => {
+            if (single.editMode) {
+                return (
+                    <Col key={keyGenerator()} span={8}>
+                        <ExamPackageComponent
+                            defaultValues={single}
+                            exams={props.exams}
+                            onDelete={(key: string) => props.onDeleteExamPackage(key)}
+                            onSave={(examPackage: ExamPackageCreationType) => props.saveExamPackage(examPackage)}
+                            onSaveExam={(weight: number, key: string) => props.setExamWeight(weight, key)}
+                            setEditExam={(key: string) => props.setExamEdit(key)}
+                        />
+                    </Col>
+                )
+            } else {
+                return (
+                    <Col key={keyGenerator()} span={8}>
+                        <RenderExamPackage
+                            data={single}
+                            exams={props.exams}
+                            onDelete={(key: string) => props.onDeleteExamPackage(key)}
+                            setEdit={(key: string) => props.setEditExamPackage(key)}
+                            onSaveExam={(weight: number, key: string) => props.setExamWeight(weight, key)}
+                            setEditExam={(key: string) => props.setExamEdit(key)}
+                            
+                        />
+                    </Col>
+                )
+            }
+        })
+    }
+
     const renderExamPackages = () => {
-        return(
-            <Row gutter={[8,8]}>
+        return (
+            <Row gutter={[8, 8]}>
+                {examPackages()}
                 {addExamPackagesButton()}
             </Row>
-        )   
+        )
     }
 
     return (
@@ -103,21 +143,6 @@ const ExamPackagesStep = (props: iProps) => {
                         {renderExamPackages()}
                     </div>
                 </div>
-                <Droppable
-                    droppableId="2"
-                    type="3">
-                    {(provided, snapshot) => (
-                        <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                        >
-
-                            {provided.placeholder}
-                        </div>
-                    )}
-
-                </Droppable>
-
             </DragDropContext>
         </div>
     )
