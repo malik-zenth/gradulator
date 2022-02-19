@@ -25,9 +25,14 @@ const ExamPackageComponent = (props: iProps) => {
     // form values
     const [name, setName] = useState<string>(props.defaultValues.name)
     const [weight, setWeight] = useState<number>(props.defaultValues.weight)
+    const [examPackageID, setPackageID] = useState<number>(props.defaultValues.examPackageID)
 
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
+    }
+
+    const onPackageIDChange = (e: number) => {
+        setPackageID(e)
     }
 
     const onWeightChange = (e: number) => {
@@ -38,6 +43,7 @@ const ExamPackageComponent = (props: iProps) => {
         const newExamPackage: ExamPackageCreationType = {
             name: name,
             weight: weight,
+            examPackageID: examPackageID,
             key: props.defaultValues.key,
             editMode: false,
             required: props.defaultValues.required,
@@ -97,6 +103,35 @@ const ExamPackageComponent = (props: iProps) => {
         )
     }
 
+    const packageIDField = (): ReactFragment => {
+        return (
+            <Form.Item
+                name="examPackageID"
+                label="ID"
+                {...layout}
+            >
+                <InputNumber
+                    placeholder="Modulnummer"
+                    style={{ minWidth: "100%", minHeight: "33px" }}
+                    min={1}
+                    step={1}
+                    onChange={(e: number) => onPackageIDChange(e)}
+                    parser={(value) => {
+                        value = value.replace(",", ".")
+                        if (value.includes(".") && value.indexOf(".") + 2 < value.length) {
+                            value = value.substring(0, value.indexOf(".") + 2)
+                        }
+                        // we only allow floats with .5as those are the only values that are possible
+                        if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
+                            value = value.substring(0, value.indexOf(".") + 1)
+                        }
+                        return value
+                    }}
+                />
+            </Form.Item>
+        )
+    }
+
     const buttons = (): ReactFragment => {
         return (
             <div className="create_degree_buttons position_center">
@@ -106,7 +141,7 @@ const ExamPackageComponent = (props: iProps) => {
                     onClick={() => validateDeleteModal()}>
                     Modulprüfung löschen
                 </Button>
-                {(!name || !weight) &&
+                {(!name || !weight || !examPackageID) &&
                     <Tooltip title={ToolTipExamPackageValuesMissing}>
                         <Button
                             htmlType="button"
@@ -118,7 +153,7 @@ const ExamPackageComponent = (props: iProps) => {
                         </Button>
                     </Tooltip>
                 }
-                {(name && weight) &&
+                {(name && weight && examPackageID) &&
                     <Button
                         htmlType="button"
                         style={{ marginLeft: 7.5 }}
@@ -135,7 +170,7 @@ const ExamPackageComponent = (props: iProps) => {
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
     const validateDeleteModal = () => {
-        if (!(name || weight)) {
+        if (!(name || weight || examPackageID)) {
             props.onDelete(props.defaultValues.key)
         } else {
             setShowDeleteExamPackageModal(true)
@@ -146,6 +181,7 @@ const ExamPackageComponent = (props: iProps) => {
         return (
             <Form initialValues={props.defaultValues}>
                 {nameInputField()}
+                {packageIDField()}
                 {weightField()}
             </Form>
         )

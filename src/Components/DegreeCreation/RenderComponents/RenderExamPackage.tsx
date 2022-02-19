@@ -79,6 +79,7 @@ const RenderExamPackage = (props: iProps) => {
                 <div>
                     <div>
                         <p className="degreeCreator_exampackage_text bold">{props.data.name}</p>
+                        <p className="degreeCreator_exampackage_text">Modulnummer: {props.data.examPackageID}</p>
                         <p className="degreeCreator_exampackage_text">Gewichtung: {props.data.weight}</p>
                     </div>
                     <Divider>

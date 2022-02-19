@@ -59,8 +59,6 @@ const defaultExamPackages: ExamPackageCreationType[] = [
 
 const DegreeCreation = () => {
     const [form] = Form.useForm()
-    // created Data
-    const [createdData, setCreatedData] = useState<CreatedData>()
     // created Exams
     const [createdExams, setCreatedExams] = useState<ExamCreationType[]>(defaultExams)
     // created ExamPackages
@@ -73,6 +71,11 @@ const DegreeCreation = () => {
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
     const [currentStep, setCurrentStep] = useState(1)
+
+    const setCreatedData = (data: CreatedData) => {
+        setCreatedExamPackages(data.examPackages)
+        setCreatedExams(data.exams)
+    }
 
     const nextStep = () => {
         setCurrentStep(currentStep + 1)
@@ -116,6 +119,14 @@ const DegreeCreation = () => {
         setCreatedExamPackages(newExamPackages)
     }
 
+    const removeExamFromRequired = (key: string) => {
+        const newExamPackages: ExamPackageCreationType[] = createdExamPackages.map(single => {
+            single.required = single.required.filter(x => x != key)
+            return single
+        })
+        setCreatedExamPackages(newExamPackages)
+    }
+
     const onDragEndExamPackages = (result: DropResult) => {
         // ignore the drag it there is no destination
         if (result.destination) {
@@ -129,12 +140,13 @@ const DegreeCreation = () => {
                     const newRequiredFromSource = oldExamPackage.required.filter(x => x != droppedExam.key)
                     updateRequiredExamPackage(oldExamPackage.key, newRequiredFromSource)
                 }
-            }
-            // update the required from the restination - if it is exams we dont need to do anything
-            if (result.destination.droppableId != "exams") {
-                const newExamPackage: ExamPackageCreationType = createdExamPackages.filter(x => x.key === result.destination.droppableId).shift()
-                const newRequiredFromDestination: string[] = ([...newExamPackage.required, droppedExam.key])
-                updateRequiredExamPackage(newExamPackage.key, newRequiredFromDestination)
+
+                // update the required from the restination - if it is exams we dont need to do anything
+                if (result.destination.droppableId != "exams") {
+                    const newExamPackage: ExamPackageCreationType = createdExamPackages.filter(x => x.key === result.destination.droppableId).shift()
+                    const newRequiredFromDestination: string[] = ([...newExamPackage.required, droppedExam.key])
+                    updateRequiredExamPackage(newExamPackage.key, newRequiredFromDestination)
+                }
             }
         }
     }
@@ -146,6 +158,8 @@ const DegreeCreation = () => {
     }
 
     const deleteExam = (key: string) => {
+        // remove Exam from all ExamPackages
+        removeExamFromRequired(key)
         setCreatedExams(createdExams.filter(exam => exam.key != key))
     }
 
@@ -217,7 +231,11 @@ const DegreeCreation = () => {
                             style={{ marginLeft: 7.5, width: 220 }}
                             htmlType="submit"
                             href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                                JSON.stringify({ data: createdData, basics: basicInformations })
+                                JSON.stringify({
+                                    exams: createdExams,
+                                    basics: basicInformations,
+                                    examPackages: createdExamPackages,
+                                })
                             )}`}
                             download="data_gradulator.json"
                         >
@@ -347,7 +365,6 @@ const DegreeCreation = () => {
                     <Header home={false} />
                     <CheckInput
                         basicInformations={basicInformations}
-                        data={createdData}
                         onReturn={() => setShowSubmit(false)}
                     />
                 </div>

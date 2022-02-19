@@ -22,7 +22,7 @@ export const ToolTipNameOrWeightMissingEmphasis: string = "Bitte gebe erst einen
 export const ToolTipNameOrWeightMissingExamPackage: string = "Bitte gebe erst einen Name und eine Gewichtung für die Modulprüfung an."
 export const ToolTipNameOrWeightMissingElevative: string = "Bitte gebe erst Name, Gewichtung und die benötigte Anzahl an."
 export const ToolTipExamValuesMissing: string = "Bitte gebe erst Name, Prüfungsnummer, ECTS und Semester an."
-export const ToolTipExamPackageValuesMissing: string = "Bitte gebe erst Name und Gewicht an."
+export const ToolTipExamPackageValuesMissing: string = "Bitte gebe erst Name, Modulnummer und Gewicht an."
 
 export const ToolTipSaveDegreeCreator:string = "Die bisherigen Eingaben in einer lokalen Datei speichern, um zu einem anderen Zeitpunkt daran weiterzuarbeiten"
 export const ToolTipUploadDegreeCreator: string = "Datei hochladen um an an einem Zwischengespeicherten Studiengang weiterzuarbeiten"

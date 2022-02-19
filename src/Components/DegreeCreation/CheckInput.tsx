@@ -4,7 +4,6 @@ import { CreatedData, GeneralInformationsCreationType } from "./types"
 
 interface iProps{
     basicInformations: GeneralInformationsCreationType
-    data: CreatedData,
     onReturn: Function
 }
 

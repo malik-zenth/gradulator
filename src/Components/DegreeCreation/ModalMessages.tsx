@@ -53,7 +53,7 @@ export const DeleteExamPackageModal = (props: iProps) => {
                     onClick={() => props.onDelete()}>Löschen
                 </Button>
             ]}>
-            <p>Dadurch werden ebenfalls alle Prüfungen innerhalb der Modulprüfung gelöscht.</p>
+            <p>Diese Aktion kann nicht Rückgängig gemacht werden.</p>
         </Modal>
     );
 }
