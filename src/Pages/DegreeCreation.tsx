@@ -1,13 +1,12 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Footer, Header } from "../Components"
-import { Button, Divider, Row, Form, Tooltip, Steps, message } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Form, Tooltip, Steps } from "antd";
 import { BasicInformations } from "../Components/DegreeCreation/FormComponents"
 import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType } from "../Components/DegreeCreation/types";
 import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep } from "../Components/const";
 import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
-import { ExamsStep, ExamPackagesStep } from "../Components/DegreeCreation/Steps"
+import { ExamsStep, ExamPackagesStep, ElevativeStep } from "../Components/DegreeCreation/Steps"
 import { DropResult } from "react-beautiful-dnd";
 
 interface iNextStepButton {
@@ -57,12 +56,33 @@ const defaultExamPackages: ExamPackageCreationType[] = [
     }
 ]
 
+const defaultElevatives: ElevativeCreationType[] = [
+    {
+        name: "Wahlfach A",
+        key: keyGeneratorString(),
+        editMode: true,
+        options: [{
+            required: 1,
+            ids: ["456"],
+            key: keyGeneratorString()
+        }],
+    },
+    {
+        name: "Wahlfach A",
+        key: keyGeneratorString(),
+        editMode: true,
+        options: [],
+        unit: "ects"
+    }
+]
+
 const DegreeCreation = () => {
-    const [form] = Form.useForm()
     // created Exams
     const [createdExams, setCreatedExams] = useState<ExamCreationType[]>(defaultExams)
     // created ExamPackages
     const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>(defaultExamPackages)
+    // created Elevatives
+    const [createdElevatives, setCreatedElevatives] = useState<ElevativeCreationType[]>(defaultElevatives)
     // basic Informations
     const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
     // if Page is shown to visualize all input
@@ -70,7 +90,7 @@ const DegreeCreation = () => {
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(1)
+    const [currentStep, setCurrentStep] = useState(2)
 
     const setCreatedData = (data: CreatedData) => {
         setCreatedExamPackages(data.examPackages)
@@ -83,6 +103,30 @@ const DegreeCreation = () => {
 
     const prevStep = () => {
         setCurrentStep(currentStep - 1)
+    }
+
+    // all Functions for Elevatives 
+
+    const addElevative = () => {
+        setCreatedElevatives([...createdElevatives, {editMode: true, key: keyGeneratorString(), options: []}])
+    }
+
+    const updateElevative = (newElevative: ElevativeCreationType) => {
+        setCreatedElevatives(createdElevatives.map(single => single.key == newElevative.key ? newElevative : single))
+    }
+
+    const deleteElevative = (key: string) => {
+        setCreatedElevatives(createdElevatives.filter(exam => exam.key != key))
+    }
+
+    const setEditElevative = (key: string) => {
+        const newElevatives: ElevativeCreationType[] = createdElevatives.map(single => {
+            if (single.key === key) {
+                single.editMode = true
+            }
+            return single
+        })
+        setCreatedElevatives(newElevatives)
     }
 
     // all Functions for ExamPackages
@@ -151,7 +195,7 @@ const DegreeCreation = () => {
         }
     }
 
-    // all Functions for Examns
+    // all Functions for Exams
 
     const addExam = () => {
         setCreatedExams([...createdExams, { editMode: true, key: keyGeneratorString(), index: createdExams.length }])
@@ -342,7 +386,18 @@ const DegreeCreation = () => {
         },
         {
             title: "Wahlfächer",
-            content: <div>3</div>
+            content: <ElevativeStep
+                defaultValues={createdElevatives}
+                exams={createdExams}
+                setExamWeight={(weight: number, key: string) => setExamWeight(weight, key)}
+                setExamEdit={(key: string) => setEditExam(key)}
+                addElevative={() => addElevative()}
+                onSaveElevative={(elevative: ElevativeCreationType) => updateElevative(elevative)}
+                onDeleteElevative={(key: string) => deleteElevative(key)}
+                setEditElevative={(key: string) => setEditElevative(key)}
+                setEditExam={(key: string) => setEditExam(key)}
+                onSaveExam={(weight: number, key: string) => setExamWeight(weight, key)}
+            />
         },
         {
             title: "Schwerpunkte",

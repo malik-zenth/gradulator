@@ -216,7 +216,7 @@ const EmphasisComponent = (props: iProps) => {
     }
 
     const addElevative = () => {
-        setCreatedOptions([...createdOptions, { elevative: { editMode: true, exams: [] } }])
+        setCreatedOptions([...createdOptions, { elevative: { key: "",editMode: true, options: [] } }])
     }
 
     const renderHeader = (): ReactFragment => {
@@ -286,30 +286,6 @@ const EmphasisComponent = (props: iProps) => {
         }))
     }
 
-    const renderExamPackages = () => {
-        return createdOptions.map((value, index) => {
-            if (value.examPackage) {
-                return (
-                    <div></div>
-                )
-            }
-            else if (value.elevative) {
-                return (
-                    <RenderElevative
-                        key={keyGenerator()}
-                        data={value.elevative}
-                        index={index}
-                        isChildComponent={true}
-                        showEditButtons={true}
-                        onDelete={(index: number) => deleteData(index)}
-                        onSaveEdit={(elevative: ElevativeCreationType, index: number) => saveElevative(elevative, index)}
-                        setEdit={(index: number) => setEditElevative(true, index)}
-                    />
-                )
-            }
-        })
-    }
-
     return (
         <div className="emphasis_component">
             <DeleteEmphasisModal
@@ -329,7 +305,6 @@ const EmphasisComponent = (props: iProps) => {
             {renderExamPackage()}
             {renderHeader()}
             <Row gutter={[20, 40]}>
-                {renderExamPackages()}
             </Row>
             <Divider />
             {buttons()}

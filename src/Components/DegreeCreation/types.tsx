@@ -34,10 +34,18 @@ export interface ExamPackageCreationType{
 
 export interface ElevativeCreationType{
     name?: string,
-    amount?: number,
-    exams: ExamCreationType[],
+    examPackageID?: number,
+    options: ElevativeOptionType[],
     weight?: number,
+    unit?: string,
+    key: string,
     editMode: boolean
+}
+
+export interface ElevativeOptionType{
+    ids: string[],
+    required: number,
+    key: string
 }
 
 export interface EmphasisCreationType{

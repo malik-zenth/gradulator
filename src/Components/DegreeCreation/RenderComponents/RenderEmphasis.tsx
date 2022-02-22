@@ -67,26 +67,6 @@ const RenderEmphasis = (props: iProps) => {
                         <div className="elevatives_add_heading">Modulprüfungen</div>
                     </div>
                 </Divider>
-
-                <Row gutter={[20, 40]}>
-                    {values.options.map((single, index) => {
-                        if(single.examPackage){
-                        return (
-                            <div></div>
-                        )
-                        }else if(single.elevative){
-                            return(
-                                <RenderElevative
-                                    key={keyGenerator()}
-                                    index={index}
-                                    data={single.elevative}
-                                    isChildComponent={true}
-                                    showEditButtons={false}
-                                />
-                                )
-                        }
-                    })}
-                </Row>
                 <Divider />
                 {buttons(index)}
             </div>
