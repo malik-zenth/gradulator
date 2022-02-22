@@ -8,6 +8,7 @@ import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
 import { ExamsStep, ExamPackagesStep, ElevativeStep } from "../Components/DegreeCreation/Steps"
 import { DropResult } from "react-beautiful-dnd";
+import { CreatorContext } from "../Components/DegreeCreation/CreatorContext";
 
 interface iNextStepButton {
     enabled: boolean,
@@ -64,7 +65,8 @@ const defaultElevatives: ElevativeCreationType[] = [
         options: [{
             required: 1,
             ids: ["456"],
-            key: keyGeneratorString()
+            key: keyGeneratorString(),
+            editMode: true
         }],
     },
     {
@@ -362,42 +364,15 @@ const DegreeCreation = () => {
     const steps = [
         {
             title: "Prüfungen",
-            content: <ExamsStep
-                onUpdate={(exam: ExamCreationType) => updateExam(exam)}
-                onDelete={(key: string) => deleteExam(key)}
-                addExam={() => addExam()}
-                setEdit={(key: string) => setEditExam(key)}
-                defaultValues={createdExams}
-            />
+            content: <ExamsStep/>
         },
         {
             title: "Modulprüfungen",
-            content: <ExamPackagesStep
-                onDeleteExamPackage={(key: string) => deleteExamPackage(key)}
-                addExamPackage={() => addExamPackage()}
-                setEditExamPackage={(key: string) => setEditExamPackage(key)}
-                saveExamPackage={(examPackage: ExamPackageCreationType) => updateExamPackage(examPackage)}
-                setExamWeight={(weight: number, key: string) => setExamWeight(weight, key)}
-                setExamEdit={(key: string) => setEditExam(key)}
-                defaultValues={createdExamPackages}
-                exams={createdExams}
-                onDragEnd={(result: DropResult) => onDragEndExamPackages(result)}
-            />
+            content: <ExamPackagesStep/>
         },
         {
             title: "Wahlfächer",
-            content: <ElevativeStep
-                defaultValues={createdElevatives}
-                exams={createdExams}
-                setExamWeight={(weight: number, key: string) => setExamWeight(weight, key)}
-                setExamEdit={(key: string) => setEditExam(key)}
-                addElevative={() => addElevative()}
-                onSaveElevative={(elevative: ElevativeCreationType) => updateElevative(elevative)}
-                onDeleteElevative={(key: string) => deleteElevative(key)}
-                setEditElevative={(key: string) => setEditElevative(key)}
-                setEditExam={(key: string) => setEditExam(key)}
-                onSaveExam={(weight: number, key: string) => setExamWeight(weight, key)}
-            />
+            content: <ElevativeStep/>
         },
         {
             title: "Schwerpunkte",
@@ -405,10 +380,7 @@ const DegreeCreation = () => {
         },
         {
             title: "Allgemeine Informationen",
-            content: <BasicInformations
-                defaultValues={basicInformations}
-                onSave={(values: GeneralInformationsCreationType) => setBasicInformations(values)}
-            />
+            content: <BasicInformations/>
         },
     ]
 
@@ -428,7 +400,30 @@ const DegreeCreation = () => {
         )
     }
     return (
-        <div>
+        <CreatorContext.Provider value={{
+            updateElevative,
+            addElevative,
+            deleteElevative,
+            setEditElevative,
+            addExamPackage,
+            updateExamPackage,
+            deleteExamPackage,
+            setEditExamPackage,
+            updateRequiredExamPackage,
+            removeExamFromRequired,
+            onDragEndExamPackages,
+            addExam,
+            deleteExam,
+            updateIndexExam,
+            updateExam,
+            setExamWeight,
+            setEditExam,
+            setBasicInformations,
+            basicInformations: basicInformations,
+            exams: createdExams,
+            examPackages: createdExamPackages,
+            elevatives: createdElevatives
+        }}>
             <div className="content degreeCreator">
                 <Header home={false} />
                 <FileUploadModal
@@ -451,7 +446,7 @@ const DegreeCreation = () => {
                 </div>
             </div>
             <Footer />
-        </div>
+        </CreatorContext.Provider>
     )
 }
 

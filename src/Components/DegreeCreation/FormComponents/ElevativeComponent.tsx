@@ -1,4 +1,4 @@
-import React, { ReactFragment, ReactText, useEffect, useState } from "react"
+import React, { ReactFragment, ReactText, useContext, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider, Select, Row, Col } from "antd";
 import { ElevativeCreationType, ElevativeOptionType, ExamCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
@@ -7,17 +7,15 @@ import { DeleteElevativeModal, DeleteExamModal } from "../ModalMessages";
 import { valueType } from "antd/lib/statistic/utils";
 import { Droppable } from "react-beautiful-dnd";
 import { RenderExamDraggable } from "../RenderComponents";
+import { CreatorContext } from "../CreatorContext";
 
 interface iProps {
-    onDelete: Function,
-    onSave: Function,
     defaultValues: ElevativeCreationType,
-    exams: ExamCreationType[]
-    onSaveExam: Function,
-    setEditExam: Function
 }
 
 const ElevativeComponent = (props: iProps) => {
+    const {updateElevative, exams, deleteElevative} = useContext(CreatorContext)
+
     // if Modal to delete this Elevative should be displayed
     const [showDeleteElevativeModal, setShowDeleteElevative] = useState<boolean>(false)
     // if submit is possible
@@ -27,7 +25,6 @@ const ElevativeComponent = (props: iProps) => {
     const [name, setName] = useState<string>(props.defaultValues.name)
     const [weight, setWeight] = useState<number>(props.defaultValues.weight)
     const [unit, setUnit] = useState<string>(props.defaultValues.unit)
-
 
     const layout = {
         labelCol: { span: 6 },
@@ -125,7 +122,7 @@ const ElevativeComponent = (props: iProps) => {
             options: [],
             editMode: false
         }
-        props.onSave(newValues)
+        updateElevative(newValues)
     }
 
     const buttons = (): ReactFragment => {
@@ -199,13 +196,11 @@ const ElevativeComponent = (props: iProps) => {
     }
 
     const renderOptions = (singleOption: ElevativeOptionType): ReactFragment => {
-        const optionExams: ExamCreationType[] = props.exams.filter(single => singleOption.ids.includes(single.key))
+        const optionExams: ExamCreationType[] = exams.filter(single => singleOption.ids.includes(single.key))
         return optionExams.map((singleExam: ExamCreationType) => {
             return (
                 <RenderExamDraggable
                     singleExam={singleExam}
-                    onSave={(weight: number) => props.onSaveExam(weight, singleExam.key)}
-                    setEdit={() => props.setEditExam(singleExam.key)}
                     index={singleExam.index}
                 />
             )
@@ -216,7 +211,7 @@ const ElevativeComponent = (props: iProps) => {
     // if so show Modal message
     const validateDeleteModal = () => {
         if (!(name || weight || unit)) {
-            props.onDelete()
+            deleteElevative()
         } else {
             setShowDeleteElevative(true)
         }
@@ -226,7 +221,7 @@ const ElevativeComponent = (props: iProps) => {
         <div className="minHeight300 examPackageElement">
             <DeleteElevativeModal
                 visible={showDeleteElevativeModal}
-                onDelete={() => props.onDelete()}
+                onDelete={() => deleteElevative()}
                 onReturn={() => setShowDeleteElevative(false)}
             />
             <Form initialValues={props.defaultValues}>

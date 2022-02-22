@@ -6,20 +6,19 @@ import { ToolTipExamPackageValuesMissing } from "../../const"
 import { DeleteExamModal, DeleteExamPackageModal } from "../ModalMessages";
 import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult, ResponderProvided } from "react-beautiful-dnd"
 import { RenderExamDraggable } from "../RenderComponents";
+import { useContext } from "react";
+import { CreatorContext } from "../CreatorContext";
 
 interface iProps {
-    onDelete: Function,
-    onSave: Function,
     defaultValues: ExamPackageCreationType,
-    exams: ExamCreationType[],
-    onSaveExam: Function,
-    setEditExam: Function
 }
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 const ExamPackageComponent = (props: iProps) => {
+    const {updateExamPackage, deleteExamPackage, exams} = useContext(CreatorContext)
+
     // if Modal to delete this ExamPackage should be displayed
     const [showDeleteExamPackageModal, setShowDeleteExamPackageModal] = useState<boolean>(false)
     // form values
@@ -48,7 +47,7 @@ const ExamPackageComponent = (props: iProps) => {
             editMode: false,
             required: props.defaultValues.required,
         }
-        props.onSave(newExamPackage)
+        updateExamPackage(newExamPackage)
     }
 
     const layout = {
@@ -171,7 +170,7 @@ const ExamPackageComponent = (props: iProps) => {
     // if so show Modal message
     const validateDeleteModal = () => {
         if (!(name || weight || examPackageID)) {
-            props.onDelete(props.defaultValues.key)
+            deleteExamPackage(props.defaultValues.key)
         } else {
             setShowDeleteExamPackageModal(true)
         }
@@ -213,15 +212,13 @@ const ExamPackageComponent = (props: iProps) => {
                 <div className="addExamsDragAndDropText">Hier Prüfungen per Drag-and-Drop hinzufügen</div>
             )
         }
-        const examData: ExamCreationType[] = props.defaultValues.required.map(id => props.exams.filter(x => x.key === id).shift())
+        const examData: ExamCreationType[] = props.defaultValues.required.map(id => exams.filter(x => x.key === id).shift())
         const orderedExamData: ExamCreationType[] = examData.sort((a,b) => (a.index > b.index) ? 1 : ((b.index > a.index) ? -1 : 0))
         return orderedExamData.map(singleExam => {
             return (
                 <Col span={16} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
-                        onSave={(weight: number) => props.onSaveExam(weight,singleExam.key)}
-                        setEdit={() => props.setEditExam(singleExam.key)}
                         index={singleExam.index}
                     />
                 </Col>
@@ -233,7 +230,7 @@ const ExamPackageComponent = (props: iProps) => {
         <div className="minHeight300 examPackageElement">
             <DeleteExamPackageModal
                 visible={showDeleteExamPackageModal}
-                onDelete={() => props.onDelete(props.defaultValues.key)}
+                onDelete={() => deleteExamPackage(props.defaultValues.key)}
                 onReturn={() => setShowDeleteExamPackageModal(false)}
             />
             {renderExamPackage()}

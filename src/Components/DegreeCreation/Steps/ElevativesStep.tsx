@@ -1,28 +1,18 @@
 import { Button, Col, Row } from "antd";
 import React, { ReactFragment, ReactText } from "react"
+import { useContext } from "react";
 import { DragDropContext, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
+import { CreatorContext } from "../CreatorContext";
 import { ElevativeComponent } from "../FormComponents";
 import { RenderElevative, RenderExamDraggable } from "../RenderComponents";
 import { ElevativeCreationType, ExamCreationType } from "../types";
-
-interface iProps {
-    defaultValues: ElevativeCreationType[],
-    exams: ExamCreationType[],
-    setExamWeight: Function,
-    setExamEdit: Function,
-    addElevative: Function
-    onDeleteElevative: Function,
-    onSaveElevative: Function,
-    setEditElevative: Function,
-    onSaveExam: Function,
-    setEditExam: Function
-}
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 
-const ElevativeStep = (props: iProps) => {
+const ElevativeStep = () => {
+    const {exams, elevatives, addElevative} = useContext(CreatorContext)
 
     const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
 
@@ -49,13 +39,11 @@ const ElevativeStep = (props: iProps) => {
     }
 
     const renderExams = () => {
-        return props.exams.map((singleExam: ExamCreationType, index: number) => {
+        return exams.map((singleExam: ExamCreationType, index: number) => {
             return (
                 <Col span={12} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
-                        onSave={(weight: number) => props.setExamWeight(weight, singleExam.key)}
-                        setEdit={() => props.setExamEdit(singleExam.key)}
                         index={index} />
                 </Col>
             )
@@ -68,14 +56,14 @@ const ElevativeStep = (props: iProps) => {
             <br></br>Füge für alle die jeweiligen Optionen das Modul zu erfüllen hinzu und ordne anschließend Prüfungen per Drag-and-Drop einer Option zu.
             <br></br>Gehe weiter zum nächsten Schritt, sollte es keine Wahlfächer geben.<br></br> Klicke hier, um dein erstes Wahlfach hinzuzufügen.
         </p>
-        const text: ReactFragment = props.defaultValues.length > 0 ? textAddMore : textAddFirst
+        const text: ReactFragment = elevatives.length > 0 ? textAddMore : textAddFirst
         return (
             <Col span={12}>
                 <Button
                     style={{ whiteSpace: "normal", height: "100%" }}
                     htmlType="submit"
                     className="minHeight300 addExamButton"
-                    onClick={() => props.addElevative()}
+                    onClick={() => addElevative()}
                 >
                     <div className="buttonTextAddExam">{text}</div>
 
@@ -84,20 +72,14 @@ const ElevativeStep = (props: iProps) => {
         )
     }
 
-    const elevatives = (): ReactFragment => {
-        return props.defaultValues.map(single => {
+    const renderElevatives = (): ReactFragment => {
+        return elevatives.map(single => {
             if (single.editMode) {
                 return (
                     <Col span={12} key={keyGenerator()}>
                         <ElevativeComponent
                             defaultValues={single}
-                            onSave={(elevative: ElevativeCreationType) => props.onSaveElevative(elevative)}
-                            onDelete={(key: string) => props.onDeleteElevative(key)}
-                            exams={props.exams}
-                            onSaveExam={(weight: number, key: string) => props.onSaveExam(weight, Number)}
-                            setEditExam={(key: string) => props.setEditExam(key)}
                         />
-
                     </Col>
                 )
             }
@@ -106,8 +88,6 @@ const ElevativeStep = (props: iProps) => {
                     <Col key={keyGenerator()} span={12}>
                         <RenderElevative
                             data={single}
-                            onDelete={(key: string) => props.onDeleteElevative(key)}
-                            setEdit={(key: string) => props.setEditElevative(key)}
                         />
                     </Col>
                 )
@@ -115,10 +95,10 @@ const ElevativeStep = (props: iProps) => {
         })
     }
 
-    const renderElevatives = () => {
+    const renderElevativesBox = () => {
         return (
             <Row gutter={[8, 8]}>
-                {elevatives()}
+                {renderElevatives()}
                 {addElevativeButton()}
             </Row>
         )
@@ -139,7 +119,7 @@ const ElevativeStep = (props: iProps) => {
                     </div>
 
                     <div className="examPackagesBox">
-                        {renderElevatives()}
+                        {renderElevativesBox()}
                     </div>
 
                 </div>

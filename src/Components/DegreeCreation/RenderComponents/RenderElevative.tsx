@@ -1,21 +1,20 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Button, Divider, Col } from "antd";
 import { ElevativeCreationType } from "../types";
-import RenderExams from "./RenderExam";
 import { DeleteElevativeModal } from "../ModalMessages";
-import ElevativeComponent from "../FormComponents/ElevativeComponent";
+import { useContext } from "react";
+import { CreatorContext } from "../CreatorContext";
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 interface iProps {
     data: ElevativeCreationType,
-    onDelete: Function,
-    setEdit: Function,
 }
 
 // render single Elevative
 const RenderElevative = (props: iProps) => {
+    const {setEditElevative, deleteElevative} = useContext(CreatorContext)
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
 
     const buttons = (): ReactFragment => {
@@ -30,7 +29,7 @@ const RenderElevative = (props: iProps) => {
                 <Button
                     style={{ marginLeft: 7.5 }}
                     htmlType="submit"
-                    onClick={() => props.setEdit(props.data.key)}>
+                    onClick={() => setEditElevative(props.data.key)}>
                     Bearbeiten
                     </Button>
             </div>
@@ -41,7 +40,7 @@ const RenderElevative = (props: iProps) => {
         <Col xl={8} xxl={6} lg={8} md={12} sm={12} xs={24} key={keyGenerator()}>
             <DeleteElevativeModal
                 visible={showDeleteModal}
-                onDelete={() => props.onDelete(props.data.key)}
+                onDelete={() => deleteElevative(props.data.key)}
                 onReturn={() => setShowDeleteModal(false)}
             />
             <div>

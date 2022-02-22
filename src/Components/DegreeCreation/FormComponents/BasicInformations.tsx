@@ -2,15 +2,16 @@ import React, { ReactFragment, ReactText, useState } from "react"
 import { EditOutlined } from "@ant-design/icons";
 import { GeneralInformationsCreationType } from "../types";
 import { Form, InputNumber, Input, Button } from "antd";
+import { useContext } from "react";
+import { CreatorContext } from "../CreatorContext";
 
-interface iProps {
-    defaultValues: GeneralInformationsCreationType
-    onSave: Function
-}
-const BasicInformations = (props: iProps) => {
+
+const BasicInformations = () => {
+    const {setBasicInformations, basicInformations} = useContext(CreatorContext)
+
     const [form] = Form.useForm()
     const [editMode, setEditMode] = useState<boolean>(true)
-    const [currentValues, setCurrentValues] = useState<GeneralInformationsCreationType>(props.defaultValues)
+    const [currentValues, setCurrentValues] = useState<GeneralInformationsCreationType>(basicInformations)
 
     const onSubmit = (e: any) => {
         e.preventDefault()
@@ -19,7 +20,7 @@ const BasicInformations = (props: iProps) => {
             .then((values: GeneralInformationsCreationType) => {
                 setCurrentValues(values)
                 setEditMode(false)
-                props.onSave(values)
+                setBasicInformations(values)
             })
             .catch((error) => {
                 console.log(error);
@@ -152,7 +153,7 @@ const BasicInformations = (props: iProps) => {
         <div className="creator_basicInformations position_center">
             {editMode &&
                 <div className="creator_basicinformation_box_edit">
-                    <Form form={form} initialValues={props.defaultValues}>
+                    <Form form={form} initialValues={basicInformations}>
                         {InputFieldName()}
                         {InputFieldShortName()}
                         {InputAmoundEmphasis()}

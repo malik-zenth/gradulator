@@ -1,34 +1,28 @@
-import React, { ReactFragment, ReactText, useState } from "react"
+import React, { ReactFragment, ReactText, useContext, useState } from "react"
 import { ExamCreationType } from "../types"
 import { Row, Col, Button, Form } from "antd"
 import { ExamComponent } from "../FormComponents"
 import { RenderExam } from "../RenderComponents";
-
-interface iProps {
-    onUpdate: Function,
-    onDelete: Function,
-    addExam: Function,
-    setEdit: Function,
-    defaultValues?: ExamCreationType[]
-}
+import { CreatorContext } from "../CreatorContext";
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 
-const ExamsStep = (props: iProps) => {
+const ExamsStep = () => {
+    const {exams, addExam, deleteExam, updateExam, setEditExam} = useContext(CreatorContext)
 
     const addExamButton = (): ReactFragment => {
         const textAddMore = <p>Weitere Prüfung hinzufügen</p>
         const textAddFirst = <p>Füge im ersten Schritt alle einzelnen Prüfungen des Studiengangs hinzu. <br></br> Klicke hier, um deine erste Prüfung hinzuzufügen.</p>
-        const text: ReactFragment = props.defaultValues.length > 0 ? textAddMore : textAddFirst
+        const text: ReactFragment = exams.length > 0 ? textAddMore : textAddFirst
         return (
             <Col span={6}>
                     <Button
                         style={{whiteSpace: "normal"}}
                         htmlType="submit"
                         className="minHeight300 addExamButton"
-                        onClick={() => props.addExam()}
+                        onClick={() => addExam()}
                     >
                     <div className="buttonTextAddExam">{text}</div>
 
@@ -38,13 +32,13 @@ const ExamsStep = (props: iProps) => {
     }
 
     const renderCreatedExams = (): ReactFragment => {
-        return props.defaultValues.map((singleExam: ExamCreationType) => {
+        return exams.map((singleExam: ExamCreationType) => {
             if (singleExam.editMode) {
                 return (
                     <Col span={6} key={keyGenerator()}>
                         <ExamComponent
-                            onDelete={(key: string) => props.onDelete(key)}
-                            onSave={(exam: ExamCreationType) => props.onUpdate(exam)}
+                            onDelete={(key: string) => deleteExam(key)}
+                            onSave={(exam: ExamCreationType) => updateExam(exam)}
                             defaultValues={singleExam}
                         />
                     </Col>
@@ -55,8 +49,8 @@ const ExamsStep = (props: iProps) => {
                     <Col span={6} key={keyGenerator()}>
                         <RenderExam
                             data={singleExam}
-                            onDelete={(key: string) => props.onDelete(key)}
-                            setEdit={(key: string) => props.setEdit(key)}
+                            onDelete={(key: string) => deleteExam(key)}
+                            setEdit={(key: string) => setEditExam(key)}
                         />
                     </Col>
                 )

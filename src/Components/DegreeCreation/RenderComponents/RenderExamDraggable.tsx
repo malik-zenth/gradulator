@@ -3,15 +3,17 @@ import {Button, Form, InputNumber } from "antd"
 import { ExamCreationType } from "../types"
 import { Draggable } from "react-beautiful-dnd"
 import { CheckOutlined, EditOutlined } from "@ant-design/icons";
+import { useContext } from "react";
+import { CreatorContext } from "../CreatorContext";
 
 interface iProps {
     singleExam: ExamCreationType,
-    onSave: Function,
-    setEdit: Function,
     index: number
 }
 
 const RenderSingleExamDraggable = (props: iProps) => {
+    const {setExamWeight, setEditExam} = useContext(CreatorContext)
+
     const [weight, setWeight] = useState<number>(props.singleExam.weight)
 
     const onWeightChange = (e: number) => {
@@ -19,7 +21,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
     }
 
     const saveWeight = () => {
-        props.onSave(weight)
+        setExamWeight(weight, props.singleExam.key)
     }
 
     const weightField = (): ReactFragment => {
@@ -78,7 +80,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
                             <Button
                                 size="small"
                                 className="saveWeightButton"
-                                onClick={() => props.setEdit()}
+                                onClick={() => setEditExam(props.singleExam.key)}
                                 shape="round"
                                 icon={<EditOutlined />}>
                             </Button>

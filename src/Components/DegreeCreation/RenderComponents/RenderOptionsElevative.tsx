@@ -1,25 +1,37 @@
-import { Form, InputNumber } from "antd";
-import React, { ReactFragment } from "react"
-import { ElevativeCreationType, ExamCreationType } from "../types";
+import { CheckOutlined } from "@ant-design/icons";
+import { Button, Form, InputNumber } from "antd";
+import React, { ReactFragment, useState } from "react"
+import { ElevativeOptionType, ExamCreationType } from "../types";
 
 interface iProps {
     exams: ExamCreationType[]
-    defaultValues: ElevativeCreationType
+    defaultValues: ElevativeOptionType,
+    unit: string,
+    saveAmountRequired: Function
 }
 
 const RenderOptionsElevative = (props: iProps) => {
+    const [amount, setAmount] = useState<number>(props.defaultValues.required)
+
+    const onAmountChange = (e: number) => {
+        setAmount(e)
+    }
+
+    const saveAmount = () => {
+        props.saveAmountRequired(amount)
+    }
 
     const amountField = (): ReactFragment => {
         return (
             <Form.Item
-                name={"amount"}
+                name={"required"}
                 label="Anzahl"
             >
                 <InputNumber
                     placeholder="Benötigte Anzahl"
                     min={1}
                     max={30}
-                    onChange={(e: number) => { }}
+                    onChange={(e: number) => onAmountChange(e)}
                     style={{ minWidth: "100%" }}
                     parser={(value) => {
                         value = value.replace(",", ".")
@@ -38,8 +50,23 @@ const RenderOptionsElevative = (props: iProps) => {
     }
 
     return (
-
-)
+        <div>
+            {props.defaultValues.editMode &&
+                <Form initialValues={props.defaultValues}>
+                        {amountField()}
+                        <Button
+                            size="small"
+                            type="primary"
+                            disabled={amount ? false : true}
+                            className="saveWeightButton"
+                            onClick={() => saveAmount()}
+                            shape="round"
+                            icon={<CheckOutlined />}>
+                        </Button>
+                </Form>
+            }
+        </div >
+    )
 }
 
 export default RenderOptionsElevative

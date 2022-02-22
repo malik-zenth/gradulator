@@ -3,6 +3,8 @@
 // are not defined jet when creating them
 // e.g. the required Exams inside of an ExamPackage are not defined jet
 
+import { BasicInformation } from "../../Data/types";
+
 // when the ExamPackage is created
 export interface ExamCreationType{
     ects?: number,
@@ -45,7 +47,8 @@ export interface ElevativeCreationType{
 export interface ElevativeOptionType{
     ids: string[],
     required: number,
-    key: string
+    key: string,
+    editMode: boolean
 }
 
 export interface EmphasisCreationType{
@@ -66,7 +69,7 @@ export interface GeneralInformationsCreationType{
     amoundRequiredEmphasis?: number,
     amoundRequiredElevative?:number,
     spo?: number,
-    editMode: boolean
+    editMode?: boolean
 }
 
 export interface CreationType{
@@ -74,4 +77,33 @@ export interface CreationType{
     emphasis?: EmphasisCreationType[],
     elevatives?: ElevativeCreationType[],
     examPackages: ExamPackageCreationType[]
+}
+
+export interface CreationContextType{
+    updateElevative: Function,
+    addElevative: Function,
+    deleteElevative: Function,
+    setEditElevative: Function,
+    
+    addExamPackage: Function,
+    updateExamPackage: Function,
+    deleteExamPackage: Function,
+    setEditExamPackage: Function,
+    updateRequiredExamPackage: Function,
+    removeExamFromRequired: Function,
+    onDragEndExamPackages: Function,
+    
+    addExam: Function,
+    deleteExam: Function,
+    updateIndexExam: Function,
+    updateExam: Function,
+    setExamWeight: Function,
+    setEditExam: Function,
+
+    setBasicInformations: Function,
+
+    basicInformations: GeneralInformationsCreationType,
+    exams: ExamCreationType[],
+    examPackages: ExamPackageCreationType[],
+    elevatives: ElevativeCreationType[]
 }

@@ -2,13 +2,13 @@ import { GradePackage, GradePackageAverage } from "../Components/Calculation/typ
 
 // Basic Information about each degree
 export interface BasicInformation {
-    name: string,
+    name?: string,
     beta?: boolean,
     ects: number,
     spo?: number,
-    weight: number,
-    required_emphasis: number,
-    emphasis: Emphasis[] | null,
+    weight?: number,
+    required_emphasis?: number,
+    emphasis?: Emphasis[] | null,
     elevtive?: Electives[]
 
 }

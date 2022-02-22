@@ -4,6 +4,8 @@ import { ExamCreationType, ExamPackageCreationType } from "../types";
 import { DeleteExamPackageModal } from "../ModalMessages";
 import { RenderExamDraggable } from ".";
 import { Droppable } from "react-beautiful-dnd";
+import { useContext } from "react";
+import { CreatorContext } from "../CreatorContext";
 
 
 const keyGenerator = (): ReactText =>
@@ -15,15 +17,12 @@ const keyGeneratorString = (): string =>
 
 interface iProps {
     data: ExamPackageCreationType,
-    onDelete: Function,
-    setEdit: Function,
-    exams: ExamCreationType[],
-    setEditExam: Function,
-    onSaveExam: Function
 }
 
 // render single ExamPackage
 const RenderExamPackage = (props: iProps) => {
+    const {updateExam, exams, setEditExam, deleteExamPackage, setEditExamPackage } = useContext(CreatorContext)
+
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
 
     const examsDroppable = (): ReactFragment => {
@@ -52,15 +51,13 @@ const RenderExamPackage = (props: iProps) => {
                 <div className="addExamsDragAndDropText">Hier Prüfungen per Drag-and-Drop hinzufügen</div>
             )
         }
-        const examData: ExamCreationType[] = props.data.required.map(id => props.exams.filter(x => x.key === id).shift())
+        const examData: ExamCreationType[] = props.data.required.map(id => exams.filter(x => x.key === id).shift())
         const orderedExamData: ExamCreationType[] = examData.sort((a,b) => (a.index > b.index) ? 1 : ((b.index > a.index) ? -1 : 0))
         return orderedExamData.map(singleExam => {
             return (
                 <Col span={16} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
-                        onSave={(weight: number) => props.onSaveExam(weight, singleExam.key)}
-                        setEdit={() => props.setEditExam(singleExam.key)}
                         index={singleExam.index}
                     />
                 </Col>
@@ -72,7 +69,7 @@ const RenderExamPackage = (props: iProps) => {
         <div className="examPackageElement">
             <DeleteExamPackageModal
                 visible={showDeleteModal}
-                onDelete={() => props.onDelete(props.data.key)}
+                onDelete={() => deleteExamPackage(props.data.key)}
                 onReturn={() => setShowDeleteModal(false)}
             />
             <div className="examPackageInformation">
@@ -97,7 +94,7 @@ const RenderExamPackage = (props: iProps) => {
                         <Button
                             style={{ marginLeft: 7.5 }}
                             htmlType="submit"
-                            onClick={() => props.setEdit(props.data.key)}>
+                            onClick={() => setEditExamPackage(props.data.key)}>
                             Bearbeiten
                         </Button>
                     </div>
