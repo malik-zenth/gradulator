@@ -66,7 +66,7 @@ const defaultElevatives: ElevativeCreationType[] = [
         unit: "ECTS",
         options: [{
             required: 1,
-            ids: ["123"],
+            ids: [],
             key: keyGeneratorString(),
             editMode: true
         }],
@@ -77,7 +77,7 @@ const defaultElevatives: ElevativeCreationType[] = [
         editMode: true,
         options: [{
             required: 1,
-            ids: ["123"],
+            ids: [],
             key: keyGeneratorString(),
             editMode: true
         }],
@@ -277,7 +277,7 @@ const DegreeCreation = () => {
                 if(result.source.droppableId != "exams"){
                     // remove from old elevative option
                     const elevativeWithThisOption: ElevativeCreationType = createdElevatives.filter(
-                        elev => elev.options.filter(opt => opt.key === result.destination.droppableId)).shift()
+                        elev => elev.options.filter(opt => opt.key === result.source.droppableId).length != 0).shift()
                     const newOptions = elevativeWithThisOption.options.map(x => {
                         if(x.key === result.source.droppableId){
                             x.ids = x.ids.filter(x => x != draggableID)
@@ -287,10 +287,9 @@ const DegreeCreation = () => {
                     updateOptionElevative(elevativeWithThisOption.key, newOptions)
                 }
                 if(result.destination.droppableId != "exams"){
-
                     // add to new option
                     const elevativeWithThisOption: ElevativeCreationType = createdElevatives.filter(
-                        elev => elev.options.filter(opt => opt.key === result.destination.droppableId)).shift()
+                        elev => elev.options.filter(opt => opt.key === result.destination.droppableId).length != 0).shift()
                     const newOptions = elevativeWithThisOption.options.map(x => {
                         if(x.key === result.destination.droppableId){
                             x.ids.push(draggableID)
