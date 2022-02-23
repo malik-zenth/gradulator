@@ -3,8 +3,6 @@
 // are not defined jet when creating them
 // e.g. the required Exams inside of an ExamPackage are not defined jet
 
-import { BasicInformation } from "../../Data/types";
-
 // when the ExamPackage is created
 export interface ExamCreationType{
     ects?: number,
@@ -39,7 +37,7 @@ export interface ElevativeCreationType{
     examPackageID?: number,
     options: ElevativeOptionType[],
     weight?: number,
-    unit?: string,
+    unit: string,
     key: string,
     editMode: boolean
 }
@@ -84,6 +82,10 @@ export interface CreationContextType{
     addElevative: Function,
     deleteElevative: Function,
     setEditElevative: Function,
+    saveAmountElevative: Function,
+    setEditElevativeOption: Function,
+    addElevativeOption: Function,
+    deleteElevativeOption: Function,
     
     addExamPackage: Function,
     updateExamPackage: Function,
@@ -91,8 +93,10 @@ export interface CreationContextType{
     setEditExamPackage: Function,
     updateRequiredExamPackage: Function,
     removeExamFromRequired: Function,
+
     onDragEndExamPackages: Function,
-    
+    onDragEndElevatives: Function,
+
     addExam: Function,
     deleteExam: Function,
     updateIndexExam: Function,

@@ -12,16 +12,13 @@ const keyGenerator = (): ReactText =>
 
 
 const ElevativeStep = () => {
-    const {exams, elevatives, addElevative} = useContext(CreatorContext)
-
-    const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
-
-    }
+    const {exams, elevatives, addElevative, onDragEndElevatives} = useContext(CreatorContext)
 
     const renderExamsDroppable = () => {
         return (
             <Droppable
                 droppableId="exams"
+                key={keyGenerator()}
                 type="1">
                 {(provided, snapshot) => (
                     <Row gutter={[8, 8]}
@@ -58,7 +55,7 @@ const ElevativeStep = () => {
         </p>
         const text: ReactFragment = elevatives.length > 0 ? textAddMore : textAddFirst
         return (
-            <Col span={12}>
+            <Col span={12} key={keyGenerator()}>
                 <Button
                     style={{ whiteSpace: "normal", height: "100%" }}
                     htmlType="submit"
@@ -107,7 +104,7 @@ const ElevativeStep = () => {
     return (
         <div>
             <DragDropContext
-                onDragEnd={(result: DropResult, provided: ResponderProvided) => onDragEnd(result, provided)}
+                onDragEnd={(result: DropResult, provided: ResponderProvided) => onDragEndElevatives(result)}
             >
                 <div className="inlineflex">
                     <div className="headingStepTwo">Prüfungen</div>

@@ -25,6 +25,12 @@
         margin-left: 1em;
     }
 
+
+    .deleteOptionButton{
+        padding: 4px;
+        text-align: center;
+    }
+
     .steps-content {
         min-height: 200px;
         margin-top: 16px;
@@ -34,6 +40,15 @@
         border: 1px dashed #e9e9e9;
         border-radius: 2px;
         min-height: 495px;
+      }
+
+      .addOptionButton{
+          width: 100%;
+          min-height: 130px;
+      }
+
+      .inline{
+          display: inline-flex;
       }
 
       .steps-action {
@@ -419,7 +434,6 @@
     .degreeCreator_exampackage_text{
         font-size: 14px;
         height: 33px;
-        padding-left: 5%;
         margin-bottom: 24px; 
     }
 
@@ -463,6 +477,15 @@
     .saveWeightButton{
         margin-left: 5px;
         margin-top: 3px
+    }
+
+    .editButton{
+        margin-left: 5px;
+    }
+
+    .optionElevative{
+        min-height: 60px;
+        margin-left: 10px;
     }
 
     .setEditIconShort{
@@ -536,7 +559,17 @@
         border-radius: 2px;
     }
 
-    .examPackageInformation{
+    .singleOptionElevative{
+        border: 1px solid #d9d9d9;
+        border-style: dotted;
+        min-height: 130px;
+    }
+
+    .addOptionElevative{
+        border: 1px solid #d9d9d9;
+        border-style: dotted;
+        padding: 4px;
+        min-height: 130px;
     }
 
     .examPackageDroppable{

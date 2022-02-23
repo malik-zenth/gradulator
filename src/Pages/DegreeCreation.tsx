@@ -2,7 +2,7 @@ import React, { ReactFragment, ReactText, useState } from "react"
 import { Footer, Header } from "../Components"
 import { Button, Form, Tooltip, Steps } from "antd";
 import { BasicInformations } from "../Components/DegreeCreation/FormComponents"
-import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType } from "../Components/DegreeCreation/types";
+import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType, ElevativeOptionType } from "../Components/DegreeCreation/types";
 import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep } from "../Components/const";
 import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
@@ -62,9 +62,10 @@ const defaultElevatives: ElevativeCreationType[] = [
         name: "Wahlfach A",
         key: keyGeneratorString(),
         editMode: true,
+        unit: "ECTS",
         options: [{
             required: 1,
-            ids: ["456"],
+            ids: [],
             key: keyGeneratorString(),
             editMode: true
         }],
@@ -74,7 +75,7 @@ const defaultElevatives: ElevativeCreationType[] = [
         key: keyGeneratorString(),
         editMode: true,
         options: [],
-        unit: "ects"
+        unit: "ECTS"
     }
 ]
 
@@ -92,7 +93,7 @@ const DegreeCreation = () => {
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(2)
+    const [currentStep, setCurrentStep] = useState(3)
 
     const setCreatedData = (data: CreatedData) => {
         setCreatedExamPackages(data.examPackages)
@@ -110,15 +111,78 @@ const DegreeCreation = () => {
     // all Functions for Elevatives 
 
     const addElevative = () => {
-        setCreatedElevatives([...createdElevatives, {editMode: true, key: keyGeneratorString(), options: []}])
+        setCreatedElevatives([...createdElevatives, {editMode: true, key: keyGeneratorString(), options: [], unit: "ECTS"}])
     }
 
     const updateElevative = (newElevative: ElevativeCreationType) => {
         setCreatedElevatives(createdElevatives.map(single => single.key == newElevative.key ? newElevative : single))
     }
 
+    const updateOptionElevative = (key: string, options: ElevativeOptionType[]) => {
+        const newElevatives: ElevativeCreationType[] = createdElevatives.map(single => {
+            if (single.key === key) {
+                single.options = options
+            }
+            return single
+        })
+        setCreatedElevatives(newElevatives)
+    }
+
     const deleteElevative = (key: string) => {
         setCreatedElevatives(createdElevatives.filter(exam => exam.key != key))
+    }
+
+    const addElevativeOption = (key: string) => {
+        const newElevatives: ElevativeCreationType[] = createdElevatives.map(single => {
+            if (single.key === key) {
+                const newOptions: ElevativeOptionType[] = [...single.options, {key: keyGeneratorString(), editMode: true, ids: [], required: 1}]
+                single.options = newOptions
+            }
+            return single
+        })
+        setCreatedElevatives(newElevatives)
+    }
+
+    const deleteElevativeOption = (elevativeKey: string, optionKey: string) => {
+        const newElevatives: ElevativeCreationType[] = createdElevatives.map(single => {
+            if (single.key === elevativeKey) {
+                const newOptions: ElevativeOptionType[] = single.options.filter(x => x.key != optionKey)
+                single.options = newOptions
+            }
+            return single
+        })
+        setCreatedElevatives(newElevatives)
+    }
+
+    const setEditElevativeOption = (elevativeKey: string, optionKey: string) => {
+        const newElevatives: ElevativeCreationType[] = createdElevatives.map(single => {
+            if (single.key === elevativeKey) {
+                const newOptions: ElevativeOptionType[] = single.options.map(option => {
+                    if(option.key === optionKey){
+                        option.editMode = true
+                    }
+                    return option
+                })
+            }
+            return single
+        })
+        setCreatedElevatives(newElevatives)
+    }
+
+    const saveAmountElevative = (amount: number, elevativeKey: string, optionKey: string) => {
+        const newElevatives: ElevativeCreationType[] = createdElevatives.map(single => {
+            if (single.key === elevativeKey) {
+                const newOptions: ElevativeOptionType[] = single.options.map(option => {
+                    if(option.key === optionKey){
+                        option.required = amount
+                        option.editMode = false
+                    }
+                    return option
+                })
+            }
+            return single
+        })
+        setCreatedElevatives(newElevatives)
     }
 
     const setEditElevative = (key: string) => {
@@ -192,6 +256,42 @@ const DegreeCreation = () => {
                     const newExamPackage: ExamPackageCreationType = createdExamPackages.filter(x => x.key === result.destination.droppableId).shift()
                     const newRequiredFromDestination: string[] = ([...newExamPackage.required, droppedExam.key])
                     updateRequiredExamPackage(newExamPackage.key, newRequiredFromDestination)
+                }
+            }
+        }
+    }
+
+    const onDragEndElevatives = (result: DropResult) => {
+        if(result.destination){
+            if(result.destination.droppableId != result.source.droppableId){
+                let draggableID = result.draggableId
+                if(draggableID.includes("_")){
+                    draggableID = draggableID.substring(0, draggableID.indexOf("_"))
+                }
+                if(result.source.droppableId != "exams"){
+                    // remove from old elevative option
+                    const elevativeWithThisOption: ElevativeCreationType = createdElevatives.filter(
+                        elev => elev.options.filter(opt => opt.key === result.destination.droppableId)).shift()
+                    const newOptions = elevativeWithThisOption.options.map(x => {
+                        if(x.key === result.source.droppableId){
+                            x.ids = x.ids.filter(x => x != draggableID)
+                        }
+                        return x
+                    })
+                    updateOptionElevative(elevativeWithThisOption.key, newOptions)
+                }
+                if(result.destination.droppableId != "exams"){
+
+                    // add to new option
+                    const elevativeWithThisOption: ElevativeCreationType = createdElevatives.filter(
+                        elev => elev.options.filter(opt => opt.key === result.destination.droppableId)).shift()
+                    const newOptions = elevativeWithThisOption.options.map(x => {
+                        if(x.key === result.destination.droppableId){
+                            x.ids.push(draggableID)
+                        }
+                        return x
+                    })
+                    updateOptionElevative(elevativeWithThisOption.key, newOptions)
                 }
             }
         }
@@ -363,6 +463,10 @@ const DegreeCreation = () => {
 
     const steps = [
         {
+            title: "Erklärung",
+            content: <div></div>
+        },
+        {
             title: "Prüfungen",
             content: <ExamsStep/>
         },
@@ -381,6 +485,10 @@ const DegreeCreation = () => {
         {
             title: "Allgemeine Informationen",
             content: <BasicInformations/>
+        },
+        {
+            title: "Übersicht",
+            content: <div></div>
         },
     ]
 
@@ -403,7 +511,11 @@ const DegreeCreation = () => {
         <CreatorContext.Provider value={{
             updateElevative,
             addElevative,
+            addElevativeOption,
+            saveAmountElevative,
             deleteElevative,
+            deleteElevativeOption,
+            setEditElevativeOption,
             setEditElevative,
             addExamPackage,
             updateExamPackage,
@@ -412,6 +524,7 @@ const DegreeCreation = () => {
             updateRequiredExamPackage,
             removeExamFromRequired,
             onDragEndExamPackages,
+            onDragEndElevatives,
             addExam,
             deleteExam,
             updateIndexExam,

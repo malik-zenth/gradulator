@@ -84,6 +84,31 @@ export const DeleteElevativeModal = (props: iProps) => {
 }
 
 // Modal if Elevative should be deleted
+export const DeleteElevativeOptionModal = (props: iProps) => {
+    return (
+        <Modal
+            title="Möchtest du die Option wirklich löschen?"
+            onCancel={() => props.onReturn()}
+            visible={props.visible}
+            footer={[
+                <Button
+                key="return"
+                type="default"
+                onClick={() => props.onReturn()}>Nicht löschen
+                </Button>,
+                <Button
+                    key="submit"
+                    danger
+                    type="primary"
+                    onClick={() => props.onDelete()}>Löschen
+                </Button>
+            ]}>
+            <p>Diese Aktion kann nicht Rückgängig gemacht werden.</p>    
+        </Modal>
+    );
+}
+
+// Modal if Elevative should be deleted
 export const DeleteEmphasisModal = (props: iProps) => {
     return (
         <Modal

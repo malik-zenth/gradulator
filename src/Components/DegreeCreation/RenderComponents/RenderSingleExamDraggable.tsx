@@ -8,8 +8,12 @@ import { CreatorContext } from "../CreatorContext";
 
 interface iProps {
     singleExam: ExamCreationType,
-    index: number
+    index: number,
+    additionalID?: string
 }
+
+const keyGenerator = (): ReactText =>
+    "_" + Math.random().toString(36).substr(2, 9);
 
 const RenderSingleExamDraggable = (props: iProps) => {
     const {setExamWeight, setEditExam} = useContext(CreatorContext)
@@ -63,9 +67,10 @@ const RenderSingleExamDraggable = (props: iProps) => {
             </Form>
         )
     }
-
+    // this draggable ID with an underscore and the ID of the Option is required to enable the usage of the same exam multiple times within elevatives
+    const draggableID: string = props.additionalID ? props.singleExam.key + "_" + props.additionalID : props.singleExam.key
     return (
-        <Draggable draggableId={props.singleExam.key} index={props.index}>
+        <Draggable draggableId={draggableID} index={props.index} key={keyGenerator()}>
             {(provided, snapshot) => (
                 <div
                     className="singleExamDraggable"

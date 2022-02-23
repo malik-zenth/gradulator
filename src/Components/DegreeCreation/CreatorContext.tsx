@@ -7,6 +7,11 @@ const initialState: CreationContextType = {
     addElevative: (newExamPackage: ExamPackageCreationType) => {},
     deleteElevative: (key: string) => {},
     setEditElevative: (key: string) => {},
+    saveAmountElevative: (amount: number, elevativeKey: string, optionKey: string ) => {},
+    setEditElevativeOption: (elevativeKey: string, optionKey: string) => {},
+    deleteElevativeOption: (elevativeKey: string, optionKey: string) => {},
+    addElevativeOption: (key: string) => {},
+
 
     addExamPackage: () => {},
     updateExamPackage: (newExamPackage: ExamPackageCreationType) => {},
@@ -15,6 +20,7 @@ const initialState: CreationContextType = {
     updateRequiredExamPackage: (key: string, required: string[]) => {},
     removeExamFromRequired: (key: string) => {},
     onDragEndExamPackages: (result: DropResult) => {},
+    onDragEndElevatives: (result: DropResult) => {},
 
     addExam: () => {},
     deleteExam: (key: string) => {},

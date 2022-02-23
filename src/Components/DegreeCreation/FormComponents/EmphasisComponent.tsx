@@ -216,7 +216,6 @@ const EmphasisComponent = (props: iProps) => {
     }
 
     const addElevative = () => {
-        setCreatedOptions([...createdOptions, { elevative: { key: "",editMode: true, options: [] } }])
     }
 
     const renderHeader = (): ReactFragment => {

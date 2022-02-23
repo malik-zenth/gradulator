@@ -3,21 +3,27 @@ import { Form, InputNumber, Input, Button, Tooltip, Divider, Select, Row, Col } 
 import { ElevativeCreationType, ElevativeOptionType, ExamCreationType } from "../types";
 import { PlusOutlined } from "@ant-design/icons";
 import { ToolTipNameOrWeightMissingElevative } from "../../const"
-import { DeleteElevativeModal, DeleteExamModal } from "../ModalMessages";
+import { DeleteElevativeModal, DeleteElevativeOptionModal, DeleteExamModal } from "../ModalMessages";
 import { valueType } from "antd/lib/statistic/utils";
 import { Droppable } from "react-beautiful-dnd";
-import { RenderExamDraggable } from "../RenderComponents";
+import { RenderExamDraggable, RenderRequiredElevative } from "../RenderComponents";
 import { CreatorContext } from "../CreatorContext";
 
 interface iProps {
     defaultValues: ElevativeCreationType,
 }
 
+const keyGenerator = (): ReactText =>
+    "_" + Math.random().toString(36).substr(2, 9);
+
+
 const ElevativeComponent = (props: iProps) => {
-    const {updateElevative, exams, deleteElevative} = useContext(CreatorContext)
+    const { updateElevative, exams, deleteElevative, addElevativeOption, deleteElevativeOption } = useContext(CreatorContext)
 
     // if Modal to delete this Elevative should be displayed
     const [showDeleteElevativeModal, setShowDeleteElevative] = useState<boolean>(false)
+    const [showDeleteElevativeOptionModal, setShowDeleteOptionElevative] = useState<boolean>(false)
+    const [optionToDelete, setOptionToDelete] = useState<string>(null)
     // if submit is possible
     const [submitInvalidValuesMissing, setMissingValues] = useState<boolean>(!(
         props.defaultValues.name || props.defaultValues.weight || props.defaultValues.unit))
@@ -105,8 +111,8 @@ const ElevativeComponent = (props: iProps) => {
                     placeholder="Einheit"
                     onChange={(value: valueType) => onUnitChange(value)}
                 >
-                    <Select.Option value="ects">ECTS</Select.Option>
-                    <Select.Option value="exams">Prüfungen</Select.Option>
+                    <Select.Option value="ECTS">ECTS</Select.Option>
+                    <Select.Option value="Prüfungen">Prüfungen</Select.Option>
 
                 </Select>
 
@@ -120,6 +126,7 @@ const ElevativeComponent = (props: iProps) => {
             key: props.defaultValues.key,
             weight: weight,
             options: [],
+            unit: props.defaultValues.unit,
             editMode: false
         }
         updateElevative(newValues)
@@ -168,41 +175,84 @@ const ElevativeComponent = (props: iProps) => {
         }
     }
 
+    const renderAddOptionButton = (): ReactFragment => {
+        const textAddMore = <p>Weitere Option hinzufügen</p>
+        const textAddFirst = <p>Füge jedem Wahlpflichtfach Optionen hinzu, durch welche dieses erfüllt werden kann. <br></br> Klicke hier, um eine Option hinzuzufügen und füge anschließend für diese die benötigte Anzahl und mögliche Prüfungen hinzu.</p>
+        const text: ReactFragment = props.defaultValues.options.length > 0 ? textAddMore : textAddFirst
+        return (
+            <Col span={12}>
+                <Button
+                    className="addOptionButton"
+                    style={{ whiteSpace: "normal", height: "100%", width: "100%" }}
+                    htmlType="submit"
+                    onClick={() => addElevativeOption(props.defaultValues.key)}
+                >
+                    <div className="buttonTextAddExam">{text}</div>
+
+                </Button>
+            </Col>
+        )
+    }
+
     const renderOptionsDroppable = (): ReactFragment => {
         return props.defaultValues.options.map((singleOption: ElevativeOptionType) => {
             return (
-                <div>
-                    <div>
+                <Col span={12} key={keyGenerator()}>
+                    <div className="singleOptionElevative">
+                        <RenderRequiredElevative
+                            defaultValues={singleOption}
+                            elevativeKey={props.defaultValues.key}
+                            unit={unit}
+                        />
+                        <Droppable
+                            droppableId={singleOption.key}
+                            type="1">
+                            {(provided, snapshot) => (
+                                <Col span={21}
+                                    style={{ minWidth: "100%" }}
+                                    className="examPackageDroppable"
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                >
 
+                                    {renderOptions(singleOption)}
+                                    {provided.placeholder}
+                                </Col>
+                            )}
+
+                        </Droppable>
+                        <div className="deleteOptionButton">
+                            <Button
+                                htmlType="button"
+                                danger
+                                onClick={() => validateDeleteOptionModal(singleOption, props.defaultValues.key, singleOption.key)}>
+                                Option löschen
+                            </Button>
+                        </div>
                     </div>
-                    <Droppable
-                        droppableId={props.defaultValues.key}
-                        type="1">
-                        {(provided, snapshot) => (
-                            <Col span={12}
-                                className="examPackageDroppable"
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                            >
-                                {renderOptions(singleOption)}
-                                {provided.placeholder}
-                            </Col>
-                        )}
+                </Col>
 
-                    </Droppable>
-                </div>
             )
         })
     }
 
     const renderOptions = (singleOption: ElevativeOptionType): ReactFragment => {
         const optionExams: ExamCreationType[] = exams.filter(single => singleOption.ids.includes(single.key))
+        if (optionExams.length === 0) {
+            return (
+                <div className="addExamsDragAndDropText">Hier Prüfungen per Drag-and-Drop hinzufügen</div>
+            )
+        }
+
         return optionExams.map((singleExam: ExamCreationType) => {
             return (
-                <RenderExamDraggable
-                    singleExam={singleExam}
-                    index={singleExam.index}
-                />
+                <Col span={24} key={keyGenerator()}>
+                    <RenderExamDraggable
+                        singleExam={singleExam}
+                        index={singleExam.index}
+                        additionalID={singleOption.key}
+                    />
+                </Col>
             )
         })
     }
@@ -210,10 +260,19 @@ const ElevativeComponent = (props: iProps) => {
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
     const validateDeleteModal = () => {
-        if (!(name || weight || unit)) {
-            deleteElevative()
+        if (!(name || weight) && props.defaultValues.options.length === 0) {
+            deleteElevative(props.defaultValues.key)
         } else {
             setShowDeleteElevative(true)
+        }
+    }
+
+    const validateDeleteOptionModal = (singleOption: ElevativeOptionType, elevativeKey: string, optionKey: string) => {
+        if (singleOption.ids.length === 0) {
+            deleteElevativeOption(elevativeKey, optionKey)
+        } else {
+            setOptionToDelete(optionKey)
+            setShowDeleteOptionElevative(true)
         }
     }
 
@@ -221,17 +280,24 @@ const ElevativeComponent = (props: iProps) => {
         <div className="minHeight300 examPackageElement">
             <DeleteElevativeModal
                 visible={showDeleteElevativeModal}
-                onDelete={() => deleteElevative()}
+                onDelete={() => deleteElevative(props.defaultValues.key)}
                 onReturn={() => setShowDeleteElevative(false)}
             />
+            <DeleteElevativeOptionModal
+                visible={showDeleteElevativeOptionModal}
+                onDelete={() => deleteElevative(props.defaultValues.key, optionToDelete)}
+                onReturn={() => setShowDeleteOptionElevative(false)}
+            />
+
             <Form initialValues={props.defaultValues}>
                 {nameInputField()}
                 {weightField()}
                 {unitField()}
             </Form>
             <Divider>Optionen</Divider>
-            <Row gutter={[0, 8]}>
+            <Row gutter={[8, 8]}>
                 {renderOptionsDroppable()}
+                {renderAddOptionButton()}
             </Row>
             {buttons()}
         </div>
