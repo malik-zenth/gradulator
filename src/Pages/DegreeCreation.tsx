@@ -3,12 +3,13 @@ import { Footer, Header } from "../Components"
 import { Button, Form, Tooltip, Steps } from "antd";
 import { BasicInformations } from "../Components/DegreeCreation/FormComponents"
 import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType, ElevativeOptionType } from "../Components/DegreeCreation/types";
-import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep } from "../Components/const";
+import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep, ToolTipThirdStep } from "../Components/const";
 import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
 import { ExamsStep, ExamPackagesStep, ElevativeStep } from "../Components/DegreeCreation/Steps"
 import { DropResult } from "react-beautiful-dnd";
 import { CreatorContext } from "../Components/DegreeCreation/CreatorContext";
+import create from "@ant-design/icons/lib/components/IconFont";
 
 interface iNextStepButton {
     enabled: boolean,
@@ -61,20 +62,25 @@ const defaultElevatives: ElevativeCreationType[] = [
     {
         name: "Wahlfach A",
         key: keyGeneratorString(),
-        editMode: true,
+        editMode: false,
         unit: "ECTS",
         options: [{
             required: 1,
-            ids: [],
+            ids: ["123"],
             key: keyGeneratorString(),
             editMode: true
         }],
     },
     {
-        name: "Wahlfach A",
+        name: "Wahlfach B",
         key: keyGeneratorString(),
         editMode: true,
-        options: [],
+        options: [{
+            required: 1,
+            ids: ["123"],
+            key: keyGeneratorString(),
+            editMode: true
+        }],
         unit: "ECTS"
     }
 ]
@@ -438,7 +444,8 @@ const DegreeCreation = () => {
     }
 
     const checkIfNextStepButtonDisabled = () => {
-        if (currentStep == 0) {
+        // exams
+        if (currentStep == 1) {
             const editModeExams: number = createdExams.filter(x => x.editMode).length
             if (editModeExams > 0) {
                 return ({
@@ -447,12 +454,23 @@ const DegreeCreation = () => {
                 })
             }
         }
-        if (currentStep == 1) {
+        // exam packages
+        if (currentStep == 2) {
             const editModeExamPackages: number = createdExamPackages.filter(x => x.editMode).length
             if (editModeExamPackages > 0) {
                 return ({
                     enabled: false,
                     tooltip: ToolTipSecondStep
+                })
+            }
+        }
+        // elevatives
+        if (currentStep == 3) {
+            const editModeElevatives: number = createdElevatives.filter(x => x.editMode).length
+            if (editModeElevatives > 0) {
+                return ({
+                    enabled: false,
+                    tooltip: ToolTipThirdStep
                 })
             }
         }

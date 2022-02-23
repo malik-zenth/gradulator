@@ -25,6 +25,10 @@
         margin-left: 1em;
     }
 
+    .minHeight33{
+        min-height: 33px;
+    }
+
 
     .deleteOptionButton{
         padding: 4px;
@@ -483,8 +487,13 @@
         margin-left: 5px;
     }
 
+    .elevativeText{
+        margin-left: 10%;
+    }
+
     .optionElevative{
         min-height: 60px;
+        padding-top: 4px;
         margin-left: 10px;
     }
 

@@ -58,6 +58,7 @@ const ElevativeComponent = (props: iProps) => {
         return (
             <Form.Item
                 name={"name"}
+                style={{minHeight: "33px"}}
                 label="Name"
                 {...layout}
             >
@@ -75,6 +76,7 @@ const ElevativeComponent = (props: iProps) => {
         return (
             <Form.Item
                 name={"weight"}
+                style={{minHeight: "33px"}}
                 label="Gewichtung"
                 {...layout}
             >
@@ -105,6 +107,7 @@ const ElevativeComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="unit"
+                style={{minHeight: "33px"}}
                 label="Einheit"
                 {...layout}>
                 <Select
@@ -125,7 +128,7 @@ const ElevativeComponent = (props: iProps) => {
             name: name,
             key: props.defaultValues.key,
             weight: weight,
-            options: [],
+            options: props.defaultValues.options,
             unit: props.defaultValues.unit,
             editMode: false
         }
@@ -289,7 +292,7 @@ const ElevativeComponent = (props: iProps) => {
                 onReturn={() => setShowDeleteOptionElevative(false)}
             />
 
-            <Form initialValues={props.defaultValues}>
+            <Form initialValues={props.defaultValues} className="form_min_height">
                 {nameInputField()}
                 {weightField()}
                 {unitField()}
