@@ -89,13 +89,6 @@ const ElevativeComponent = (props: iProps) => {
                     style={{ minWidth: "100%" }}
                     parser={(value) => {
                         value = value.replace(",", ".")
-                        if (value.indexOf(".") + 2 < value.length) {
-                            value = value.substring(0, value.indexOf(".") + 2)
-                        }
-                        // we only allow floats with .5as those are the only values that are possible
-                        if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
-                            value = value.substring(0, value.indexOf(".") + 1)
-                        }
                         return value
                     }}
                 />
@@ -180,7 +173,7 @@ const ElevativeComponent = (props: iProps) => {
 
     const renderAddOptionButton = (): ReactFragment => {
         const textAddMore = <p>Weitere Option hinzufügen</p>
-        const textAddFirst = <p>Füge jedem Wahlpflichtfach Optionen hinzu, durch welche dieses erfüllt werden kann. <br></br> Klicke hier, um eine Option hinzuzufügen und füge anschließend für diese die benötigte Anzahl und mögliche Prüfungen hinzu.</p>
+        const textAddFirst = <p>Füge jedem Wahlpflichtfach Optionen hinzu, durch welche dieses erfüllt werden können. <br></br> Klicke hier, um eine Option hinzuzufügen und füge anschließend für diese die benötigte Anzahl und mögliche Prüfungen hinzu.</p>
         const text: ReactFragment = props.defaultValues.options.length > 0 ? textAddMore : textAddFirst
         return (
             <Col span={12}>

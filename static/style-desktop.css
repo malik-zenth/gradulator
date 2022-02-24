@@ -583,7 +583,7 @@
 
     .examPackageDroppable{
         width: 100%;
-        min-height: 120px;
+        min-height: 120px !important;
         border-style: groove;
     }
 

@@ -1,41 +1,78 @@
-import React, { ReactFragment, ReactText, useState } from "react"
+import React, { ReactFragment, ReactText, useContext, useState } from "react"
 import { Button, Divider, Col, Row, FormInstance } from "antd";
-import { EmphasisCreationType } from "../types";
+import { ElevativeCreationType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType } from "../types";
 import { DeleteEmphasisModal } from "../ModalMessages";
-import RenderExamPackage from "./RenderExamPackage";
-import EmphasisComponent from "../FormComponents/EmphasisComponent";
-import RenderElevative from "./RenderElevative";
+import { CreatorContext } from "../CreatorContext";
+import { Droppable } from "react-beautiful-dnd";
+import { RenderElevativeDraggable, RenderExamPackageDraggable } from ".";
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 interface iProps {
     data: EmphasisCreationType,
-    index: number
-    onDeleteEdit: Function,
-    onSaveEdit: Function,
-    setEdit: Function,
-    onDeleteNotEdit: Function,
-    form: FormInstance
 }
 
 // render single Elevative
 const RenderEmphasis = (props: iProps) => {
+    const {setEditEmphasis, deleteEmphasis, examPackages, elevatives} = useContext(CreatorContext)
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
 
-    // if single elevative is in edit Mode, render the Form
-    const renderemphasisEditMode = (index: number, values: EmphasisCreationType) => {
+    const examPackagesDroppable = (): ReactFragment => {
         return (
-            <EmphasisComponent
-                onDelete={() => props.onDeleteEdit(index)}
-                onSave={(values: EmphasisCreationType) => props.onSaveEdit(values, index)}
-                defaultValues={values}
-                index={index}
-            />
+            <Droppable
+                droppableId={props.data.key}
+                type="1">
+                {(provided, snapshot) => (
+                    <Row gutter={[0, 8]} justify="space-around"
+                        className="examPackageDroppable"
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                    >
+                        {renderExamPackages()}
+                        {renderElevatives()}
+                        {provided.placeholder}
+                    </Row>
+                )}
+
+            </Droppable>
         )
     }
 
-    const buttons = (index: number): ReactFragment => {
+    const renderExamPackages = () => {
+        if(props.data.required.length === 0){
+            return(
+                <div className="addExamsDragAndDropText">Hier Prüfungen per Drag-and-Drop hinzufügen</div>
+            )
+        }
+        const examPackageData: ExamPackageCreationType[] = examPackages.filter(x => props.data.required.includes(x.key))
+        return examPackageData.map((singleExam: ExamPackageCreationType, index: number) => {
+            return (
+                <Col span={16} key={keyGenerator()}>
+                    <RenderExamPackageDraggable
+                        singleExamPackage={singleExam}
+                        index={index}
+                    />
+                </Col>
+            )
+        })
+    }
+
+    const renderElevatives = () => {
+        const elevativesData: ElevativeCreationType[] = elevatives.filter(x => props.data.required.includes(x.key))
+        return elevativesData.map((singleExam: ElevativeCreationType, index: number) => {
+            return (
+                <Col span={16} key={keyGenerator()}>
+                    <RenderElevativeDraggable
+                        singleElevative={singleExam}
+                        index={index}
+                    />
+                </Col>
+            )
+        })
+    }
+
+    const buttons = (): ReactFragment => {
         return (
             <div className="create_degree_buttons position_center">
                 <Button
@@ -47,46 +84,32 @@ const RenderEmphasis = (props: iProps) => {
                 <Button
                     style={{ marginLeft: 7.5 }}
                     htmlType="submit"
-                    onClick={() => props.setEdit(index)}>
+                    onClick={() => setEditEmphasis(props.data.key)}>
                     Bearbeiten
                     </Button>
             </div>
         )
     }
 
-    // if single elevative is not in editMode, render the values of it
-    const renderemphasisNotEditMode = (index: number, values: EmphasisCreationType) => {
-        return (
-            <div className="emphasis_component">
-                <div className="form_min_height">
-                    <p className="degreeCreator_exampackage_text bold">{values.name}</p>
-                    <p className="degreeCreator_exampackage_text">Gewichtung: {values.weight}</p>
-                </div>
-                <Divider>
-                    <div className="elevatives_addExams">
-                        <div className="elevatives_add_heading">Modulprüfungen</div>
-                    </div>
-                </Divider>
-                <Divider />
-                {buttons(index)}
-            </div>
-        )
-
-    }
-
     return (
-        <Col xl={16} xxl={12} lg={16} md={12} sm={12} xs={24} key={keyGenerator()}>
+        <div className="examPackageElement">
             <DeleteEmphasisModal
                 visible={showDeleteModal}
-                onDelete={() => props.onDeleteNotEdit(props.index)}
+                onDelete={() => deleteEmphasis(props.data.key)}
                 onReturn={() => setShowDeleteModal(false)}
             />
-            <div className="degreeCreator_singleElement">
-                <Divider><div className="divider_large_text">Schwerpunkt</div></Divider>
-                {props.data.editMode && renderemphasisEditMode(props.index, props.data)}
-                {!props.data.editMode && renderemphasisNotEditMode(props.index, props.data)}
+            <div>
+                <div>
+                    <p className="elevativeText degreeCreator_exampackage_text bold">{props.data.name}</p>
+                    <p className="elevativeText degreeCreator_exampackage_text">Gewichtung: {props.data.weight}</p>
+                </div>
+                <Divider>Modulprüfungen</Divider>
+                <Row gutter={[8, 8]}>
+                {examPackagesDroppable()}
+                </Row>
+                {buttons()}
             </div>
-        </Col>
+        </div>
     )
 
 }

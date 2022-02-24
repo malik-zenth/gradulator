@@ -30,3 +30,4 @@ export const ToolTipUploadDegreeCreator: string = "Datei hochladen um an an eine
 export const ToolTipFirstStep: string ="Bitte speichere erst alle erstellten Prüfungen."
 export const ToolTipSecondStep: string= "Bitte speichere erst alle erstellten Modulprüfungen"
 export const ToolTipThirdStep: string = "Bitte speichere erst alle erstellten Wahlfächer"
+export const ToolTipFourthStep: string = "Bitte speichere erst alle erstellten Schwerpunkte"

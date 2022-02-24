@@ -1,47 +1,28 @@
-import React, { ReactFragment, ReactText, useEffect, useState } from "react"
-import { Form, InputNumber, Input, Button, Tooltip, Divider, Row } from "antd";
-import { ElevativeCreationType, EmphasisCreationType, EmphasisOptionsType, ExamPackageCreationType } from "../types";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { ReactFragment, ReactText, useContext, useEffect, useState } from "react"
+import { Form, InputNumber, Input, Button, Tooltip, Divider, Row, Col } from "antd";
+import { ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType } from "../types";
 import { ToolTipNameOrWeightMissingElevative } from "../../const"
 import { DeleteEmphasisModal, DeleteExamPackageModal } from "../ModalMessages";
-import { RenderElevative, RenderExamPackage } from "../RenderComponents"
+import { CreatorContext } from "../CreatorContext";
+import { Droppable } from "react-beautiful-dnd";
+import { RenderElevative, RenderElevativeDraggable, RenderExamPackageDraggable } from "../RenderComponents";
 
 interface iProps {
-    onDelete: Function,
-    onSave: Function,
     defaultValues: EmphasisCreationType,
-    index: number
 }
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 const EmphasisComponent = (props: iProps) => {
-    const [createdOptions, setCreatedOptions] = useState<EmphasisOptionsType[]>(props.defaultValues.options)
+    const { deleteEmphasis, updateEmphasis, examPackages, elevatives } = useContext(CreatorContext)
     const [showDeleteEmphasis, setShowDeleteEmphasis] = useState<boolean>(false)
-    // if Modal to delete ExamPackage should be displayed
-    const [showDeleteExamPackage, setShowDeleteExamPackageModal] = useState<boolean>(false)
-    // ExamPackage that will be deleted if user accepts inside of modal
-    const [examPackageToBeDeleted, setExamPackageToBeDeleted] = useState<number>(null)
-    // if submit is possible
-    const [submitInvalidExamsOpen, setSubmitOpen] = useState<boolean>(createdOptions.filter((x: EmphasisOptionsType) => {
-        return x.examPackage && x.examPackage.editMode || x.elevative && x.elevative.editMode }).length != 0)
+
 
     const [submitInvalidValuesMissing, setMissingValues] = useState<boolean>(!(props.defaultValues.name || props.defaultValues.weight))
     // form values
     const [name, setName] = useState<string>(props.defaultValues.name)
     const [weight, setWeight] = useState<number>(props.defaultValues.weight)
-
-    useEffect(() => {
-        // if exams change, update the values inside of parent component
-        if (createdOptions != props.defaultValues.options) {
-            // check if their are exams in edit mode, if so disable save button
-            const submitInvalid: boolean = createdOptions.filter((x: EmphasisOptionsType) => {
-                return x.examPackage && x.examPackage.editMode || x.elevative && x.elevative.editMode }).length != 0
-            setSubmitOpen(submitInvalid)
-            updateValues()
-        }
-    }, [createdOptions])
 
     useEffect(() => {
         setMissingValues(!name || !weight)
@@ -56,29 +37,22 @@ const EmphasisComponent = (props: iProps) => {
     }
 
     const layout = {
-        labelCol: { span: 9 },
+        labelCol: { span: 6 },
         wrapperCol: { span: 15 },
     };
 
     const nameInputField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`emphasis_${props.index}_name`}
+                name={"name"}
+                style={{ minHeight: "33px" }}
                 {...layout}
                 label="Name"
-                initialValue={props.defaultValues.name}
-                rules={[
-                    {
-                        required: true,
-                        message: "Name fehlt!"
-                    }
-                ]}
             >
                 <Input
                     type="string"
                     onChange={onNameChange}
                     placeholder="Name des Schwerpunktes"
-                    style={{ width: 300 }}
                 />
             </Form.Item>
         )
@@ -87,24 +61,18 @@ const EmphasisComponent = (props: iProps) => {
     const weightField = (): ReactFragment => {
         return (
             <Form.Item
-                name={`emphasis_${props.index}_weight`}
+                name={"weight"}
+                style={{ minWidth: "100%", minHeight: "33px" }}
                 {...layout}
                 label="Gewichtung"
-                initialValue={props.defaultValues.weight}
-                rules={[
-                    {
-                        required: true,
-                        message: "Gewichtung fehlt!"
-                    }
-                ]}
             >
                 <InputNumber
                     placeholder="Gewichtung"
                     min={1}
+                    style={{ minWidth: "100%"}}
                     max={30}
                     step={0.5}
                     onChange={(e: number) => onWeightChange(e)}
-                    style={{ width: 300 }}
                     parser={(value) => {
                         value = value.replace(",", ".")
                         if (value.includes(".") && value.indexOf(".") + 2 < value.length) {
@@ -122,13 +90,13 @@ const EmphasisComponent = (props: iProps) => {
     }
 
     const onSubmit = (e: any) => {
-        const submitValues: EmphasisCreationType = {
+        updateEmphasis({
             name: name,
             weight: weight,
+            required: props.defaultValues.required,
             editMode: false,
-            options: createdOptions
-        }
-        props.onSave(submitValues)
+            key: props.defaultValues.key
+        })
     }
 
     const buttons = (): ReactFragment => {
@@ -139,7 +107,7 @@ const EmphasisComponent = (props: iProps) => {
                     danger
                     onClick={() => validateDeleteModal()}>
                     Schwerpunkt löschen
-                    </Button>
+                </Button>
                 {renderButtonsWithTooltip()}
             </div>
         )
@@ -157,24 +125,9 @@ const EmphasisComponent = (props: iProps) => {
                         disabled={true}
                         onClick={onSubmit}>
                         Speichern
-                </Button>
+                    </Button>
                 </Tooltip>
             )
-            // if exams are open return with tooltip regarding those
-        } else if (submitInvalidExamsOpen) {
-            return (
-                <Tooltip title={"ToolTipEmphasisNotSavable"}>
-                    <Button
-                        type="primary"
-                        style={{ marginLeft: 7.5 }}
-                        htmlType="submit"
-                        disabled={true}
-                        onClick={onSubmit}>
-                        Speichern
-                </Button>
-                </Tooltip>
-            )
-            // Save is possible
         } else {
             return (
                 <Button
@@ -191,8 +144,8 @@ const EmphasisComponent = (props: iProps) => {
     // check if their are changes to eighter Exams or the ExamPackage
     // if so show Modal message
     const validateDeleteModal = () => {
-        if (!(name || weight || createdOptions.length != 0)) {
-            props.onDelete()
+        if (!(name || weight || props.defaultValues.required.length != 0)) {
+            deleteEmphasis(props.defaultValues.key)
         } else {
             setShowDeleteEmphasis(true)
         }
@@ -200,112 +153,88 @@ const EmphasisComponent = (props: iProps) => {
 
     // update values in parent component on form update
     const updateValues = () => {
-        const newEmphasis: EmphasisCreationType = {
-            name: name, weight: weight, options: createdOptions, editMode: props.defaultValues.editMode
-        }
-        props.onSave(newEmphasis)
+        updateEmphasis({
+            key: props.defaultValues.key,
+            required: props.defaultValues.required,
+            name: name,
+            weight: weight,
+            editMode: false
+        })
     }
+
 
     const renderExamPackage = () => {
+        if (props.defaultValues.required.length === 0) {
+            return (
+                <div className="addExamsDragAndDropText">Hier Modulprüfungen per Drag-and-Drop hinzufügen</div>
+            )
+        }
+        const examPackageData = examPackages.filter(x => props.defaultValues.required.includes(x.key))
+        return examPackageData.map((singleOption: ExamPackageCreationType, index: number) => {
+            return (
+                <Col span={16} key={keyGenerator()}>
+                    <RenderExamPackageDraggable
+                        singleExamPackage={singleOption}
+                        index={index}
+                    />
+
+                </Col>
+            )
+        })
+    }
+
+    const renderElevatives = () => {
+        const elevativeData = elevatives.filter(x => props.defaultValues.required.includes(x.key))
+        return elevativeData.map((singleOption: ElevativeCreationType, index: number) => {
+            return (
+                <Col span={16} key={keyGenerator()}>
+                    <RenderElevativeDraggable
+                        singleElevative={singleOption}
+                        index={index}
+                    />
+
+                </Col>
+            )
+        })
+    }
+
+    const renderOptionsDroppable = (): ReactFragment => {
         return (
-            <div className="form_min_height">
-                {nameInputField()}
-                {weightField()}
-            </div>
+            <Droppable
+                droppableId={props.defaultValues.key}
+                type="1">
+                {(provided, snapshot) => (
+                    <Row gutter={[0, 8]} justify="space-around"
+                        className="examPackageDroppable"
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                    >
+                        {renderExamPackage()}
+                        {renderElevatives()}
+                        {provided.placeholder}
+                    </Row>
+                )}
+
+            </Droppable>
+
         )
-    }
-
-    const addElevative = () => {
-    }
-
-    const renderHeader = (): ReactFragment => {
-        return (
-            <Divider>
-                <div className="examPackages_addExams">
-                    <div className="examPackages_add_heading">Modulprüfungen </div>
-                    <Button
-                        type="primary"
-                        size="small"
-                        onClick={() => {}}
-                        shape="round"
-                        icon={<PlusOutlined />}>
-                    </Button>
-                    <div className="seperator">und</div>
-                    <div className="examPackages_add_heading"> Wahlpflichtfächer</div>
-                    <Button
-                        type="primary"
-                        size="small"
-                        onClick={() => addElevative()}
-                        shape="round"
-                        icon={<PlusOutlined />}>
-                    </Button>
-                </div>
-            </Divider>
-        )
-    }
-
-    // update the editMode of an ExamPackage
-    const setEditExamPackage = (editValue: boolean, indexToUpdate: number) => {
-        setCreatedOptions(createdOptions.map((value, index) => {
-            if (indexToUpdate === index) {
-                value.examPackage.editMode = editValue
-                return value
-            }
-            return value
-        }))
-    }
-
-    const setEditElevative = (editValue: boolean, indexToUpdate: number) => {
-        setCreatedOptions(createdOptions.map((value, index) => {
-            if (indexToUpdate === index) {
-                value.elevative.editMode = editValue
-                return value
-            }
-            return value
-        }))
-    }
-
-    // delete
-    const deleteData = (indexToDelete: number) => {
-        setCreatedOptions(createdOptions.filter((_, index) => index != indexToDelete))
-    }
-
-    // save ExamPackage
-    const saveExamPackage = (examPackage: ExamPackageCreationType, indexToUpdate: number) => {
-        setCreatedOptions(createdOptions.map((value, index) => {
-            if (index === indexToUpdate) return { examPackage: examPackage }
-            return value
-        }))
-    }
-
-    const saveElevative = (elevative: ElevativeCreationType, indexToUpdate: number) => {
-        setCreatedOptions(createdOptions.map((value, index) => {
-            if (index === indexToUpdate) return { elevative: elevative }
-            return value
-        }))
     }
 
     return (
-        <div className="emphasis_component">
+        <div className="examPackageElement">
             <DeleteEmphasisModal
                 visible={showDeleteEmphasis}
-                onDelete={() => props.onDelete()}
+                onDelete={() => deleteEmphasis(props.defaultValues.key)}
                 onReturn={() => setShowDeleteEmphasis(false)}
             />
-            <DeleteExamPackageModal
-                visible={showDeleteExamPackage}
-                onDelete={() => deleteData(examPackageToBeDeleted)}
-                onReturn={() => {
-                    setShowDeleteExamPackageModal(false)
-                    setExamPackageToBeDeleted(null)
-                }}
-            />
-
-            {renderExamPackage()}
-            {renderHeader()}
-            <Row gutter={[20, 40]}>
+            <Form initialValues={props.defaultValues}>
+                {nameInputField()}
+                {weightField()}
+            </Form>
+            <Divider>Modulprüfungen</Divider>
+            <Row gutter={[8, 8]}>
+                {renderOptionsDroppable()}
             </Row>
-            <Divider />
             {buttons()}
         </div>
     )

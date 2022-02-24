@@ -1,6 +1,6 @@
 import React, { createContext } from "react"
 import { DropResult } from "react-beautiful-dnd"
-import { ElevativeCreationType, ExamCreationType, ExamPackageCreationType, CreationContextType, GeneralInformationsCreationType} from "./types"
+import { ElevativeCreationType, ExamCreationType, ExamPackageCreationType, CreationContextType, GeneralInformationsCreationType, EmphasisCreationType} from "./types"
 
 const initialState: CreationContextType = {
     updateElevative: (newElevative: ElevativeCreationType) => {},
@@ -11,6 +11,13 @@ const initialState: CreationContextType = {
     setEditElevativeOption: (elevativeKey: string, optionKey: string) => {},
     deleteElevativeOption: (elevativeKey: string, optionKey: string) => {},
     addElevativeOption: (key: string) => {},
+
+    addEmphasis: () => {},
+    updateEmphasis: (updatedEmphasis: EmphasisCreationType) => {},
+    setEditEmphasis: (key: string) => {},
+    deleteEmphasis: (key: string) => {},
+    updateRequiredEmphasis: (key: string, required: string[]) => {},
+    onDragEndEmphasis: (result: DropResult) => {},
 
 
     addExamPackage: () => {},
@@ -34,7 +41,8 @@ const initialState: CreationContextType = {
     basicInformations: {},
     exams: [],
     examPackages: [],
-    elevatives: []
+    elevatives: [],
+    emphasis: []
 
 
 }

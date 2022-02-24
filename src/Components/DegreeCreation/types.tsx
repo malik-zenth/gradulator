@@ -52,7 +52,8 @@ export interface ElevativeOptionType{
 export interface EmphasisCreationType{
     name?: string,
     weight?: number,
-    options: EmphasisOptionsType[],
+    required: string[],
+    key: string,
     editMode: boolean
 }
 
@@ -87,6 +88,13 @@ export interface CreationContextType{
     addElevativeOption: Function,
     deleteElevativeOption: Function,
     
+    addEmphasis: Function,
+    updateEmphasis: Function,
+    setEditEmphasis: Function,
+    deleteEmphasis: Function,
+    updateRequiredEmphasis: Function,
+    onDragEndEmphasis: Function,
+
     addExamPackage: Function,
     updateExamPackage: Function,
     deleteExamPackage: Function,
@@ -109,5 +117,6 @@ export interface CreationContextType{
     basicInformations: GeneralInformationsCreationType,
     exams: ExamCreationType[],
     examPackages: ExamPackageCreationType[],
-    elevatives: ElevativeCreationType[]
+    elevatives: ElevativeCreationType[],
+    emphasis: EmphasisCreationType[]
 }

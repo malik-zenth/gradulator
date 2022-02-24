@@ -55,7 +55,7 @@ const ExamPackagesStep = () => {
 
     const addExamPackagesButton = (): ReactFragment => {
         const textAddMore = <p>Weitere Modulprüfung hinzufügen</p>
-        const textAddFirst = <p>Füge im zweiten Schritt alle Modulprüfungen des Studiengangs hinzu. Ordne anschließend alle Prüfungen per Drag-and-Drop einer Modulprüfung zu<br></br> Klicke hier, um deine erste Modulprüfung hinzuzufügen.</p>
+        const textAddFirst = <p>Füge im zweiten Schritt alle Modulprüfungen des Studiengangs hinzu. Ordne anschließend alle Prüfungen per Drag-and-Drop einer Modulprüfung zu<br></br>Beachte jedoch, dass Wahlfächer erst im nächsten Schritt hinzugefügt werden.<br></br> Klicke hier, um deine erste Modulprüfung hinzuzufügen.</p>
         const text: ReactFragment = examPackages.length > 0 ? textAddMore : textAddFirst
         return (
             <Col span={8}>

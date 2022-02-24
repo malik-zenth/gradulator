@@ -4,6 +4,8 @@ import RenderElevative from "./RenderElevative"
 import RenderEmphasis from "./RenderEmphasis"
 import RenderExamDraggable from "./RenderSingleExamDraggable"
 import RenderRequiredElevative from "./RenderRequiredElevative"
+import RenderExamPackageDraggable from "./RenderExamPackageDraggable"
+import RenderElevativeDraggable from "./RenderElevativeDraggable"
 
 export {
     RenderExam,
@@ -11,5 +13,7 @@ export {
     RenderElevative,
     RenderEmphasis,
     RenderExamDraggable,
-    RenderRequiredElevative
+    RenderRequiredElevative,
+    RenderExamPackageDraggable,
+    RenderElevativeDraggable
 }
