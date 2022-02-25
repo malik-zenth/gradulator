@@ -102,7 +102,7 @@ const ElevativeStep = () => {
     }
 
     return (
-        <div>
+        <div className="singleStepDegreeCreator">
             <DragDropContext
                 onDragEnd={(result: DropResult, provided: ResponderProvided) => onDragEndElevatives(result)}
             >

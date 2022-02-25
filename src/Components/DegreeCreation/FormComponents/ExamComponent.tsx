@@ -50,7 +50,6 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="name"
-                initialValue={name}
                 label="Name"
                 style={{minHeight: "33px"}}
                 {...layout}
@@ -69,7 +68,6 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="semester"
-                initialValue={semester}
                 label="Semester"
                 style={{minHeight: "33px"}}
                 {...layout}
@@ -97,7 +95,6 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="examid"
-                initialValue={examid}
                 label="Nr.:"
                 style={{minHeight: "33px"}}
                 {...layout}
@@ -125,7 +122,6 @@ const ExamComponent = (props: iProps) => {
         return (
             <Form.Item
                 name="ects"
-                initialValue={ects}
                 style={{minHeight: "33px"}}
                 label="ECTS"
                 {...layout}

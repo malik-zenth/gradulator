@@ -91,7 +91,7 @@ const BasicInformations = () => {
                     placeholder="Anzahl benötiger Schwerpunkte"
                     style={{ width: "100%" }}
                     onChange={onRequiredEmphasisChange}
-                    min={1}
+                    min={0}
                     max={30}
                     step={1}
                 />

@@ -6,6 +6,7 @@ import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCr
 import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep, ToolTipThirdStep, ToolTipFourthStep, ToolTipFifthStep } from "../Components/const";
 import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
+import { Explaination } from "../Components/DegreeCreation/Explaination";
 import { ExamsStep, ExamPackagesStep, ElevativeStep, BasicsStep, OverviewStep, EmphasisStep, IntroductionStep } from "../Components/DegreeCreation/Steps"
 import { DropResult } from "react-beautiful-dnd";
 import { CreatorContext } from "../Components/DegreeCreation/CreatorContext";
@@ -23,92 +24,15 @@ const keyGenerator = (): ReactText =>
 const keyGeneratorString = (): string =>
     "_" + Math.random().toString(36).substr(2, 9);
 
-const defaultExams: ExamCreationType[] = [
-    {
-        name: "Test",
-        examid: 302010,
-        key: "123",
-        editMode: false,
-        index: 0
-    },
-    {
-        name: "Einführung in die WIN",
-        examid: 203040,
-        key: "456",
-        editMode: true,
-        index: 1
-    }
-]
-
-const defaultExamPackages: ExamPackageCreationType[] = [
-    {
-        name: "Test",
-        weight: 10,
-        key: keyGeneratorString(),
-        editMode: true,
-        required: []
-    },
-    {
-        name: "Modulprüfung",
-        weight: 10,
-        key: "1",
-        editMode: false,
-        required: ["456", "123"]
-    }
-]
-
-const defaultElevatives: ElevativeCreationType[] = [
-    {
-        name: "Wahlfach A",
-        key: "2",
-        editMode: false,
-        unit: "ECTS",
-        options: [{
-            required: 1,
-            ids: [],
-            key: keyGeneratorString(),
-            editMode: true
-        }],
-    },
-    {
-        name: "Wahlfach B",
-        key: keyGeneratorString(),
-        editMode: true,
-        weight: 20,
-        options: [{
-            required: 1,
-            ids: [],
-            key: keyGeneratorString(),
-            editMode: true
-        }],
-        unit: "ECTS"
-    }
-]
-
-const defaultEmphasis: EmphasisCreationType[] = [
-    {
-        name: "Vertiefung 1",
-        key: keyGeneratorString(),
-        editMode: false,
-        required: ["1", "2"]
-    },
-    {
-        name: "Vertiefung 2",
-        key: keyGeneratorString(),
-        editMode: true,
-        required: []
-    }
-]
-
 const DegreeCreation = () => {
     // created Exams
-    const [createdExams, setCreatedExams] = useState<ExamCreationType[]>(defaultExams)
+    const [createdExams, setCreatedExams] = useState<ExamCreationType[]>([])
     // created ExamPackages
-    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>(defaultExamPackages)
+    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>([])
     // created Elevatives
-    const [createdElevatives, setCreatedElevatives] = useState<ElevativeCreationType[]>(defaultElevatives)
+    const [createdElevatives, setCreatedElevatives] = useState<ElevativeCreationType[]>([])
     // created Emphasis
-    const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>(defaultEmphasis)
+    const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>([])
     // basic Informations
     const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true, amoundRequiredEmphasis: 0 })
     // if Page is shown to visualize all input
@@ -116,11 +40,16 @@ const DegreeCreation = () => {
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(5)
+    const [currentStep, setCurrentStep] = useState(0)
+    // show explaination
+    const [showExplaination, setShowExplaination] = useState<boolean>(false)
 
     const setCreatedData = (data: CreatedData) => {
         setCreatedExamPackages(data.examPackages)
         setCreatedExams(data.exams)
+        setCreatedElevatives(data.elevatives)
+        setCreatedEmphasis(data.emphasis)
+        setBasicInformations(data.basicInformation)
     }
 
     const nextStep = () => {
@@ -449,7 +378,7 @@ const DegreeCreation = () => {
                         style={{ marginLeft: 7.5, width: 220 }}
                         htmlType="submit"
                         disabled={!(currentStep != 0)}
-                        onClick={() => { }}
+                        onClick={() => setShowExplaination(true)}
                     >
                         Anleitung
                     </Button>
@@ -667,6 +596,11 @@ const DegreeCreation = () => {
                         setShowUploadModal(false)
                         setCreatedData(data)
                     }}
+                />
+                <Explaination
+                    currentStep={currentStep}
+                    visible={showExplaination}
+                    setShowExplaination={(newValue: boolean) => setShowExplaination(newValue)}
                 />
                 {headerButtons()}
                 <Steps current={currentStep}>
