@@ -3,7 +3,7 @@ import { Footer, Header } from "../Components"
 import { Button, Tooltip, Steps } from "antd";
 import { BasicInformations } from "../Components/DegreeCreation/FormComponents"
 import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType, ElevativeOptionType } from "../Components/DegreeCreation/types";
-import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep, ToolTipThirdStep, ToolTipFourthStep } from "../Components/const";
+import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep, ToolTipThirdStep, ToolTipFourthStep, ToolTipFifthStep } from "../Components/const";
 import CheckInput from "../Components/DegreeCreation/CheckInput";
 import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
 import { ExamsStep, ExamPackagesStep, ElevativeStep, BasicsStep, OverviewStep, EmphasisStep, IntroductionStep } from "../Components/DegreeCreation/Steps"
@@ -110,13 +110,13 @@ const DegreeCreation = () => {
     // created Emphasis
     const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>(defaultEmphasis)
     // basic Informations
-    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
+    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true, amoundRequiredEmphasis: 0 })
     // if Page is shown to visualize all input
     const [showSubmitPage, setShowSubmit] = useState<boolean>(false)
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(4)
+    const [currentStep, setCurrentStep] = useState(5)
 
     const setCreatedData = (data: CreatedData) => {
         setCreatedExamPackages(data.examPackages)
@@ -131,14 +131,20 @@ const DegreeCreation = () => {
         setCurrentStep(currentStep - 1)
     }
 
+    // all Functions for Basics
+    const setEditBasics = () => {
+        const newBasics: GeneralInformationsCreationType = { ...basicInformations, editMode: true }
+        setBasicInformations(newBasics)
+    }
+
     // all Functions for Emphasis
 
     const addEmphasis = () => {
-        setCreatedEmphasis([...createdEmphasis, {editMode: true, key: keyGeneratorString(), required: []}])
+        setCreatedEmphasis([...createdEmphasis, { editMode: true, key: keyGeneratorString(), required: [] }])
     }
 
     const updateEmphasis = (updatedEmphasis: EmphasisCreationType) => {
-        setCreatedEmphasis(createdEmphasis.map(single => single.key === updatedEmphasis.key? updatedEmphasis: single))
+        setCreatedEmphasis(createdEmphasis.map(single => single.key === updatedEmphasis.key ? updatedEmphasis : single))
     }
 
     const setEditEmphasis = (key: string) => {
@@ -148,7 +154,7 @@ const DegreeCreation = () => {
             }
             return single
         })
-        setCreatedEmphasis(newEmphasis)   
+        setCreatedEmphasis(newEmphasis)
     }
 
     const deleteEmphasis = (key: string) => {
@@ -354,22 +360,22 @@ const DegreeCreation = () => {
     }
 
     const onDragEndEmphasis = (result: DropResult) => {
-        if(result.destination){
-            if(result.destination.droppableId != result.source.droppableId){
-                if (result.source.droppableId != "examPackages"){
+        if (result.destination) {
+            if (result.destination.droppableId != result.source.droppableId) {
+                if (result.source.droppableId != "examPackages") {
                     const emphasisWithThisOption: EmphasisCreationType = createdEmphasis.filter(
                         elev => elev.required.includes(result.draggableId)).shift()
                     const newRequired = emphasisWithThisOption.required.filter(x => x != result.draggableId)
                     updateRequiredEmphasis(emphasisWithThisOption.key, newRequired)
                 }
-                if(result.destination.droppableId != "examPackages"){
+                if (result.destination.droppableId != "examPackages") {
                     const newEmphasis: EmphasisCreationType = createdEmphasis.filter(x => x.key === result.destination.droppableId).shift()
                     const newRequired: string[] = ([...newEmphasis.required, result.draggableId])
                     updateRequiredEmphasis(newEmphasis.key, newRequired)
                 }
             }
         }
-    } 
+    }
 
     // all Functions for Exams
 
@@ -442,7 +448,7 @@ const DegreeCreation = () => {
                     <Button
                         style={{ marginLeft: 7.5, width: 220 }}
                         htmlType="submit"
-                        disabled={!(currentStep != 0) }
+                        disabled={!(currentStep != 0)}
                         onClick={() => { }}
                     >
                         Anleitung
@@ -553,6 +559,16 @@ const DegreeCreation = () => {
                 })
             }
         }
+        // basic informations
+        if (currentStep == 5) {
+            const editModeBasics: boolean = !(basicInformations.name && basicInformations.shortName && basicInformations.spo)
+            if (editModeBasics) {
+                return ({
+                    enabled: false,
+                    tooltip: ToolTipFifthStep
+                })
+            }
+        }
         return ({
             enabled: true
         })
@@ -561,7 +577,7 @@ const DegreeCreation = () => {
     const steps = [
         {
             title: "Erklärung",
-            content: <IntroductionStep/>
+            content: <IntroductionStep />
         },
         {
             title: "Prüfungen",
@@ -577,7 +593,7 @@ const DegreeCreation = () => {
         },
         {
             title: "Schwerpunkte",
-            content: <EmphasisStep/>
+            content: <EmphasisStep />
         },
         {
             title: "Allgemeine Informationen",
@@ -585,7 +601,7 @@ const DegreeCreation = () => {
         },
         {
             title: "Übersicht",
-            content: <OverviewStep/>
+            content: <OverviewStep />
         },
     ]
 
@@ -635,6 +651,7 @@ const DegreeCreation = () => {
             setExamWeight,
             setEditExam,
             setBasicInformations,
+            setEditBasics,
             basicInformations: basicInformations,
             exams: createdExams,
             examPackages: createdExamPackages,

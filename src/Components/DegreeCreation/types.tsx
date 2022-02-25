@@ -66,7 +66,6 @@ export interface GeneralInformationsCreationType{
     name?: string,
     shortName?: string,
     amoundRequiredEmphasis?: number,
-    amoundRequiredElevative?:number,
     spo?: number,
     editMode?: boolean
 }
@@ -113,6 +112,7 @@ export interface CreationContextType{
     setEditExam: Function,
 
     setBasicInformations: Function,
+    setEditBasics: Function,
 
     basicInformations: GeneralInformationsCreationType,
     exams: ExamCreationType[],

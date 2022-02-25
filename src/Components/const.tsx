@@ -26,8 +26,10 @@ export const ToolTipExamPackageValuesMissing: string = "Bitte gebe erst Name, Mo
 
 export const ToolTipSaveDegreeCreator:string = "Die bisherigen Eingaben in einer lokalen Datei speichern, um zu einem anderen Zeitpunkt daran weiterzuarbeiten"
 export const ToolTipUploadDegreeCreator: string = "Datei hochladen um an an einem Zwischengespeicherten Studiengang weiterzuarbeiten"
+export const ToolTipBasics: string = "Bitte erst den Name, das Kürzel, die Anzahl benötigter Schwerpunkte, sowie die SPO eingeben."
 
 export const ToolTipFirstStep: string ="Bitte speichere erst alle erstellten Prüfungen."
 export const ToolTipSecondStep: string= "Bitte speichere erst alle erstellten Modulprüfungen"
 export const ToolTipThirdStep: string = "Bitte speichere erst alle erstellten Wahlfächer"
 export const ToolTipFourthStep: string = "Bitte speichere erst alle erstellten Schwerpunkte"
+export const ToolTipFifthStep: string = "Bitte speichere erst die allgemeinen Informationen"

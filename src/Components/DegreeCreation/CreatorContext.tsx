@@ -37,7 +37,8 @@ const initialState: CreationContextType = {
     setEditExam: (key: string) => {},
 
     setBasicInformations: (values: GeneralInformationsCreationType) => {},
-    
+    setEditBasics: () => {},
+
     basicInformations: {},
     exams: [],
     examPackages: [],

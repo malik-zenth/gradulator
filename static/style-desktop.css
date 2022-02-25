@@ -356,6 +356,16 @@
 
     .creator_basicInformations{
         padding-top: .5em;
+        width: 50%;
+        margin-left: 20%;
+    }
+
+    .width100{
+        width: 100%;
+    }
+
+    .labelBasics{
+        min-width: 45%;
     }
 
     .create_degree_buttons{
@@ -462,6 +472,12 @@
 
     .minHeight300{
         min-height: 300px !important;
+    }
+
+    .buttonBasicInformations{
+        width: 100%;
+        justify-content: center;
+        display: inline-flex;
     }
 
     .examsDroppable{

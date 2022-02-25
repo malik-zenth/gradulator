@@ -1,65 +1,60 @@
 import React, { ReactFragment, ReactText, useState } from "react"
-import { EditOutlined } from "@ant-design/icons";
-import { GeneralInformationsCreationType } from "../types";
-import { Form, InputNumber, Input, Button } from "antd";
+import { Form, InputNumber, Input, Button, Tooltip } from "antd";
 import { useContext } from "react";
 import { CreatorContext } from "../CreatorContext";
+import { ToolTipBasics } from "../../const";
 
 
 const BasicInformations = () => {
-    const {setBasicInformations, basicInformations} = useContext(CreatorContext)
-
-    const [form] = Form.useForm()
-    const [editMode, setEditMode] = useState<boolean>(true)
-    const [currentValues, setCurrentValues] = useState<GeneralInformationsCreationType>(basicInformations)
-
-    const onSubmit = (e: any) => {
-        e.preventDefault()
-        form
-            .validateFields()
-            .then((values: GeneralInformationsCreationType) => {
-                setCurrentValues(values)
-                setEditMode(false)
-                setBasicInformations(values)
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-
-    const onReset = () => {
-        // due to defaultValues beeing given we need to hardreset die Fields
-        form.setFieldsValue({
-            name: null,
-            shortName: null,
-            amoundRequiredEmphasis: null,
-            amoundRequiredElevatives: null,
-            spo: null
-        })
-    }
+    const { setBasicInformations, basicInformations } = useContext(CreatorContext)
+    const [name, setName] = useState<string>(basicInformations.name)
+    const [shortName, setShortName] = useState<string>(basicInformations.shortName)
+    const [requiredEmphasis, setRequiredEmphasis] = useState<number>(basicInformations.amoundRequiredEmphasis)
+    const [spo, setSPO] = useState<number>(basicInformations.spo)
 
     const layout = {
         labelCol: { span: 9 },
         wrapperCol: { span: 15 },
     };
 
+    const onSubmit = (e: any) => {
+        setBasicInformations({
+            name: name,
+            shortName: shortName,
+            amoundRequiredEmphasis: requiredEmphasis,
+            editMode: false,
+            spo: spo
+        })
+    }
 
+    const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value)
+    }
+
+    const onShortNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setShortName(e.target.value)
+    }
+
+    const onRequiredEmphasisChange = (e: number) => {
+        setRequiredEmphasis(e)
+    }
+
+    const onSPOChange = (e: number) => {
+        setSPO(e)
+    }
 
     const InputFieldName = (): ReactFragment => {
         return (
             <Form.Item
                 name="name"
+                style={{ minHeight: "33px" }}
                 {...layout}
                 label="Name des Studiengangs"
-                rules={[
-                    {
-                        required: true,
-                        message: "Name fehlt!"
-                    }
-                ]}
             >
                 <Input
+                    style={{ width: "100%" }}
                     type="string"
+                    onChange={onNameChange}
                     placeholder="Name der Studienganges"
                 />
             </Form.Item>
@@ -71,18 +66,14 @@ const BasicInformations = () => {
             <Form.Item
                 {...layout}
                 name="shortName"
+                style={{ minHeight: "33px" }}
                 label="Kürzel des Studiengangs"
-                rules={[
-                    {
-                        required: true,
-                        message: "Kürzel fehlt!"
-                    }
-                ]}
             >
                 <Input
+                    style={{ width: "100%" }}
                     type="string"
+                    onChange={onShortNameChange}
                     placeholder="Kürzel der Studienganges"
-                    style={{ width: 300 }}
                 />
             </Form.Item>
         )
@@ -92,33 +83,17 @@ const BasicInformations = () => {
         return (
             <Form.Item
                 name="amoundRequiredEmphasis"
+                style={{ minHeight: "33px" }}
                 label="Anzahl Schwerpunkte"
                 {...layout}
             >
                 <InputNumber
                     placeholder="Anzahl benötiger Schwerpunkte"
+                    style={{ width: "100%" }}
+                    onChange={onRequiredEmphasisChange}
                     min={1}
                     max={30}
                     step={1}
-                    style={{ width: 300 }}
-                />
-            </Form.Item>
-        )
-    }
-
-    const InputAmoundElevative = (): ReactFragment => {
-        return (
-            <Form.Item
-                name="amoundRequiredElevative"
-                label="Anzahl Wahlpflichtfächer"
-                {...layout}
-            >
-                <InputNumber
-                    placeholder="Anzahl benötiger Wahlpflichtfächer"
-                    min={1}
-                    max={30}
-                    step={1}
-                    style={{ width: 300 }}
                 />
             </Form.Item>
         )
@@ -128,67 +103,66 @@ const BasicInformations = () => {
         return (
             <Form.Item
                 name="spo"
+                style={{ minHeight: "33px" }}
                 label="SPO"
                 {...layout}
-                rules={[
-                    {
-                        required: true,
-                        message: "SPO fehlt!"
-                    }
-                ]}
             >
                 <InputNumber
                     placeholder="SPO"
+                    style={{ width: "100%" }}
+                    onChange={onSPOChange}
                     min={1}
                     max={30}
                     step={1}
-                    style={{ width: 300 }}
                 />
             </Form.Item>
         )
     }
 
+    const renderButtonWithTooltip = (): ReactFragment => {
+        if ((!name || !shortName || !spo)) {
+            return (
+                <Tooltip title={ToolTipBasics}>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        disabled={true}
+                        onClick={onSubmit}>
+                        Speichern
+                    </Button>
+                </Tooltip>
+            )
+        } else {
+            return (
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={onSubmit}>
+                    Speichern
+                </Button>
+            )
+        }
+    }
+
 
     return (
-        <div className="creator_basicInformations position_center">
-            {editMode &&
-                <div className="creator_basicinformation_box_edit">
-                    <Form form={form} initialValues={basicInformations}>
-                        {InputFieldName()}
-                        {InputFieldShortName()}
-                        {InputAmoundEmphasis()}
-                        {InputAmoundElevative()}
-                        {InputSPO()}
+        <div className="creator_basicInformations">
 
-                        <Form.Item {...{ wrapperCol: { span: 16, offset: 9 } }}>
-                        <Button type="primary" htmlType="submit" onClick={onSubmit}>
-                                Speichern
-                            </Button>
-                            <Button style={{marginLeft: 7.5}} htmlType="submit" onClick={onReset}>
-                                Zurücksetzen
-                            </Button>
-                        </Form.Item>
-                    </Form>
+            <div>
+                <Form initialValues={basicInformations}>
+                    {InputFieldName()}
+                    {InputFieldShortName()}
+                    {InputAmoundEmphasis()}
+                    {InputSPO()}
 
-                </div>
-            }
-            {!editMode &&
-                <div className="creator_basicinformation_box_show">
-                    <div className="creator_heading">Studiengang: {currentValues.name} ({currentValues.shortName})</div>
-                    <div className="creator_text">Anzahl benötigerer Schwerpunkte: {currentValues.amoundRequiredEmphasis ? currentValues.amoundRequiredEmphasis : 0}</div>
-                    <div className="creator_text">Anzahl benötigerer Wahlpflichtfächer: {currentValues.amoundRequiredElevative ? currentValues.amoundRequiredElevative : 0}</div>
-                    <div className="creator_text">SPO: {currentValues.spo ? currentValues.spo : 1}</div>
+                    <Form.Item>
+                        <div className="buttonBasicInformations">
+                        {renderButtonWithTooltip()}
+                        </div>
+                    </Form.Item>
+                </Form>
 
-                    <Button
-                        size="middle"
-                        style={{ marginLeft: 7.5 }}
-                        onClick={() => setEditMode(true)}
-                        shape="round"
-                        icon={<EditOutlined />}>
-                    </Button>
-                </div>
-
-            }
+            </div>
         </div>
     )
 }
