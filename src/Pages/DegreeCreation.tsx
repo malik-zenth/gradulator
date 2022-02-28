@@ -45,7 +45,7 @@ const keyGeneratorString = (): string =>
         },
         {
             name: "Not used Exam",
-            examid: 203040,
+            examid: 203050,
             key: "789",
             ects: 5,
             semester: 3,
@@ -74,6 +74,7 @@ const keyGeneratorString = (): string =>
     const defaultElevatives: ElevativeCreationType[] = [
         {
             name: "Wahlfach A",
+            examPackageID: 1,
             key: "2",
             weight: 5,
             editMode: false,
@@ -93,12 +94,13 @@ const keyGeneratorString = (): string =>
         },
         {
             name: "Wahlfach B",
+            examPackageID: 2,
             key: keyGeneratorString(),
             editMode: true,
             weight: 20,
             options: [{
                 required: 1,
-                ids: [],
+                ids: ["789"],
                 key: keyGeneratorString(),
                 editMode: true
             }],

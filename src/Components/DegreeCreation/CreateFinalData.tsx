@@ -38,7 +38,7 @@ export const createFinaleData = (props: iProps) => {
         // ECTS of all Elevatives
         if (elevatives) {
             const elevativeECTS: number[] = elevatives.map(single => {
-                const firstOption = single.options.shift()
+                const firstOption = single.options[0]
                 const optionExams = exams.filter(x => firstOption.ids.includes(x.key))
                 if (optionExams.length > firstOption.required) {
                     const reducedExams = optionExams.splice(0, firstOption.required)
@@ -56,7 +56,7 @@ export const createFinaleData = (props: iProps) => {
         // exams not used for elevatives
         const examIdsElevative: string[] = []
         elevatives.forEach(elev => elev.options.forEach(opt => opt.ids.forEach(id => {
-            const examID: string = exams.filter(ex => ex.key === id).map(x => x.key).shift()
+            const examID: string = exams.filter(ex => ex.key === id).map(x => x.key)[0]
             examIdsElevative.push(examID)
         })))
         const notUsedExams = exams.filter(ex => !examIdsElevative.includes(ex.key))
@@ -86,30 +86,70 @@ export const createFinaleData = (props: iProps) => {
 
     const settupElevtive = (): Electives[] => {
         const electiveData: Electives[] = []
-        elevatives.forEach((single: ElevativeCreationType, index: number) => {
+        elevatives.forEach((single: ElevativeCreationType) => {
             if(single.options.length > 1){
 
                 const options: AlternativeElectives[] = single.options.map(opt => {
                     return{
-                        ...single.unit === "ects" && {requiredECTS: opt.required},
-                        ...single.unit != "ects" && {required: opt.required},
+                        ...single.unit === "ECTS" && {requiredECTS: opt.required},
+                        ...single.unit != "ECTS" && {required: opt.required},
                         ids: exams.filter(x => opt.ids.includes(x.key)).map(x => x.examid)
                     }
                 }) 
 
+                const ownIdsElevative: string[][] = single.options.map(opt => opt.ids.map(id => {
+                    const examID: string = exams.filter(ex => ex.key === id).map(x => x.key)[0]
+                    return examID
+                }))
+                let multiOption: boolean
+                // check if any of the own ids is used somewhere else, if so set multi option true
+                ownIdsElevative.forEach(ownOption => ownOption.forEach(ownOptionID => {
+                    elevatives.forEach(elev => {
+                        elev.options.forEach(elevOption => {
+                            // remember: if both are the same multiOption true is not required
+                            if(JSON.stringify(elevOption.ids) != JSON.stringify(ownOption)){
+                                if(elevOption.ids.includes(ownOptionID)){
+                                    multiOption = true
+                                }
+                            }
+                        })
+                    })
+                }))
+
                 electiveData.push({
                     examid: single.examPackageID,
-                    options: options
+                    options,
+                    ...multiOption && {multiOption}
                 })
             }
             
             else{
-                const relevantOption: ElevativeOptionType = single.options.shift()
+                const relevantOption: ElevativeOptionType = single.options[0]
+
+                const ownIdsElevative: string[][] = single.options.map(opt => opt.ids.map(id => {
+                    const examID: string = exams.filter(ex => ex.key === id).map(x => x.key)[0]
+                    return examID
+                }))
+                let multiOption: boolean
+                // check if any of the own ids is used somewhere else, if so set multi option true
+                ownIdsElevative.forEach(ownOption => ownOption.forEach(ownOptionID => {
+                    elevatives.forEach(elev => {
+                        elev.options.forEach(elevOption => {
+                            // remember: if both are the same multiOption true is not required
+                            if(JSON.stringify(elevOption.ids) != JSON.stringify(ownOption)){
+                                if(elevOption.ids.includes(ownOptionID)){
+                                    multiOption = true
+                                }
+                            }
+                        })
+                    })
+                }))
                 electiveData.push({
                     examid: single.examPackageID,
-                    ...single.unit === "ects" && {requiredECTS: relevantOption.required},
-                    ...single.unit != "ects" && {required: relevantOption.required},
-                    ids: exams.filter(x => relevantOption.ids.includes(x.key)).map(x => x.examid)
+                    ...single.unit === "ECTS" && {requiredECTS: relevantOption.required},
+                    ...single.unit != "ECTS" && {required: relevantOption.required},
+                    ...multiOption && {multiOption},
+                    ids: exams.filter(x => relevantOption.ids.includes(x.key)).map(x => x.examid),
     
                 })
             }
