@@ -19,6 +19,7 @@
         margin-bottom: 2em;
     }
 
+
     .button-notfound{
         text-align: center;
         width: 100%;
@@ -473,6 +474,25 @@
         padding-left: 5%;
         padding-top: 5%         
     }
+
+    .buttonCenter{
+        justify-content: center;
+    }
+
+    .overviewbox{
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+    }
+
+    .overviewtext{
+        margin-left: 10%;
+    }
+
+    .overviewheading{
+        text-align: center;
+    }
+
+
 
     .dashedBorder:hover{
         border-color: #1890ff;

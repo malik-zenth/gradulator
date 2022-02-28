@@ -2,32 +2,82 @@ import { GradePackage, GradePackageAverage } from "../Components/Calculation/typ
 
 // Basic Information about each degree
 export interface BasicInformation {
-    name?: string,
+    name: string,
     beta?: boolean,
     ects: number,
     spo?: number,
-    weight?: number,
-    required_emphasis?: number,
-    emphasis?: Emphasis[] | null,
+    weight: number,
+    required_emphasis: number,
+    emphasis: Emphasis[] | null,
+    semesterChoices?: Object,
     elevtive?: Electives[]
+}
 
+export interface iElevativeSettupType{
+    id: number,
+    multiOption: boolean
 }
 
 // used in BasicInformation - information about Emphasis
 export interface Emphasis {
     ids: number[],
     name: string,
+    multipleGrades?: boolean,
     weight: number,
     emphasisid: number,
 }
 
-// BasicInformation about Elevtives
-export interface Electives {
-    ids: number[],
-    required: number,
+// Elevtives Object including the Options for each
+export interface ElectivesWithOptions {
+    ids?: number[],
+    required?: number,
     examid: number,
     emphasisid?: number,
-    emphasis_elevtive?: boolean
+    emphasis_elevtive?: boolean,
+    multiOption?: boolean,
+    choiseID?: number,
+    inputGrades: UserInput[],
+    options?: AlternativeElectives[]
+}
+
+// BasicInformation about Elevtives
+export interface Electives {
+    ids?: number[],
+    required?: number,
+    requiredEcts?: number,
+    examid: number,
+    emphasisid?: number,
+    emphasis_elevtive?: boolean,
+    multiOption?: boolean,
+    options?: AlternativeElectives[]
+    choiseID?: number
+}
+
+export interface AlternativeElectives{
+    required?: number,
+    ids: number[],
+    requiredECTS?:number,
+    optionId?: number
+}
+
+export interface AlternativeElectivesWithLeftRequired{
+    required?: number,
+    requiredECTS?: number,
+    ids: number[],
+    optionId?: number,
+    leftRequired: number
+}
+
+
+export interface DetailsModalType{
+    examID: string,
+    options: string[]
+}
+
+// key is packageId, number is required Exams
+export interface NotCompletedElectives{
+    required: number,
+    packageID: number
 }
 
 // all the exams the degree has
@@ -36,13 +86,16 @@ export interface Exams{
 }
 
 export interface Exam{
-    semester: number,
+    semester?: number,
     ects: number,
     weight: number,
     name: string,
-    packageid: number,
+    packageid?: number,
     emphasisid?: number,
+    semester_choise?: number,
+    packageOptions?: number[],
     ignored?: boolean,
+    examid?: number
 }
 
 // all the packages of exams the exams get turned into
@@ -61,7 +114,14 @@ export interface ExamPackage{
 export interface DegreeOption{
     data: SingleOption,
     shortName: string,
-    longName: string
+    longName: string,
+    facultyId: number
+}
+
+export interface FacultyOptions{
+    shortName: string,
+    longName: string,
+    facultyId: number
 }
 
 // data for one option
@@ -90,7 +150,7 @@ export interface CalculationResult{
     requiredEmphasis?: number,
     completedEmphasis?: number,
     removedEmphasis?: boolean,
-    removedEmphasisName?: string,
+    removedEmphasisNames?: string[],
     observedWeight: number,
     overallWeight: number,
     removedElevtive?: GradePackage[]

@@ -24,23 +24,129 @@ const keyGenerator = (): ReactText =>
 const keyGeneratorString = (): string =>
     "_" + Math.random().toString(36).substr(2, 9);
 
+    const defaultExams: ExamCreationType[] = [
+        {
+            name: "Test",
+            examid: 302010,
+            key: "123",
+            ects: 5,
+            semester: 2,
+            editMode: false,
+            index: 0
+        },
+        {
+            name: "Einführung in die WIN",
+            examid: 203040,
+            key: "456",
+            ects: 5,
+            semester: 3,
+            editMode: true,
+            index: 1
+        },
+        {
+            name: "Not used Exam",
+            examid: 203040,
+            key: "789",
+            ects: 5,
+            semester: 3,
+            editMode: true,
+            index: 1
+        }
+    ]
+    const defaultExamPackages: ExamPackageCreationType[] = [
+        {
+            name: "Test",
+            weight: 10,
+            key: keyGeneratorString(),
+            editMode: true,
+            examPackageID: 123456,
+            required: []
+        },
+        {
+            name: "Modulprüfung",
+            weight: 10,
+            key: "1",
+            examPackageID: 123456,
+            editMode: false,
+            required: ["456", "123"]
+        }
+    ]
+    const defaultElevatives: ElevativeCreationType[] = [
+        {
+            name: "Wahlfach A",
+            key: "2",
+            weight: 5,
+            editMode: false,
+            unit: "ECTS",
+            options: [{
+                required: 1,
+                ids: ["123"],
+                key: keyGeneratorString(),
+                editMode: true
+            },
+            {
+                required: 2,
+                ids: ["123", "456"],
+                key: keyGeneratorString(),
+                editMode: true
+            }],
+        },
+        {
+            name: "Wahlfach B",
+            key: keyGeneratorString(),
+            editMode: true,
+            weight: 20,
+            options: [{
+                required: 1,
+                ids: [],
+                key: keyGeneratorString(),
+                editMode: true
+            }],
+            unit: "ECTS"
+        }
+    ]
+    const defaultEmphasis: EmphasisCreationType[] = [
+        {
+            name: "Vertiefung 1",
+            key: keyGeneratorString(),
+            editMode: false,
+            required: ["2", "1"],
+            weight: 10,
+        },
+        {
+            name: "Vertiefung 2",
+            key: keyGeneratorString(),
+            editMode: true,
+            required: [],
+            weight: 10
+        }
+    ]
+
+    const basicInf: GeneralInformationsCreationType = {
+        name: "Wirtschaftsinformatik",
+        shortName: "WIN",
+        editMode: false,
+        amoundRequiredEmphasis: 2,
+        spo: 5
+    }
+
 const DegreeCreation = () => {
     // created Exams
-    const [createdExams, setCreatedExams] = useState<ExamCreationType[]>([])
+    const [createdExams, setCreatedExams] = useState<ExamCreationType[]>(defaultExams)
     // created ExamPackages
-    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>([])
+    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>(defaultExamPackages)
     // created Elevatives
-    const [createdElevatives, setCreatedElevatives] = useState<ElevativeCreationType[]>([])
+    const [createdElevatives, setCreatedElevatives] = useState<ElevativeCreationType[]>(defaultElevatives)
     // created Emphasis
-    const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>([])
+    const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>(defaultEmphasis)
     // basic Informations
-    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true, amoundRequiredEmphasis: 0 })
+    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>(basicInf)
     // if Page is shown to visualize all input
     const [showSubmitPage, setShowSubmit] = useState<boolean>(false)
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(0)
+    const [currentStep, setCurrentStep] = useState(6)
     // show explaination
     const [showExplaination, setShowExplaination] = useState<boolean>(false)
 

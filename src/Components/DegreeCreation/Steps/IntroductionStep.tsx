@@ -36,7 +36,7 @@ const IntroductionStep = (props: iProps) => {
         },
         {
             titel: "Übersicht",
-            desc: "Der letzte Schritt bietet eine Übersicht über den erstellten Studiengang. Vergesse hier nicht die Daten abzuschicken."
+            desc: "Der letzte Schritt bietet eine Übersicht über den erstellten Studiengang. Vergesse hier nicht die Daten abzuschicken, indem du die finale Datei herunterlädst und uns per E-Mail zukommen lässt."
         }
     ]
 

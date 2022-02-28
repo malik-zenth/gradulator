@@ -6,9 +6,13 @@ const MailTextMissing: string = "Hallo, mein Studiengang fehlt. Bitte fügt DEIN
 const MailSubjectError: string ="Fehler in der Berechnung"
 const MailTextError: string = "Hallo, ich habe einen Fehler in der Berechnung festgestellt: %0D%0A %0D%0A Schilder deinen Fehler"
 
+const MailSubjectNewDegree: string = "Neuer Studiengang erstellt"
+const MailTextNewDegree: string = "Hallo, ich habe einen neuen Studiengang erstellt. Ich möchte auf der Seite als ersteller ERWÄHNT / NICHT ERWÄHNT werden. %0D%0A%0D%0A BITTE FÜGE DIE DATEI DER E-MAIL HINZU."
+
 
 export const MailLink = `mailto:${MailAdress}?subject=${MailSubjectMissing}&body=${MailTextMissing}`
-export const MailErrorCalculation = `mailto:${MailAdress}?subject=${MailSubjectError}&body=${MailTextError}`
+export const MailErrorCalculation = `mailto:${MailAdress}?subject=${MailSubjectMissing}&body=${MailTextMissing}`
+export const MailLinkNewDegree = `mailto:${MailAdress}?subject=${MailSubjectNewDegree}&body=${MailTextNewDegree}`
 export const TooltipEstimatedGrades: string = "Noten dieses Paketes wurden als `geschätzte Noten` gekennzeichnet und entsprechende Durchschnitte mit den Noten 1 (bestmöglich) und 4 (schlechtestmöglich) berechnet. Eine genauere Beschreibung kann im Footer gefunden werden."
 export const TooltipNotComplete: string = "Einzelne Noten dieses Modules wurden nicht eingetragen. Folglich kann sich die Note des Paketes noch ändern. Trage eine Schätzung für die Note ein, um ein genaueres Ergebnis zu erhalten"
 export const TooltipWertungspunkte: string = "Die Endnote setzt sich aus allen Modulnoten zusammen. Umso höher die Anzahl der berücksichtigten Wertungspunkte, umso aussagekräftiger ist der angezeigte Durchschnitt. Eine genauere Beschreibung kann im Footer gefunden werden."
