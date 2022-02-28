@@ -6,7 +6,6 @@ const bu_basic_data: BasicInformation = {
     ects: 118,
     spo: 3,
     required_emphasis: 1,
-    beta: true,
     elevtive: [
         {
             ids: [152561,152562,152563, 152564,152565,152566,152567,152568,152569],
@@ -242,7 +241,7 @@ const bu_exams: Exams = {
     {
         semester: 4,
         ects: 1,
-        weight: 1,
+        weight: 5,
         name: "Rhetorik im Vertrieb",
         packageid: 152601,
         emphasisid: 2

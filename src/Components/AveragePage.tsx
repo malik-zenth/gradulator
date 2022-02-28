@@ -4,10 +4,11 @@ import {
   UserInput,
   SingleOption,
   Exam,
+  ExamPackages,
 } from "../Data/types";
 import { calculateData } from "./Calculation/calculation";
 import { GradePackageAverage } from "./Calculation/types";
-import { Button, Divider, Tooltip } from "antd";
+import { Button, Divider, Tooltip, message } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationCircle,
@@ -17,16 +18,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { TooltipEstimatedGrades, TooltipNotComplete, TooltipECTS, TooltipWertungspunkte, MailErrorCalculation, TooltipRemovedEmphasis, ToolTipRemovedElevtive } from "./const";
 import {MissingElevtiveEmphasis} from "../Components/Calculation/types"
-
 import {numToWord} from "num-words-de"
-import { SignalFilled } from "@ant-design/icons";
 
 interface IProps {
   inputGrades: UserInput[];
   selectedOption: SingleOption;
   newCalculation: Function;
   editCalculation: Function;
-  exportAsPdf: Function;
+  exportAsPdf: Function
 }
 
 interface IState {
@@ -46,6 +45,7 @@ class AveragePage extends React.Component<IProps, IState> {
 
   componentDidMount(){
     window.scrollTo(0,0)
+    message.info('Bitte beachte, dass dies keine offizielle Berechnung deines Durchschnitts ist.');
   }
 
   changeCollabStatus(name: string){
@@ -146,7 +146,8 @@ class AveragePage extends React.Component<IProps, IState> {
     if(elevtives){
       return(
         <div>
-        <p>{numToWord(elevtives.amoundMissing, {indefinite_eine: true})} der folgenden Wahlfachnoten fehlt noch:</p>
+        {!elevtives.missingECTS && <p>{numToWord(elevtives.amoundMissing, {indefinite_eine: true})} der folgenden Wahlfachnoten fehlt noch:</p>}
+        {elevtives.missingECTS && <p>{elevtives.amoundMissing} ECTS aus folgenden Wahlfächern fehlen noch:</p>}
           {elevtives.exams.map((missing: Exam) => {
             return <li key={keyGenerator()}>{missing.name}</li>;
           })}
@@ -190,7 +191,9 @@ class AveragePage extends React.Component<IProps, IState> {
             {averageData.removedEmphasis && (
               <p>
                 <Tooltip title={TooltipRemovedEmphasis}>
-                Noten des Schwerpunktes {averageData.removedEmphasisName} wurden entfernt
+                Noten folgender Schwerpunkte wurden ignoriert: {averageData.removedEmphasisNames.map(x => {
+                    return <li className="key_removed_elevtive" key={keyGenerator()}>{x}</li>})
+                  }
                 </Tooltip>
               </p>
             )}
@@ -229,6 +232,9 @@ class AveragePage extends React.Component<IProps, IState> {
               >
                 Hilf uns ihn zu beheben
               </a>
+            </div>
+            <div className="selectDegree-contact">
+              Bitte beachte, dass dies keine offizielle Berechnung deines Durchschnitts ist.
             </div>
             </div>
           </div>

@@ -3,6 +3,7 @@
 /.pnp
 .pnp.js
 .scannerwork
+.vscode
 # testing
 /coverage
 config.js

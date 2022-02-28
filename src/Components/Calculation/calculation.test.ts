@@ -28,7 +28,7 @@ describe("test if calculation is still working", () => {
 
         expect(calculationResult.achivedECTS).toBe(25)
         expect(calculationResult.removedEmphasis).toBeTruthy
-        expect(calculationResult.removedEmphasisName).toBe("Vertiefung Social Media Management")
+        expect(calculationResult.removedEmphasisNames).toContain("Vertiefung Social Media Management")
     })
 
     test("if completness is correct", () => {
@@ -67,5 +67,19 @@ describe("test if calculation is still working", () => {
         expect(calculationResult.singleGrades[0].missingElevtiveGrades).toBeDefined()
         expect(calculationResult.singleGrades[0].missingElevtiveGrades.amoundMissing).toBe(2)
         expect(calculationResult.grade).toBe(1.5)
+    })
+
+
+    test("if all package ids are getting set correctly", () => {
+        const testInput: UserInput[] = [
+            {examid: 186231, grade: 1, estimated: false},
+            {examid: 186233, grade: 2, estimated: true},
+            {examid: 186237, grade: 1, estimated: false},
+            {examid: 186239, grade: 2, estimated: true}
+        ]
+
+        const calculationResult = calculateData(testInput, getDegreeByName("TMB").data)
+        expect(calculationResult.grade).toBeDefined()
+        expect(calculationResult.removedElevtive).toBeDefined()
     })
 })

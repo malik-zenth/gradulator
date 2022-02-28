@@ -6,7 +6,6 @@ const vb_basic_data: BasicInformation = {
     weight: 120,
     ects: 120,
     spo: 4,
-    beta: true,
     required_emphasis: 1,
     emphasis: [
         {
@@ -67,14 +66,14 @@ const vb_exams: Exams = {
     163101: {
         semester: 3,
         ects: 2.5,
-        weight: 2,
+        weight: 1,
         name: "Strategisches Management",
         packageid: 163100,
     },
     163102: {
         semester: 3,
         ects: 2.5,
-        weight: 2,
+        weight: 1,
         name: "BWL-Seminar",
         packageid: 163100,
     },
