@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { AlternativeElectives, BasicInformation, Electives, Emphasis, SingleOption } from "../../Data/types"
+import { AlternativeElectives, BasicInformation, DegreeOption, Electives, Emphasis, ExamPackages, Exams, SingleOption } from "../../Data/types"
 import { ElevativeCreationType, ElevativeOptionType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "./types"
 
 interface iProps {
@@ -10,7 +10,7 @@ interface iProps {
     basicInformations: GeneralInformationsCreationType
 }
 
-export const createFinaleData = (props: iProps) => {
+export const createFinaleData = (props: iProps): DegreeOption => {
     const { basicInformations, exams, examPackages, elevatives, emphasis } = props
 
     const calculateTotalWeight = (): number => {
@@ -87,13 +87,16 @@ export const createFinaleData = (props: iProps) => {
     const settupElevtive = (): Electives[] => {
         const electiveData: Electives[] = []
         elevatives.forEach((single: ElevativeCreationType) => {
+
+            const emphasisElevative: boolean = emphasis.filter(x => x.required.includes(single.key)).length != 0
+
             if(single.options.length > 1){
 
                 const options: AlternativeElectives[] = single.options.map(opt => {
                     return{
                         ...single.unit === "ECTS" && {requiredECTS: opt.required},
                         ...single.unit != "ECTS" && {required: opt.required},
-                        ids: exams.filter(x => opt.ids.includes(x.key)).map(x => x.examid)
+                        ids: exams.filter(x => opt.ids.includes(x.key)).map(x => x.examid),
                     }
                 }) 
 
@@ -119,7 +122,8 @@ export const createFinaleData = (props: iProps) => {
                 electiveData.push({
                     examid: single.examPackageID,
                     options,
-                    ...multiOption && {multiOption}
+                    ...multiOption && {multiOption},
+                    ...emphasisElevative && {emphasis_elevtive: emphasisElevative},
                 })
             }
             
@@ -149,6 +153,7 @@ export const createFinaleData = (props: iProps) => {
                     ...single.unit === "ECTS" && {requiredECTS: relevantOption.required},
                     ...single.unit != "ECTS" && {required: relevantOption.required},
                     ...multiOption && {multiOption},
+                    ...emphasisElevative && {emphasis_elevtive: emphasisElevative},
                     ids: exams.filter(x => relevantOption.ids.includes(x.key)).map(x => x.examid),
     
                 })
@@ -161,6 +166,61 @@ export const createFinaleData = (props: iProps) => {
         return electiveData
     }
 
+    const createExams = (basic_data: BasicInformation): Exams => {
+        const examData: Exams = {}
+
+        exams.forEach(exam => {
+
+            const examPackagesWithThisExam: ExamPackageCreationType[] = examPackages.filter(x => x.required.includes(exam.key))
+            const elevativesWithThisExam: ElevativeCreationType[] = elevatives.filter(elev => elev.options.filter(opt => opt.ids.includes(exam.key)).length != 0)
+
+            const examPackageIDs: number[] = examPackagesWithThisExam.map(x => x.examPackageID)
+            const elevativeIDs: number[] = elevativesWithThisExam.map(x => x.examPackageID)
+            // all packages that require this exam
+            const packageIDs: number[] = elevativeIDs.concat(examPackageIDs)
+            // check if it is part of elevative
+            const emphasisID: number = basic_data.emphasis.filter(x => examPackageIDs.some(value => x.ids.indexOf(value) >= 0)).map(x => x.emphasisid).shift()
+
+            examData[exam.examid] = {
+                ects: exam.ects,
+                semester: exam.semester,
+                name: exam.name,
+                weight: exam.weight,
+                ...emphasisID != undefined && {emphasisid: emphasisID},
+                ...packageIDs.length === 1 && {packageid: packageIDs[0]},
+                ...packageIDs.length > 1 && { packageOptions: packageIDs}
+            }
+        })
+
+        return examData
+    }
+
+    const createExamPackages = (): ExamPackages => {
+        const examPackageData: ExamPackages = {}
+        examPackages.forEach(examPackage => {
+            const examIdsForThisPackage: number[] = exams.filter(x => examPackage.required.includes(x.key)).map(x => x.examid)
+            examPackageData[examPackage.examPackageID] = {
+                name: examPackage.name,
+                weight: examPackage.weight,
+                required: examIdsForThisPackage
+            }
+        })
+
+        elevatives.forEach(elevative => {
+            const elevativeKeys: string[] = []
+            elevative.options.forEach(x => x.ids.forEach(id => elevativeKeys.push(id)))
+            const examIdsForThisPackage: number[] = exams.filter(x => elevativeKeys.includes(x.key)).map(x => x.examid)
+
+            examPackageData[elevative.examPackageID] = {
+                name: elevative.name,
+                weight: elevative.weight,
+                required: examIdsForThisPackage
+            }
+        })
+
+        return examPackageData
+    }
+
     const basic_data: BasicInformation = {
         name: basicInformations.name,
         required_emphasis: basicInformations.amoundRequiredEmphasis,
@@ -171,8 +231,22 @@ export const createFinaleData = (props: iProps) => {
         beta: true
     }
 
+    const exam_data: Exams = createExams(basic_data)
 
-    console.log(basic_data)
+    const exam_packages: ExamPackages = createExamPackages()
 
-    return true
+    const option: SingleOption = {
+        basics: basic_data,
+        exams: exam_data,
+        examPackages: exam_packages
+    }
+
+    const degreeData: DegreeOption = {
+        data: option,
+        shortName: basicInformations.shortName,
+        longName: basicInformations.name,
+        facultyId: 0
+    }
+
+    return degreeData
 }

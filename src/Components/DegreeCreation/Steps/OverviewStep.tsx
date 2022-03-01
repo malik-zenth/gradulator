@@ -187,19 +187,18 @@ const OverviewStep = (props: iProps) => {
 
     }
 
-    const onsubmit = () => {
-        createFinaleData({basicInformations, exams, examPackages, elevatives, emphasis})
-        //window.open(MailLinkNewDegree)
-
-    }
-
     const buttonSendData = () => {
         return (
             <div className="buttonBasicInformations">
                 <Button
                     type="primary"
                     htmlType="submit"
-                    onClick={() => onsubmit()}>
+                    href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                        JSON.stringify(createFinaleData({basicInformations, exams, examPackages, elevatives, emphasis}))
+                    )}`}
+                    onClick={() => window.open(MailLinkNewDegree)}
+                    download="finalDataGradulator.json"
+                    >
                     Finale Datei herunterladen
                 </Button>
             </div>

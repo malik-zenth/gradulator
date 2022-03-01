@@ -59,7 +59,7 @@ const keyGeneratorString = (): string =>
             weight: 10,
             key: keyGeneratorString(),
             editMode: true,
-            examPackageID: 123456,
+            examPackageID: 111111,
             required: []
         },
         {
