@@ -219,7 +219,7 @@ const ExamPackageComponent = (props: iProps) => {
                     <RenderExamDraggable
                         singleExam={singleExam}
                         index={singleExam.index}
-                        noWeight={false}
+
                     />
                 </Col>
             )

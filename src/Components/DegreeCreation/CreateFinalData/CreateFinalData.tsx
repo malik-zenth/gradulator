@@ -90,15 +90,15 @@ export const createFinaleData = (props: iProps): DegreeOption => {
 
             const emphasisElevative: boolean = emphasis.filter(x => x.required.includes(single.key)).length != 0
 
-            if(single.options.length > 1){
+            if (single.options.length > 1) {
 
                 const options: AlternativeElectives[] = single.options.map(opt => {
-                    return{
-                        ...single.unit === "ECTS" && {requiredECTS: opt.required},
-                        ...single.unit != "ECTS" && {required: opt.required},
+                    return {
+                        ...single.unit === "ECTS" && { requiredEcts: opt.required },
+                        ...single.unit != "ECTS" && { required: opt.required },
                         ids: exams.filter(x => opt.ids.includes(x.key)).map(x => x.examid),
                     }
-                }) 
+                })
 
                 const ownIdsElevative: string[][] = single.options.map(opt => opt.ids.map(id => {
                     const examID: string = exams.filter(ex => ex.key === id).map(x => x.key)[0]
@@ -110,8 +110,8 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                     elevatives.forEach(elev => {
                         elev.options.forEach(elevOption => {
                             // remember: if both are the same multiOption true is not required
-                            if(JSON.stringify(elevOption.ids) != JSON.stringify(ownOption)){
-                                if(elevOption.ids.includes(ownOptionID)){
+                            if (JSON.stringify(elevOption.ids) != JSON.stringify(ownOption)) {
+                                if (elevOption.ids.includes(ownOptionID)) {
                                     multiOption = true
                                 }
                             }
@@ -122,12 +122,12 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                 electiveData.push({
                     examid: single.examPackageID,
                     options,
-                    ...multiOption && {multiOption},
-                    ...emphasisElevative && {emphasis_elevtive: emphasisElevative},
+                    ...multiOption && { multiOption },
+                    ...emphasisElevative && { emphasis_elevtive: emphasisElevative },
                 })
             }
-            
-            else{
+
+            else {
                 const relevantOption: ElevativeOptionType = single.options[0]
 
                 const ownIdsElevative: string[][] = single.options.map(opt => opt.ids.map(id => {
@@ -140,8 +140,8 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                     elevatives.forEach(elev => {
                         elev.options.forEach(elevOption => {
                             // remember: if both are the same multiOption true is not required
-                            if(JSON.stringify(elevOption.ids) != JSON.stringify(ownOption)){
-                                if(elevOption.ids.includes(ownOptionID)){
+                            if (JSON.stringify(elevOption.ids) != JSON.stringify(ownOption)) {
+                                if (elevOption.ids.includes(ownOptionID)) {
                                     multiOption = true
                                 }
                             }
@@ -150,12 +150,12 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                 }))
                 electiveData.push({
                     examid: single.examPackageID,
-                    ...single.unit === "ECTS" && {requiredECTS: relevantOption.required},
-                    ...single.unit != "ECTS" && {required: relevantOption.required},
-                    ...multiOption && {multiOption},
-                    ...emphasisElevative && {emphasis_elevtive: emphasisElevative},
+                    ...single.unit === "ECTS" && { requiredECTS: relevantOption.required },
+                    ...single.unit != "ECTS" && { required: relevantOption.required },
+                    ...multiOption && { multiOption },
+                    ...emphasisElevative && { emphasis_elevtive: emphasisElevative },
                     ids: exams.filter(x => relevantOption.ids.includes(x.key)).map(x => x.examid),
-    
+
                 })
             }
 
@@ -180,16 +180,17 @@ export const createFinaleData = (props: iProps): DegreeOption => {
             const packageIDs: number[] = elevativeIDs.concat(examPackageIDs)
             // check if it is part of elevative
             const emphasisID: number = basic_data.emphasis.filter(x => examPackageIDs.some(value => x.ids.indexOf(value) >= 0)).map(x => x.emphasisid).shift()
-
-            examData[exam.examid] = {
-                ects: exam.ects,
-                semester: exam.semester,
-                name: exam.name,
-                weight: exam.weight,
-                ...emphasisID != undefined && {emphasisid: emphasisID},
-                ...packageIDs.length === 1 && {packageid: packageIDs[0]},
-                ...packageIDs.length > 1 && { packageOptions: packageIDs}
-            }
+            // if a exam is not used we dont need it
+                examData[exam.examid] = {
+                    ects: exam.ects,
+                    semester: exam.semester,
+                    name: exam.name,
+                    weight: exam.weight,
+                    ...emphasisID != undefined && { emphasisid: emphasisID },
+                    ...packageIDs.length === 1 && { packageid: packageIDs[0] },
+                    ...packageIDs.length > 1 && { packageOptions: packageIDs },
+                    ...packageIDs.length === 0 && {ignored: true}
+                }
         })
 
         return examData

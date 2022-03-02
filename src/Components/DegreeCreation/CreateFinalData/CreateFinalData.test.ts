@@ -91,7 +91,7 @@ describe("test if createFinalData is working", () => {
                 weight: 20,
                 options: [{
                     required: 1,
-                    ids: ["789"],
+                    ids: ["123"],
                     key: "3",
                     editMode: true
                 }],
@@ -134,6 +134,8 @@ describe("test if createFinalData is working", () => {
         })
 
         expect(result.data.basics.weight).toBe(50)
+        // should be 2 not three because one exam is ignored as its not required
+        expect(Object.keys(result.data.exams).length).toBe(3)
 
     })
 

@@ -9,7 +9,6 @@ import { CreatorContext } from "../CreatorContext";
 interface iProps {
     singleExam: ExamCreationType,
     index: number,
-    noWeight?: boolean,
     additionalID?: string
 }
 
@@ -77,7 +76,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
                     {...provided.dragHandleProps}
                 >
                     <p className="bold singleExamText">{props.singleExam.examid} - {props.singleExam.name}</p>
-                    {(!props.singleExam.editMode && !props.noWeight) &&
+                    {(!props.singleExam.editMode) &&
                         <div className="weightFieldInline">
                             
                              <div className="center width70">Gewichtung: {props.singleExam.weight}</div>
@@ -90,7 +89,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
                             </Button>
                         </div>
                     }
-                    {(props.singleExam.editMode && !props.noWeight) &&
+                    {(props.singleExam.editMode) &&
                         weightField()
                     }
                 </div>
