@@ -37,7 +37,7 @@ const ElevativeStep = () => {
     const renderExams = () => {
         return exams.map((singleExam: ExamCreationType, index: number) => {
             return (
-                <Col span={12} key={keyGenerator()}>
+                <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
                         index={index} />
@@ -54,7 +54,7 @@ const ElevativeStep = () => {
         </p>
         const text: ReactFragment = elevatives.length > 0 ? textAddMore : textAddFirst
         return (
-            <Col span={12} key={keyGenerator()}>
+            <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                 <Button
                     style={{ whiteSpace: "normal", height: "100%" }}
                     htmlType="submit"
@@ -72,7 +72,7 @@ const ElevativeStep = () => {
         return elevatives.map(single => {
             if (single.editMode) {
                 return (
-                    <Col span={12} key={keyGenerator()}>
+                    <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                         <ElevativeComponent
                             defaultValues={single}
                         />
@@ -81,7 +81,7 @@ const ElevativeStep = () => {
             }
             else {
                 return (
-                    <Col key={keyGenerator()} span={12}>
+                    <Col key={keyGenerator()} xxl={12} xl={24} lg={24} md={24} sm={24} xs={24}>
                         <RenderElevative
                             data={single}
                         />

@@ -1,13 +1,13 @@
 import React, { ReactElement } from "react"
 import { Footer, Header } from "../Components"
 import { Card, Button, Row, Col, message } from 'antd';
-import { GithubOutlined, MailOutlined, GiftOutlined } from '@ant-design/icons';
+import { GithubOutlined, EditOutlined, MailOutlined, GiftOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faSmileWink,
     faSmile
 } from "@fortawesome/free-regular-svg-icons";
-import { MailLink, MailErrorCalculation, MailAdress } from "../Components/const";
+import { MailErrorCalculation, MailAdress } from "../Components/const";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {isMobile, isTablet} from "react-device-detect"
 
@@ -35,15 +35,10 @@ class Contact extends React.Component {
                             <Col span={1}></Col>
                             <Col span={22}>
                         <Card title="Studiengang hinzufügen" bordered={false} style={{ maxWidth: 500 }}>
-                            <p>Fehlt dein Studiengang aktuell noch? Dann kontaktiere uns bitte und wir schauen was wir tun können <FontAwesomeIcon icon={faSmileWink}/></p>
-                            <Button onClick={() => window.location.href = MailLink} type="primary" style={{minWidth: '137px'}} icon={<MailOutlined />}>
-                                Schreibe uns!
+                            <p>Fehlt dein Studiengang aktuell noch? Dann nutze die Funktionalität "Studiengang hinzufügen", um ihn hinzuzufügen <FontAwesomeIcon icon={faSmileWink}/></p>
+                            <Button onClick={() => window.location.href = "/studiengang-erstellen"} type="primary" style={{minWidth: '137px'}} icon={<EditOutlined />}>
+                                Studiengang hinzufügen!
                             </Button>
-                            <CopyToClipboard text={MailAdress} onCopy={() => this.showAlert()}>
-                            <Button className="button-copy-mail" style={{minWidth: '204px'}} icon={<MailOutlined />}>
-                                E-Mail Adresse kopieren
-                            </Button>
-                            </CopyToClipboard>
                         </Card>
                         </Col>
                         <Col span={1}></Col>

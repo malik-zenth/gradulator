@@ -24,7 +24,7 @@ const EmphasisStep = (props: iProps) => {
         const notUsedExamPackages: ExamPackageCreationType[] = examPackages.filter(x => emphasis.filter(single => single.required.includes(x.key)).length === 0)
         return notUsedExamPackages.map((singleExam: ExamPackageCreationType, index: number) => {
             return (
-                <Col span={12} key={keyGenerator()}>
+                <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                     <RenderExamPackageDraggable
                         singleExamPackage={singleExam}
                         index={index} />
@@ -37,7 +37,7 @@ const EmphasisStep = (props: iProps) => {
         const notUsedElevatives: ElevativeCreationType[] = elevatives.filter(x => emphasis.filter(single => single.required.includes(x.key)).length === 0)
         return notUsedElevatives.map((singleExam: ElevativeCreationType, index: number) => {
             return (
-                <Col span={12} key={keyGenerator()}>
+                <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                     <RenderElevativeDraggable
                         singleElevative={singleExam}
                         index={index} />
@@ -75,7 +75,7 @@ const EmphasisStep = (props: iProps) => {
         const textAddFirst = <p>Füge im zweiten Schritt alle Schwerpunkte des Studiengangs hinzu. Ordne anschließend alle für den Schwerpunkt benötigten Modulprüfungen per Drag-and-Drop zu<br></br>Sollte es keine Schwerpunkte geben kannst du zum nächsten Schritt weitergehen.<br></br> Klicke hier, um deinen ersten Schwerpunkt hinzuzufügen.</p>
         const text: ReactFragment = emphasis.length > 0 ? textAddMore : textAddFirst
         return (
-            <Col span={8}>
+            <Col xxl={8} xl={12} lg={24} md={24} sm={24} xs={24}>
                 <Button
                     style={{ whiteSpace: "normal", height: "100%" }}
                     htmlType="submit"
@@ -93,7 +93,7 @@ const EmphasisStep = (props: iProps) => {
         return emphasis.map(single => {
             if (single.editMode) {
                 return (
-                    <Col key={keyGenerator()} span={8}>
+                    <Col key={keyGenerator()} xxl={8} xl={12} lg={24} md={24} sm={24} xs={24}>
                         <EmphasisComponent
                             defaultValues={single}
                         />
@@ -101,7 +101,7 @@ const EmphasisStep = (props: iProps) => {
                 )
             } else {
                 return (
-                    <Col key={keyGenerator()} span={8}>
+                    <Col key={keyGenerator()} xxl={8} xl={12} lg={24} md={24} sm={24} xs={24}>
                         <RenderEmphasis
                             data={single}                      
                         />

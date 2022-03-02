@@ -22,132 +22,31 @@ const keyGenerator = (): ReactText =>
 const keyGeneratorString = (): string =>
     "_" + Math.random().toString(36).substr(2, 9);
 
-    const defaultExams: ExamCreationType[] = [
-        {
-            name: "Test",
-            examid: 302010,
-            key: "123",
-            ects: 5,
-            semester: 2,
-            editMode: false,
-            index: 0
-        },
-        {
-            name: "Einführung in die WIN",
-            examid: 203040,
-            key: "456",
-            ects: 5,
-            semester: 3,
-            editMode: true,
-            index: 1
-        },
-        {
-            name: "Not used Exam",
-            examid: 203050,
-            key: "789",
-            ects: 5,
-            semester: 3,
-            editMode: true,
-            index: 1
-        }
-    ]
-    const defaultExamPackages: ExamPackageCreationType[] = [
-        {
-            name: "Test",
-            weight: 10,
-            key: keyGeneratorString(),
-            editMode: true,
-            examPackageID: 111111,
-            required: []
-        },
-        {
-            name: "Modulprüfung",
-            weight: 10,
-            key: "1",
-            examPackageID: 123456,
-            editMode: false,
-            required: ["456", "123"]
-        }
-    ]
-    const defaultElevatives: ElevativeCreationType[] = [
-        {
-            name: "Wahlfach A",
-            examPackageID: 1,
-            key: "2",
-            weight: 5,
-            editMode: false,
-            unit: "ECTS",
-            options: [{
-                required: 1,
-                ids: ["123"],
-                key: keyGeneratorString(),
-                editMode: true
-            },
-            {
-                required: 2,
-                ids: ["123", "456"],
-                key: keyGeneratorString(),
-                editMode: true
-            }],
-        },
-        {
-            name: "Wahlfach B",
-            examPackageID: 2,
-            key: keyGeneratorString(),
-            editMode: true,
-            weight: 20,
-            options: [{
-                required: 1,
-                ids: ["789"],
-                key: keyGeneratorString(),
-                editMode: true
-            }],
-            unit: "ECTS"
-        }
-    ]
-    const defaultEmphasis: EmphasisCreationType[] = [
-        {
-            name: "Vertiefung 1",
-            key: keyGeneratorString(),
-            editMode: true,
-            required: ["2", "1"],
-            weight: 10,
-            multiGrades: true
-        },
-        {
-            name: "Vertiefung 2",
-            key: keyGeneratorString(),
-            editMode: true,
-            required: [],
-            weight: 10,
-            multiGrades: true
-        }
-    ]
-
 const DegreeCreation = () => {
     // created Exams
-    const [createdExams, setCreatedExams] = useState<ExamCreationType[]>(defaultExams)
+    const [createdExams, setCreatedExams] = useState<ExamCreationType[]>([])
     // created ExamPackages
-    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>(defaultExamPackages)
+    const [createdExamPackages, setCreatedExamPackages] = useState<ExamPackageCreationType[]>([])
     // created Elevatives
-    const [createdElevatives, setCreatedElevatives] = useState<ElevativeCreationType[]>(defaultElevatives)
+    const [createdElevatives, setCreatedElevatives] = useState<ElevativeCreationType[]>([])
     // created Emphasis
-    const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>(defaultEmphasis)
+    const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>([])
     // basic Informations
-    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>()
+    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(6)
+    const [currentStep, setCurrentStep] = useState(0)
     // show explaination
     const [showExplaination, setShowExplaination] = useState<boolean>(false)
 
     const setCreatedData = (data: CreatedData) => {
-        setCreatedExamPackages(data.examPackages)
-        setCreatedExams(data.exams)
-        setCreatedElevatives(data.elevatives)
-        setCreatedEmphasis(data.emphasis)
-        setBasicInformations(data.basicInformation)
+        setCurrentStep(1)
+        data.examPackages && setCreatedExamPackages(data.examPackages)
+        data.exams && setCreatedExams(data.exams)
+        data.elevatives && setCreatedElevatives(data.elevatives)
+        data.emphasis && setCreatedEmphasis(data.emphasis)
+        data.basicInformation && setBasicInformations(data.basicInformation)
     }
 
     const nextStep = () => {
@@ -456,7 +355,7 @@ const DegreeCreation = () => {
             <div>
                 <div className="create_degree_buttons position_center">
                     <Button
-                        style={{ marginLeft: 7.5, width: 220 }}
+                        style={{ marginLeft: 7.5, maxWidth: 220 }}
                         htmlType="submit"
                         disabled={currentStep == 0}
                         onClick={() => prevStep()}
@@ -506,7 +405,7 @@ const DegreeCreation = () => {
         if (currentStep == steps.length - 1) {
             return (
                 <Button
-                    style={{ marginLeft: 7.5, width: 220 }}
+                    style={{ marginLeft: 7.5, maxWidth: 220 }}
                     htmlType="submit"
                     type="primary"
                     disabled={true}
@@ -520,7 +419,7 @@ const DegreeCreation = () => {
         if (buttonInformation.enabled) {
             return (
                 <Button
-                    style={{ marginLeft: 7.5, width: 220 }}
+                    style={{ marginLeft: 7.5, maxWidth: 220 }}
                     htmlType="submit"
                     type="primary"
                     onClick={() => nextStep()}
@@ -532,11 +431,10 @@ const DegreeCreation = () => {
             return (
                 <Tooltip title={buttonInformation.tooltip}>
                     <Button
-                        style={{ marginLeft: 7.5, width: 220 }}
+                        style={{ marginLeft: 7.5, maxWidth: 220 }}
                         htmlType="submit"
                         type="primary"
                         disabled={true}
-                        onClick={() => nextStep()}
                     >
                         Nächster Schritt
                     </Button>
@@ -631,6 +529,23 @@ const DegreeCreation = () => {
             content: <OverviewStep />
         },
     ]
+
+    if (window.innerWidth <= 1024) {
+        return (
+            <div>
+                <Header home={false} />
+                <div className="content degreeCreator">
+                    <h2 className="imprint-heading">Studiengang hinzufügen</h2>
+
+                    <p className="center">
+                        Die Funktionalität "Studiengang hinzufügen" ist nur auf Bildschirmen mit einer Breite größer
+                        als 1024px verfügbar. Bitte verwende deinen PC oder einen entsprechenden Bildschirm, um diese Funktionalität nutzen :)
+                    </p>
+                </div>
+                <Footer />
+            </div>
+        )
+    }
 
     return (
         <CreatorContext.Provider value={{

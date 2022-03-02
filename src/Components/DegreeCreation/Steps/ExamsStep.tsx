@@ -17,9 +17,9 @@ const ExamsStep = () => {
         const textAddFirst = <p>Füge im ersten Schritt alle einzelnen Prüfungen des Studiengangs hinzu. <br></br> Klicke hier, um deine erste Prüfung hinzuzufügen.</p>
         const text: ReactFragment = exams.length > 0 ? textAddMore : textAddFirst
         return (
-            <Col span={6}>
+            <Col xxl={6} xl={12} lg={12} md={24} sm={24} xs={24}>
                     <Button
-                        style={{whiteSpace: "normal"}}
+                        style={{whiteSpace: "normal", height: "100%"}}
                         htmlType="submit"
                         className="minHeight300 addExamButton"
                         onClick={() => addExam()}
@@ -35,7 +35,7 @@ const ExamsStep = () => {
         return exams.map((singleExam: ExamCreationType) => {
             if (singleExam.editMode) {
                 return (
-                    <Col span={6} key={keyGenerator()}>
+                    <Col xxl={6} xl={12} lg={12} md={24} sm={24} xs={24} key={keyGenerator()}>
                         <ExamComponent
                             onDelete={(key: string) => deleteExam(key)}
                             onSave={(exam: ExamCreationType) => updateExam(exam)}
@@ -46,7 +46,7 @@ const ExamsStep = () => {
             }
             else {
                 return (
-                    <Col span={6} key={keyGenerator()}>
+                    <Col xxl={6} xl={12} lg={12} md={24} sm={24} xs={24} key={keyGenerator()}>
                         <RenderExam
                             data={singleExam}
                             onDelete={(key: string) => deleteExam(key)}

@@ -24,7 +24,7 @@ const ExamPackagesStep = () => {
         const orderedNotUsedExams: ExamCreationType[] = notUsedExams.sort((a,b) => (a.index > b.index) ? 1 : ((b.index > a.index) ? -1 : 0))
         return orderedNotUsedExams.map((singleExam: ExamCreationType, index: number) => {
             return (
-                <Col span={12} key={keyGenerator()}>
+                <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
                         index={index} />
@@ -58,7 +58,7 @@ const ExamPackagesStep = () => {
         const textAddFirst = <p>Füge im zweiten Schritt alle Modulprüfungen des Studiengangs hinzu. Ordne anschließend alle Prüfungen per Drag-and-Drop einer Modulprüfung zu<br></br>Beachte jedoch, dass Wahlfächer erst im nächsten Schritt hinzugefügt werden.<br></br> Klicke hier, um deine erste Modulprüfung hinzuzufügen.</p>
         const text: ReactFragment = examPackages.length > 0 ? textAddMore : textAddFirst
         return (
-            <Col span={8}>
+            <Col xxl={8} xl={12} lg={12} md={24} sm={24} xs={24}>
                 <Button
                     style={{ whiteSpace: "normal", height: "100%" }}
                     htmlType="submit"
@@ -76,7 +76,7 @@ const ExamPackagesStep = () => {
         return examPackages.map(single => {
             if (single.editMode) {
                 return (
-                    <Col key={keyGenerator()} span={8}>
+                    <Col key={keyGenerator()} xxl={8} xl={12} lg={12} md={24} sm={24} xs={24}>
                         <ExamPackageComponent
                             defaultValues={single}
                         />
@@ -84,7 +84,7 @@ const ExamPackagesStep = () => {
                 )
             } else {
                 return (
-                    <Col key={keyGenerator()} span={8}>
+                    <Col key={keyGenerator()} xxl={8} xl={12} lg={12} md={24} sm={24} xs={24}>
                         <RenderExamPackage
                             data={single}                      
                         />
