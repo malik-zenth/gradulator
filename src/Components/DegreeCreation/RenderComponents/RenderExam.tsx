@@ -2,7 +2,7 @@ import React, { ReactText, useState } from "react"
 import { Button } from "antd";
 import { ExamCreationType } from "../types";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { DeleteExamModal } from "../ModalMessages";
+import { DeleteExamModal } from "../Modals";
 
 interface iProps {
     data: ExamCreationType,

@@ -1,9 +1,8 @@
 import React, { ReactFragment, ReactText, useContext, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider, Select, Row, Col } from "antd";
 import { ElevativeCreationType, ElevativeOptionType, ExamCreationType } from "../types";
-import { PlusOutlined } from "@ant-design/icons";
 import { ToolTipNameOrWeightMissingElevative } from "../../const"
-import { DeleteElevativeModal, DeleteElevativeOptionModal, DeleteExamModal } from "../ModalMessages";
+import { DeleteElevativeModal, DeleteElevativeOptionModal } from "../Modals";
 import { valueType } from "antd/lib/statistic/utils";
 import { Droppable } from "react-beautiful-dnd";
 import { RenderExamDraggable, RenderRequiredElevative } from "../RenderComponents";
@@ -149,7 +148,7 @@ const ElevativeComponent = (props: iProps) => {
                 <Tooltip title={ToolTipNameOrWeightMissingElevative}>
                     <Button
                         type="primary"
-                        style={{ marginLeft: 7.5 }}
+                        style={{ marginLeft: 7.5, minWidth: "100px" }}
                         htmlType="submit"
                         disabled={true}
                         onClick={onSubmit}>
@@ -161,7 +160,7 @@ const ElevativeComponent = (props: iProps) => {
         } else {
             return (
                 <Button
-                    style={{ marginLeft: 7.5 }}
+                    style={{ marginLeft: 7.5, minWidth: "100px" }}
                     type="primary"
                     htmlType="submit"
                     onClick={onSubmit}>

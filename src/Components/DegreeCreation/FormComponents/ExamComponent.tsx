@@ -1,7 +1,7 @@
-import React, { ReactFragment, ReactText, useEffect, useState } from "react"
+import React, { ReactFragment, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip } from "antd";
 import { ExamCreationType } from "../types";
-import { DeleteExamModal } from "../ModalMessages"
+import { DeleteExamModal } from "../Modals"
 import { ToolTipExamValuesMissing } from "../../const";
 
 interface iProps {

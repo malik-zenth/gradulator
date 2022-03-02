@@ -1,7 +1,7 @@
 import React, { ReactFragment, ReactText, useContext, useState } from "react"
-import { Button, Divider, Col, Row, FormInstance } from "antd";
-import { ElevativeCreationType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType } from "../types";
-import { DeleteEmphasisModal } from "../ModalMessages";
+import { Button, Divider, Col, Row, Switch, Form } from "antd";
+import { ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType } from "../types";
+import { DeleteEmphasisModal } from "../Modals";
 import { CreatorContext } from "../CreatorContext";
 import { Droppable } from "react-beautiful-dnd";
 import { RenderElevativeDraggable, RenderExamPackageDraggable } from ".";
@@ -13,9 +13,14 @@ interface iProps {
     data: EmphasisCreationType,
 }
 
+const layout = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 15 },
+};
+
 // render single Elevative
 const RenderEmphasis = (props: iProps) => {
-    const {setEditEmphasis, deleteEmphasis, examPackages, elevatives} = useContext(CreatorContext)
+    const { setEditEmphasis, deleteEmphasis, examPackages, elevatives } = useContext(CreatorContext)
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
 
     const examPackagesDroppable = (): ReactFragment => {
@@ -40,9 +45,9 @@ const RenderEmphasis = (props: iProps) => {
     }
 
     const renderExamPackages = () => {
-        if(props.data.required.length === 0){
-            return(
-                <div className="addExamsDragAndDropText">Hier Prüfungen per Drag-and-Drop hinzufügen</div>
+        if (props.data.required.length === 0) {
+            return (
+                <div className="addExamsDragAndDropText">Hier Modulprüfungen per Drag-and-Drop hinzufügen</div>
             )
         }
         const examPackageData: ExamPackageCreationType[] = examPackages.filter(x => props.data.required.includes(x.key))
@@ -72,6 +77,24 @@ const RenderEmphasis = (props: iProps) => {
         })
     }
 
+    const multiGradesSwitch = (): ReactFragment => {
+        return (
+            <Form>
+                <Form.Item
+                    name={"multiGrades"}
+                    style={{ minWidth: "100%", minHeight: "33px" }}
+                    {...layout}
+                    label="Eine Note"
+                >
+                    <Switch
+                        disabled
+                        defaultChecked={props.data.multiGrades}
+                    />
+                </Form.Item>
+            </Form>
+        )
+    }
+
     const buttons = (): ReactFragment => {
         return (
             <div className="create_degree_buttons position_center">
@@ -80,13 +103,13 @@ const RenderEmphasis = (props: iProps) => {
                     danger
                     onClick={() => setShowDeleteModal(true)}>
                     Schwerpunkt löschen
-                    </Button>
+                </Button>
                 <Button
-                    style={{ marginLeft: 7.5 }}
+                    style={{ marginLeft: 7.5, minWidth: "100px" }}
                     htmlType="submit"
                     onClick={() => setEditEmphasis(props.data.key)}>
                     Bearbeiten
-                    </Button>
+                </Button>
             </div>
         )
     }
@@ -102,10 +125,11 @@ const RenderEmphasis = (props: iProps) => {
                 <div>
                     <p className="elevativeText degreeCreator_exampackage_text bold">{props.data.name}</p>
                     <p className="elevativeText degreeCreator_exampackage_text">Gewichtung: {props.data.weight}</p>
+                    {multiGradesSwitch()}
                 </div>
                 <Divider>Modulprüfungen</Divider>
                 <Row gutter={[8, 8]}>
-                {examPackagesDroppable()}
+                    {examPackagesDroppable()}
                 </Row>
                 {buttons()}
             </div>

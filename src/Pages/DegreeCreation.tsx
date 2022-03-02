@@ -1,12 +1,10 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Footer, Header } from "../Components"
 import { Button, Tooltip, Steps } from "antd";
-import { BasicInformations } from "../Components/DegreeCreation/FormComponents"
 import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType, ElevativeOptionType } from "../Components/DegreeCreation/types";
 import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep, ToolTipThirdStep, ToolTipFourthStep, ToolTipFifthStep } from "../Components/const";
-import CheckInput from "../Components/DegreeCreation/CheckInput";
-import { FileUploadModal } from "../Components/DegreeCreation/FileUploadModal";
-import { Explaination } from "../Components/DegreeCreation/Explaination";
+import { FileUploadModal } from "../Components/DegreeCreation/Modals/FileUploadModal";
+import { Explaination } from "../Components/DegreeCreation/Modals/ExplainationModals";
 import { ExamsStep, ExamPackagesStep, ElevativeStep, BasicsStep, OverviewStep, EmphasisStep, IntroductionStep } from "../Components/DegreeCreation/Steps"
 import { DropResult } from "react-beautiful-dnd";
 import { CreatorContext } from "../Components/DegreeCreation/CreatorContext";
@@ -111,26 +109,20 @@ const keyGeneratorString = (): string =>
         {
             name: "Vertiefung 1",
             key: keyGeneratorString(),
-            editMode: false,
+            editMode: true,
             required: ["2", "1"],
             weight: 10,
+            multiGrades: true
         },
         {
             name: "Vertiefung 2",
             key: keyGeneratorString(),
             editMode: true,
             required: [],
-            weight: 10
+            weight: 10,
+            multiGrades: true
         }
     ]
-
-    const basicInf: GeneralInformationsCreationType = {
-        name: "Wirtschaftsinformatik",
-        shortName: "WIN",
-        editMode: false,
-        amoundRequiredEmphasis: 2,
-        spo: 5
-    }
 
 const DegreeCreation = () => {
     // created Exams
@@ -142,9 +134,7 @@ const DegreeCreation = () => {
     // created Emphasis
     const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>(defaultEmphasis)
     // basic Informations
-    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>(basicInf)
-    // if Page is shown to visualize all input
-    const [showSubmitPage, setShowSubmit] = useState<boolean>(false)
+    const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>()
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
@@ -177,7 +167,7 @@ const DegreeCreation = () => {
     // all Functions for Emphasis
 
     const addEmphasis = () => {
-        setCreatedEmphasis([...createdEmphasis, { editMode: true, key: keyGeneratorString(), required: [] }])
+        setCreatedEmphasis([...createdEmphasis, { editMode: true, key: keyGeneratorString(), required: [], multiGrades: true }])
     }
 
     const updateEmphasis = (updatedEmphasis: EmphasisCreationType) => {
@@ -642,21 +632,6 @@ const DegreeCreation = () => {
         },
     ]
 
-
-    if (showSubmitPage) {
-        return (
-            <div>
-                <div className="content">
-                    <Header home={false} />
-                    <CheckInput
-                        basicInformations={basicInformations}
-                        onReturn={() => setShowSubmit(false)}
-                    />
-                </div>
-                <Footer />
-            </div>
-        )
-    }
     return (
         <CreatorContext.Provider value={{
             addEmphasis,

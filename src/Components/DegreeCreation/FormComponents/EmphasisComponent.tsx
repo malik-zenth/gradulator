@@ -1,11 +1,11 @@
 import React, { ReactFragment, ReactText, useContext, useEffect, useState } from "react"
-import { Form, InputNumber, Input, Button, Tooltip, Divider, Row, Col } from "antd";
+import { Form, InputNumber, Input, Button, Tooltip, Divider, Row, Col, Switch } from "antd";
 import { ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType } from "../types";
 import { ToolTipNameOrWeightMissingElevative } from "../../const"
-import { DeleteEmphasisModal, DeleteExamPackageModal } from "../ModalMessages";
+import { DeleteEmphasisModal } from "../Modals";
 import { CreatorContext } from "../CreatorContext";
 import { Droppable } from "react-beautiful-dnd";
-import { RenderElevative, RenderElevativeDraggable, RenderExamPackageDraggable } from "../RenderComponents";
+import { RenderElevativeDraggable, RenderExamPackageDraggable } from "../RenderComponents";
 
 interface iProps {
     defaultValues: EmphasisCreationType,
@@ -18,11 +18,11 @@ const EmphasisComponent = (props: iProps) => {
     const { deleteEmphasis, updateEmphasis, examPackages, elevatives } = useContext(CreatorContext)
     const [showDeleteEmphasis, setShowDeleteEmphasis] = useState<boolean>(false)
 
-
     const [submitInvalidValuesMissing, setMissingValues] = useState<boolean>(!(props.defaultValues.name || props.defaultValues.weight))
     // form values
     const [name, setName] = useState<string>(props.defaultValues.name)
     const [weight, setWeight] = useState<number>(props.defaultValues.weight)
+    const [multiGrades, setMultiGrades] = useState<boolean>(props.defaultValues.multiGrades)
 
     useEffect(() => {
         setMissingValues(!name || !weight)
@@ -30,6 +30,10 @@ const EmphasisComponent = (props: iProps) => {
 
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
+    }
+
+    const onMultiGradeChange = () => {
+        setMultiGrades(!multiGrades)
     }
 
     const onWeightChange = (e: number) => {
@@ -89,12 +93,29 @@ const EmphasisComponent = (props: iProps) => {
         )
     }
 
+    const multiGradesField = (): ReactFragment => {
+        return (
+            <Form.Item
+                name={"multiGrades"}
+                style={{ minWidth: "100%", minHeight: "33px" }}
+                {...layout}
+                label="Eine Note"
+            >
+                <Switch 
+                    defaultChecked={multiGrades}
+                    onChange={onMultiGradeChange}
+                />
+            </Form.Item>
+        )
+    }
+
     const onSubmit = (e: any) => {
         updateEmphasis({
             name: name,
             weight: weight,
             required: props.defaultValues.required,
             editMode: false,
+            multiGrades: multiGrades,
             key: props.defaultValues.key
         })
     }
@@ -120,7 +141,7 @@ const EmphasisComponent = (props: iProps) => {
                 <Tooltip title={ToolTipNameOrWeightMissingElevative}>
                     <Button
                         type="primary"
-                        style={{ marginLeft: 7.5 }}
+                        style={{ marginLeft: 7.5, minWidth: "100px" }}
                         htmlType="submit"
                         disabled={true}
                         onClick={onSubmit}>
@@ -131,7 +152,7 @@ const EmphasisComponent = (props: iProps) => {
         } else {
             return (
                 <Button
-                    style={{ marginLeft: 7.5 }}
+                    style={{ marginLeft: 7.5, minWidth: "100px" }}
                     type="primary"
                     htmlType="submit"
                     onClick={onSubmit}>
@@ -230,6 +251,7 @@ const EmphasisComponent = (props: iProps) => {
             <Form initialValues={props.defaultValues}>
                 {nameInputField()}
                 {weightField()}
+                {multiGradesField()}
             </Form>
             <Divider>Modulprüfungen</Divider>
             <Row gutter={[8, 8]}>

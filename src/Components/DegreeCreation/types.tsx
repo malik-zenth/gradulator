@@ -54,6 +54,7 @@ export interface EmphasisCreationType{
     weight?: number,
     required: string[],
     key: string,
+    multiGrades: boolean,
     editMode: boolean
 }
 

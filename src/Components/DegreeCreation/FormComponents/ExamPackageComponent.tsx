@@ -1,10 +1,9 @@
 import React, { ReactFragment, ReactText, useEffect, useState } from "react"
 import { Form, InputNumber, Input, Button, Tooltip, Divider, Row, Col } from "antd";
 import { ExamCreationType, ExamPackageCreationType } from "../types";
-import { PlusOutlined } from "@ant-design/icons";
 import { ToolTipExamPackageValuesMissing } from "../../const"
-import { DeleteExamModal, DeleteExamPackageModal } from "../ModalMessages";
-import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult, ResponderProvided } from "react-beautiful-dnd"
+import { DeleteExamPackageModal } from "../Modals";
+import { Droppable } from "react-beautiful-dnd"
 import { RenderExamDraggable } from "../RenderComponents";
 import { useContext } from "react";
 import { CreatorContext } from "../CreatorContext";
@@ -144,7 +143,7 @@ const ExamPackageComponent = (props: iProps) => {
                     <Tooltip title={ToolTipExamPackageValuesMissing}>
                         <Button
                             htmlType="button"
-                            style={{ marginLeft: 7.5 }}
+                            style={{ marginLeft: 7.5, minWidth: "100px" }}
                             type="primary"
                             disabled
                             onClick={() => onSave()}>
@@ -155,7 +154,7 @@ const ExamPackageComponent = (props: iProps) => {
                 {(name && weight && examPackageID) &&
                     <Button
                         htmlType="button"
-                        style={{ marginLeft: 7.5 }}
+                        style={{ marginLeft: 7.5, minWidth: "100px" }}
                         type="primary"
                         onClick={() => onSave()}>
                         Speichern

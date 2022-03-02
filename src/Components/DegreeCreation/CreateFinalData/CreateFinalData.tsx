@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
-import { AlternativeElectives, BasicInformation, DegreeOption, Electives, Emphasis, ExamPackages, Exams, SingleOption } from "../../Data/types"
-import { ElevativeCreationType, ElevativeOptionType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "./types"
+import { AlternativeElectives, BasicInformation, DegreeOption, Electives, Emphasis, ExamPackages, Exams, SingleOption } from "../../../Data/types"
+import { ElevativeCreationType, ElevativeOptionType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "../types"
 
 interface iProps {
     exams: ExamCreationType[],
@@ -78,7 +78,8 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                 ids: examPackageIDsForKey,
                 name: single.name,
                 weight: single.weight,
-                emphasisid: index
+                emphasisid: index,
+                multipleGrades: single.multiGrades
             })
         })
         return emphasisData

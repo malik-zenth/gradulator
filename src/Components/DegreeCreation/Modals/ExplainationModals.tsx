@@ -129,7 +129,11 @@ export const Explaination = (props: iProps) => {
                     <p>Füge in diesem Schritt ggf. vorhandene Schwerpunkte des Studiengangs hinzu. Bei Schwerpunkten handelt es sich um Vertiefungsmöglichkeiten, 
                         welche typischerweise über mehrere Semester oder das gesamte Studium hinweggehen.
                         <br></br>
-                        Trage für jeden Schwerpunkt den Name und die Gewichtung innerhalb des Gesamtschnittes ein. Ordne anschließend dem Schwerpunkt seine 
+                        Trage für jeden Schwerpunkt den Name und die Gewichtung innerhalb des Gesamtschnittes ein. 
+                        Die Checkbox "Eine Note" legt fest, ob der Schwerpunkt als eine Modulnote für den Gesamtschnitt und das Zeugnis
+                        zählt oder ob jede Modulnote einzeln gezählt wird.
+                        <br></br>
+                        Ordne anschließend dem Schwerpunkt seine 
                         Modulprüfungen hinzu. Die benötigten Informationen für die Schwerpunkte findest du typischerweise in extra Tabellen innerhalb der 
                         Studien- und Prüfungsordnung.
                     </p>

@@ -150,6 +150,19 @@ const OverviewStep = (props: iProps) => {
             align: "center"
         },
         {
+            title: "Eine Note",
+            dataIndex: "multiGrades",
+            key: "multiGrades",
+            width: "15%",
+            align: "center",
+            render: multiGrades => (
+                <>
+                    {multiGrades && "Ja"}
+                    {!multiGrades && "Nein"}
+                </>
+            )
+        },
+        {
             title: "Benötigte Prüfungen",
             dataIndex: "required",
             key: "required",

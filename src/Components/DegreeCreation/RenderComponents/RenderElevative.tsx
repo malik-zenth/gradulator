@@ -1,7 +1,7 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Button, Divider, Col, Row } from "antd";
 import { ElevativeCreationType, ElevativeOptionType, ExamCreationType } from "../types";
-import { DeleteElevativeModal } from "../ModalMessages";
+import { DeleteElevativeModal } from "../Modals";
 import { useContext } from "react";
 import { CreatorContext } from "../CreatorContext";
 import { RenderExamDraggable, RenderRequiredElevative } from ".";
@@ -29,7 +29,7 @@ const RenderElevative = (props: iProps) => {
                     Wahlpflichtfach löschen
                     </Button>
                 <Button
-                    style={{ marginLeft: 7.5 }}
+                    style={{ marginLeft: 7.5, minWidth: "100px" }}
                     htmlType="submit"
                     onClick={() => setEditElevative(props.data.key)}>
                     Bearbeiten

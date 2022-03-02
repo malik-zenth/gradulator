@@ -22,7 +22,6 @@ const ElevativeStep = () => {
                 type="1">
                 {(provided, snapshot) => (
                     <Row gutter={[8, 8]}
-                        style={{ height: "100%" }}
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >

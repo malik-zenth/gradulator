@@ -1,7 +1,7 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Button, Col, Divider, Row } from "antd";
 import { ExamCreationType, ExamPackageCreationType } from "../types";
-import { DeleteExamPackageModal } from "../ModalMessages";
+import { DeleteExamPackageModal } from "../Modals";
 import { RenderExamDraggable } from ".";
 import { Droppable } from "react-beautiful-dnd";
 import { useContext } from "react";
@@ -21,7 +21,7 @@ interface iProps {
 
 // render single ExamPackage
 const RenderExamPackage = (props: iProps) => {
-    const {updateExam, exams, setEditExam, deleteExamPackage, setEditExamPackage } = useContext(CreatorContext)
+    const {exams, deleteExamPackage, setEditExamPackage } = useContext(CreatorContext)
 
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
 
@@ -92,7 +92,7 @@ const RenderExamPackage = (props: iProps) => {
                             Modulprüfung löschen
                         </Button>
                         <Button
-                            style={{ marginLeft: 7.5 }}
+                            style={{ marginLeft: 7.5, minWidth: "100px" }}
                             htmlType="submit"
                             onClick={() => setEditExamPackage(props.data.key)}>
                             Bearbeiten

@@ -3,7 +3,7 @@ import { Upload,Button, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import Modal from 'antd/lib/modal/Modal';
 import { UploadChangeParam } from 'antd/lib/upload';
-import { CreatedData } from './types';
+import { CreatedData } from '../types';
 const { Dragger } = Upload;
 
 interface iProps{
