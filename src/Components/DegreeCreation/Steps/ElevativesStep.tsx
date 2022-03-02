@@ -53,7 +53,6 @@ const ElevativeStep = () => {
                 <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
-                        noWeight={true}
                         index={index} />
                 </Col>
             )

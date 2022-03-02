@@ -50,7 +50,6 @@ const RenderElevative = (props: iProps) => {
             return (
                 <Col span={24} key={keyGenerator()}>
                     <RenderExamDraggable
-                        noWeight={true}
                         singleExam={singleExam}
                         index={singleExam.index}
                         additionalID={singleOption.key}

@@ -274,7 +274,6 @@ const ElevativeComponent = (props: iProps) => {
                 <Col span={24} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
-                        noWeight={true}
                         index={singleExam.index}
                         additionalID={singleOption.key}
                     />
