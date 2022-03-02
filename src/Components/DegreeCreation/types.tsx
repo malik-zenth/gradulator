@@ -101,6 +101,7 @@ export interface CreationContextType{
     setEditExamPackage: Function,
     updateRequiredExamPackage: Function,
     removeExamFromRequired: Function,
+    resetEditExam: Function,
 
     onDragEndExamPackages: Function,
     onDragEndElevatives: Function,

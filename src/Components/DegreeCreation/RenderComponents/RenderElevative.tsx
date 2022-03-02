@@ -50,6 +50,7 @@ const RenderElevative = (props: iProps) => {
             return (
                 <Col span={24} key={keyGenerator()}>
                     <RenderExamDraggable
+                        noWeight={true}
                         singleExam={singleExam}
                         index={singleExam.index}
                         additionalID={singleOption.key}
@@ -113,6 +114,7 @@ const RenderElevative = (props: iProps) => {
                 <div className="form_min_height">
                     <p className="elevativeText degreeCreator_exampackage_text bold">{props.data.name}</p>
                     <p className="elevativeText degreeCreator_exampackage_text ">Gewichtung: {props.data.weight}</p>
+                    <p className="elevativeText degreeCreator_exampackage_text ">ID: {props.data.examPackageID}</p>
                     <p className="elevativeText degreeCreator_exampackage_text ">Einheit: {props.data.unit}</p>
                 </div>
                 <Divider>Optionen</Divider>

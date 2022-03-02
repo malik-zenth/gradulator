@@ -12,7 +12,7 @@ const keyGenerator = (): ReactText =>
 
 
 const ExamPackagesStep = () => {
-    const {onDragEndExamPackages, exams, setExamWeight, setEditExam, examPackages, addExamPackage} = useContext(CreatorContext)
+    const { onDragEndExamPackages, exams, setExamWeight, setEditExam, examPackages, addExamPackage } = useContext(CreatorContext)
 
     const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
         onDragEndExamPackages(result)
@@ -21,11 +21,12 @@ const ExamPackagesStep = () => {
     const renderExams = () => {
         // Filter out all exams that are used for any ExamPackage
         const notUsedExams: ExamCreationType[] = exams.filter(singleExam => examPackages.filter(singleExamPackage => singleExamPackage.required.includes(singleExam.key)).length == 0)
-        const orderedNotUsedExams: ExamCreationType[] = notUsedExams.sort((a,b) => (a.index > b.index) ? 1 : ((b.index > a.index) ? -1 : 0))
+        const orderedNotUsedExams: ExamCreationType[] = notUsedExams.sort((a, b) => (a.index > b.index) ? 1 : ((b.index > a.index) ? -1 : 0))
         return orderedNotUsedExams.map((singleExam: ExamCreationType, index: number) => {
             return (
                 <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                     <RenderExamDraggable
+                        noWeight={false}
                         singleExam={singleExam}
                         index={index} />
                 </Col>
@@ -35,21 +36,34 @@ const ExamPackagesStep = () => {
 
     const renderExamsDroppable = () => {
         return (
-            <Droppable
-                droppableId="exams"
-                type="1">
-                {(provided, snapshot) => (
-                    <Row gutter={[8, 8]}
-                    style={{height: "100%"}}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                    >
-                        {renderExams()}
-                        {provided.placeholder}
-                    </Row>
-                )}
+            <div style={{height: "100%"}}>
+                <Droppable
+                    droppableId="exams"
+                    type="1">
+                    {(provided, _) => (
+                        <Row gutter={[8, 8]}
+                            align="top" justify="start"
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                        >
+                            {renderExams()}
+                            {provided.placeholder}
+                        </Row>
+                    )}
 
-            </Droppable>
+                </Droppable>
+                <Droppable
+                    droppableId="exams"
+                    type="1">
+                    {(provided, _) => (
+                        <div style={{ height: "100%" }} ref={provided.innerRef}
+                            {...provided.droppableProps}>
+                            {provided.placeholder}
+                        </div>
+                    )}
+
+                </Droppable>
+            </div>
         )
     }
 
@@ -86,7 +100,7 @@ const ExamPackagesStep = () => {
                 return (
                     <Col key={keyGenerator()} xxl={8} xl={12} lg={12} md={24} sm={24} xs={24}>
                         <RenderExamPackage
-                            data={single}                      
+                            data={single}
                         />
                     </Col>
                 )

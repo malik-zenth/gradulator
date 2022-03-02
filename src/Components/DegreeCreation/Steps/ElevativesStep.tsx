@@ -5,32 +5,45 @@ import { DragDropContext, Droppable, DropResult, ResponderProvided } from "react
 import { CreatorContext } from "../CreatorContext";
 import { ElevativeComponent } from "../FormComponents";
 import { RenderElevative, RenderExamDraggable } from "../RenderComponents";
-import { ElevativeCreationType, ExamCreationType } from "../types";
+import { ExamCreationType } from "../types";
 
 const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 
 const ElevativeStep = () => {
-    const {exams, elevatives, addElevative, onDragEndElevatives} = useContext(CreatorContext)
+    const { exams, elevatives, addElevative, onDragEndElevatives } = useContext(CreatorContext)
 
     const renderExamsDroppable = () => {
         return (
-            <Droppable
-                droppableId="exams"
-                key={keyGenerator()}
-                type="1">
-                {(provided, snapshot) => (
-                    <Row gutter={[8, 8]}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                    >
-                        {renderExams()}
-                        {provided.placeholder}
-                    </Row>
-                )}
+            <div style={{ height: "100%" }}>
+                <Droppable
+                    droppableId="exams"
+                    key={keyGenerator()}
+                    type="1">
+                    {(provided, snapshot) => (
+                        <Row gutter={[8, 8]}
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                        >
+                            {renderExams()}
+                            {provided.placeholder}
+                        </Row>
+                    )}
 
-            </Droppable>
+                </Droppable>
+                <Droppable
+                    droppableId="exams"
+                    type="1">
+                    {(provided, snapshot) => (
+                        <div style={{ height: "100%" }} ref={provided.innerRef}
+                            {...provided.droppableProps}>
+                            {provided.placeholder}
+                        </div>
+                    )}
+
+                </Droppable>
+            </div>
         )
     }
 
@@ -40,6 +53,7 @@ const ElevativeStep = () => {
                 <Col xxl={12} xl={24} lg={24} md={24} sm={24} xs={24} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
+                        noWeight={true}
                         index={index} />
                 </Col>
             )

@@ -104,7 +104,6 @@ const ExamComponent = (props: iProps) => {
                     onChange={(e: number) => onExamIDChange(e)}
                     placeholder="Prüfungsnummer"
                     min={1}
-                    max={10}
                     step={1}
                     style={{ minWidth: "100%" }}
                     parser={(value) => {

@@ -9,6 +9,7 @@ import { CreatorContext } from "../CreatorContext";
 interface iProps {
     singleExam: ExamCreationType,
     index: number,
+    noWeight?: boolean,
     additionalID?: string
 }
 
@@ -16,34 +17,32 @@ const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 const RenderSingleExamDraggable = (props: iProps) => {
-    const {setExamWeight, setEditExam} = useContext(CreatorContext)
-
-    const [weight, setWeight] = useState<number>(props.singleExam.weight)
-
-    const onWeightChange = (e: number) => {
-        setWeight(e)
-    }
-
-    const saveWeight = () => {
-        setExamWeight(weight, props.singleExam.key)
-    }
+    const {setExamWeight, setEditExam, resetEditExam} = useContext(CreatorContext)
 
     const weightField = (): ReactFragment => {
         return (
-            <Form>
+            <Form 
+            onFinish={(values) => {
+                if(values.weight){
+                    setExamWeight(values.weight, props.singleExam.key)}
+                else(
+                    resetEditExam(props.singleExam.key)  
+                )
+                }
+            }
+            >
                 <Form.Item
                     name="weight"
                     style={{ minHeight: "33px", marginBottom: "0px" }}
                 >
                     <div className="weightFieldInline">
                         <InputNumber
-                            type="string"
-                            defaultValue={weight}
-                            onChange={(e: number) => onWeightChange(e)}
                             placeholder="Gewichtung"
                             min={1}
+                            defaultValue={props.singleExam.weight}
                             max={50}
                             step={1}
+                            required
                             style={{ minWidth: "70%" }}
                             parser={(value) => {
                                 if (value.includes(".")) {
@@ -55,10 +54,9 @@ const RenderSingleExamDraggable = (props: iProps) => {
                         />
                         <Button
                             size="small"
+                            htmlType="submit"
                             type="primary"
-                            disabled = {weight ? false: true}
                             className="saveWeightButton"
-                            onClick={() => saveWeight()}
                             shape="round"
                             icon={<CheckOutlined />}>
                         </Button>
@@ -68,7 +66,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
         )
     }
     // this draggable ID with an underscore and the ID of the Option is required to enable the usage of the same exam multiple times within elevatives
-    const draggableID: string = props.additionalID ? props.singleExam.key + "_" + props.additionalID : props.singleExam.key
+    const draggableID: string = props.additionalID ? props.singleExam.key + "-" + props.additionalID : props.singleExam.key
     return (
         <Draggable draggableId={draggableID} index={props.index} key={keyGenerator()}>
             {(provided, snapshot) => (
@@ -79,9 +77,10 @@ const RenderSingleExamDraggable = (props: iProps) => {
                     {...provided.dragHandleProps}
                 >
                     <p className="bold singleExamText">{props.singleExam.examid} - {props.singleExam.name}</p>
-                    {!props.singleExam.editMode &&
+                    {(!props.singleExam.editMode && !props.noWeight) &&
                         <div className="weightFieldInline">
-                            <div className="center width70">Gewichtung: {props.singleExam.weight}</div>
+                            
+                             <div className="center width70">Gewichtung: {props.singleExam.weight}</div>
                             <Button
                                 size="small"
                                 className="saveWeightButton"
@@ -91,7 +90,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
                             </Button>
                         </div>
                     }
-                    {props.singleExam.editMode &&
+                    {(props.singleExam.editMode && !props.noWeight) &&
                         weightField()
                     }
                 </div>

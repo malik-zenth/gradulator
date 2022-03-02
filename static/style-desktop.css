@@ -562,7 +562,8 @@
     .singleExamDraggable{
         background-color: #d9d9d9;
         border-radius: 5%;
-        padding: 5px
+        padding: 5px;
+        height: 100%;
     }
 
     .inlineflex{

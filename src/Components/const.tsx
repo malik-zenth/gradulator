@@ -24,7 +24,7 @@ export const ToolTipRemovedElevtive: string = "Wenn die für ein Wahlpflichtfach
 // Degree Creator
 export const ToolTipNameOrWeightMissingEmphasis: string = "Bitte gebe erst einen Name und eine Gewichtung für den Schwerpunkt an."
 export const ToolTipNameOrWeightMissingExamPackage: string = "Bitte gebe erst einen Name und eine Gewichtung für die Modulprüfung an."
-export const ToolTipNameOrWeightMissingElevative: string = "Bitte gebe erst Name, Gewichtung und die Einheit an."
+export const ToolTipNameOrWeightMissingElevative: string = "Bitte gebe erst Name, Gewichtung, Modulprüfungsnummer und die Einheit an."
 export const ToolTipExamValuesMissing: string = "Bitte gebe erst Name, Prüfungsnummer, ECTS und Semester an."
 export const ToolTipExamPackageValuesMissing: string = "Bitte gebe erst Name, Modulnummer und Gewicht an."
 

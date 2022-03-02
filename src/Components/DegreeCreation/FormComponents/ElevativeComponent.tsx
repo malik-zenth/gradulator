@@ -30,6 +30,7 @@ const ElevativeComponent = (props: iProps) => {
     const [name, setName] = useState<string>(props.defaultValues.name)
     const [weight, setWeight] = useState<number>(props.defaultValues.weight)
     const [unit, setUnit] = useState<string>(props.defaultValues.unit)
+    const [examPackageID, setExamPackageID] = useState<number>(props.defaultValues.examPackageID)
 
     const layout = {
         labelCol: { span: 6 },
@@ -50,6 +51,10 @@ const ElevativeComponent = (props: iProps) => {
 
     const onWeightChange = (e: number) => {
         setWeight(e)
+    }
+
+    const onExamPackageIDChange = (e: number) => {
+        setExamPackageID(e)
     }
 
 
@@ -95,6 +100,30 @@ const ElevativeComponent = (props: iProps) => {
         )
     }
 
+    const examPackageIDField = (): ReactFragment => {
+        return (
+            <Form.Item
+                name={"examPackageID"}
+                style={{minHeight: "33px"}}
+                label="ID"
+                {...layout}
+            >
+                <InputNumber
+                    placeholder="Modulnummer"
+                    min={1}
+                    max={30}
+                    step={0.5}
+                    onChange={(e: number) => onExamPackageIDChange(e)}
+                    style={{ minWidth: "100%" }}
+                    parser={(value) => {
+                        value = value.replace(",", ".")
+                        return value
+                    }}
+                />
+            </Form.Item>
+        )
+    }
+
     const unitField = (): ReactFragment => {
         return (
             <Form.Item
@@ -120,6 +149,7 @@ const ElevativeComponent = (props: iProps) => {
             name: name,
             key: props.defaultValues.key,
             weight: weight,
+            examPackageID: examPackageID,
             options: props.defaultValues.options,
             unit: props.defaultValues.unit,
             editMode: false
@@ -244,6 +274,7 @@ const ElevativeComponent = (props: iProps) => {
                 <Col span={24} key={keyGenerator()}>
                     <RenderExamDraggable
                         singleExam={singleExam}
+                        noWeight={true}
                         index={singleExam.index}
                         additionalID={singleOption.key}
                     />
@@ -280,13 +311,14 @@ const ElevativeComponent = (props: iProps) => {
             />
             <DeleteElevativeOptionModal
                 visible={showDeleteElevativeOptionModal}
-                onDelete={() => deleteElevative(props.defaultValues.key, optionToDelete)}
+                onDelete={() => deleteElevativeOption(props.defaultValues.key, optionToDelete)}
                 onReturn={() => setShowDeleteOptionElevative(false)}
             />
 
             <Form initialValues={props.defaultValues} className="form_min_height">
                 {nameInputField()}
                 {weightField()}
+                {examPackageIDField()}
                 {unitField()}
             </Form>
             <Divider>Optionen</Divider>

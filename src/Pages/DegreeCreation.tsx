@@ -1,6 +1,6 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Footer, Header } from "../Components"
-import { Button, Tooltip, Steps } from "antd";
+import { Button, Tooltip, Steps, message } from "antd";
 import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType, ElevativeOptionType } from "../Components/DegreeCreation/types";
 import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep, ToolTipThirdStep, ToolTipFourthStep, ToolTipFifthStep } from "../Components/const";
 import { FileUploadModal } from "../Components/DegreeCreation/Modals/FileUploadModal";
@@ -254,8 +254,8 @@ const DegreeCreation = () => {
         if (result.destination) {
             if (result.destination.droppableId != result.source.droppableId) {
                 let draggableID = result.draggableId
-                if (draggableID.includes("_")) {
-                    draggableID = draggableID.substring(0, draggableID.indexOf("_"))
+                if (draggableID.includes("-")) {
+                    draggableID = draggableID.substring(0, draggableID.indexOf("-"))
                 }
                 if (result.source.droppableId != "exams") {
                     // remove from old elevative option
@@ -307,6 +307,16 @@ const DegreeCreation = () => {
 
     const addExam = () => {
         setCreatedExams([...createdExams, { editMode: true, key: keyGeneratorString(), index: createdExams.length }])
+    }
+
+    const resetEditExam = (key: string) => {
+        const newExams = createdExams.map(single => {
+            if (single.key === key) {
+                single.editMode = false
+            }
+            return single
+        })
+        setCreatedExams(newExams)
     }
 
     const deleteExam = (key: string) => {
@@ -387,6 +397,8 @@ const DegreeCreation = () => {
                                 JSON.stringify({
                                     exams: createdExams,
                                     basics: basicInformations,
+                                    emphasis: createdEmphasis,
+                                    elevatives: createdElevatives,
                                     examPackages: createdExamPackages,
                                 })
                             )}`}
@@ -567,6 +579,7 @@ const DegreeCreation = () => {
             updateExamPackage,
             deleteExamPackage,
             setEditExamPackage,
+            resetEditExam,
             updateRequiredExamPackage,
             removeExamFromRequired,
             onDragEndExamPackages,

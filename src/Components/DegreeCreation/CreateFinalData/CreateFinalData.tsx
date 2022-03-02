@@ -1,4 +1,3 @@
-import React, { useContext } from "react"
 import { AlternativeElectives, BasicInformation, DegreeOption, Electives, Emphasis, ExamPackages, Exams, SingleOption } from "../../../Data/types"
 import { ElevativeCreationType, ElevativeOptionType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "../types"
 

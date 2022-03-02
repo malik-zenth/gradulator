@@ -57,6 +57,7 @@ const RenderExamPackage = (props: iProps) => {
             return (
                 <Col span={16} key={keyGenerator()}>
                     <RenderExamDraggable
+                        noWeight={false}
                         singleExam={singleExam}
                         index={singleExam.index}
                     />

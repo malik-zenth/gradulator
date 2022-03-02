@@ -17,7 +17,6 @@ export const FileUploadModal = (props: iProps) => {
 
     const handleChange = (info: UploadChangeParam) => {
         if(info.file.type != "application/json"){
-            console.log(errorHasBeenDisplayed)
             info.file.status = "error"
             if(!errorHasBeenDisplayed){
                 setErrorDisplayed(true)
@@ -29,9 +28,9 @@ export const FileUploadModal = (props: iProps) => {
             const file = info.file.originFileObj
             const fileReader = new FileReader()
             fileReader.readAsText(file)
+            let data: CreatedData
             fileReader.onload = (e: any) => {
                 const data: CreatedData = JSON.parse(e.target.result)
-                message.success("Datei wurde erfolgreich eingelesen")
                 props.returnData(data)
             }
 

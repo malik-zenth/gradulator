@@ -48,25 +48,38 @@ const EmphasisStep = (props: iProps) => {
 
     const renderExamPackagesDroppable = () => {
         return (
-            <Droppable
-                droppableId="examPackages"
-                key={keyGenerator()}
-                type="1">
-                {(provided, snapshot) => (
-                    <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    style={{ height: "100%" }}>
-                    <Row gutter={[8, 8]}
-                    >
-                        {renderExamPackages()}
-                        {renderElevatives()}
-                        {provided.placeholder}
-                    </Row>
-                    </div>
-                )}
+            <div style={{ height: "100%" }}>
+                <Droppable
+                    droppableId="examPackages"
+                    key={keyGenerator()}
+                    type="1">
+                    {(provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            style={{ height: "100%" }}>
+                            <Row gutter={[8, 8]}
+                            >
+                                {renderExamPackages()}
+                                {renderElevatives()}
+                                {provided.placeholder}
+                            </Row>
+                        </div>
+                    )}
 
-            </Droppable>
+                </Droppable>
+                <Droppable
+                    droppableId="exams"
+                    type="1">
+                    {(provided, snapshot) => (
+                        <div style={{ height: "100%" }} ref={provided.innerRef}
+                            {...provided.droppableProps}>
+                            {provided.placeholder}
+                        </div>
+                    )}
+
+                </Droppable>
+            </div>
         )
     }
 
@@ -103,7 +116,7 @@ const EmphasisStep = (props: iProps) => {
                 return (
                     <Col key={keyGenerator()} xxl={8} xl={12} lg={24} md={24} sm={24} xs={24}>
                         <RenderEmphasis
-                            data={single}                      
+                            data={single}
                         />
                     </Col>
                 )

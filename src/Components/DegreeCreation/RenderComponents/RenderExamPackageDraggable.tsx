@@ -1,8 +1,6 @@
-import React, { useState, ReactFragment, ReactText } from "react"
-import { Button, Form, InputNumber } from "antd"
-import { ExamCreationType, ExamPackageCreationType } from "../types"
+import React, { ReactText } from "react"
+import { ExamPackageCreationType } from "../types"
 import { Draggable } from "react-beautiful-dnd"
-import { CheckOutlined, EditOutlined } from "@ant-design/icons";
 import { useContext } from "react";
 import { CreatorContext } from "../CreatorContext";
 

@@ -24,6 +24,7 @@ const initialState: CreationContextType = {
     updateExamPackage: (newExamPackage: ExamPackageCreationType) => {},
     deleteExamPackage: (key: string) => {},
     setEditExamPackage: (key: string) => {},
+    resetEditExam: (key: string) => {},
     updateRequiredExamPackage: (key: string, required: string[]) => {},
     removeExamFromRequired: (key: string) => {},
     onDragEndExamPackages: (result: DropResult) => {},
