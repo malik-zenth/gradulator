@@ -111,8 +111,6 @@ const ElevativeComponent = (props: iProps) => {
                 <InputNumber
                     placeholder="Modulnummer"
                     min={1}
-                    max={30}
-                    step={0.5}
                     onChange={(e: number) => onExamPackageIDChange(e)}
                     style={{ minWidth: "100%" }}
                     parser={(value) => {
