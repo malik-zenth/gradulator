@@ -34,17 +34,6 @@ const RenderRequiredElevative = (props: iProps) => {
                     min={1}
                     max={30}
                     onChange={(e: number) => onAmountChange(e)}
-                    parser={(value) => {
-                        value = value.replace(",", ".")
-                        if (value.indexOf(".") + 2 < value.length) {
-                            value = value.substring(0, value.indexOf(".") + 2)
-                        }
-                        // we only allow floats with .5as those are the only values that are possible
-                        if (value.includes(".") && !value.endsWith(".") && !(value.endsWith("0") || value.endsWith("5"))) {
-                            value = value.substring(0, value.indexOf(".") + 1)
-                        }
-                        return value
-                    }}
                 />
             </Form.Item>
         )

@@ -149,7 +149,7 @@ const ElevativeComponent = (props: iProps) => {
             weight: weight,
             examPackageID: examPackageID,
             options: props.defaultValues.options,
-            unit: props.defaultValues.unit,
+            unit: unit,
             editMode: false
         }
         updateElevative(newValues)
@@ -311,7 +311,6 @@ const ElevativeComponent = (props: iProps) => {
                 onDelete={() => deleteElevativeOption(props.defaultValues.key, optionToDelete)}
                 onReturn={() => setShowDeleteOptionElevative(false)}
             />
-
             <Form initialValues={props.defaultValues} className="form_min_height">
                 {nameInputField()}
                 {weightField()}
