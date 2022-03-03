@@ -23,7 +23,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
             <Form 
             onFinish={(values) => {
                 if(values.weight){
-                    setExamWeight(values.weight, props.singleExam.key)}
+                    setExamWeight(parseInt(values.weight), props.singleExam.key)}
                 else(
                     resetEditExam(props.singleExam.key)  
                 )
@@ -36,6 +36,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
                 >
                     <div className="weightFieldInline">
                         <InputNumber
+                            type="number"
                             placeholder="Gewichtung"
                             min={1}
                             defaultValue={props.singleExam.weight}
