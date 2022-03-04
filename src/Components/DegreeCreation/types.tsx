@@ -29,7 +29,7 @@ export interface ExamPackageCreationType{
     examPackageID?: number,
     required: string[],
     editMode: boolean,
-    key: string
+    key: string,
 }
 
 export interface ElevativeCreationType{

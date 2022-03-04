@@ -116,12 +116,13 @@ const RenderElevative = (props: iProps) => {
                     <p className="elevativeText degreeCreator_exampackage_text ">ID: {props.data.examPackageID}</p>
                     <p className="elevativeText degreeCreator_exampackage_text ">Einheit: {props.data.unit}</p>
                 </div>
+                {buttons()}
                 <Divider>Optionen</Divider>
                 <Row gutter={[8, 8]}>
                 {renderOptionsDroppable()}
                 
                 </Row>
-                {buttons()}
+                
 
 
             </div>

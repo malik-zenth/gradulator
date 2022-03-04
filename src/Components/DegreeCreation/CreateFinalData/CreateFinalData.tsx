@@ -150,7 +150,7 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                 }))
                 electiveData.push({
                     examid: single.examPackageID,
-                    ...single.unit === "ECTS" && { requiredECTS: relevantOption.required },
+                    ...single.unit === "ECTS" && { requiredEcts: relevantOption.required },
                     ...single.unit != "ECTS" && { required: relevantOption.required },
                     ...multiOption && { multiOption },
                     ...emphasisElevative && { emphasis_elevtive: emphasisElevative },

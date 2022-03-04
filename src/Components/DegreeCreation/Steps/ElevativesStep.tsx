@@ -21,28 +21,20 @@ const ElevativeStep = () => {
                     droppableId="exams"
                     key={keyGenerator()}
                     type="1">
-                    {(provided, snapshot) => (
-                        <Row gutter={[8, 8]}
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                        >
-                            {renderExams()}
-                            {provided.placeholder}
-                        </Row>
-                    )}
-
-                </Droppable>
-                <Droppable
-                    droppableId="exams"
-                    type="1">
-                    {(provided, snapshot) => (
-                        <div style={{ height: "100%" }} ref={provided.innerRef}
+                    {(provided, _) => (
+                        <div ref={provided.innerRef}
+                            style={{ height: "100%" }}
                             {...provided.droppableProps}>
-                            {provided.placeholder}
+                            <Row gutter={[8, 8]}
+                            >
+                                {renderExams()}
+                                {provided.placeholder}
+                            </Row>
                         </div>
                     )}
 
                 </Droppable>
+
             </div>
         )
     }

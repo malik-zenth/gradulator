@@ -127,11 +127,12 @@ const RenderEmphasis = (props: iProps) => {
                     <p className="elevativeText degreeCreator_exampackage_text">Gewichtung: {props.data.weight}</p>
                     {multiGradesSwitch()}
                 </div>
+                {buttons()}
                 <Divider>Modulprüfungen</Divider>
                 <Row gutter={[8, 8]}>
                     {examPackagesDroppable()}
                 </Row>
-                {buttons()}
+                
             </div>
         </div>
     )

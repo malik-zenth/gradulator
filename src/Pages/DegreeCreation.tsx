@@ -8,6 +8,8 @@ import { Explaination } from "../Components/DegreeCreation/Modals/ExplainationMo
 import { ExamsStep, ExamPackagesStep, ElevativeStep, BasicsStep, OverviewStep, EmphasisStep, IntroductionStep } from "../Components/DegreeCreation/Steps"
 import { DropResult } from "react-beautiful-dnd";
 import { CreatorContext } from "../Components/DegreeCreation/CreatorContext";
+import ErrorBoundary from "../Components/DegreeCreation/ErrorBoundary";
+import FileSaver, { saveAs } from 'file-saver';
 
 interface iNextStepButton {
     enabled: boolean,
@@ -187,7 +189,7 @@ const DegreeCreation = () => {
     // all Functions for ExamPackages
 
     const addExamPackage = () => {
-        setCreatedExamPackages([...createdExamPackages, { editMode: true, key: keyGeneratorString(), required: [] }])
+        setCreatedExamPackages([...createdExamPackages, { editMode: true, key: keyGeneratorString(), required: []}])
     }
 
     const updateExamPackage = (newExamPackage: ExamPackageCreationType) => {
@@ -227,6 +229,7 @@ const DegreeCreation = () => {
     }
 
     const onDragEndExamPackages = (result: DropResult) => {
+        console.log(result)
         // ignore the drag it there is no destination
         if (result.destination) {
             const droppedExam: ExamCreationType = createdExams.filter(x => x.key === result.draggableId).shift()
@@ -358,6 +361,19 @@ const DegreeCreation = () => {
             return single
         })
         setCreatedExams(newExams)
+    }
+
+    const downloadDataOnError = () => {
+        const jsondata: string = JSON.stringify({
+            exams: createdExams,
+            basics: basicInformations,
+            emphasis: createdEmphasis,
+            elevatives: createdElevatives,
+            examPackages: createdExamPackages,
+        })
+        const newblob = new Blob([jsondata], {type: "text/json;charset=utf-8,"})
+        FileSaver.saveAs(newblob, "data_gradulator.json")
+
     }
 
     const headerButtons = (): ReactFragment => {
@@ -560,6 +576,9 @@ const DegreeCreation = () => {
     }
 
     return (
+        <ErrorBoundary
+            saveData={() => downloadDataOnError()}
+        >
         <CreatorContext.Provider value={{
             addEmphasis,
             onDragEndEmphasis,
@@ -626,6 +645,7 @@ const DegreeCreation = () => {
             </div>
             <Footer />
         </CreatorContext.Provider>
+        </ErrorBoundary>
     )
 }
 

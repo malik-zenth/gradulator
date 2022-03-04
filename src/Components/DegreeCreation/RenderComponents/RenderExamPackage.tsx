@@ -79,11 +79,6 @@ const RenderExamPackage = (props: iProps) => {
                         <p className="degreeCreator_exampackage_text">Modulnummer: {props.data.examPackageID}</p>
                         <p className="degreeCreator_exampackage_text">Gewichtung: {props.data.weight}</p>
                     </div>
-                    <Divider>
-                        Prüfungen
-                    </Divider>
-                    {examsDroppable()}
-
                     <div className="create_degree_buttons position_center">
                         <Button
                             htmlType="button"
@@ -98,6 +93,12 @@ const RenderExamPackage = (props: iProps) => {
                             Bearbeiten
                         </Button>
                     </div>
+
+                    <Divider>
+                        Prüfungen
+                    </Divider>
+                    {examsDroppable()}
+
 
 
                 </div>

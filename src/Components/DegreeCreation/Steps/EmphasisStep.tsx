@@ -51,7 +51,6 @@ const EmphasisStep = (props: iProps) => {
             <div style={{ height: "100%" }}>
                 <Droppable
                     droppableId="examPackages"
-                    key={keyGenerator()}
                     type="1">
                     {(provided, snapshot) => (
                         <div
@@ -66,18 +65,6 @@ const EmphasisStep = (props: iProps) => {
                             </Row>
                         </div>
                     )}
-
-                </Droppable>
-                <Droppable
-                    droppableId="exams"
-                    type="1">
-                    {(provided, snapshot) => (
-                        <div style={{ height: "100%" }} ref={provided.innerRef}
-                            {...provided.droppableProps}>
-                            {provided.placeholder}
-                        </div>
-                    )}
-
                 </Droppable>
             </div>
         )
@@ -132,7 +119,6 @@ const EmphasisStep = (props: iProps) => {
             </Row>
         )
     }
-
     return (
         <div className="singleStepDegreeCreator">
             <DragDropContext

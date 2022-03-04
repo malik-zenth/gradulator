@@ -234,9 +234,10 @@ const ExamPackageComponent = (props: iProps) => {
                 onReturn={() => setShowDeleteExamPackageModal(false)}
             />
             {renderExamPackage()}
+            {buttons()}
             <Divider>Prüfungen</Divider>
             {examsDroppable()}
-            {buttons()}
+            
         </div>
     )
 }

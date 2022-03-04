@@ -317,12 +317,12 @@ const ElevativeComponent = (props: iProps) => {
                 {examPackageIDField()}
                 {unitField()}
             </Form>
+            {buttons()}
             <Divider>Optionen</Divider>
             <Row gutter={[8, 8]}>
                 {renderOptionsDroppable()}
                 {renderAddOptionButton()}
             </Row>
-            {buttons()}
         </div>
     )
 }

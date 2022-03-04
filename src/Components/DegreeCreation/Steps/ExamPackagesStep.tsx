@@ -35,33 +35,24 @@ const ExamPackagesStep = () => {
 
     const renderExamsDroppable = () => {
         return (
-            <div style={{height: "100%"}}>
+            <div style={{ height: "100%" }}>
                 <Droppable
                     droppableId="exams"
-                    type="1">
+                    type="1"
+                >
                     {(provided, _) => (
-                        <Row gutter={[8, 8]}
-                            align="top" justify="start"
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                        >
-                            {renderExams()}
-                            {provided.placeholder}
-                        </Row>
-                    )}
-
-                </Droppable>
-                <Droppable
-                    droppableId="exams"
-                    type="1">
-                    {(provided, _) => (
-                        <div style={{ height: "100%" }} ref={provided.innerRef}
+                        <div ref={provided.innerRef}
+                            style={{ height: "100%" }}
                             {...provided.droppableProps}>
-                            {provided.placeholder}
+                            <Row gutter={[8, 8]}>
+                                {renderExams()}
+                                {provided.placeholder}
+                            </Row>
                         </div>
                     )}
 
                 </Droppable>
+
             </div>
         )
     }

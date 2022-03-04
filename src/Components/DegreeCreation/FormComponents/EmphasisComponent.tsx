@@ -253,11 +253,12 @@ const EmphasisComponent = (props: iProps) => {
                 {weightField()}
                 {multiGradesField()}
             </Form>
+            {buttons()}
             <Divider>Modulprüfungen</Divider>
             <Row gutter={[8, 8]}>
                 {renderOptionsDroppable()}
             </Row>
-            {buttons()}
+            
         </div>
     )
 }
