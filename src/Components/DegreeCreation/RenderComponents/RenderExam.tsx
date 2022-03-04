@@ -1,8 +1,8 @@
-import React, { ReactText, useState } from "react"
+import React, {useContext, useState } from "react"
 import { Button } from "antd";
 import { ExamCreationType } from "../types";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { DeleteExamModal } from "../Modals";
+import { CreatorContext } from "../CreatorContext";
 
 interface iProps {
     data: ExamCreationType,
@@ -12,6 +12,7 @@ interface iProps {
 
 // render already created Exams
 const RenderExam = (props: iProps) => {
+    const {semesterChoises} = useContext(CreatorContext)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
 
 
@@ -22,8 +23,9 @@ const RenderExam = (props: iProps) => {
                 <div className="createExamForm">
                     <p className="degreeCreator_examText bold">{values.name}</p>
                     <p className="degreeCreator_examText">Prüfungsnummer: {values.examid}</p>
-                    <p className="degreeCreator_examText">{values.semester}. Semester</p>
                     <p className="degreeCreator_examText">{values.ects} ECTS</p>
+                    <p className="degreeCreator_examText">{values.semester ? values.semester + ". Semester" : ""}</p>
+                    <p className="degreeCreator_examText">{values.semesterChoiseKey ? semesterChoises.filter(x => x.key === values.semesterChoiseKey).map(x => x.name) : ""}</p>
                 </div>
                 <div className="create_degree_buttons">
                     <Button

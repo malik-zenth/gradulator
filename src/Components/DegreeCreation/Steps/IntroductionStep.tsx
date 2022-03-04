@@ -15,6 +15,10 @@ const IntroductionStep = (props: iProps) => {
             desc: "Allgemeine Erklärung der Funktionalität"
         },
         {
+            titel: "Zuordnung",
+            desc: "Dieser Schritt ist optional. In manchen Fällen können Prüfungen z.B. entweder im 6. oder 7. Semester absolviert werden. Dann wird eine Zuordnung außerhalb von Semestern gewählt (vgl. Tourismusmanagement)"
+        },
+        {
             titel: "Prüfungen",
             desc: "In diesem Schritt werden alle einzelnen Prüfungen des Studiengangs hinzugefügt"
         },
@@ -31,7 +35,7 @@ const IntroductionStep = (props: iProps) => {
             desc: "In diesem Schritt werden alle Schwerpunkte des Studiengangs erstellt und ihnen die jeweiligen Modulprüfungen zugeordnet"
         },
         {
-            titel: "Allgemeine Informationen",
+            titel: "Basics",
             desc: "In diesem Schritt werden allgemeine Informationen zum Studiengang hinzugefügt"
         },
         {
@@ -61,7 +65,7 @@ const IntroductionStep = (props: iProps) => {
 
             <h3 className="imprint-heading">Aufbau</h3>
             <p>
-                Das Formular ist in die folgenden 7 Schritte aufgeteilt. Sollte dir die untere Beschreibung nicht genügen gibt es bei jedem Schritt eine Anleitung mit weiteren 
+                Das Formular ist in die folgenden {listData.length} Schritte aufgeteilt. Sollte dir die untere Beschreibung nicht genügen gibt es bei jedem Schritt eine Anleitung mit weiteren 
                 Informationen.
             </p>
             <List

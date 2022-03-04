@@ -1,8 +1,10 @@
-import React, { ReactFragment, useEffect, useState } from "react"
-import { Form, InputNumber, Input, Button, Tooltip } from "antd";
+import React, { ReactFragment, ReactText, useContext, useEffect, useState } from "react"
+import { Form, InputNumber, Input, Button, Tooltip, Select } from "antd";
 import { ExamCreationType } from "../types";
 import { DeleteExamModal } from "../Modals"
 import { ToolTipExamValuesMissing } from "../../const";
+import { CreatorContext } from "../CreatorContext";
+import { valueType } from "antd/lib/statistic/utils";
 
 interface iProps {
     onDelete: Function,
@@ -10,20 +12,25 @@ interface iProps {
     defaultValues?: ExamCreationType,
 }
 
+const keyGenerator = (): ReactText =>
+    "_" + Math.random().toString(36).substr(2, 9);
+
 const ExamComponent = (props: iProps) => {
+    const {semesterChoises} = useContext(CreatorContext)
+
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [name, setName] = useState<string>(props.defaultValues.name)
     const [semester, setSemester] = useState<number>(props.defaultValues.semester)
     const [ects, setEcts] = useState<number>(props.defaultValues.ects)
     const [examid, setExamID] = useState<number>(props.defaultValues.examid)
-
+    const [semesterChoiseKey, setSemsterChoiseKey] = useState<string>(props.defaultValues.semesterChoiseKey)
 
     const [submitInvalidValuesMissing, setMissingValues] = useState<boolean>(
-        !(props.defaultValues.name || props.defaultValues.examid || props.defaultValues.semester || props.defaultValues.ects))
+        !(props.defaultValues.name || props.defaultValues.examid || (props.defaultValues.semester || props.defaultValues.semesterChoiseKey) || props.defaultValues.ects))
 
     useEffect(() => {
-        setMissingValues(!name || !semester || !ects || !examid)
-    }, [name, semester, ects, examid])
+        setMissingValues(!name || (!semester && !semesterChoiseKey) || !ects || !examid)
+    }, [name, semester,semesterChoiseKey, ects, examid])
 
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -39,6 +46,10 @@ const ExamComponent = (props: iProps) => {
 
     const onEctsChange = (e: number) => {
         setEcts(e)
+    }
+
+    const onSemesterChoiseChange = (e: valueType) => {
+        setSemsterChoiseKey(e.toString())
     }
 
     const layout = {
@@ -60,6 +71,30 @@ const ExamComponent = (props: iProps) => {
                     placeholder="Name der Prüfung"
                     style={{ minWidth: "100%" }}
                 />
+            </Form.Item>
+        )
+    }
+
+    const semesterChoiseField = (): ReactFragment => {
+        return (
+            <Form.Item
+                name="semesterChoiseKey"
+                style={{minHeight: "33px"}}
+                label="Zuordnung"
+                {...layout}>
+                <Select
+                    placeholder="Zuordnungsgruppe?"
+                    allowClear
+                    onChange={(value: valueType) => onSemesterChoiseChange(value)}
+                >
+                {semesterChoises.map(x => {
+                    return(
+                        <Select.Option key={keyGenerator()} value={x.key}>{x.name}</Select.Option>
+                    )
+                })}
+
+                </Select>
+
             </Form.Item>
         )
     }
@@ -154,6 +189,7 @@ const ExamComponent = (props: iProps) => {
             ects: ects,
             examid: examid,
             semester: semester,
+            semesterChoiseKey: semesterChoiseKey,
             editMode: false,
             key: props.defaultValues.key,
             index: props.defaultValues.index
@@ -222,8 +258,10 @@ const ExamComponent = (props: iProps) => {
                     <div className="createExamForm">
                     {nameInputField()}
                     {examidField()}
-                    {semesterField()}
                     {ectsField()}
+                    {semesterField()}
+                    {semesterChoiseField()}
+                    
                     </div>
                     {buttons()}
                 </div>

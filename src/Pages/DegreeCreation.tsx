@@ -1,7 +1,7 @@
 import React, { ReactFragment, ReactText, useState } from "react"
 import { Footer, Header } from "../Components"
 import { Button, Tooltip, Steps, message } from "antd";
-import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType, ElevativeOptionType } from "../Components/DegreeCreation/types";
+import { CreatedData, ElevativeCreationType, EmphasisCreationType, ExamPackageCreationType, GeneralInformationsCreationType, ExamCreationType, ElevativeOptionType, SemesterChoiseType } from "../Components/DegreeCreation/types";
 import { ToolTipSaveDegreeCreator, ToolTipUploadDegreeCreator, ToolTipFirstStep, ToolTipSecondStep, ToolTipThirdStep, ToolTipFourthStep, ToolTipFifthStep } from "../Components/const";
 import { FileUploadModal } from "../Components/DegreeCreation/Modals/FileUploadModal";
 import { Explaination } from "../Components/DegreeCreation/Modals/ExplainationModals";
@@ -10,6 +10,7 @@ import { DropResult } from "react-beautiful-dnd";
 import { CreatorContext } from "../Components/DegreeCreation/CreatorContext";
 import ErrorBoundary from "../Components/DegreeCreation/ErrorBoundary";
 import FileSaver, { saveAs } from 'file-saver';
+import SemesterChoisesStep from "../Components/DegreeCreation/Steps/SemesterChoisesStep";
 
 interface iNextStepButton {
     enabled: boolean,
@@ -35,10 +36,13 @@ const DegreeCreation = () => {
     const [createdEmphasis, setCreatedEmphasis] = useState<EmphasisCreationType[]>([])
     // basic Informations
     const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
+    // semester Choise Data
+    const [semesterChoises, setSemesterChoises] = useState<SemesterChoiseType[]>([{editMode: false, name: "Wahlpflichtfach 1", key: "1"}, {editMode: false, name: "Wahlpflichtfach 2", key: "2"}])
+    
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(0)
+    const [currentStep, setCurrentStep] = useState(2)
     // show explaination
     const [showExplaination, setShowExplaination] = useState<boolean>(false)
 
@@ -49,6 +53,7 @@ const DegreeCreation = () => {
         data.elevatives && setCreatedElevatives(data.elevatives)
         data.emphasis && setCreatedEmphasis(data.emphasis)
         data.basicInformation && setBasicInformations(data.basicInformation)
+        data.semesterChoises && setSemesterChoises(data.semesterChoises)
     }
 
     const nextStep = () => {
@@ -229,7 +234,6 @@ const DegreeCreation = () => {
     }
 
     const onDragEndExamPackages = (result: DropResult) => {
-        console.log(result)
         // ignore the drag it there is no destination
         if (result.destination) {
             const droppedExam: ExamCreationType = createdExams.filter(x => x.key === result.draggableId).shift()
@@ -363,6 +367,55 @@ const DegreeCreation = () => {
         setCreatedExams(newExams)
     }
 
+    // semester Choise Functions
+    const addSemesterChoise = () => {
+        setSemesterChoises([...semesterChoises, {key: keyGeneratorString(), editMode: true}])
+    }
+
+    const updateSemesterChoise = (newData: SemesterChoiseType) => {
+        const newChoises: SemesterChoiseType[] = semesterChoises.map(single => {
+            if (single.key === newData.key) {
+                return newData
+            }
+            return single
+        })
+        setSemesterChoises(newChoises)
+    }
+
+    const setEditSemesterChoise = (key: string) => {
+        const newChoises: SemesterChoiseType[] = semesterChoises.map(single => {
+            if (single.key === key) {
+                single.editMode = true
+                return single
+            }
+            return single
+        })
+        setSemesterChoises(newChoises)
+    }
+
+    const resetEditSemesterChoise = (key: string) => {
+        const newChoises: SemesterChoiseType[] = semesterChoises.map(single => {
+            if (single.key === key) {
+                single.editMode = false
+                return single
+            }
+            return single
+        })
+        setSemesterChoises(newChoises)
+    }
+
+    const deleteSemesterChoise = (key: string) => {
+        setSemesterChoises(semesterChoises.filter(x => x.key != key))
+        // also remove choise from all exams
+        const newExams: ExamCreationType[] = createdExams.map(x => {
+            if(x.semesterChoiseKey === key){
+                delete x.semesterChoiseKey
+            }
+            return x
+        })
+        setCreatedExams(newExams)
+    }
+
     const downloadDataOnError = () => {
         const jsondata: string = JSON.stringify({
             exams: createdExams,
@@ -370,6 +423,7 @@ const DegreeCreation = () => {
             emphasis: createdEmphasis,
             elevatives: createdElevatives,
             examPackages: createdExamPackages,
+            semesterChoises: semesterChoises
         })
         const newblob = new Blob([jsondata], {type: "text/json;charset=utf-8,"})
         FileSaver.saveAs(newblob, "data_gradulator.json")
@@ -416,6 +470,7 @@ const DegreeCreation = () => {
                                     emphasis: createdEmphasis,
                                     elevatives: createdElevatives,
                                     examPackages: createdExamPackages,
+                                    semesterChoises: semesterChoises
                                 })
                             )}`}
                             download="data_gradulator.json"
@@ -473,7 +528,7 @@ const DegreeCreation = () => {
 
     const checkIfNextStepButtonDisabled = () => {
         // exams
-        if (currentStep == 1) {
+        if (currentStep == 2) {
             const editModeExams: number = createdExams.filter(x => x.editMode).length
             if (editModeExams > 0) {
                 return ({
@@ -483,7 +538,7 @@ const DegreeCreation = () => {
             }
         }
         // exam packages
-        if (currentStep == 2) {
+        if (currentStep == 3) {
             const editModeExamPackages: number = createdExamPackages.filter(x => x.editMode).length
             if (editModeExamPackages > 0) {
                 return ({
@@ -493,7 +548,7 @@ const DegreeCreation = () => {
             }
         }
         // elevatives
-        if (currentStep == 3) {
+        if (currentStep == 4) {
             const editModeElevatives: number = createdElevatives.filter(x => x.editMode).length
             if (editModeElevatives > 0) {
                 return ({
@@ -503,7 +558,7 @@ const DegreeCreation = () => {
             }
         }
         // emphasis
-        if (currentStep == 4) {
+        if (currentStep == 5) {
             const editModeEmphasis: number = createdEmphasis.filter(x => x.editMode).length
             if (editModeEmphasis > 0) {
                 return ({
@@ -513,7 +568,7 @@ const DegreeCreation = () => {
             }
         }
         // basic informations
-        if (currentStep == 5) {
+        if (currentStep == 6) {
             const editModeBasics: boolean = !(basicInformations.name && basicInformations.shortName && basicInformations.spo)
             if (editModeBasics) {
                 return ({
@@ -533,6 +588,10 @@ const DegreeCreation = () => {
             content: <IntroductionStep />
         },
         {
+            title: "Zuordnung",
+            content: <SemesterChoisesStep/>
+        },
+        {
             title: "Prüfungen",
             content: <ExamsStep />
         },
@@ -549,7 +608,7 @@ const DegreeCreation = () => {
             content: <EmphasisStep />
         },
         {
-            title: "Allgemeine Informationen",
+            title: "Basics",
             content: <BasicsStep />
         },
         {
@@ -611,6 +670,12 @@ const DegreeCreation = () => {
             setEditExam,
             setBasicInformations,
             setEditBasics,
+            setEditSemesterChoise,
+            addSemesterChoise,
+            deleteSemesterChoise,
+            resetEditSemesterChoise,
+            updateSemesterChoise,
+            semesterChoises,
             basicInformations: basicInformations,
             exams: createdExams,
             examPackages: createdExamPackages,

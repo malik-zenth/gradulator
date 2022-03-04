@@ -15,7 +15,7 @@ const keyGenerator = (): ReactText =>
     "_" + Math.random().toString(36).substr(2, 9);
 
 const OverviewStep = (props: iProps) => {
-    const { basicInformations, exams, examPackages, elevatives, emphasis } = useContext(CreatorContext)
+    const { basicInformations, exams, examPackages, elevatives, emphasis, semesterChoises } = useContext(CreatorContext)
 
     const sortedExams = exams.sort((a: ExamCreationType, b: ExamCreationType) => (a.semester > b.semester) ? 1 : ((b.semester > a.semester) ? -1 : 0))
 
@@ -43,7 +43,18 @@ const OverviewStep = (props: iProps) => {
         {
             title: "Semester",
             dataIndex: "semester",
+            width: "15%",
             key: "semester",
+        },
+        {
+            title: "Zuordnungsgruppe",
+            dataIndex: "semesterChoiseKey",
+            key: "semesterChoiseKey",
+            render: semesterChoiseKey => (
+                <>
+                {semesterChoises.filter(x => x.key === semesterChoiseKey).map(x => x.name)}
+                </>
+            )
         }
     ]
 
@@ -207,7 +218,7 @@ const OverviewStep = (props: iProps) => {
                     type="primary"
                     htmlType="submit"
                     href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                        JSON.stringify(createFinaleData({basicInformations, exams, examPackages, elevatives, emphasis}))
+                        JSON.stringify(createFinaleData({basicInformations, exams, examPackages, elevatives, emphasis, semesterChoises}))
                     )}`}
                     onClick={() => window.open(MailLinkNewDegree)}
                     download="finalDataGradulator.json"

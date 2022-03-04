@@ -1,16 +1,17 @@
 import { AlternativeElectives, BasicInformation, DegreeOption, Electives, Emphasis, ExamPackages, Exams, SingleOption } from "../../../Data/types"
-import { ElevativeCreationType, ElevativeOptionType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType, GeneralInformationsCreationType } from "../types"
+import { ElevativeCreationType, ElevativeOptionType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType, GeneralInformationsCreationType, SemesterChoiseType } from "../types"
 
 interface iProps {
     exams: ExamCreationType[],
     emphasis: EmphasisCreationType[],
     elevatives: ElevativeCreationType[],
     examPackages: ExamPackageCreationType[],
-    basicInformations: GeneralInformationsCreationType
+    basicInformations: GeneralInformationsCreationType,
+    semesterChoises: SemesterChoiseType[]
 }
 
 export const createFinaleData = (props: iProps): DegreeOption => {
-    const { basicInformations, exams, examPackages, elevatives, emphasis } = props
+    const { basicInformations, exams, examPackages, elevatives, emphasis, semesterChoises } = props
 
     const calculateTotalWeight = (): number => {
         let totalWeight: number = 0
@@ -185,9 +186,10 @@ export const createFinaleData = (props: iProps): DegreeOption => {
             // if a exam is not used we dont need it
             examData[exam.examid] = {
                 ects: exam.ects,
-                semester: exam.semester,
                 name: exam.name,
                 weight: exam.weight,
+                ...exam.semester && {semester: exam.semester},
+                ...exam.semesterChoiseKey && {semester_choise: settupExamSemesterChoise(exam.semesterChoiseKey, basic_data)},
                 ...emphasisID != undefined && { emphasisid: emphasisID },
                 ...packageIDs.length === 1 && { packageid: packageIDs[0] },
                 ...packageIDs.length > 1 && { packageOptions: packageIDs },
@@ -196,6 +198,12 @@ export const createFinaleData = (props: iProps): DegreeOption => {
         })
 
         return examData
+    }
+    
+    const settupExamSemesterChoise = (key: string, basic_data: BasicInformation): number => {
+        const nameForKey: string = semesterChoises.filter(x => x.key === key).map(x => x.name).shift()
+        const IDForName: string = Object.keys(basic_data.semesterChoices).find(key => basic_data.semesterChoices[key] === nameForKey)
+        return parseInt(IDForName)
     }
 
     const createExamPackages = (): ExamPackages => {
@@ -229,6 +237,14 @@ export const createFinaleData = (props: iProps): DegreeOption => {
         return examPackageData
     }
 
+    const settupSemesterChoises = () => {
+        const semesterChoiseData = {}
+        semesterChoises.map((x: SemesterChoiseType, index: number) => {
+            semesterChoiseData[index] = x.name
+        })
+        return semesterChoiseData
+    }
+
     const basic_data: BasicInformation = {
         name: basicInformations.name,
         required_emphasis: basicInformations.amoundRequiredEmphasis,
@@ -236,6 +252,7 @@ export const createFinaleData = (props: iProps): DegreeOption => {
         ects: calculateTotalECTS(),
         emphasis: settupEmphasis(),
         elevtive: settupElevtive(),
+        semesterChoices: settupSemesterChoises(),
         beta: true
     }
 
@@ -255,6 +272,6 @@ export const createFinaleData = (props: iProps): DegreeOption => {
         longName: basicInformations.name,
         facultyId: 0
     }
-
+    console.log(degreeData)
     return degreeData
 }

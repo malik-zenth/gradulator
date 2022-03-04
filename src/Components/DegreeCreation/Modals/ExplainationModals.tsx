@@ -12,6 +12,40 @@ export const Explaination = (props: iProps) => {
     if(props.currentStep === 1){
         return(
             <Modal
+                title="Zuordnung"
+                onCancel={() => props.setShowExplaination(false)}
+                visible={props.visible}
+                footer={[
+                    <Button
+                    key="return"
+                    type="default"
+                    onClick={() => props.setShowExplaination(false)}
+                    >
+                    Zurück
+                    </Button>
+                ]}
+            >
+                <div>
+                    <p>Im Normalfall (was dir sicher bekannt ist, wenn du dir schon einmal das Formular zur Notenberechnung angeschaut hast) können die Prüfungen
+                        einem eindeutigen Semester zugeordnet werden, in welchem diese laut Studien- und Prüfungsordnung absolviert werden sollten.
+                        <br></br>
+                        In einzelnen Fällen kann es jedoch vorkommen, dass eine Prüfung z.B. im Rahmen eines Wahlfaches in mehreren unterschiedlichen Semester erfüllt werden kann.
+                        Ein solcher Fall ist unterhalb am Beispiel des Studiengangs "Tourismusmanagement" dargestellt. 
+                        <img className="imageDegreeCreatorExplaination" src="static/degreeCreatorSemesterChoises.png"></img>
+                        Hier werden die Noten für das Wahlfach losgelöst von den 
+                        Semester angezeigt. Sollte im Studiengang, welchen du hinzufügen möchtest ebenfalls eine solche alternative Zuordnung benötigt sein kannst du in diesem 
+                        Schritt diese Gruppen erstellen, welchen zu im nächsten Schritt dann einzelne Prüfungen bei der Erstellung zuordnen kannst.
+                        <br></br>
+                        Sollte dies nicht der Fall sein kannst du direkt mit dem nächsten Schritt fortfahren.
+                        
+                    </p>
+                </div>
+            </Modal>
+        )
+    }
+    if(props.currentStep === 2){
+        return(
+            <Modal
                 title="Prüfungen"
                 onCancel={() => props.setShowExplaination(false)}
                 visible={props.visible}
@@ -35,14 +69,14 @@ export const Explaination = (props: iProps) => {
                         Prüfungen, wie z.B. das Praxissemester, welche zwar abgeschlossen werden müssen, aber nicht für den Durchschnitt relevant sind müssen nicht hinzugefügt werden.
                         <br></br>
                         <img className="imageDegreeCreatorExplaination" src="static/degreeCreatorExam.png"></img>
-                        Trage für jede Prüfung die Prüfungsnummer (Ist für den PDF-Upload relevant), den Namen, das vorgesehene Semester und die ECTS ein. 
+                        Trage für jede Prüfung die Prüfungsnummer (Ist für den PDF-Upload relevant), den Namen, das vorgesehene Semester (oder wähle alternativ eine Zuordnungsgruppe aus) und die ECTS ein. 
                         
                     </p>
                 </div>
             </Modal>
         )
     }
-    if(props.currentStep === 2){
+    if(props.currentStep === 3){
         return(
             <Modal
                 title="Modulprüfungen"
@@ -76,7 +110,7 @@ export const Explaination = (props: iProps) => {
             </Modal>
         )
     }
-    if(props.currentStep === 3){
+    if(props.currentStep === 4){
         return(
             <Modal
                 title="Wahlfächer"
@@ -109,7 +143,7 @@ export const Explaination = (props: iProps) => {
             </Modal>
         )
     }
-    if(props.currentStep === 4){
+    if(props.currentStep === 5){
         return(
             <Modal
                 title="Schwerpunkte"
@@ -141,7 +175,7 @@ export const Explaination = (props: iProps) => {
             </Modal>
         )
     }
-    if(props.currentStep === 5){
+    if(props.currentStep === 6){
         return(
             <Modal
                 title="Allgemeine Informationen"
@@ -166,7 +200,7 @@ export const Explaination = (props: iProps) => {
             </Modal>
         )
     }
-    if(props.currentStep === 6){
+    if(props.currentStep === 7){
         return(
             <Modal
                 title="Übersicht"

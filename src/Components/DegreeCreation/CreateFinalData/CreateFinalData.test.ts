@@ -130,7 +130,8 @@ describe("test if createFinalData is working", () => {
             examPackages: c1ExamPackages,
             exams: c1Exams,
             emphasis: c1Emphasis,
-            basicInformations: c1BasicInf
+            basicInformations: c1BasicInf,
+            semesterChoises: []
         })
 
         expect(result.data.basics.weight).toBe(50)
@@ -214,7 +215,8 @@ describe("test if createFinalData is working", () => {
             examPackages: c2ExamPackages,
             exams: c2Exams,
             emphasis: c2Emphasis,
-            basicInformations: defBasicInf
+            basicInformations: defBasicInf,
+            semesterChoises: []
         })
 
         expect(result.data.basics.weight).toBe(10)
@@ -314,7 +316,8 @@ describe("test if createFinalData is working", () => {
             examPackages: c3ExamPackages,
             exams: c3Exams,
             emphasis: [],
-            basicInformations: defBasicInf
+            basicInformations: defBasicInf,
+            semesterChoises: []
         })
 
         expect(result.data.basics.weight).toBe(45)
@@ -432,7 +435,8 @@ describe("test if createFinalData is working", () => {
             examPackages: c4ExamPackages,
             exams: c4Exams,
             emphasis: c4Emphasis,
-            basicInformations: defBasicInf
+            basicInformations: defBasicInf,
+            semesterChoises: []
         })
 
         result.data.basics.elevtive.map(x => expect(x.emphasis_elevtive).toBeTruthy())
@@ -539,7 +543,8 @@ describe("test if createFinalData is working", () => {
             examPackages: c5ExamPackages,
             exams: c5Exams,
             emphasis: c5Emphasis,
-            basicInformations: defBasicInf
+            basicInformations: defBasicInf,
+            semesterChoises: []
         })
 
         result.data.basics.elevtive.forEach(x => expect(x.multiOption).toBeTruthy())
@@ -604,7 +609,8 @@ describe("test if createFinalData is working", () => {
             examPackages: c6ExamPackages,
             exams: c6Exams,
             emphasis: c6Emphasis,
-            basicInformations: defBasicInf
+            basicInformations: defBasicInf,
+            semesterChoises: []
         })
 
         expect(result.data.basics.weight).toBe(20)

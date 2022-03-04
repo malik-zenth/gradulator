@@ -33,6 +33,31 @@ export const DeleteExamModal = (props: iProps) => {
     );
 }
 
+// Modal if Semester Choise should be deleted
+export const DeleteSemsterChoiseModal = (props: iProps) => {
+    return (
+        <Modal
+            title="Möchtest du die Zuordnungsgruppe wirklich löschen?"
+            onCancel={() => props.onReturn()}
+            visible={props.visible}
+            footer={[
+                <Button
+                    key="return"
+                    type="default"
+                    onClick={() => props.onReturn()}>Nicht löschen
+                </Button>,
+                <Button
+                    key="submit"
+                    danger
+                    type="primary"
+                    onClick={() => props.onDelete()}>Löschen
+                </Button>
+            ]}>
+            <p>Die Gruppe wird ebenfalls von allen Prüfungen, welche ihr zugeordnet sind entfernt.</p>
+        </Modal>
+    );
+}
+
 // Modal if ExamPackage should be deleted
 export const DeleteExamPackageModal = (props: iProps) => {
     return (

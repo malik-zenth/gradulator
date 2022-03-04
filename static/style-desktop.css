@@ -364,7 +364,7 @@
     }
 
     .creator_basicInformations{
-        padding-top: .5em;
+        padding-top: 2em;
         width: 50%;
         margin-left: 20%;
     }
@@ -479,6 +479,11 @@
         justify-content: center;
     }
 
+    .semesterChoisebox{
+        width: 70%;
+        margin-left: 25%;
+    }
+
     .overviewbox{
         border: 1px solid #d9d9d9;
         border-style: dashed;  
@@ -559,6 +564,20 @@
         min-height: 35px;
     }
 
+    .semesterChoiseInline{
+        display: inline-flex;
+        min-height: 35px;
+        padding-bottom: 2em;
+        width: 100%;
+    }
+
+    .semesterChoiseText{
+        width: 70%;
+    }
+
+    .semesterChoiseButtons{
+        width: 30%;
+    }
     .singleExamDraggable{
         background-color: #d9d9d9;
         border-radius: 5%;

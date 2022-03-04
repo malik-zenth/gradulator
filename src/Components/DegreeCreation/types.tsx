@@ -12,6 +12,7 @@ export interface ExamCreationType{
     semester?: number,
     editMode: boolean,
     key: string,
+    semesterChoiseKey?: string,
     index: number
 }
 
@@ -20,7 +21,8 @@ export interface CreatedData{
     exams?: ExamCreationType[],
     examPackages?: ExamPackageCreationType[],
     elevatives?: ElevativeCreationType[],
-    emphasis?: EmphasisCreationType[]
+    emphasis?: EmphasisCreationType[],
+    semesterChoises?: SemesterChoiseType[]
 }
 
 export interface ExamPackageCreationType{
@@ -78,6 +80,12 @@ export interface CreationType{
     examPackages: ExamPackageCreationType[]
 }
 
+export interface SemesterChoiseType{
+    name?: string,
+    key: string,
+    editMode: boolean
+}
+
 export interface CreationContextType{
     updateElevative: Function,
     addElevative: Function,
@@ -116,6 +124,13 @@ export interface CreationContextType{
     setBasicInformations: Function,
     setEditBasics: Function,
 
+    addSemesterChoise:  Function,
+    updateSemesterChoise: Function,
+    deleteSemesterChoise: Function,
+    setEditSemesterChoise: Function,
+    resetEditSemesterChoise: Function,
+
+    semesterChoises: SemesterChoiseType[],
     basicInformations: GeneralInformationsCreationType,
     exams: ExamCreationType[],
     examPackages: ExamPackageCreationType[],
