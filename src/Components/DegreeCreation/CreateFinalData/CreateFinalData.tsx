@@ -72,14 +72,16 @@ export const createFinaleData = (props: iProps): DegreeOption => {
 
         emphasis.forEach((single: EmphasisCreationType, index: number) => {
             const examPackageIDsForKey: number[] = examPackages.filter(x => single.required.includes(x.key)).map(x => x.examPackageID)
-
-            emphasisData.push({
-                ids: examPackageIDsForKey,
-                name: single.name,
-                weight: single.weight,
-                emphasisid: index,
-                multipleGrades: single.multiGrades
-            })
+            // if there are no exams for this emphasis we dont need it
+            if (examPackageIDsForKey.length != 0) {
+                emphasisData.push({
+                    ids: examPackageIDsForKey,
+                    name: single.name,
+                    weight: single.weight,
+                    emphasisid: index,
+                    multipleGrades: single.multiGrades
+                })
+            }
         })
         return emphasisData
     }
@@ -181,16 +183,16 @@ export const createFinaleData = (props: iProps): DegreeOption => {
             // check if it is part of elevative
             const emphasisID: number = basic_data.emphasis.filter(x => examPackageIDs.some(value => x.ids.indexOf(value) >= 0)).map(x => x.emphasisid).shift()
             // if a exam is not used we dont need it
-                examData[exam.examid] = {
-                    ects: exam.ects,
-                    semester: exam.semester,
-                    name: exam.name,
-                    weight: exam.weight,
-                    ...emphasisID != undefined && { emphasisid: emphasisID },
-                    ...packageIDs.length === 1 && { packageid: packageIDs[0] },
-                    ...packageIDs.length > 1 && { packageOptions: packageIDs },
-                    ...packageIDs.length === 0 && {ignored: true}
-                }
+            examData[exam.examid] = {
+                ects: exam.ects,
+                semester: exam.semester,
+                name: exam.name,
+                weight: exam.weight,
+                ...emphasisID != undefined && { emphasisid: emphasisID },
+                ...packageIDs.length === 1 && { packageid: packageIDs[0] },
+                ...packageIDs.length > 1 && { packageOptions: packageIDs },
+                ...packageIDs.length === 0 && { ignored: true }
+            }
         })
 
         return examData
@@ -200,10 +202,13 @@ export const createFinaleData = (props: iProps): DegreeOption => {
         const examPackageData: ExamPackages = {}
         examPackages.forEach(examPackage => {
             const examIdsForThisPackage: number[] = exams.filter(x => examPackage.required.includes(x.key)).map(x => x.examid)
-            examPackageData[examPackage.examPackageID] = {
-                name: examPackage.name,
-                weight: examPackage.weight,
-                required: examIdsForThisPackage
+            // if there are no exams for this examPackage we dont need to examPackage
+            if (examIdsForThisPackage.length != 0) {
+                examPackageData[examPackage.examPackageID] = {
+                    name: examPackage.name,
+                    weight: examPackage.weight,
+                    required: examIdsForThisPackage
+                }
             }
         })
 
@@ -211,11 +216,13 @@ export const createFinaleData = (props: iProps): DegreeOption => {
             const elevativeKeys: string[] = []
             elevative.options.forEach(x => x.ids.forEach(id => elevativeKeys.push(id)))
             const examIdsForThisPackage: number[] = exams.filter(x => elevativeKeys.includes(x.key)).map(x => x.examid)
-
-            examPackageData[elevative.examPackageID] = {
-                name: elevative.name,
-                weight: elevative.weight,
-                required: examIdsForThisPackage
+            // if there are no exams for this elevative we dont need to examPackage
+            if (examIdsForThisPackage.length != 0) {
+                examPackageData[elevative.examPackageID] = {
+                    name: elevative.name,
+                    weight: elevative.weight,
+                    required: examIdsForThisPackage
+                }
             }
         })
 
