@@ -164,7 +164,7 @@ class Formular extends React.Component<IProps, IState> {
               <p className="ant-upload-text">Studiengang auswählen</p>
               <p className="ant-upload-hint">
                 Dein Studiengang fehlt?
-                <Link to="/kontakt" className="selectDegree-contact-link">Melde dich hier</Link>
+                <Link to="/studiengang-erstellen" className="selectDegree-contact-link">Füge ihn hinzu</Link>
               </p>
               <div style={{paddingLeft: 15, paddingRight: 15, paddingTop: 15}}>
               <Form initialValues={initialValues} ref={this.formRef}>

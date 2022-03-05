@@ -5,6 +5,7 @@ import ImPrint from "./Imprint"
 import Contact from "./Contact"
 import Explanation from "./Explanation"
 import AboutUs from "./AboutUs"
+import DegreeCreation from "./DegreeCreation"
 
 export {
     NotFound,
@@ -12,5 +13,6 @@ export {
     ImPrint,
     Contact,
     Explanation,
-    AboutUs
+    AboutUs,
+    DegreeCreation
 }

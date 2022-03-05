@@ -1,4 +1,4 @@
-import {Exam, Exams} from "../../Data/types";
+import {Exam} from "../../Data/types";
 
 export interface GradePackages{
     [key: string]: GradePackage[]
