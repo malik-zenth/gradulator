@@ -26,7 +26,6 @@ class Imprint extends React.Component{
                         Baierbacher Straße 41 <br/>
                         74629 Pfedelbach <br/>
                         kontakt@gradulator.de<br/>
-                        0151/12512194 <br/>
                     </p>
                     <p className="imprint-person">
                         Majeed Malik <br/>
