@@ -1,12 +1,45 @@
-import React from 'react';
+import React, { ReactText } from 'react';
 import { Modal, Button } from "antd"
 
-interface iProps{
+interface iProps {
     visible: boolean,
     onDelete: Function,
     onReturn: Function
 }
 
+interface iPropsInValidData {
+    visible: boolean,
+    onReturn: Function,
+    errors: string[]
+}
+
+const keyGenerator = (): ReactText =>
+    "_" + Math.random().toString(36).substr(2, 9);
+
+// Modal shown with all the Errors inside of the inserted data
+export const InValidDataModal = (props: iPropsInValidData) => {
+    return (
+        <Modal
+            title="Die eingegebenen Daten beinhalten Fehler!"
+            onCancel={() => props.onReturn()}
+            visible={props.visible}
+            footer={[
+                <Button
+                    key="submit"
+                    type="primary"
+                    onClick={() => props.onReturn()}>Zurück
+                </Button>
+            ]}>
+            <div>
+                <p className="invalidDataModalHeading">Folgende Fehler sind aufgetreten:</p>
+                {props.errors.map(x => {
+                    return (<p key={keyGenerator()} className="invalidDataModalText">{x}</p>)
+                })}
+                <p className="invalidDataModalSub">Bitte korrigiere die oben genannten Fehler!</p>
+            </div>
+        </Modal>
+    );
+}
 
 // Modal if Exam should be deleted
 export const DeleteExamModal = (props: iProps) => {
@@ -67,9 +100,9 @@ export const DeleteExamPackageModal = (props: iProps) => {
             visible={props.visible}
             footer={[
                 <Button
-                key="return"
-                type="default"
-                onClick={() => props.onReturn()}>Nicht löschen
+                    key="return"
+                    type="default"
+                    onClick={() => props.onReturn()}>Nicht löschen
                 </Button>,
                 <Button
                     key="submit"
@@ -92,9 +125,9 @@ export const DeleteElevativeModal = (props: iProps) => {
             visible={props.visible}
             footer={[
                 <Button
-                key="return"
-                type="default"
-                onClick={() => props.onReturn()}>Nicht löschen
+                    key="return"
+                    type="default"
+                    onClick={() => props.onReturn()}>Nicht löschen
                 </Button>,
                 <Button
                     key="submit"
@@ -117,9 +150,9 @@ export const DeleteElevativeOptionModal = (props: iProps) => {
             visible={props.visible}
             footer={[
                 <Button
-                key="return"
-                type="default"
-                onClick={() => props.onReturn()}>Nicht löschen
+                    key="return"
+                    type="default"
+                    onClick={() => props.onReturn()}>Nicht löschen
                 </Button>,
                 <Button
                     key="submit"
@@ -128,7 +161,7 @@ export const DeleteElevativeOptionModal = (props: iProps) => {
                     onClick={() => props.onDelete()}>Löschen
                 </Button>
             ]}>
-            <p>Diese Aktion kann nicht Rückgängig gemacht werden.</p>    
+            <p>Diese Aktion kann nicht Rückgängig gemacht werden.</p>
         </Modal>
     );
 }
@@ -142,9 +175,9 @@ export const DeleteEmphasisModal = (props: iProps) => {
             visible={props.visible}
             footer={[
                 <Button
-                key="return"
-                type="default"
-                onClick={() => props.onReturn()}>Nicht löschen
+                    key="return"
+                    type="default"
+                    onClick={() => props.onReturn()}>Nicht löschen
                 </Button>,
                 <Button
                     key="submit"

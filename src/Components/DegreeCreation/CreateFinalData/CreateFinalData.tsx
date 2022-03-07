@@ -38,17 +38,22 @@ export const createFinaleData = (props: iProps): DegreeOption => {
         // ECTS of all Elevatives
         if (elevatives) {
             const elevativeECTS: number[] = elevatives.map(single => {
-                const firstOption = single.options[0]
-                const optionExams = exams.filter(x => firstOption.ids.includes(x.key))
-                if (optionExams.length > firstOption.required) {
-                    const reducedExams = optionExams.splice(0, firstOption.required)
-                    const optionExamsECTS = reducedExams.map(x => x.ects).reduce((a, b) => a + b, 0)
-                    return optionExamsECTS
+                const elevativeWithOptions: ElevativeOptionType[] = single.options.filter(x => x.ids.length > 0)
+                // filter out all elevatives without any option
+                if(elevativeWithOptions.length > 0){
+                    const firstOption: ElevativeOptionType = elevativeWithOptions.shift()
+                    const optionExams = exams.filter(x => firstOption.ids.includes(x.key))
+                    if (optionExams.length > firstOption.required) {
+                        const reducedExams = optionExams.splice(0, firstOption.required)
+                        const optionExamsECTS = reducedExams.map(x => x.ects).reduce((a, b) => a + b, 0)
+                        return optionExamsECTS
+                    }
+                    else {
+                        const optionExamsECTS = optionExams.map(x => x.ects).reduce((a, b) => a + b, 0)
+                        return optionExamsECTS
+                    }
                 }
-                else {
-                    const optionExamsECTS = optionExams.map(x => x.ects).reduce((a, b) => a + b, 0)
-                    return optionExamsECTS
-                }
+
             })
             const totalElectiveECTS: number = elevativeECTS.reduce((a, b) => a + b, 0)
             totalEcts += totalElectiveECTS
@@ -93,9 +98,12 @@ export const createFinaleData = (props: iProps): DegreeOption => {
 
             const emphasisElevative: boolean = emphasis.filter(x => x.required.includes(single.key)).length != 0
 
-            if (single.options.length > 1) {
+            const elevativeWithOptions: ElevativeOptionType[] = single.options.filter(x => x.ids.length > 0)
 
-                const options: AlternativeElectives[] = single.options.map(opt => {
+
+            if (elevativeWithOptions.length > 1) {
+
+                const options: AlternativeElectives[] = elevativeWithOptions.map(opt => {
                     return {
                         ...single.unit === "ECTS" && { requiredEcts: opt.required },
                         ...single.unit != "ECTS" && { required: opt.required },
@@ -103,7 +111,7 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                     }
                 })
 
-                const ownIdsElevative: string[][] = single.options.map(opt => opt.ids.map(id => {
+                const ownIdsElevative: string[][] = elevativeWithOptions.map(opt => opt.ids.map(id => {
                     const examID: string = exams.filter(ex => ex.key === id).map(x => x.key)[0]
                     return examID
                 }))
@@ -130,8 +138,8 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                 })
             }
 
-            else {
-                const relevantOption: ElevativeOptionType = single.options[0]
+            if (elevativeWithOptions.length === 1) {
+                const relevantOption: ElevativeOptionType = elevativeWithOptions.shift()
 
                 const ownIdsElevative: string[][] = single.options.map(opt => opt.ids.map(id => {
                     const examID: string = exams.filter(ex => ex.key === id).map(x => x.key)[0]
@@ -272,6 +280,6 @@ export const createFinaleData = (props: iProps): DegreeOption => {
         longName: basicInformations.name,
         facultyId: 0
     }
-    console.log(degreeData)
+    
     return degreeData
 }

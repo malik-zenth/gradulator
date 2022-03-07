@@ -17,7 +17,7 @@ export interface ExamCreationType{
 }
 
 export interface CreatedData{
-    basicInformation?: GeneralInformationsCreationType,
+    basics?: GeneralInformationsCreationType,
     exams?: ExamCreationType[],
     examPackages?: ExamPackageCreationType[],
     elevatives?: ElevativeCreationType[],

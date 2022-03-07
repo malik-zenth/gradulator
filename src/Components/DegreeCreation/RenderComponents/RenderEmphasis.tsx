@@ -88,7 +88,7 @@ const RenderEmphasis = (props: iProps) => {
                 >
                     <Switch
                         disabled
-                        defaultChecked={props.data.multiGrades}
+                        checked={props.data.multiGrades}
                     />
                 </Form.Item>
             </Form>

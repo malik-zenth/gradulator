@@ -102,7 +102,7 @@ const EmphasisComponent = (props: iProps) => {
                 label="Eine Note"
             >
                 <Switch 
-                    defaultChecked={multiGrades}
+                    checked={multiGrades}
                     onChange={onMultiGradeChange}
                 />
             </Form.Item>
