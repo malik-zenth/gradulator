@@ -9,7 +9,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
-    "@fortawesome/react-fontawesome": "^0.1.10",
+    "@fortawesome/react-fontawesome": "^0.1.17",
     "@types/antd": "^1.0.0",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^26.0.20",
