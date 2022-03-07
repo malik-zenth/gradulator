@@ -13,8 +13,11 @@ class App extends React.Component {
 
     componentDidMount(){
         //Init Insights-analytics
-        //init("EfuBEN79UVOU5DFy")
-        //trackPages()
+        if(location.hostname != "localhost"){
+        init("EfuBEN79UVOU5DFy")
+        trackPages()
+        }
+
     }
 
     render() {

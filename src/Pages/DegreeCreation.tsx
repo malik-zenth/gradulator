@@ -52,7 +52,7 @@ const DegreeCreation = () => {
         data.exams && setCreatedExams(data.exams)
         data.elevatives && setCreatedElevatives(data.elevatives)
         data.emphasis && setCreatedEmphasis(data.emphasis)
-        data.basicInformation && setBasicInformations(data.basicInformation)
+        data.basics && setBasicInformations(data.basics)
         data.semesterChoises && setSemesterChoises(data.semesterChoises)
     }
 

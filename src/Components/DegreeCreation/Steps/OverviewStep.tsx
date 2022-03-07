@@ -1,10 +1,14 @@
 import { Button, Col, Divider, Row, Table, Tag } from "antd"
 import { ColumnsType } from "antd/lib/table"
+import FileSaver from "file-saver"
 import { numToWord } from "num-words-de"
-import React, { ReactText, useContext } from "react"
+import React, { ReactText, useContext, useState } from "react"
+import { DegreeOption } from "../../../Data/types"
 import { MailLinkNewDegree } from "../../const"
 import { createFinaleData } from "../CreateFinalData"
+import { validateDataProps, validateFinaleData } from "../CreateFinalData/ValidateFinalData"
 import { CreatorContext } from "../CreatorContext"
+import { InValidDataModal } from "../Modals/DeleteModals"
 import { ElevativeCreationType, ElevativeOptionType, EmphasisCreationType, ExamCreationType, ExamPackageCreationType } from "../types"
 
 interface iProps {
@@ -16,6 +20,8 @@ const keyGenerator = (): ReactText =>
 
 const OverviewStep = (props: iProps) => {
     const { basicInformations, exams, examPackages, elevatives, emphasis, semesterChoises } = useContext(CreatorContext)
+    const [showModal, setShowModal] = useState<boolean>(false)
+    const [dataErrors, setDataErrors] = useState<string[]>([])
 
     const sortedExams = exams.sort((a: ExamCreationType, b: ExamCreationType) => (a.semester > b.semester) ? 1 : ((b.semester > a.semester) ? -1 : 0))
 
@@ -211,16 +217,29 @@ const OverviewStep = (props: iProps) => {
 
     }
 
+    const downloadData = () => {
+        const validatedData: validateDataProps = validateFinaleData({basicInformations, exams, examPackages, elevatives, emphasis, semesterChoises})
+        if(validatedData.valid){
+            const degreeOption: DegreeOption =  createFinaleData({basicInformations, exams, examPackages, elevatives, emphasis, semesterChoises})
+            const jsondata: string = JSON.stringify(degreeOption)
+            const newblob = new Blob([jsondata], {type: "text/json;charset=utf-8,"})
+            FileSaver.saveAs(newblob, "data_gradulator.json")
+            window.open(MailLinkNewDegree)
+        }
+        else{
+            setShowModal(true)
+            setDataErrors(validatedData.errors)
+
+        }
+    }
+
     const buttonSendData = () => {
         return (
             <div className="buttonBasicInformations">
                 <Button
                     type="primary"
                     htmlType="submit"
-                    href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                        JSON.stringify(createFinaleData({basicInformations, exams, examPackages, elevatives, emphasis, semesterChoises}))
-                    )}`}
-                    onClick={() => window.open(MailLinkNewDegree)}
+                    onClick={() => downloadData()}
                     download="finalDataGradulator.json"
                     >
                     Finale Datei herunterladen
@@ -228,9 +247,14 @@ const OverviewStep = (props: iProps) => {
             </div>
         )
     }
-
     return (
         <div className="singleStepDegreeCreator">
+            <InValidDataModal
+                visible={showModal}
+                onReturn={() => setShowModal(false)}
+                errors={dataErrors}
+            />
+
             <h2 className="imprint-heading">Übersicht {basicInformations.name} ({basicInformations.shortName})</h2>
             <h3 className="imprint-heading">SPO: {basicInformations.spo}</h3>
             <h4 className="imprint-heading">{numToWord(basicInformations.amoundRequiredEmphasis)} Schwerpunkte benötigt</h4>

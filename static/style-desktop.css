@@ -357,6 +357,19 @@
         margin-bottom: 24px;
     }
 
+    .invalidDataModalHeading{
+        font-weight: bold;
+    }
+
+    .invalidDataModalSub{
+        font-weight: bold;
+        margin-top: 1em
+    }
+
+    .invalidDataModalText{
+        margin-bottom: 0em;
+    }
+
     .creator_text{
         font-size: 20px;
         margin-left: 30px;
