@@ -21,7 +21,7 @@
     "file-saver": "^2.0.5",
     "insights-js": "^1.2.10",
     "jest": "^26.6.3",
-    "jspdf": "^2.3.0",
+    "jspdf": "^2.5.1",
     "net": "^1.0.2",
     "num-words-de": "1.0.3",
     "pdfjs-dist": "^2.6.347",
