@@ -15,6 +15,7 @@ import { wmm } from "./wmm"
 import { mitm } from "./mitm";
 import { nte } from "./nte";
 import { mbb } from "./mbb"
+import { tlmb } from "./tlmb"
 import { bm } from "./bm";
 
 export const faculties: FacultyOptions[] = [
@@ -34,6 +35,11 @@ export const faculties: FacultyOptions[] = [
         facultyId: 3
     },
     {
+        longName: "Technische Prozesse",
+        shortName: "TP",
+        facultyId: 4
+    }, {
+
         longName: "Technik und Wirtschaft",
         shortName: "TW",
         facultyId: 5
@@ -76,6 +82,12 @@ export const options: DegreeOption[] = [
         shortName: "MTL",
         longName: "Master in Transport und Logistik Management",
         facultyId: 1
+    },
+    {
+        data: tlmb,
+        shortName: "TLM-B",
+        longName: "Technisches Logistikmanagement",
+        facultyId: 4
     },
     {
         data: tmb,
