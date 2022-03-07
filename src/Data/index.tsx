@@ -15,7 +15,8 @@ import { wmm } from "./wmm"
 import { mitm } from "./mitm";
 import { nte } from "./nte";
 import { mbb } from "./mbb"
-import {tlmb} from "./tlmb"
+import { tlmb } from "./tlmb"
+import { bm } from "./bm";
 
 export const faculties: FacultyOptions[] = [
     {
@@ -37,10 +38,21 @@ export const faculties: FacultyOptions[] = [
         longName: "Technische Prozesse",
         shortName: "TP",
         facultyId: 4
+    }, {
+
+        longName: "Technik und Wirtschaft",
+        shortName: "TW",
+        facultyId: 5
     }
 ]
 
 export const options: DegreeOption[] = [
+    {
+        data: bm,
+        shortName: "BM",
+        longName: "Betriebswirtschaft Marketing und Medienmanagement",
+        facultyId: 5
+    },
     {
         data: bu,
         shortName: "BU",

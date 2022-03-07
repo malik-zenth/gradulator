@@ -223,6 +223,10 @@
 
 @media screen and (min-width: 1025px) {
 
+    body{
+        overflow-y: scroll;
+    }
+
     .icon-notfound{
         font-size: 200px;
         text-align: center;
@@ -236,6 +240,7 @@
         margin-bottom: 2em;
     }
 
+
     .button-notfound{
         text-align: center;
         width: 100%;
@@ -244,6 +249,16 @@
 
     .button-copy-mail{
         margin-left: 1em;
+    }
+
+    .minHeight33{
+        min-height: 33px;
+    }
+
+
+    .deleteOptionButton{
+        padding: 4px;
+        text-align: center;
     }
 
     .steps-content {
@@ -255,6 +270,15 @@
         border: 1px dashed #e9e9e9;
         border-radius: 2px;
         min-height: 495px;
+      }
+
+      .addOptionButton{
+          width: 100%;
+          min-height: 130px;
+      }
+
+      .inline{
+          display: inline-flex;
       }
 
       .steps-action {
@@ -276,6 +300,10 @@
         width: 100%;
         text-align: center;
         font-weight: bold;
+    }
+
+    .imageDegreeCreatorExplaination{
+        width: 100%;
     }
 
     .row{
@@ -427,6 +455,11 @@
         min-height: calc(100vh - 60px);
     }
 
+    .degreeCreator{
+        width: 95%;
+        margin-left: 2.5%;
+    }
+
     .footer-link{
         float: right;
         padding: 1em
@@ -524,6 +557,387 @@
         margin-top: 1em
     }
 
+
+    .number-input-exam{
+        display: inline-flex
+    }
+
+
+    .creator_basicinformation_box_edit{
+        display: inline-flex
+    }
+
+    .creator_basicinformation_box_show{
+        display: inline-flex
+    }
+
+    .creator_heading{
+        font-size: 20px;
+        min-width: 300px;
+        margin-left: 7.5px;
+        margin-bottom: 24px;
+    }
+
+    .invalidDataModalHeading{
+        font-weight: bold;
+    }
+
+    .invalidDataModalSub{
+        font-weight: bold;
+        margin-top: 1em
+    }
+
+    .invalidDataModalText{
+        margin-bottom: 0em;
+    }
+
+    .creator_text{
+        font-size: 20px;
+        margin-left: 30px;
+        margin-bottom: 24px;
+    }
+
+    .creator_basicInformations{
+        padding-top: 2em;
+        width: 50%;
+        margin-left: 20%;
+    }
+
+    .width100{
+        width: 100%;
+    }
+
+    .labelBasics{
+        min-width: 45%;
+    }
+
+    .create_degree_buttons{
+        padding: 1em;
+    }
+
+    .position_center{
+        width: 90%;
+        margin-left: 5%;
+        justify-content: center;
+        display: inline-flex;
+    }
+
+    .degreeCreator_singleElement{
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .examPackages_addExams{
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-align : center;
+        -moz-box-align    : center;
+        -ms-flex-align    : center;
+        -webkit-align-items : center;
+        align-items : center ;
+        justify-content : center;
+        -webkit-justify-content : center;
+        -webkit-box-pack : center;
+        -moz-box-pack : center;
+        -ms-flex-pack : center;
+        margin-left: 10%;
+        width: 80%;
+    }
+
+    .singleStepDegreeCreator{
+        margin-top: 2%
+    }
+
+    .buttonTextAddExam{        
+        overflow-wrap: normal;        
+    }
+
+    .examPackages_add_heading{
+        margin-right: 5px;
+    }
+
+    .examPackages_noExams{
+        text-align: center;
+        padding-bottom: 1em;
+    }
+
+    .degreeCreator_exam_value{
+        margin-right: 5%;
+    }
+
+    .displayInline{
+        display: inline-flex;
+        width: 100%;
+    }
+
+    .bold{
+        font-weight: bold;
+    }
+
+    .createExamForm{
+        min-height: 150px;
+    }
+
+    .degreeCreator_examText{
+        font-size: 14px;
+        height: 33px;
+        margin-bottom: 24px; 
+    }
+
+    .degreeCreator_exampackage_text{
+        font-size: 14px;
+        height: 33px;
+        margin-bottom: 24px; 
+    }
+
+    .manuall_divider{
+        width: 100%;
+        border-top: 7px solid rgba(0, 0, 0, 0.06);
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .dashedBorder{
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+        border-radius: 2px;
+        padding-left: 5%;
+        padding-top: 5%         
+    }
+
+    .buttonCenter{
+        justify-content: center;
+    }
+
+    .semesterChoisebox{
+        width: 70%;
+        margin-left: 25%;
+    }
+
+    .overviewbox{
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+    }
+
+    .overviewtext{
+        margin-left: 10%;
+    }
+
+    .overviewheading{
+        text-align: center;
+    }
+
+
+
+    .dashedBorder:hover{
+        border-color: #1890ff;
+    }
+
+    .minHeight300{
+        min-height: 300px !important;
+    }
+
+    .buttonBasicInformations{
+        width: 100%;
+        justify-content: center;
+        display: inline-flex;
+    }
+
+    .examsDroppable{
+        width: 30%;
+        min-height: 70vh;
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+        border-radius: 2px;
+        padding: 1%
+    }
+
+    .singleExamText{
+        text-align: center;
+        min-height: 45px;
+    }
+
+    .saveWeightButton{
+        margin-left: 5px;
+        margin-top: 3px
+    }
+
+    .editButton{
+        margin-left: 5px;
+    }
+
+    .elevativeText{
+        margin-left: 10%;
+    }
+
+    .optionElevative{
+        min-height: 60px;
+        padding-top: 4px;
+        margin-left: 10px;
+    }
+
+    .setEditIconShort{
+        margin-left: 5px;
+    }
+
+    .center{
+        text-align: center;
+    }
+
+    .width70{
+        min-width: 70%;
+    }
+
+    .weightFieldInline{
+        display: inline-flex;
+        width: 100%;
+        min-height: 35px;
+    }
+
+    .semesterChoiseInline{
+        display: inline-flex;
+        min-height: 35px;
+        padding-bottom: 2em;
+        width: 100%;
+    }
+
+    .semesterChoiseText{
+        width: 70%;
+    }
+
+    .semesterChoiseButtons{
+        width: 30%;
+    }
+    .singleExamDraggable{
+        background-color: #d9d9d9;
+        border-radius: 5%;
+        padding: 5px;
+        height: 100%;
+    }
+
+    .inlineflex{
+        display: inline-flex;
+        width: 100%;
+    }
+
+    .headingStepTwo{
+        text-align: center;
+        font-weight: bold;
+        width: 67%;
+        margin-left: 3%;
+    }
+
+    .headingStepTwo:first-of-type{
+        width: 30%;
+        margin-left: 0%;
+    }
+
+    .examPackagesBox{
+        width: 68%;
+        margin-left: 2%;
+        min-height: 70vh;
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+        border-radius: 2px;
+        padding: 1%
+    }
+
+    .addExamsDragAndDropText{
+        margin: auto;
+        width: 100%;
+        text-align: center;
+    }
+
+    .addExamButton{
+        width: 100%;
+        border-style: dashed !important;
+    }
+
+    .examPackageElement{
+        width: 100%;
+        height: 100%;
+        padding: 4px;
+        border: 1px solid #d9d9d9;
+        border-style: dashed;  
+        border-radius: 2px;
+    }
+
+    .singleOptionElevative{
+        border: 1px solid #d9d9d9;
+        border-style: dotted;
+        min-height: 130px;
+    }
+
+    .addOptionElevative{
+        border: 1px solid #d9d9d9;
+        border-style: dotted;
+        padding: 4px;
+        min-height: 130px;
+    }
+
+    .examPackageDroppable{
+        width: 100%;
+        min-height: 120px !important;
+        border-style: groove;
+    }
+
+    .divider_large_text{
+        font-size: 20px;
+    }
+
+    .divider_medium_text{
+        font-size: 18px
+    }
+
+    .min_height_120{
+        min-height: 150px;
+        width: 100%;
+    }
+
+
+    .single_col_emphasis{
+        width: 90%;
+        margin-left: 4%;
+    }
+
+    .display_inline{
+        display: inline-flex
+    }
+
+    .emphasis_weight_input{
+        margin-left: 5%;
+    }
+
+    .emphasis_component{
+        margin-left: 5%;
+        width: 90%;
+    }
+
+    .form_min_height{
+        min-height: 150px;
+    }
+
+    .examPackage_nameInput{
+        margin-left: 10%;
+    }
+
+    .examPackage_weightInput{
+        margin-left: 10%;
+    }
+
+    .form_item_basic_information{
+        min-width: 20%
+    }
+
+    .seperator{
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
 }
 @media screen and (max-width: 1024px) and (min-width: 481px) {
 
@@ -532,6 +946,11 @@
         text-align: center;
         width: 100%;
         color: #1890ff
+    }
+
+    .degreeCreator{
+        width: 90%;
+        margin-left: 5%;
     }
 
     .icon-404{
