@@ -105,8 +105,9 @@ const removeElevtiveGrades = (gradePackages: GradePackages, elevatives: Elective
         }
         // if elevative requires an amount of ects, not exams
         else if (gradePackages[single.examid] && single.requiredEcts) {
-            const electiveToBeRemoved = removeElectivesECTS(gradePackages, single, exams)
+            const {electiveToBeRemoved, newGradePackage} = removeElectivesECTS(gradePackages, single, exams)
             removedElevtive.push(...electiveToBeRemoved)
+            gradePackages[single.examid] = newGradePackage
         }
         else if (gradePackages[single.examid] && single.required < gradePackages[single.examid].length) {
             // sort by Grade, so we can remove the worst grades in case someone has done more than required

@@ -279,9 +279,9 @@ const electiveAlternativeMultipleCompletedECTS = (sortedGradesElevatives: GradeP
     )
 }
 
-const removeElectivesECTS = (gradePackages: GradePackages, elective: Electives, exams: Exams) => {
+const removeElectivesECTS = (gradePackages: GradePackages, elective: Electives, exams: Exams): ElectiveOptionReturnType=> {
     const sortedGradesElevatives: GradePackage[] = sortGradePackageByGrade(gradePackages[elective.examid])
-    const completedECTS = sortedGradesElevatives.map(x => exams[x.examID].ects).reduce((a, b) => a + b, 0)
+    const completedECTS: number = sortedGradesElevatives.map(x => exams[x.examID].ects).reduce((a, b) => a + b, 0)
     // if their are more ects completed than required remove the worst grades
     if (completedECTS > elective.requiredEcts) {
         let takenECTS = 0
@@ -293,10 +293,16 @@ const removeElectivesECTS = (gradePackages: GradePackages, elective: Electives, 
             }
         })
         const removedElevtive: GradePackage[] = sortedGradesElevatives.filter(x => !relevantExamIDS.includes(x.examID))
-        return removedElevtive
+        return {
+            electiveToBeRemoved: removedElevtive,
+            newGradePackage: sortedGradesElevatives.filter(x => relevantExamIDS.includes(x.examID))
+        }
     }
     // if not do nothing
-    return []
+    return {
+        electiveToBeRemoved: [],
+        newGradePackage: sortedGradesElevatives
+    }
 }
 
 // no Multi Choise with no amount required exams, but required ects

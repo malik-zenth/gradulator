@@ -5,7 +5,7 @@ import { UserInput, CalculationResult, Exam, DegreeOption, ExamPackages, SingleO
 import { Row, Col, Modal, Button, message, Card, Steps } from 'antd';
 import { getDegreeByName, options, faculties, validateName } from "../Data";
 import { MailLink } from "../Components/const"
-import {isMobile, isTablet} from "react-device-detect"
+import { isMobile, isTablet } from "react-device-detect"
 const { Step } = Steps;
 const ref: any = React.createRef();
 
@@ -54,11 +54,11 @@ class Home extends React.Component<IProps, IState>{
         }
     }
 
-    componentDidMount(){
-        if(isMobile || isTablet){
-        const content= document.getElementsByClassName("content")[0]
-        const height: number = window.innerHeight - 60
-        content.setAttribute("style", `min-height: ${height}px`)
+    componentDidMount() {
+        if (isMobile || isTablet) {
+            const content = document.getElementsByClassName("content")[0]
+            const height: number = window.innerHeight - 60
+            content.setAttribute("style", `min-height: ${height}px`)
         }
     }
 
@@ -118,20 +118,20 @@ class Home extends React.Component<IProps, IState>{
     }
 
     validateDegreeFromPdf = (selectedDegree: string, spo: number) => {
-        if (validateName(selectedDegree)){
+        if (validateName(selectedDegree)) {
             const degree: DegreeOption = getDegreeByName(selectedDegree)
-            if(degree.data.basics.spo){
-                if(degree.data.basics.spo === spo){
-                    if(degree.data.basics.beta){
+            if (degree.data.basics.spo) {
+                if (degree.data.basics.spo === spo) {
+                    if (degree.data.basics.beta) {
                         this.displayWarningBETAVersion()
                     }
                     return true
-                }else{
+                } else {
                     this.setState({ showModal: true, invalidDegree: degree.longName, wrongSPO: true })
                     return false
                 }
-            }else{
-                if(degree.data.basics.beta){
+            } else {
+                if (degree.data.basics.beta) {
                     this.displayWarningBETAVersion()
                 }
                 return true
@@ -145,25 +145,26 @@ class Home extends React.Component<IProps, IState>{
 
     // Modal displayed if the detected degree is not supported
     renderModal() {
-        const {invalidDegree, wrongSPO} = this.state
+        const { invalidDegree, wrongSPO } = this.state
         return (
             <Modal
                 title="Studiengang wird nicht unterstützt"
                 visible={this.state.showModal}
                 footer={[
+                    <Button onClick={() => window.location.href = "/studiengang-erstellen"} type="primary" style={{ minWidth: '137px' }}>
+                        Studiengang hinzufügen
+                    </Button>,
                     <Button
                         key="submit"
                         type="primary"
                         onClick={() => this.setState({ showModal: false, selectedDegree: null, wrongSPO: false })}>Ok
-          </Button>,
+                    </Button>,
                 ]}>
                 {!wrongSPO && <p>Der Studiengang {invalidDegree} wird aktuell leider nicht unterstützt.</p>}
                 {wrongSPO && <p>Der Studiengang {invalidDegree} wird in dieser SPO aktuell leider nicht unterstützt.</p>}
                 <p>
-                Lasse uns per E-Mail wissen, dass wir {invalidDegree} hinzufügen sollen und wir melden uns bei
-          dir, sobald dein Studiengang unterstützt wird.
-        </p>
-                <a className="modal_link" onClick={() => (window.location.href = MailLink)}>E-Mail</a> kontakt@gradulator.de
+                    Füge ihn über unsere Funktionalität "Studiengang hinzufügen" hinzu.
+                </p>
             </Modal>
         );
     }
@@ -283,55 +284,55 @@ class Home extends React.Component<IProps, IState>{
         };
 
         return (
-                <Modal
-                    title="Anleitung zur Notenberechnung"
-                    centered
-                    visible={this.state.instructionsVisible}
-                    width={1000}
-                    onCancel={() => this.setState({ instructionsVisible: false })}
-                    footer={null}
-                >
-                    <Row>
-                        <Col xs={0} sm={0} md={0} lg={24} xl={24}>
-                            <Steps current={this.state.current}>
-                                {steps.map(item => (
-                                    <Step key={item.title} title={item.title} />
-                                ))}
-                            </Steps>
-                        </Col>
-                    </Row>
-                    <div className="steps-content">{steps[this.state.current].content}</div>
-                    <div className="steps-action">
-                        {this.state.current < steps.length - 1 && (
-                            <Button type="primary" onClick={() => next()}>
-                                Weiter
-                            </Button>
-                        )}
-                        {this.state.current > 0 && this.state.current < steps.length && (
-                            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                                Zurück
-                            </Button>
-                        )}
-                        {this.state.current == steps.length && (
-                            <Button onClick={() => prev()}>
-                                Zurück
-                            </Button>
-                        )}
-                    </div>
-                </Modal>
+            <Modal
+                title="Anleitung zur Notenberechnung"
+                centered
+                visible={this.state.instructionsVisible}
+                width={1000}
+                onCancel={() => this.setState({ instructionsVisible: false })}
+                footer={null}
+            >
+                <Row>
+                    <Col xs={0} sm={0} md={0} lg={24} xl={24}>
+                        <Steps current={this.state.current}>
+                            {steps.map(item => (
+                                <Step key={item.title} title={item.title} />
+                            ))}
+                        </Steps>
+                    </Col>
+                </Row>
+                <div className="steps-content">{steps[this.state.current].content}</div>
+                <div className="steps-action">
+                    {this.state.current < steps.length - 1 && (
+                        <Button type="primary" onClick={() => next()}>
+                            Weiter
+                        </Button>
+                    )}
+                    {this.state.current > 0 && this.state.current < steps.length && (
+                        <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                            Zurück
+                        </Button>
+                    )}
+                    {this.state.current == steps.length && (
+                        <Button onClick={() => prev()}>
+                            Zurück
+                        </Button>
+                    )}
+                </div>
+            </Modal>
         )
     }
 
-    addAdjustedExamPackages(singleOption: SingleOption): SingleOption{
-        if(!this.state.adjustedExams) return singleOption
-        else{
+    addAdjustedExamPackages(singleOption: SingleOption): SingleOption {
+        if (!this.state.adjustedExams) return singleOption
+        else {
             singleOption.exams = this.state.adjustedExams
             return singleOption
         }
     }
 
     render() {
-        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal, notDisplayedEmphasis, adjustedExams} = this.state
+        const { inputValues, selectedDegree, gradeInput, displayFormular, selectedOption, showModal, notDisplayedEmphasis, adjustedExams } = this.state
 
         return (
             <div>
@@ -347,7 +348,7 @@ class Home extends React.Component<IProps, IState>{
                             <Row>
                                 <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
                                 <Col xs={20} sm={20} md={20} lg={9} xl={9}>
-                                    <CardPdf setStateofInstruction={() => this.setStateofInstruction()}/>
+                                    <CardPdf setStateofInstruction={() => this.setStateofInstruction()} />
                                 </Col>
                                 <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
@@ -359,7 +360,7 @@ class Home extends React.Component<IProps, IState>{
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
                                 <Col xs={20} sm={20} md={20} lg={9} xl={9}>
-                                    <CardManualEntry setStateofInstruction={() => this.setStateofInstruction()}/>
+                                    <CardManualEntry setStateofInstruction={() => this.setStateofInstruction()} />
                                 </Col>
                                 <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
                                 <Col xs={2} sm={2} md={2} lg={0} xl={0}></Col>
@@ -405,8 +406,8 @@ class Home extends React.Component<IProps, IState>{
                                         notDisplayedEmphasis={notDisplayedEmphasis}
                                         defaultAdjustedExams={adjustedExams}
                                         displayAverage={(
-                                            gradeValues: UserInput[], 
-                                            selectedOption: string, 
+                                            gradeValues: UserInput[],
+                                            selectedOption: string,
                                             notDisplayedEmphasis: number[],
                                             adjustedExams?: Exams) => this.displayAverage(gradeValues, selectedOption, notDisplayedEmphasis, adjustedExams)}
                                         resetInputGrades={() => this.resetInputGrades()}

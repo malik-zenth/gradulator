@@ -5,13 +5,14 @@ const tlmb_basic_Data: BasicInformation = {
           "required_emphasis":0,
           "weight":120,
           "ects":108,
+          "spo": 3,
           "emphasis":[
              
           ],
           "elevtive":[
              {
-                "examid":30,
-                "requiredEcts":2,
+                "examid":381320,
+                requiredEcts:4,
                 "ids":[
                    381321,
                    381322,
@@ -96,7 +97,7 @@ const tlmb_exams: Exams = {
              "weight":6,
              "packageid":381170
           },
-          "381301":{
+          "381304":{
              "ects":6,
              "semester":6,
              "name":"Warenwirtschaftssysteme mit Datenbankanwendungen",
@@ -129,42 +130,42 @@ const tlmb_exams: Exams = {
              "weight": 2,
              "semester":6,
              "name":"Energieeffizienz in der Logistik",
-             "packageid":30
+             "packageid":381320
           },
           "381322":{
              "ects":2,
              "weight": 2,
              "semester":6,
              "name":"Logistik in der Automobilindustrie",
-             "packageid":30
+             "packageid":381320
           },
           "381323":{
              "ects":2,
              "weight": 2,
              "semester":6,
              "name":"Distributions- und Handelslogistik",
-             "packageid":30
+             "packageid":381320
           },
           "381324":{
              "ects":2,
              "weight": 2,
              "semester":6,
              "name":"Entsorgungslogistik",
-             "packageid":30
+             "packageid":381320
           },
           "381325":{
              "ects":2,
              "weight": 2,
              "semester":6,
              "name":"E-Business",
-             "packageid":30
+             "packageid":381320
           },
           "381326":{
              "ects":2,
              "weight": 2,
              "semester":6,
              "name":"Spezialgebiete der Logistik",
-             "packageid":30
+             "packageid":381320
           },
           "381331":{
              "ects":8,
@@ -190,7 +191,7 @@ const tlmb_exams: Exams = {
        }
 
 const tlmb_examPackages: ExamPackages = {
-          "30":{
+          "381320":{
              "name":"Wahlmodul Logistik",
              "weight":4,
              "required":[
@@ -264,7 +265,7 @@ const tlmb_examPackages: ExamPackages = {
              "name":"Informationstechnik und Vernetzung in der Logistik",
              "weight":10,
              "required":[
-                381301,
+               381304,
                 381303
              ]
           },
