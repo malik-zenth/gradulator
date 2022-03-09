@@ -31,6 +31,14 @@ export const validateFinaleData = (props: iProps): validateDataProps => {
         })
     })
 
+    // check if exam has weight
+    exams.forEach(exam => {
+        if(!exam.weight){
+           dataIsValid = false
+           errorsInData.push(`Prüfung ${exam.name} hat keine Gewichtung!`) 
+        }
+    })
+
     // check if all ExamPackage and Elevative IDs are unique
     examPackages.forEach(first => {
         examPackages.forEach(second => {

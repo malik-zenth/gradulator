@@ -313,8 +313,8 @@ const ElevativeComponent = (props: iProps) => {
             />
             <Form initialValues={props.defaultValues} className="form_min_height">
                 {nameInputField()}
-                {weightField()}
                 {examPackageIDField()}
+                {weightField()}
                 {unitField()}
             </Form>
             {buttons()}

@@ -17,6 +17,7 @@ import { nte } from "./nte";
 import { mbb } from "./mbb"
 import { tlmb } from "./tlmb"
 import { bm } from "./bm";
+import { bel } from "./bel";
 
 export const faculties: FacultyOptions[] = [
     {
@@ -58,6 +59,12 @@ export const options: DegreeOption[] = [
         shortName: "BU",
         longName: "Betriebswirtschaft und Unternehmensführung",
         facultyId: 1
+    },
+    {
+        data: bel,
+        shortName: "BEL",
+        longName: "Business Engineering Logistics",
+        facultyId: 4
     },
     {
         data: mu,

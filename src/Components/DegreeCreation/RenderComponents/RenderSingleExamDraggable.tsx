@@ -23,7 +23,7 @@ const RenderSingleExamDraggable = (props: iProps) => {
             <Form 
             onFinish={(values) => {
                 if(values.weight){
-                    setExamWeight(parseInt(values.weight), props.singleExam.key)}
+                    setExamWeight(parseFloat(values.weight), props.singleExam.key)}
                 else(
                     resetEditExam(props.singleExam.key)  
                 )
@@ -41,15 +41,9 @@ const RenderSingleExamDraggable = (props: iProps) => {
                             min={1}
                             defaultValue={props.singleExam.weight}
                             max={50}
-                            step={1}
+                            step={.5}
                             required
                             style={{ minWidth: "70%" }}
-                            parser={(value) => {
-                                if (value.includes(".")) {
-                                    return value.substring(0, value.indexOf("."))
-                                }
-                                return value
-                            }}
 
                         />
                         <Button

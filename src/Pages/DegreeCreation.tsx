@@ -37,7 +37,7 @@ const DegreeCreation = () => {
     // basic Informations
     const [basicInformations, setBasicInformations] = useState<GeneralInformationsCreationType>({ editMode: true })
     // semester Choise Data
-    const [semesterChoises, setSemesterChoises] = useState<SemesterChoiseType[]>([{editMode: false, name: "Wahlpflichtfach 1", key: "1"}, {editMode: false, name: "Wahlpflichtfach 2", key: "2"}])
+    const [semesterChoises, setSemesterChoises] = useState<SemesterChoiseType[]>([])
     
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)

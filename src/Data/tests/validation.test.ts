@@ -74,9 +74,6 @@ describe("test all available data", () => {
                     singleEmphasis.ids.map((packageid: number) => {
                         expect(single.data.examPackages[packageid]).toBeDefined()
                         single.data.examPackages[packageid].required.forEach(id => {
-                            if(!single.data.exams[id].emphasisid){
-                                console.log(id)
-                            }
                             expect(single.data.exams[id].emphasisid).toBe(singleEmphasis.emphasisid)
                         })
                     })

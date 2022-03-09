@@ -112,8 +112,8 @@ const RenderElevative = (props: iProps) => {
             <div>
                 <div className="form_min_height">
                     <p className="elevativeText degreeCreator_exampackage_text bold">{props.data.name}</p>
-                    <p className="elevativeText degreeCreator_exampackage_text ">Gewichtung: {props.data.weight}</p>
                     <p className="elevativeText degreeCreator_exampackage_text ">ID: {props.data.examPackageID}</p>
+                    <p className="elevativeText degreeCreator_exampackage_text ">Gewichtung: {props.data.weight}</p>
                     <p className="elevativeText degreeCreator_exampackage_text ">Einheit: {props.data.unit}</p>
                 </div>
                 {buttons()}

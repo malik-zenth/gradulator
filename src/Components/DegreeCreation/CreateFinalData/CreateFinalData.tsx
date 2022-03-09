@@ -255,6 +255,7 @@ export const createFinaleData = (props: iProps): DegreeOption => {
 
     const basic_data: BasicInformation = {
         name: basicInformations.name,
+        spo: basicInformations.spo,
         required_emphasis: basicInformations.amoundRequiredEmphasis,
         weight: calculateTotalWeight(),
         ects: calculateTotalECTS(),
