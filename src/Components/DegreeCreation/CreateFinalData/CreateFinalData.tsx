@@ -85,7 +85,8 @@ export const createFinaleData = (props: iProps): DegreeOption => {
                     name: single.name,
                     weight: single.weight,
                     emphasisid: index,
-                    multipleGrades: single.multiGrades
+                    // inserse it as the form is "eine Note"
+                    multipleGrades: !single.multiGrades
                 })
             }
         })
