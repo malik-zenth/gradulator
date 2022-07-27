@@ -177,7 +177,8 @@ class PdfUpload extends React.Component<iProps, iState> {
                 const Studiengang: string = text.substring(
                     text.lastIndexOf(firstSplit) + firstSplit.length,
                     text.lastIndexOf(secondSplit)
-                );
+                ).trimEnd()
+
                 const mappedDegree = mapName(Studiengang)
                 return mappedDegree
             }

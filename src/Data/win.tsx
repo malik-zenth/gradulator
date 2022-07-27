@@ -5,7 +5,7 @@ const win_basic_data: BasicInformation = {
     weight: 120,
     ects: 114.5,
     spo: 5,
-    required_emphasis: 1,
+    required_emphasis: 2,
     emphasis: [{
         ids: [282060, 282061, 282062, 282063],
         name: "Entwicklung webbasierter und mobiler Systeme",
