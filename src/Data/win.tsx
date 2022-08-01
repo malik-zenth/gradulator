@@ -252,7 +252,7 @@ const win_exams: Exams = {
         name: "Seminar Social Media Management and Intelligence",
         packageid: 282091,
         emphasisid:3
-    }, 282196:
+    }, 282092:
     {
         semester: 6,
         ects: 10,
@@ -334,7 +334,7 @@ const win_ExamPackages: ExamPackages = {
         weight: 10,
         required: [
             // 282193,
-            282196]
+            282092]
     },
     282093: {
         name: "Projektstudie Social Media",
