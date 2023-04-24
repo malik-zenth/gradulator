@@ -49,15 +49,8 @@ const bel_basic_data: BasicInformation = {
 const bel_exams: Exams = {
           "382111":{
              "ects":2.5,
-             "name":"Prozessmodelierung",
-             "weight":2.5,
-             "semester":3,
-             "packageid":382110
-          },
-          "382112":{
-             "ects":2.5,
-             "name":"Methodenworkshop",
-             "weight":2.5,
+             "name":"Methoden und Prozesse",
+             "weight":5,
              "semester":3,
              "packageid":382110
           },
@@ -273,8 +266,7 @@ const bel_examPackages: ExamPackages = {
              "name":"Methoden und Prozesse",
              "weight":5,
              "required":[
-                382111,
-                382112
+                382111                
              ]
           },
           "382120":{
