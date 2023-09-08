@@ -4,9 +4,7 @@ import { Formular, AveragePage, Footer, Header, GradeInput, exportAsPdf, CardMan
 import { UserInput, CalculationResult, Exam, DegreeOption, ExamPackages, SingleOption, Exams } from "../Data/types";
 import { Row, Col, Modal, Button, message, Card, Steps } from 'antd';
 import { getDegreeByName, options, faculties, validateName } from "../Data";
-import { MailLink } from "../Components/const"
 import { isMobile, isTablet } from "react-device-detect"
-import { track } from "insights-js"
 
 const { Step } = Steps;
 const ref: any = React.createRef();
@@ -65,13 +63,6 @@ class Home extends React.Component<IProps, IState>{
     }
 
     displayAverage = (gradeInput: UserInput[], selectedOption: string, notDisplayedEmphasis: number[], adjustedExams?: Exams): void => {
-        // track selected option
-        track({
-            id: "calculateAverage",
-            parameters: {
-                degree: selectedOption
-            }
-        })
         this.setState({
             gradeInput: gradeInput,
             displayFormular: false,

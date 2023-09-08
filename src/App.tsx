@@ -2,7 +2,6 @@ import React from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 import {Home, NotFound, ImPrint, Contact, Explanation, AboutUs, DegreeCreation} from "./Pages"
 import {ScrollToTop} from "./Components"
-import { init, trackPages } from "insights-js"
 import "../static/style-mobile.css"
 import "../static/style-desktop.css"
 import "../static/style-tablet.css"
@@ -10,15 +9,6 @@ import "../static/style-general.css"
 import 'antd/dist/antd.css'
 
 class App extends React.Component {
-
-    componentDidMount(){
-        //Init Insights-analytics
-        if(location.hostname != "localhost"){
-        init("EfuBEN79UVOU5DFy")
-        trackPages()
-        }
-
-    }
 
     render() {
         return (
