@@ -42,7 +42,7 @@ const DegreeCreation = () => {
     // if Upload Modal is shown
     const [showUploadModal, setShowUploadModal] = useState<boolean>(false)
     // selected Step
-    const [currentStep, setCurrentStep] = useState(2)
+    const [currentStep, setCurrentStep] = useState(0)
     // show explaination
     const [showExplaination, setShowExplaination] = useState<boolean>(false)
 

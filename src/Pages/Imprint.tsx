@@ -23,14 +23,10 @@ class Imprint extends React.Component{
                 <div className="imprint-us">
                     <p className="imprint-person">
                         Benjamin Zenth <br/>
-                        Baierbacher Straße 41 <br/>
-                        74629 Pfedelbach <br/>
                         kontakt@gradulator.de<br/>
                     </p>
                     <p className="imprint-person">
                         Majeed Malik <br/>
-                        Herbststraße 27 <br/>
-                        74072 Heilbronn<br/>
                         kontakt@gradulator.de
                     </p>
                 </div>

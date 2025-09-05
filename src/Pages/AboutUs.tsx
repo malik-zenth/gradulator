@@ -28,7 +28,7 @@ class AboutUs extends React.Component {
                         <Col xs={2} sm={2} md={2} lg={4} xl={4}></Col>
                         <Col xs={20} sm={20} md={20} lg={16} xl={16}>
                             <p style={{ textAlign: 'justify' }}>
-                            Wir sind Benjamin Zenth und Majeed Malik, (bald) Absolventen des Studienganges Wirtschaftsinformatik (M. Sc.) der Hochschule Heilbronn. Jeder Student hat sich bestimmt schon einmal folgende Fragen gestellt: „Welche Note muss ich in der Prüfung schreiben, sodass ich meinen geplanten Notendurchschnitt erreichen kann?“ oder „Was wäre, wenn ich diese oder jene Note schreibe?“. 
+                            Wir sind Benjamin Zenth und Majeed Malik, Absolventen des Studienganges Wirtschaftsinformatik (M. Sc.) der Hochschule Heilbronn. Jeder Student hat sich bestimmt schon einmal folgende Fragen gestellt: „Welche Note muss ich in der Prüfung schreiben, sodass ich meinen geplanten Notendurchschnitt erreichen kann?“ oder „Was wäre, wenn ich diese oder jene Note schreibe?“. 
                             </p>
                             <p style={{ textAlign: 'justify' }}>
                             Als Studenten kennen wir es nur zu gut die Komplexität der Durchschnittsberechnung. Die Studien- und Prüfungsordnung (SPO) und die möglichen Kombinationen zu verstehen ist dabei eine Wissenschaft für sich. Diese Problemstellung haben wir uns als Anreiz  genommen und den Gradulator entwickelt. Durchschnittsberechnung einfach gemacht und maßgeschneidert auf deine SPO!
